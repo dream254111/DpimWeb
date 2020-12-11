@@ -49,6 +49,12 @@ app.prepare().then(() => {
   //   res.header('Content-Type', 'application/xml')
   //   res.send(sitemap)
   // })
+  
+  server.get('/course/:courseSlug', (req, res) => {
+    const actualPage = '/course'
+    const queryParams = { type: req.params.courseSlug }
+    return handle(req, res, actualPage, queryParams)
+  })
 
   server.get('/service-worker.js', (req, res) => {
     res.sendFile(join(__dirname, '.next', 'service-worker.js'))
