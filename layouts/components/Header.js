@@ -271,7 +271,7 @@ const Header = () => {
           <NavLogo>
             <Link href='/'>
               <a>
-                <NavIcon src='static/images/logo.png' />
+                <NavIcon src='/static/images/logo.png' />
               </a>
             </Link>
           </NavLogo>
@@ -359,13 +359,13 @@ const Header = () => {
           </NavMenu>
           <NavProfile isLogin={isLogin} onClick={handleClick}>
             <HamburgerContainer isLogin={isLogin}>
-              <Hamburger src='static/images/hamburger.png' isLogin={isLogin} />
+              <Hamburger src='/static/images/hamburger.png' isLogin={isLogin} />
               {
               isLogin &&
                 <>
-                  <PicProfile src='static/images/ProfileImage.png' />
+                  <PicProfile src='/static/images/ProfileImage.png' />
                   <p>อธิราช</p>
-                  <Chevron src='static/images/vector.png' />
+                  <Chevron src='/static/images/vector.png' />
                   <DropdownMenu isClick={isClick}>
                     <DropdownItem>
                       <Link href='/'>
