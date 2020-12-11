@@ -1,7 +1,9 @@
+// https://www.google.com/get/noto/#sans-thai
 const font = {
-  light: 'prompt-light',
-  regular: 'prompt-regular',
-  bold: 'prompt-bold'
+  light: 'notosans-light',
+  regular: 'notosans-regular',
+  medium: 'notosans-medium',
+  bold: 'notosans-bold'
 }
 
 export default font
