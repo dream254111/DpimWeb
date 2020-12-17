@@ -403,7 +403,7 @@ const Header = () => {
                         <a>ใบประกาศนียบัตร</a>
                       </Link>
                     </DropdownItem>
-                    <DropdownItem>
+                    <DropdownItem onClick={() => setisLogin(!isLogin)}>
                       <Link href='/'>
                         <a>ออกจากระบบ</a>
                       </Link>
