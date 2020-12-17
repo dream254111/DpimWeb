@@ -1,4 +1,8 @@
-import { useState } from 'react'
+import {
+  useState,
+  useRef,
+  useEffect,
+} from 'react'
 import styled, { css } from 'styled-components'
 import Link from 'next/link'
 import {
@@ -263,9 +267,24 @@ const Header = () => {
   const handleClick = () => {
     setIsClick(!isClick)
   }
+  const useOutsideClick = (ref) => {
+    useEffect(() => {
+      const handleClickOutside = (event) => {
+        if (ref.current && !ref.current.contains(event.target)) {
+          setIsClick(false)
+        }
+      }
+      document.addEventListener('mousedown', handleClickOutside)
+      return () => {
+        document.removeEventListener('mousedown', handleClickOutside)
+      }
+    }, [ref])
+  }
+  const wrapperRef = useRef(null)
+  useOutsideClick(wrapperRef)
 
   return (
-    <Wrapper>
+    <Wrapper ref={wrapperRef}>
       <Nav>
         <NavbarContainer>
           <NavLogo>
@@ -366,7 +385,9 @@ const Header = () => {
                   <PicProfile src='/static/images/ProfileImage.png' />
                   <p>อธิราช</p>
                   <Chevron src='/static/images/vector.png' />
-                  <DropdownMenu isClick={isClick}>
+                  <DropdownMenu isClick={isClick} onClick={(event) => {
+                    event.stopPropagation()
+                  }}>
                     <DropdownItem>
                       <Link href='/'>
                         <a>โปรไฟล์ส่วนตัว</a>
