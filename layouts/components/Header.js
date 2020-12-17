@@ -385,7 +385,9 @@ const Header = () => {
                   <PicProfile src='/static/images/ProfileImage.png' />
                   <p>อธิราช</p>
                   <Chevron src='/static/images/vector.png' />
-                  <DropdownMenu isClick={isClick}>
+                  <DropdownMenu isClick={isClick} onClick={(event) => {
+                    event.stopPropagation()
+                  }}>
                     <DropdownItem>
                       <Link href='/'>
                         <a>โปรไฟล์ส่วนตัว</a>
