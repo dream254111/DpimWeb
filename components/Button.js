@@ -81,7 +81,8 @@ const ButtonStyle = ({
   padding,
   fontFamily,
   fontSize,
-  lineHeight
+  lineHeight,
+  ...rest
 }) => {
   return (
     <Button
@@ -101,6 +102,7 @@ const ButtonStyle = ({
       fontFamily={fontFamily}
       fontSize={fontSize}
       lineHeight={lineHeight}
+      {...rest}
     >
       {children}
     </Button>

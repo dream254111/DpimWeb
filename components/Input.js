@@ -38,6 +38,7 @@ const InputComponent = ({
   maxWidth,
   placeholder,
   className,
+  ...rest
 
 }) => {
   return (
@@ -53,6 +54,7 @@ const InputComponent = ({
       maxWidth={maxWidth}
       placeholder={placeholder}
       className={className}
+      {...rest}
     />
   )
 }
