@@ -6,7 +6,9 @@ import { maxWidth } from '../helpers/breakpoint'
 import Slider from "react-slick"
 import { Button, Tag } from '../components'
 import Router from 'next/router'
-
+import { Select, Row, Col } from 'antd'
+const { Option } = Select
+import { ArrowRightOutlined } from '@ant-design/icons'
 const Wrapper = styled('div')`
 
 `
@@ -195,6 +197,76 @@ const CoursePrice = styled('div')`
   color: #00937B;
 `
 
+
+const RecommentWebsite = styled('div')`
+  margin-top: 100px;
+  text-align: center;
+  width: 100%;
+
+`
+
+const RecommentWebsiteTitle = styled('div')`
+  font-family: ${font.bold};
+  font-size: 24px;
+  ${maxWidth.md`
+    text-align: left;
+  `};
+
+`
+
+const WebsiteButton = styled('div')`
+  padding: 16px 12px;
+  font-size: 12px;
+  color: #41A0FC;
+  border: 1px solid #41A0FC;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  cursor: pointer;
+  margin: 8px 0;
+`
+
+const VideoOnDemandContent = styled('div')`
+  margin-top: 48px;
+`
+
+const Stats = styled('div')`
+  margin-top: 177px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  ${maxWidth.md`
+    margin-top: 72px;
+  `};
+`
+
+const StatsItem = styled('div')`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 24px;
+`
+
+const StatsValue = styled('div')`
+  font-family: ${font.bold};
+  font-size: 48px;
+`
+
+const StatsTitle = styled('div')`
+  font-family: ${font.bold};
+  white-space: nowrap;
+  font-size: 16px;
+`
+
+const RecommentWebsiteRow = styled(Row)`
+  margin-top: 63px;
+  ${maxWidth.md`
+    margin-top: 16px;
+  `};
+`
+
 const IndexPage = () => {
   const bannerSliderSettings = {
     dots: true,
@@ -290,9 +362,9 @@ const IndexPage = () => {
           <Container paddingTop='72px' paddingBottom='72px'>
             <Title>คอร์สเรียนออนไลน์</Title>
             <CategoryWrapper>
-              <select>
-                แสดงทุกหมวดหมู่
-              </select>
+              <Select placeholder='เลือกหมวดหมู่' defaultValue='all'>
+                <Option value='all'>แสดงทุกหมวดหมู่</Option>
+              </Select>
               <Button
                 type='normal'
                 size='small'
@@ -342,9 +414,9 @@ const IndexPage = () => {
             <VideoOnDemandContent>
               <Title>Video on demand</Title>
               <CategoryWrapper>
-                <select>
-                  แสดงทุกหมวดหมู่
-                </select>
+                <Select placeholder='เลือกหมวดหมู่' defaultValue='all'>
+                  <Option value='all'>แสดงทุกหมวดหมู่</Option>
+                </Select>
                 <Button
                   type='normal'
                   size='small'
@@ -369,18 +441,106 @@ const IndexPage = () => {
                   }
                 </Slider>
               </CourseListContent>
-
             </VideoOnDemandContent>
-
+            <RecommentWebsite>
+              <RecommentWebsiteTitle>เว็บไซต์แนะนำ</RecommentWebsiteTitle>
+              <RecommentWebsiteRow align='middle' justify='space-between' gutter={{lg: 133, md: 16, xs: 16}}>
+                <Col lg={6} md={12} xs={12}>
+                  <WebsiteButton>
+                    <div>เว็บไซต์ DPIM</div>
+                    <ArrowRightOutlined />
+                  </WebsiteButton>
+                </Col>
+                <Col lg={6} md={12} xs={12}>
+                  <WebsiteButton>
+                    <div>เว็บไซต์ DPIM</div>
+                    <ArrowRightOutlined />
+                  </WebsiteButton>
+                </Col>
+                <Col lg={6} md={12} xs={12}>
+                  <WebsiteButton>
+                    <div>เว็บไซต์ DPIM</div>
+                    <ArrowRightOutlined />
+                  </WebsiteButton>
+                </Col>
+                <Col lg={6} md={12} xs={12}>
+                  <WebsiteButton>
+                    <div>เว็บไซต์ DPIM</div>
+                    <ArrowRightOutlined />
+                  </WebsiteButton>
+                </Col>
+              </RecommentWebsiteRow>
+            </RecommentWebsite>
+            <Stats>
+              <Row align='middle' justify='space-between' gutter={{lg: 200, md: 0, xs: 0}}>
+                <Col lg={8} md={24} xs={24}>
+                  <StatsItem>
+                    <StatsValue>+20k</StatsValue>
+                    <StatsTitle>จำนวนหลักสูตร</StatsTitle>
+                  </StatsItem>
+                </Col>
+                <Col lg={8} md={24} xs={24}>
+                  <StatsItem>
+                    <StatsValue>4.5</StatsValue>
+                    <StatsTitle>จำนวนสมาชิก</StatsTitle>
+                  </StatsItem>
+                </Col>
+                <Col lg={8} md={24} xs={24}>
+                  <StatsItem>
+                    <StatsValue>+1k</StatsValue>
+                    <StatsTitle>จำนวนผู้เข้าชม</StatsTitle>
+                  </StatsItem>
+                </Col>
+              </Row>
+            </Stats>
           </Container>
+          <Panal>
+            <PanalTitle>หลักสูตรที่ช่วยต่อยอดธุรกิจคุณ</PanalTitle>
+            <PanalDesc>บทเรียนที่เราคิดค้นมาแล้วว่าจะช่วยผลักดันศักยภาพของผู้ประกอบการให้เกิดประโยชน์สูงสุด</PanalDesc>
+            <PanelButton>สมัครสมาชิก</PanelButton>
+          </Panal>
         </CourseOnlineContent>
       </Wrapper>
     </MainLayout>
 	)
 }
 
-const VideoOnDemandContent = styled('div')`
+const Panal = styled('div')`
+  background-color: #00937B;
+  padding: 72px 50px;
+  color: white;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+  margin: 0 auto;
+  text-align: center;
   margin-top: 48px;
+  border-radius: 32px;
+  ${maxWidth.md`
+    width: 100%;
+    border-radius: unset;
+    padding: 48px 23px;
+  `};
+`
+
+const PanelButton = styled(Button)`
+  margin-top: 48px;
+  color: black;
+  width: 240px;
+  ${maxWidth.md`
+    margin-top: 32px;
+  `};
+`
+
+const PanalTitle = styled('div')`
+  font-size: 48px;
+  font-family: ${font.bold};
+`
+
+const PanalDesc = styled('div')`
+  margin-top: 24px;
+  font-size: 18px;;
 `
 
 export default IndexPage
