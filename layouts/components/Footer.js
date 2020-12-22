@@ -1,6 +1,7 @@
 import styled, { css } from 'styled-components'
 import { Container } from '../../components/index'
 import { maxWidth } from '../../helpers/breakpoint'
+import Router from 'next/router'
 
 const FooterContainer = styled('div')`
   box-sizing: border-box;
@@ -105,7 +106,7 @@ const Footer = () => {
                 <p>dpim@gmail.com</p>
               </ContactItem>
             </Contact>
-            <Report>
+            <Report onClick={() => Router.push('/feedback')}>
               <Icon src='/static/images/Exclamation.svg' />
               <p>แจ้งปัญหาการใช้งาน</p>
             </Report>
