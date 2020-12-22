@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 const { Option } = Select
 const { TextArea } = Input
 import { Button } from '../components'
+import { maxWidth } from '../helpers/breakpoint'
 
 const Wrapper = styled('div')`
   width: 100%;
@@ -17,6 +18,15 @@ const Container = styled('div')`
   padding-top: 32px;
   padding-bottom: 100px;
   text-align: center;
+  ${maxWidth.md`
+    width: 60%;
+  `}
+  ${maxWidth.sm`
+    width: 70%;
+  `}
+  ${maxWidth.xs`
+    width: 90%;
+  `}
 `
 
 const Title = styled('div')`
