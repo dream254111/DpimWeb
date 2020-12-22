@@ -2,26 +2,13 @@ import MainLayout from '../../layouts/main'
 import styled from 'styled-components'
 import Container from '../../components/Container'
 import font from '../../helpers/font'
-import { Tag } from '../../components'
+import { Tag, Checkbox } from '../../components'
 import Router from 'next/router'
+import { Divider, Select, Row, Col, Slider } from 'antd'
+const { Option } = Select
 
 const Wrapper = styled('div')`
   background-color: #E5E5E5;
-`
-
-const Content = styled('div')`
-  display: flex;
-  align-items: flex-start;
-`
-
-const FilterWrapper = styled('div')`
-  flex: 1;
-`
-
-const CourseWrapper = styled('div')`
-  flex: 4;
-  display: flex;
-  flex-direction: column;
 `
 
 const Title = styled('div')`
@@ -138,17 +125,76 @@ const CourseTime = styled('div')`
   font-size: 14px;
 `
 
+const BoldTitle = styled('div')`
+  font-size: 16px;
+  font-family: ${font.bold};
+  color: #333333;
+  margin-top: 24px;
+`
+
+const FilterTitle = styled('div')`
+  font-size: 16px;
+`
+
+const FilterItem = styled('div')`
+  margin: 16px 0;
+`
 
 const CoursePage = () => {
   return (
     <MainLayout>
       <Wrapper>
         <Container paddingTop='32px'>
-          <Content>
-            <FilterWrapper>
+          <Row gutter={24}>
+            <Col xs={0} md={6}>
               <Title>คอร์สเรียน</Title>
-            </FilterWrapper>
-            <CourseWrapper>
+              <BoldTitle>การจัดเรียง</BoldTitle>
+              <Select defaultValue='desc' style={{marginTop: '8px', width: '100%'}}>
+                <Option value='desc'>ใหม่สุด</Option>
+                <Option value='asc'>เก่าสุด</Option>
+              </Select>
+              <BoldTitle>คัดกรอง</BoldTitle>
+              <FilterTitle style={{marginTOp: '8px'}}>ช่วงเวลาเปิดคอร์ส</FilterTitle>
+              <Select defaultValue='jan' style={{marginTop: '8px', width: '100%'}}>
+                <Option value='jan'>มกราคม</Option>
+                <Option value='feb'>กุมภาพันธ์</Option>
+              </Select>
+              <Divider style={{marginTop: '16px', marginBottom: '0'}}/>
+              <FilterItem>
+                <FilterTitle>หมวดหมู่</FilterTitle>
+                <Checkbox>เหมืองแร่</Checkbox> <br />
+                <Checkbox>อุตสาหกรรม</Checkbox> <br />
+                <Checkbox>อุตสาหกรรม</Checkbox> <br />
+                <Checkbox>อุตสาหกรรม</Checkbox> <br />
+                <Checkbox>อุตสาหกรรม</Checkbox>
+              </FilterItem>
+              <Divider style={{margin: 0}} />
+              <FilterItem>
+                <FilterTitle>รูปแบบการเรียน</FilterTitle>
+                <Checkbox>คอร์สเรียนที่สถาบัน</Checkbox> <br />
+                <Checkbox>คอร์สออนไลน์</Checkbox> <br />
+              </FilterItem>
+              <Divider style={{margin: 0}} />
+              <FilterItem>
+                <FilterTitle>ราคาคอร์ส</FilterTitle>
+                <Checkbox>ฟรี</Checkbox>
+                <Slider
+                  range
+                  min={100}
+                  max={10000}
+                  step={100}
+                  defaultValue={[100, 10000]}
+                  marks={{ 0: '100.-' , 10000: '10,000.-'}}
+                />
+              </FilterItem>
+              <Divider style={{margin: 0}} />
+              <FilterItem>
+                <FilterTitle>รับรองใบประกาศนียบัตร</FilterTitle>
+                <Checkbox>รับรอง</Checkbox> <br />
+                <Checkbox>ไม่รับรอง</Checkbox>
+              </FilterItem>
+            </Col>
+            <Col xs={24} md={18}>
               {
                 new Array(6).fill(null).map(item => (
                   <CourseCard onClick={() => Router.push('/course/หลักสูตรขุดเจาะเหมืองแร่')}>
@@ -187,8 +233,8 @@ const CoursePage = () => {
                   </CourseCard>
                 ))
               }
-            </CourseWrapper>
-          </Content>
+            </Col>
+          </Row>
         </Container>
       </Wrapper>
     </MainLayout>
