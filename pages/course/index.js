@@ -8,7 +8,6 @@ import { Divider, Select, Row, Col, Slider } from 'antd'
 const { Option } = Select
 
 const Wrapper = styled('div')`
-  background-color: #E5E5E5;
 `
 
 const Title = styled('div')`

@@ -73,7 +73,6 @@ const BannerImage = styled('img')`
 `
 
 const CourseOnlineContent = styled('div')`
-  background-color: #E5E5E5;
 `
 
 const Title = styled('div')`
