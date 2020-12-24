@@ -1,8 +1,8 @@
-import MainLayout from '../../layouts/main'
+import MainLayout from '../../../layouts/main'
 import styled from 'styled-components'
-import Container from '../../components/Container'
-import font from '../../helpers/font'
-import { Tag } from '../../components'
+import Container from '../../../components/Container'
+import font from '../../../helpers/font'
+import { Tag } from '../../../components'
 
 const Wrapper = styled('div')`
 `
