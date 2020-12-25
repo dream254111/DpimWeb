@@ -11,6 +11,7 @@ const { createGzip } = require('zlib')
 const path = require('path')
 const cors = require('cors')
 const { join } = require('path')
+const { PROFILE_PAGE } = require('../constants')
 let sitemap
 
 app.prepare().then(() => {
@@ -50,6 +51,22 @@ app.prepare().then(() => {
   //   res.send(sitemap)
   // })
   
+  server.get('/profile/', (req, res) => {
+    return res.redirect(`/profile/${PROFILE_PAGE.BASIC_INFORMATION}`)
+  })
+
+  server.get('/profile/:profilePageSlug', (req, res) => {
+    const profilePageSlug = req.params.profilePageSlug
+    const isValidSlug = Object.values(PROFILE_PAGE).includes(profilePageSlug)
+    if (!isValidSlug) {
+      return res.redirect(`/profile/${PROFILE_PAGE.BASIC_INFORMATION}`)
+    } else {
+      const actualPage = '/profile'
+      const queryParams = { profileSlug }
+      return handle(req, res, actualPage, queryParams)
+    }
+  })
+
   server.get('/course/:courseSlug', (req, res) => {
     const actualPage = '/course'
     const queryParams = { type: req.params.courseSlug }

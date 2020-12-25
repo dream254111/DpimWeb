@@ -126,6 +126,7 @@ const LectureIdPage = () => {
             />
             <DescriptionTitle>คำอธิบาย</DescriptionTitle>
             <DescriptionValue>
+            {/* https://github.com/cure53/DOMPurify */}
               <p dangerouslySetInnerHTML={{ __html: htmlDecode('Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry') }} />
             </DescriptionValue>
           </Col>
