@@ -1,8 +1,6 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import font from '../helpers/font'
-// import "slick-carousel/slick/slick.css"
-// import "slick-carousel/slick/slick-theme.css"
-// import '../public/static/font-awesome-4.7.0/css/font-awesome.css'
+import { wrapper } from '../stores'
 
 const GlobalStyle = createGlobalStyle`
   body {

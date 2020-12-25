@@ -62,7 +62,7 @@ app.prepare().then(() => {
       return res.redirect(`/profile/${PROFILE_PAGE.BASIC_INFORMATION}`)
     } else {
       const actualPage = '/profile'
-      const queryParams = { profileSlug }
+      const queryParams = { profilePageSlug }
       return handle(req, res, actualPage, queryParams)
     }
   })

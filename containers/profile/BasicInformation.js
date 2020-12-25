@@ -4,6 +4,7 @@ import { Form, Button, Input, Radio, DatePicker, Select, Checkbox, Avatar, Row, 
 import { useEffect } from 'react'
 import { UserOutlined } from '@ant-design/icons'
 const CheckboxGroup = Checkbox.Group
+const { Option } = Select
 
 const PageTitle = styled('div')`
   color: #00937B;
