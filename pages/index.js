@@ -286,13 +286,12 @@ const IndexPage = ({
   const [webStat, setWebStat] = useState(null)
 
   useEffect(() => {
-    // ตรงนี้เอาไปยิงแล้วใส่ store เป็นพวก master Data
-    fetchMasterData()
-    //
-    fetchBannerList()
-    fetchCourseList()
-    fetchWebRecommendList()
-    fetchWebOverviewStat()
+    Promise.all([
+      fetchBannerList(),
+      fetchCourseList(),
+      fetchWebRecommendList(),
+      fetchWebOverviewStat()
+    ])
   }, [])
 
   useEffect(() => {
@@ -340,19 +339,6 @@ const IndexPage = ({
       })
       const data = response.data.data
       setCourses(data)
-
-    } catch (error) {
-      message.error(error.message)
-    }
-  }
-
-  const fetchMasterData = async () => {
-    try {
-      const response = await axios({
-        method: 'GET',
-        url: `${API.url}/Student/master_data`,
-      })
-      const data = response.data.data
 
     } catch (error) {
       message.error(error.message)

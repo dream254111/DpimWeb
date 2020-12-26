@@ -320,7 +320,7 @@ const Header = () => {
               </Link>
             </NavItem>
             <NavItem rightBorder>
-              <Link href='/'>
+              <Link href='/faq'>
                 <a>คำถามที่พบบ่อย</a>
               </Link>
             </NavItem>

@@ -3,9 +3,11 @@ import thunkMiddleware from 'redux-thunk'
 import { createWrapper, HYDRATE } from 'next-redux-wrapper'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import memberReducer from './memberReducer'
+import masterReducer from './masterReducer'
 
 const combinedReducer = combineReducers({
   memberReducer,
+  masterReducer
 })
 
 const reducer = (state, action) => {

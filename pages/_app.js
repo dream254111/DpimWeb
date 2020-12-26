@@ -1,6 +1,9 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import font from '../helpers/font'
 import { wrapper } from '../stores'
+import { fetchMasterData } from '../stores/masterReducer'
+import axios from 'axios'
+import API from '../helpers/api'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -21,12 +24,13 @@ const theme = {
   }
 }
 
-const App = ({ Component, pageProps }) => {
+const App = ({ Component, pageProps, master }) => {
+  console.log('master', master)
   return (
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        <Component {...pageProps} master={master} />
       </ThemeProvider>
     </>
   )
@@ -34,10 +38,17 @@ const App = ({ Component, pageProps }) => {
 
 App.getInitialProps = async ({ Component, ctx }) => {
   let pageProps = {}
+  let master = {}
   if (Component.getInitialProps) {
     pageProps = await Component.getInitialProps(ctx)
+    const masterData = await axios({
+      method: 'GET',
+      url: `${API.url}/Student/master_data`,
+    })
+    console.log('masterData', masterData.data.data)
+    master = masterData.data.data
   }
-  return { pageProps }
+  return { pageProps, master }
 }
 
-export default App
+export default wrapper.withRedux(App)
