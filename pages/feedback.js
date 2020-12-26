@@ -39,7 +39,9 @@ const Desc = styled('div')`
   font-size: 16px;
 `
 
-const FeedbackPage = () => {
+const FeedbackPage = ({
+  master
+}) => {
   const [form] = Form.useForm()
   useEffect(() => {
     form.resetFields()
@@ -66,11 +68,11 @@ const FeedbackPage = () => {
                 rules={[{ required: true, message: 'กรุณาเลือกบริการภายในระบบ' }]}
               >
                 <Select placeholder='กรุณาเลือกบริการภายในระบบ'>
-                  <Option>การใช้งาานบนเว็ปไซต์</Option>
-                  <Option>หลักสูตรการเรียน</Option>
-                  <Option>สมัครสมาชิก</Option>
-                  <Option>การชำระเงิน</Option>
-                  <Option>อื่นๆ</Option>
+                  {
+                    master.faq_type.map((item, index) => (
+                      <Option value={item.id} key={index}>{item.name}</Option>
+                    ))
+                  }
                 </Select>
               </Form.Item>
               <Form.Item 
@@ -123,5 +125,9 @@ const FeedbackPage = () => {
 const ButtonWrapper = styled('div')`
   text-align: center;
 `
+
+FeedbackPage.getInitialProps = () => {
+  return {}
+}
 
 export default FeedbackPage
