@@ -6,7 +6,12 @@ import { maxWidth } from '../helpers/breakpoint'
 import Slider from "react-slick"
 import { Button, Tag } from '../components'
 import Router from 'next/router'
-import { Select, Row, Col } from 'antd'
+import { Select, Row, Col, message } from 'antd'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
+import API from '../helpers/api'
+import { connect } from 'react-redux'
+
 const { Option } = Select
 import { ArrowRightOutlined } from '@ant-design/icons'
 const Wrapper = styled('div')`
@@ -266,7 +271,122 @@ const RecommentWebsiteRow = styled(Row)`
   `};
 `
 
-const IndexPage = () => {
+const connector = connect(({ memberReducer }) => ({
+  memberToken: memberReducer.member.token
+}))
+
+
+const IndexPage = ({
+  memberToken
+}) => {
+
+  const [banners, setBanners] = useState([])
+  const [courses, setCourses] = useState([])
+  const [recommendWeb, setRecommendWeb] = useState(null)
+  const [webStat, setWebStat] = useState(null)
+
+  useEffect(() => {
+    // ตรงนี้เอาไปยิงแล้วใส่ store เป็นพวก master Data
+    fetchMasterData()
+    //
+    fetchBannerList()
+    fetchCourseList()
+    fetchWebRecommendList()
+    fetchWebOverviewStat()
+  }, [])
+
+  useEffect(() => {
+    if(memberToken) {
+      fetchMyCourseProgess()
+    }
+  }, [memberToken])
+
+  const fetchMyCourseProgess = async () => {
+    try {
+      const response = await axios({
+        headers: {
+          'Authorization': `${`c`}`
+        },
+        method: 'GET',
+        url: `${API.url}/Course/my_course_progress`,
+      })
+      const data = response.data.data
+
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
+
+  const fetchBannerList = async () => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${API.url}/Student/GetAllBanner`,
+      })
+      const data = response.data.data.data
+      setBanners(data)
+
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
+  const fetchCourseList = async () => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${API.url}/Course/list_course`,
+      })
+      const data = response.data.data
+      setCourses(data)
+
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
+  const fetchMasterData = async () => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${API.url}/Student/master_data`,
+      })
+      const data = response.data.data
+
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
+  const fetchWebRecommendList = async () => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${API.url}/Student/GetAllSite`,
+      })
+      const data = response.data.data.data
+      setRecommendWeb(data)
+
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
+  const fetchWebOverviewStat = async () => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${API.url}/Reporting/overview_website`,
+      })
+      const data = response.data.data
+      setWebStat(data)
+
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
   const bannerSliderSettings = {
     dots: true,
     infinite: true,
@@ -542,4 +662,5 @@ const PanalDesc = styled('div')`
   font-size: 18px;;
 `
 
+// export default connector(IndexPage)
 export default IndexPage
