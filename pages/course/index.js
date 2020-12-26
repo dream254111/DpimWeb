@@ -4,6 +4,10 @@ import Container from '../../components/Container'
 import font from '../../helpers/font'
 import { Tag, Checkbox } from '../../components'
 import Router from 'next/router'
+import axios from 'axios'
+import { useState, useEffect } from 'react'
+import API from '../../helpers/api'
+
 import { Divider, Select, Row, Col, Slider } from 'antd'
 const { Option } = Select
 
@@ -140,6 +144,39 @@ const FilterItem = styled('div')`
 `
 
 const CoursePage = () => {
+  const [courses, setCourses] = useState([])
+
+  useEffect(() => {
+    fetchCourseList()
+  }, [])
+
+  const fetchCourseList = async () => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${API.url}/Course/list_course`,
+        // params : {
+        //   search : '', // คำที่ค้นหา
+        //   register_start_date : null, // ช่วงเวลาเปิดคอร์ส วันที่เริ่ม
+        //   register_end_date : null, // ช่วงเวลาเปิดคอร์ส วันที่จบ
+        //   category_id : 0,
+        //   is_learning_online : 0, // 1 เรียนออนไลน์ | 0 เรียนที่สถาบัน
+        //   is_free : 1, // 1 = free | null
+        //   price_gte : 0 , // ราคาสูงสุด | null
+        //   price_lte : 0 , // ราคาตํ่าสุด | null
+        //   hasCertificate : 0 , // มีใบรับรองไหม 1 | 0
+        //   sort : '' , // ใหม่สุด = newest , ถูกสุด = cheapest , แพงสุด = expensive , null
+        // }
+      })
+      const data = response.data.data
+      setCourses(data)
+
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
+
   return (
     <MainLayout>
       <Wrapper>

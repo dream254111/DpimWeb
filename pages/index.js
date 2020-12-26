@@ -266,7 +266,7 @@ const IndexPage = ({
     try {
       const response = await axios({
         headers: {
-          'Authorization': `${`c`}`
+          'Authorization': `${memberToken}`
         },
         method: 'GET',
         url: `${API.url}/Course/my_course_progress`,
@@ -297,7 +297,7 @@ const IndexPage = ({
     try {
       const response = await axios({
         method: 'GET',
-        url: `${API.url}/Course/list_course`,
+        url: `${API.url}/Course/list_course`
       })
       const data = response.data.data
       console.log('fetchcourseList', data)
