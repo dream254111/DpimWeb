@@ -52,7 +52,11 @@ const fetchFunction = async () => {
     try {
         const response = await axios({
             method: 'GET',
-            url: `${API.url}/Student/GetAllVideo`
+            url: `${API.url}/Student/GetAllVideo`,
+            params : {
+                category_id : '', // 0 คือ เอาทุก category หรือไม่ก็ส่ง categoryId มา
+                sort : '' // oldest | newest
+            }
         })
 
 

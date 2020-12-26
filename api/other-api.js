@@ -45,3 +45,45 @@ const fetchFunction = async () => {
         message.error(error.message)
     }
 }
+
+
+// เอาไว้ดึงอัพโหลดรูปกับเอกสาร
+const fetchFunction = async () => {
+    try {
+        const bodyFormData = new FormData();
+        bodyFormData.append('', file);
+
+        const response = await axios({
+            method: 'POST',
+            url: `${API.url}/FileUpload/FileUpload`,
+            data : bodyFormData
+        })
+
+
+    } catch (error) {
+        message.error(error.message)
+    }
+}
+
+// เอาไว้แจ้งรายงานปัญหา
+const fetchFunction = async () => {
+    try {
+
+        const response = await axios({
+            method: 'POST',
+            url: `${API.url}/Student/AddReportProblem`,
+            data : {
+                problem_of_use_id: 0, // เอาจาก master data 
+                firstname: '',
+                lastname: '',
+                description: '',
+                phone: '',
+                email: '',
+            }
+        })
+
+
+    } catch (error) {
+        message.error(error.message)
+    }
+}
