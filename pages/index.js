@@ -4,7 +4,7 @@ import Container from '../components/Container'
 import font from '../helpers/font'
 import { maxWidth } from '../helpers/breakpoint'
 import Slider from "react-slick"
-import { Button, Tag } from '../components'
+import { Button, Tag, CourseCard } from '../components'
 import Router from 'next/router'
 import { Select, Row, Col, message } from 'antd'
 import axios from 'axios'
@@ -96,7 +96,7 @@ const CourseListContent = styled('div')`
   margin-top: 46px;
 `
 
-const CourseCard = styled('div')`
+const CourseCardX = styled('div')`
   background-color: white;
   border: 1px solid #F2F2F2;
   border-radius: 8px;
@@ -157,50 +157,12 @@ const CourseCardItem = styled('div')`
 `
 
 
-const AuthorContent = styled('div')`
-  margin-top: 12px;
-  display: flex;
-  align-items: center;
-`
-
-const AuthorAvatar = styled('div')`
-  width: 32px;
-  height: 32px;
-  background-image: url(${props => props.src});
-  background-size: cover;
-  background-position: top;
-  border-radius: 50%;
-`
-
-const AuthorName = styled('div')`
-  margin-left: 8px;
-  color: #828282;
-`
-
 const CourseTypeContent = styled('div')`
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 16px;
 `
-
-const CourseTimeContent = styled('div')`
-  margin-top: 22px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-`
-
-const CourseTimeText = styled('div')`
-  font-size: 14px;
-`
-
-const CoursePrice = styled('div')`
-  font-size: 20px;
-  font-family: ${font.bold};
-  color: #00937B;
-`
-
 
 const RecommentWebsite = styled('div')`
   margin-top: 100px;
@@ -215,7 +177,6 @@ const RecommentWebsiteTitle = styled('div')`
   ${maxWidth.md`
     text-align: left;
   `};
-
 `
 
 const WebsiteButton = styled('div')`
@@ -277,7 +238,8 @@ const connector = connect(({ memberReducer }) => ({
 
 
 const IndexPage = ({
-  memberToken
+  memberToken,
+  master
 }) => {
 
   const [banners, setBanners] = useState([])
@@ -338,6 +300,7 @@ const IndexPage = ({
         url: `${API.url}/Course/list_course`,
       })
       const data = response.data.data
+      console.log('fetchcourseList', data)
       setCourses(data)
 
     } catch (error) {
@@ -467,8 +430,12 @@ const IndexPage = ({
           <Container paddingTop='72px' paddingBottom='72px'>
             <Title>คอร์สเรียนออนไลน์</Title>
             <CategoryWrapper>
-              <Select placeholder='เลือกหมวดหมู่' defaultValue='all'>
-                <Option value='all'>แสดงทุกหมวดหมู่</Option>
+              <Select placeholder='แสดงหมวดหมู่' style={{ width: '208px' }}>
+                {
+                  master.course_category.map((item, index) => (
+                    <Option value={item.id} key={index}>{item.name}</Option>
+                  ))
+                }
               </Select>
               <Button
                 type='normal'
@@ -479,38 +446,21 @@ const IndexPage = ({
             <CourseListContent>
               <Slider {...courseSliderSettings}>
                 {
-                  new Array(7).fill(null).map(item => (
-                    <CourseCard onClick={() => Router.push('/course/หลักสูตรขุดเจาะเหมืองแร่')}>
-                      <CourseCardHeader>
-                        <CourseCardImage src='/static/images/power-bi.png' />
-                        <CourseCardDetail>
-                          <CourseCardItem>
-                            <CourseCardIcon className='fa fa-book' />
-                            <CourseCardDetailText>6 บทเรียน</CourseCardDetailText>
-                          </CourseCardItem>
-                          <CourseCardItem>
-                          <CourseCardIcon className='fa fa-calendar' />
-                            <CourseCardDetailText>4 ชั่วโมง 24 นาที</CourseCardDetailText>
-                          </CourseCardItem>
-                        </CourseCardDetail>
-                      </CourseCardHeader>
-                  <hr />
-                  <CourseCardContent>
-                    <CourseCardTitle>เทคโนโลยีรีไซเคิลฝุ่นสังกะสีจากอุตสาหกรรมชุบเคลือบ สังกะสีแบบจุ่มร้อน (Hot-Dip กดกดอหกดกดกดกด)</CourseCardTitle>
-                    <AuthorContent>
-                      <AuthorAvatar src='/static/images/avatar.png' />
-                      <AuthorName>ณัฐวุฒิ พึงเจริญพงศ์ (หมู)</AuthorName>
-                    </AuthorContent>
-                    <CourseTypeContent>
-                      <Tag color='#34495E'>เทคโนโลยี</Tag>
-                      <Tag outline>รับรองใบประกาศฯ</Tag>
-                    </CourseTypeContent>
-                    <CourseTimeContent>
-                      <CourseTimeText>เริ่มเรียน 2 พฤศจิกายน 2020</CourseTimeText>
-                      <CoursePrice>ฟรี</CoursePrice>
-                    </CourseTimeContent>
-                  </CourseCardContent>
-                </CourseCard>
+                  courses.map((item, index) => (
+                    <CourseCard
+                      key={index}
+                      id={item.id}
+                      categoryName={item.category_name}
+                      categoryColor={item.category_color}
+                      cover={item.cover}
+                      isHasCost={item.is_has_cost}
+                      cost={item.cost}
+                      hasCertificate={item.hasCertificate}
+                      instructors={item.list_instructor}
+                      totalLesson={item.total_lesson}
+                      lessonTime={item.lesson_time}
+                      startLearning={item.start_learning}
+                    />
                   ))
                 }
               </Slider>
@@ -532,7 +482,7 @@ const IndexPage = ({
                 <Slider {...courseSliderSettings}>
                   {
                     new Array(7).fill(null).map(item => (
-                      <CourseCard>
+                      <CourseCardX>
                         <CourseCardHeader>
                           <CourseCardImage src='/static/images/power-bi.png' />
                           <CourseCardTitle style={{marginTop: '12px'}}>เทคโนโลยีรีไซเคิลฝุ่นสังกะสีจากอุตสาหกรรมชุบเคลือบ สังกะสีแบบจุ่มร้อน (Hot-Dip กดกดอหกดกดกดกด)</CourseCardTitle>
@@ -541,7 +491,7 @@ const IndexPage = ({
                             <Tag outline>รับรองใบประกาศฯ</Tag>
                           </CourseTypeContent>
                         </CourseCardHeader>
-                      </CourseCard>
+                      </CourseCardX>
                     ))
                   }
                 </Slider>
@@ -648,5 +598,8 @@ const PanalDesc = styled('div')`
   font-size: 18px;;
 `
 
-// export default connector(IndexPage)
-export default IndexPage
+IndexPage.getInitialProps = () => {
+  return { }
+}
+
+export default connector(IndexPage)
