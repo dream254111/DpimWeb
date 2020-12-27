@@ -1,10 +1,15 @@
 import styled from 'styled-components'
 import font from '../../helpers/font'
-import { Form, Button, Input, Radio, DatePicker, Select, Checkbox, Avatar, Row, Col } from 'antd'
-import { useEffect } from 'react'
+import { Form, Button, Input, Radio, DatePicker, Select, Checkbox, Avatar, Row, Col, message } from 'antd'
+import { useEffect, useState } from 'react'
 import { UserOutlined } from '@ant-design/icons'
 const CheckboxGroup = Checkbox.Group
 const { Option } = Select
+import { connect } from 'react-redux'
+import API from '../../helpers/api'
+import axios from 'axios'
+import constants from '../../constants'
+import moment from 'moment'
 
 const PageTitle = styled('div')`
   color: #00937B;
@@ -28,13 +33,48 @@ const UpdateAvatar = styled('div')`
   margin-top: 8px;
 `
 
-const BasicInformation = () => {
+const connector = connect(({ memberReducer }) => ({
+  memberToken: memberReducer.member.token,
+  memberDetail: memberReducer.member,
+}))
+
+const BasicInformation = ({
+  memberToken
+}) => {
   const [form] = Form.useForm()
+  // const [memberState, setMemberState] = useState({})
+  const [profileSetting, setProfileSetting] = useState({})
+
   useEffect(() => {
     form.resetFields()
+    fetchData()
   }, [])
   const handleSubmit = (values) => {
     console.log('handleSubmit', values)
+  }
+
+  const fetchData = async () => {
+    try {
+      const response = await axios({
+        headers: {
+          'Authorization': memberToken
+        },
+        method: 'GET',
+        url: `${API.url}/Student/StudentProfile`
+      })
+      const responseWithData = response.data
+      console.log('responseWithData', responseWithData)
+      if (responseWithData.success) {
+        let { student} = responseWithData.data
+        delete student.birthday
+        form.setFieldsValue(student)
+        setProfileSetting(responseWithData.data.profile_setting)
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
   }
   return (
     <Wrapper>
@@ -57,7 +97,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="ชื่อจริงภาษาไทย"
-              name='name'
+              name='firstname'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -67,7 +107,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="นามสกุลภาษาอังกฤษ"
-              name='name'
+              name='lastname_en'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -77,7 +117,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="ชื่อจริงภาษาอังกฤษ"
-              name='name'
+              name='firstname_en'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -87,7 +127,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="นามสกุลภาษาไทย"
-              name='name'
+              name='lastname'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -97,7 +137,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="เลขบัตรประชาชน"
-              name='name'
+              name='id_card'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -108,7 +148,7 @@ const BasicInformation = () => {
           <Col xs={12}>
             <Form.Item 
               label="เพศ"
-              name='name'
+              name='gender'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -122,18 +162,18 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="วันเกิด"
-              name='name'
+              name='birthday'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <DatePicker style={{width: '100%'}} />
+              <DatePicker style={{width: '100%'}} format={'YYYY-MM-DD'} />
             </Form.Item>
           </Col>
           <Col lg={12} />
           <Col lg={12}>
             <Form.Item 
               label="จังหวัด"
-              name='name'
+              name='province_id'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -146,7 +186,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="เขต"
-              name='name'
+              name='district_id'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -159,7 +199,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="แขวง"
-              name='name'
+              name='sub_district_id'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -172,7 +212,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="รหัสไปรษณีย์"
-              name='name'
+              name='zipcode'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -182,7 +222,7 @@ const BasicInformation = () => {
           <Col lg={24}>
             <Form.Item 
               label="รายละเอียดที่อยู่ (ห้องเลขที่, บ้านเลขที่, ตึก, ชื่อถนน)"
-              name='name'
+              name='address'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -192,7 +232,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="อีเมล์"
-              name='name'
+              name='email'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -203,7 +243,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="เบอร์โทรศัพท์"
-              name='name'
+              name='phone'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -214,7 +254,7 @@ const BasicInformation = () => {
           <Col lg={24}>
             <Form.Item 
               label="วุฒิการศึกษาสูงสุด"
-              name='name'
+              name='educational_id'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -229,7 +269,7 @@ const BasicInformation = () => {
           <Col lg={24}>
             <Form.Item 
               label="อาชีพ"
-              name='name'
+              name='career_id'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -242,7 +282,7 @@ const BasicInformation = () => {
           <Col lg={24}>
             <Form.Item 
               label="ตำแหน่ง"
-              name='name'
+              name='career_name'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -255,7 +295,7 @@ const BasicInformation = () => {
           <Col lg={24}>
             <Form.Item 
               label="รู้จักเราผ่านช่องทางใด"
-              name='name'
+              name='know_channel'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -268,7 +308,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="ชื่อสถานประกอบการ"
-              name='name'
+              name='business_name'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -278,7 +318,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="สถานที่ประกอบการ"
-              name='name'
+              name='business_province_id'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -291,7 +331,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="วันที่จดทะเบียน"
-              name='name'
+              name='business_register'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -301,7 +341,7 @@ const BasicInformation = () => {
           <Col lg={12}>
             <Form.Item 
               label="เลขที่จดทะเบียน"
-              name='name'
+              name='business_no'
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
@@ -334,4 +374,4 @@ const SaveButtonWrapper = styled('div')`
   text-align: right;
 `
 
-export default BasicInformation
+export default connector(BasicInformation)

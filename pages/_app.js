@@ -1,7 +1,7 @@
 import { createGlobalStyle, ThemeProvider } from 'styled-components'
 import font from '../helpers/font'
 import { wrapper } from '../stores'
-import { fetchMasterData } from '../stores/masterReducer'
+import { checkMemberAlreadyLogin } from '../stores/memberReducer'
 import axios from 'axios'
 import API from '../helpers/api'
 
@@ -47,6 +47,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
     })
     console.log('masterData', masterData.data.data)
     master = masterData.data.data
+    await ctx.store.dispatch(checkMemberAlreadyLogin(ctx.req))
   }
   return { pageProps, master }
 }

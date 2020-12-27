@@ -54,6 +54,20 @@ const Menu = styled('div')`
 `
 
 const ProfileSlugPage = ({ profilePageSlug }) => {
+  // useEffect(() => {
+  //   switch (profilePageSlug) {
+  //     case PROFILE_PAGE.BASIC_INFORMATION:
+  //         console.log('fetchBasicInformation')
+  //       break
+  //       case PROFILE_PAGE.COURSES:
+  //         console.log('fetch course')
+  //       break
+  //       case PROFILE_PAGE.CERTIFICATE:
+  //         console.log('fetch certi')
+  //       break
+
+  //   }
+  // }, [profilePageSlug])
   const onMenuChange = (tabs) => {
     switch (tabs) {
       case PROFILE_PAGE.BASIC_INFORMATION:

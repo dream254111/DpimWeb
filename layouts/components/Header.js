@@ -11,6 +11,12 @@ import {
 } from '../../components/index'
 import font from '../../helpers/font'
 import { maxWidth } from '../../helpers/breakpoint'
+import { LoginModal } from '../../components/modals'
+import { connect } from 'react-redux'
+import Router from 'next/router'
+import { Avatar } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
+import { onMemberLogout } from '../../stores/memberReducer'
 
 const Wrapper = styled('div')``
 
@@ -173,15 +179,7 @@ cursor: pointer;
   `}
 `
 
-const PicProfile = styled('img')`
-  box-sizing: border-box;
-  background-image: url(${props => props.src});
-  background-repeat: no-repeat;
-  background-position: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  border: 1px solid #FFFFFF;
+const PicProfile = styled(Avatar)`
   margin-left: 4px;
   margin-right: 4px;
 `
@@ -260,10 +258,20 @@ const StyledInput = styled(Input)`
   `}
 `
 
-const Header = () => {
+const connector = connect(({ memberReducer }) => ({
+  memberToken: memberReducer.member.token,
+  memberDetail: memberReducer.member,
+}))
+
+const Header = ({
+  memberDetail,
+  memberToken,
+  dispatch
+}) => {
   // open/close Dropdown
   const [isClick, setIsClick] = useState(false)
   const [isLogin, setisLogin] = useState(false)
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
   const handleClick = () => {
     setIsClick(!isClick)
   }
@@ -285,6 +293,10 @@ const Header = () => {
 
   return (
     <Wrapper ref={wrapperRef}>
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
       <Nav>
         <NavbarContainer>
           <NavLogo>
@@ -325,7 +337,7 @@ const Header = () => {
               </Link>
             </NavItem>
             {
-              !isLogin &&
+              !memberToken &&
                 <>
                   <NavItemBtn>
                     <Button
@@ -333,7 +345,9 @@ const Header = () => {
                       size='small'
                       backgroundColor='#ffffff'
                       color='#00937B'
-                      onClick={() => setisLogin(!isLogin)}
+                      // onClick={() => setisLogin(!isLogin)}
+                      onClick={() => setIsLoginModalOpen(true)}
+
                     >
                       เข้าสู่ระบบ
                     </Button>
@@ -350,7 +364,7 @@ const Header = () => {
                 </>
             }
             {
-              isLogin &&
+              memberToken &&
                 <>
                   <NavItem display='none'>
                     <Link href='/'>
@@ -377,34 +391,38 @@ const Header = () => {
                 </>
             }
           </NavMenu>
-          <NavProfile isLogin={isLogin} onClick={handleClick}>
-            <HamburgerContainer isLogin={isLogin}>
-              <Hamburger src='/static/images/hamburger.png' isLogin={isLogin} />
+          <NavProfile isLogin={memberToken} onClick={handleClick}>
+            <HamburgerContainer isLogin={memberToken}>
+              <Hamburger src='/static/images/hamburger.png' isLogin={memberToken} />
               {
-              isLogin &&
+              memberToken &&
                 <>
-                  <PicProfile src='/static/images/ProfileImage.png' />
-                  <p>อธิราช</p>
+                  <PicProfile
+                    size={28}
+                    src={memberDetail.profile_path}
+                    icon={<UserOutlined />}
+                  />
+                  <p>{memberDetail.name_th}</p>
                   <Chevron src='/static/images/vector.png' />
                   <DropdownMenu isClick={isClick} onClick={(event) => {
                     event.stopPropagation()
                   }}>
                     <DropdownItem>
-                      <Link href='/'>
+                      <Link href='/profile/basic-information'>
                         <a>โปรไฟล์ส่วนตัว</a>
                       </Link>
                     </DropdownItem>
                     <DropdownItem>
-                      <Link href='/'>
+                      <Link href='/profile/courses'>
                         <a>คอร์สของฉัน</a>
                       </Link>
                     </DropdownItem>
                     <DropdownItem>
-                      <Link href='/'>
+                      <Link href='/profile/certificate'>
                         <a>ใบประกาศนียบัตร</a>
                       </Link>
                     </DropdownItem>
-                    <DropdownItem onClick={() => setisLogin(!isLogin)}>
+                    <DropdownItem onClick={() => dispatch(onMemberLogout())}>
                       <Link href='/'>
                         <a>ออกจากระบบ</a>
                       </Link>
@@ -420,4 +438,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default connector(Header)

@@ -2,6 +2,9 @@ import styled from 'styled-components'
 import font from '../../helpers/font'
 import { Form } from 'antd'
 import { useEffect } from 'react'
+import { connect } from 'react-redux'
+import API from '../../helpers/api'
+import axios from 'axios'
 
 const PageTitle = styled('div')`
   color: #00937B;
@@ -12,12 +15,18 @@ const PageTitle = styled('div')`
 const Wrapper = styled('div')`
 
 `
+const connector = connect(({ memberReducer }) => ({
+  memberToken: memberReducer.member.token,
+  memberDetail: memberReducer.member,
+}))
 
-const Cetificate = () => {
+const Certificate = () => {
   const [form] = Form.useForm()
   useEffect(() => {
+    console.log('fetchCertificate')
     form.resetFields()
   }, [])
+
   const handleSubmit = (values) => {
     console.log('handleSubmit', values)
   }
@@ -33,4 +42,4 @@ const Cetificate = () => {
   )
 }
 
-export default Cetificate
+export default connector(Certificate)

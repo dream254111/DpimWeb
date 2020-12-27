@@ -11,7 +11,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import API from '../helpers/api'
 import { connect } from 'react-redux'
-
+const commaNumber = require('comma-number')
 const { Option } = Select
 import { ArrowRightOutlined } from '@ant-design/icons'
 const Wrapper = styled('div')`
@@ -241,11 +241,10 @@ const IndexPage = ({
   memberToken,
   master
 }) => {
-
   const [banners, setBanners] = useState([])
   const [courses, setCourses] = useState([])
   const [recommendWeb, setRecommendWeb] = useState(null)
-  const [webStat, setWebStat] = useState(null)
+  const [webStat, setWebStat] = useState({})
 
   useEffect(() => {
     Promise.all([
@@ -300,7 +299,6 @@ const IndexPage = ({
         url: `${API.url}/Course/list_course`
       })
       const data = response.data.data
-      console.log('fetchcourseList', data)
       setCourses(data)
 
     } catch (error) {
@@ -315,6 +313,7 @@ const IndexPage = ({
         url: `${API.url}/Student/GetAllSite`,
       })
       const data = response.data.data.data
+      console.log('recommendtweb', data)
       setRecommendWeb(data)
 
     } catch (error) {
@@ -530,19 +529,19 @@ const IndexPage = ({
               <Row align='middle' justify='space-between' gutter={{lg: 200, md: 0, xs: 0}}>
                 <Col lg={8} md={24} xs={24}>
                   <StatsItem>
-                    <StatsValue>+20k</StatsValue>
+                    <StatsValue>+{commaNumber(webStat.total_course)}</StatsValue>
                     <StatsTitle>จำนวนหลักสูตร</StatsTitle>
                   </StatsItem>
                 </Col>
                 <Col lg={8} md={24} xs={24}>
                   <StatsItem>
-                    <StatsValue>4.5</StatsValue>
+                    <StatsValue>{commaNumber(webStat.total_student)}</StatsValue>
                     <StatsTitle>จำนวนสมาชิก</StatsTitle>
                   </StatsItem>
                 </Col>
                 <Col lg={8} md={24} xs={24}>
                   <StatsItem>
-                    <StatsValue>+1k</StatsValue>
+                    <StatsValue>+{commaNumber(webStat.total_visit_website)}</StatsValue>
                     <StatsTitle>จำนวนผู้เข้าชม</StatsTitle>
                   </StatsItem>
                 </Col>

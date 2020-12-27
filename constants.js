@@ -10,5 +10,9 @@ module.exports = {
     REGISTER: 6,
     PAYMENT: 7,
     ETC: 8
+  },
+  GENDER: {
+    MALE: 1,
+    FEMALE: 2
   }
 }
