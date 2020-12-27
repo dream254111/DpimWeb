@@ -84,7 +84,8 @@ const UserPage = ({ userId }) => {
       })
       const data = response.data.data
       console.log('data', data)
-      setInstructureDetail(data.data)
+      setInstructureDetail(data.instructor)
+      setInstructureCourses(data.course)
     } catch (error) {
       message.error(error.message)
     }
@@ -103,7 +104,7 @@ const UserPage = ({ userId }) => {
         <Row gutter={{ lg: 16, xs: 0 }}>
           <Col xs={24} lg={7}>
             <InstructureCard>
-              <Avatar size={72} src={instructureDetail.profile_image} />
+              {/* <Avatar size={72} src={instructureDetail.profile_image} /> */}
               <InstructureContent>
                 <InstructureName>{instructureDetail.firstname} {instructureDetail.lastname}</InstructureName>
                 <InstructurePosition>{instructureDetail.position || '-'}</InstructurePosition>
@@ -132,21 +133,26 @@ const UserPage = ({ userId }) => {
       </Row>
         <CourseTitle>คอร์สที่สอน</CourseTitle>
         <Row gutter={16}>
-          <Col xs={24} lg={6} style={{margin: '16px 0'}}>
-            <CourseCard
-              id={'22'}
-              // categoryName={item.category_name}
-              // categoryColor={item.category_color}
-              // cover={item.cover}
-              // isHasCost={item.is_has_cost}
-              // cost={item.cost}
-              // hasCertificate={item.hasCertificate}
-              // instructors={item.list_instructor}
-              // totalLesson={item.total_lesson}
-              // lessonTime={item.lesson_time}
-              // startLearning={item.start_learning}
-            />
-          </Col>
+            {
+              instructureCourses.map((item, index) => (
+                <Col xs={24} lg={8} style={{margin: '16px 0'}}>
+                  <CourseCard
+                    key={index}
+                    id={item.id}
+                    categoryName={item.category_name}
+                    categoryColor={item.category_color}
+                    cover={item.cover}
+                    isHasCost={item.is_has_cost}
+                    cost={item.cost}
+                    hasCertificate={item.hasCertificate}
+                    instructors={item.list_instructor}
+                    totalLesson={item.total_lesson}
+                    lessonTime={item.lesson_time}
+                    startLearning={item.start_learning}
+                  />
+                </Col>
+              ))
+            }
         </Row>
       </Container>
     </MainLayout>

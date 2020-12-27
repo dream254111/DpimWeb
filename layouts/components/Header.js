@@ -305,12 +305,12 @@ const Header = () => {
           />
           <NavMenu isClick={isClick}>
             <NavItem>
-              <Link href='/'>
+              <Link href='/course'>
                 <a>คอร์สเรียน</a>
               </Link>
             </NavItem>
             <NavItem>
-              <Link href='/'>
+              <Link href='/news'>
                 <a>ข่าวประชาสัมพันธ์</a>
               </Link>
             </NavItem>
@@ -342,6 +342,7 @@ const Header = () => {
                     <Button
                       type='normal'
                       size='small'
+                      onClick={() => Router.push('/register/1')}
                     >
                       สมัครสมาชิก
                     </Button>
