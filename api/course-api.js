@@ -180,3 +180,24 @@ const fetchFunction = async () => {
         message.error(error.message)
     }
 }
+
+
+// เอาไว้ใช้ตอนกดรับคอร์สฟรีนะเท่านั้น
+const fetchFunction = async () => {
+    try {
+        const response = await axios({
+            headers: {
+                'Authorization': `token`
+            },
+            method: 'POST',
+            url: `${API.url}/Course/register_course_free`,
+            data : {
+                course_id: 3018
+            }
+        })
+
+
+    } catch (error) {
+        message.error(error.message)
+    }
+}

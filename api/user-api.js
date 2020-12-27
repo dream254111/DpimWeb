@@ -72,6 +72,24 @@ const fetchFunction = async () => {
     }
 }
 
+
+// เอาไว้ ดึง user profile ตอนที่ initial authมาครั้งแรก ควรเก็บลงใส่ store
+const fetchFunction = async () => {
+    try {
+        const response = await axios({
+            headers: {
+                'Authorization': `token`
+            },
+            method: 'GET',
+            url: `${API.url}/Student/profile_minimal`
+        })
+
+
+    } catch (error) {
+        message.error(error.message)
+    }
+}
+
 // เอาไว้ register
 const fetchFunction = async () => {
     try {
@@ -167,6 +185,27 @@ const fetchFunction = async () => {
     }
 }
 
+// เอาไว้ กดส่ง certificate ไปยังอีเมล์ user
+
+const fetchFunction = async () => {
+    try {
+        const response = await axios({
+            headers: {
+                'Authorization': `token`
+            },
+            method: 'GET',
+            url: `${API.url}/Student/send_email_cert`,
+            params : {
+                course_id : 'course_id'
+            }
+        })
+        
+    } catch (error) {
+        message.error(error.message)
+    }
+}
+
+
 // เอาไว้ update profile
 const fetchFunction = async () => {
     try {
@@ -250,3 +289,4 @@ const fetchFunction = async () => {
         message.error(error.message)
     }
 }
+
