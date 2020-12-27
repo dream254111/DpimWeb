@@ -87,7 +87,7 @@ const ProfileSlugPage = ({ profilePageSlug }) => {
     <MainLayout>
       <Wrapper>
         <Container paddingTop='32px' paddingBottom='153px'>
-          <Row gutter={{ lg: 40 }}>
+          <Row gutter={{ lg: 16 }}>
             <Col lg={7}>
               <Card>
                 <CardHeader>

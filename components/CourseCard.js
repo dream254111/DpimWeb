@@ -1,4 +1,4 @@
-import { Divider, Avatar } from 'antd'
+import { Divider, Avatar, Progress, Button } from 'antd'
 import Router from 'next/router'
 import Tag from './Tag'
 import styled from 'styled-components'
@@ -117,7 +117,9 @@ const CourseTypeContent = styled('div')`
 `
 
 const CourseCardComponent = ({
+    type='default',
     id,
+    name,
     categoryName,
     categoryColor,
     cover,
@@ -127,11 +129,13 @@ const CourseCardComponent = ({
     totalLesson,
     startLearning,
     lessonTime,
+    endDate,
     isHasCost,
+    progress,
     ...rest
   }) => {
-  const instructorNames = instructors && instructors.map(item => `${item.first_name} ${item.last_name}`) || []
-
+  const instructorNames = instructors.length > 0 && instructors.map(item => `${item.firstname} ${item.lastname}`) || []
+  console.log('instructorNames', instructorNames)
   const timeConvert = (n) => {
     const num = n
     const hours = (num / 60)
@@ -158,27 +162,93 @@ const CourseCardComponent = ({
       </CourseCardHeader>
       <Divider style={{ margin: 0 }} />
       <CourseCardContent>
-          <CourseCardTitle>{categoryName}</CourseCardTitle>
-        <AuthorContent>
-          <Avatar 
-            icon={<UserOutlined />} 
-            src={instructors.length > 0 && instructors[0].profile} size={32} />
-          <AuthorName>{instructorNames.join(', ')}</AuthorName>
-        </AuthorContent>
-        <CourseTypeContent>
-          <Tag color={categoryColor}>{categoryName}</Tag>
+        <CourseCardTitle>{name}</CourseCardTitle>
+        {
+          type === 'default' &&
+          <>
+            <AuthorContent>
+              <Avatar 
+                icon={<UserOutlined />} 
+                src={instructors.length > 0 && instructors[0].profile} size={32} />
+              <AuthorName>{instructorNames.join(', ')}</AuthorName>
+            </AuthorContent>
+            <CourseTypeContent>
+              <Tag color={categoryColor}>{categoryName}</Tag>
+              {
+                hasCertificate &&
+                <Tag outline>รับรองใบประกาศฯ</Tag>
+              }
+            </CourseTypeContent>
+            <CourseTimeContent>
+              <CourseTimeText>เริ่มเรียน {startLearning && moment(startLearning).format('DD MMMM YYYY')}</CourseTimeText>
+              <CoursePrice>{isHasCost ? `${commaNumber(cost)} บาท` : 'ฟรี'}</CoursePrice>
+            </CourseTimeContent>
+          </>
+        }
+        {
+          type === 'progress' &&
+          <>
+          <ProgressBar>
+            <Progress percent={progress} strokeColor='#00937B' />
+          </ProgressBar>
           {
-            hasCertificate &&
-            <Tag outline>รับรองใบประกาศฯ</Tag>
+            progress !== 100 &&
+            <ProgressButtom>
+              <Button type='primary'>เรียนต่อ</Button>
+              <Text>ปิดระบบใน {endDate} วัน</Text>
+            </ProgressButtom>
           }
-        </CourseTypeContent>
-        <CourseTimeContent>
-          <CourseTimeText>เริ่มเรียน {startLearning && moment(startLearning).format('DD MMMM YYYY')}</CourseTimeText>
-          <CoursePrice>{isHasCost ? `${commaNumber(cost)} บาท` : 'ฟรี'}</CoursePrice>
-        </CourseTimeContent>
+          {
+            progress === 100 &&
+            <ProgressButtom>
+              <RestartCourse>เรียนใหม่</RestartCourse>
+            </ProgressButtom>
+          }
+            {/* <AuthorContent>
+              <Avatar 
+                icon={<UserOutlined />} 
+                src={instructors.length > 0 && instructors[0].profile} size={32} />
+              <AuthorName>{instructorNames.join(', ')}</AuthorName>
+            </AuthorContent>
+            <CourseTypeContent>
+              <Tag color={categoryColor}>{categoryName}</Tag>
+              {
+                hasCertificate &&
+                <Tag outline>รับรองใบประกาศฯ</Tag>
+              }
+            </CourseTypeContent>
+            <CourseTimeContent>
+              <CourseTimeText>เริ่มเรียน {startLearning && moment(startLearning).format('DD MMMM YYYY')}</CourseTimeText>
+              <CoursePrice>{isHasCost ? `${commaNumber(cost)} บาท` : 'ฟรี'}</CoursePrice>
+            </CourseTimeContent> */}
+          </>
+        }
+        
       </CourseCardContent>
     </CourseCard>
   )
 }
+
+const RestartCourse = styled('div')`
+  color: #00937B;
+  font-size: 12px;
+  font-family: ${font.bold};
+`
+
+const Text = styled('div')`
+  font-size: 12px;
+` 
+
+const ProgressButtom = styled('div')`
+  margin-top: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const ProgressBar = styled('div')`
+  margin-top: 21px;
+`
+
 
 export default CourseCardComponent

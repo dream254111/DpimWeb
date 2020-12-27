@@ -449,6 +449,7 @@ const IndexPage = ({
                     <CourseCard
                       key={index}
                       id={item.id}
+                      name={item.name}
                       categoryName={item.category_name}
                       categoryColor={item.category_color}
                       cover={item.cover}

@@ -63,7 +63,6 @@ const BasicInformation = ({
         url: `${API.url}/Student/StudentProfile`
       })
       const responseWithData = response.data
-      console.log('responseWithData', responseWithData)
       if (responseWithData.success) {
         let { student} = responseWithData.data
         delete student.birthday

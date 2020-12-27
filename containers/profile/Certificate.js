@@ -1,10 +1,10 @@
 import styled from 'styled-components'
 import font from '../../helpers/font'
-import { Form } from 'antd'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import API from '../../helpers/api'
 import axios from 'axios'
+import { Row, Col, message } from 'antd'
 
 const PageTitle = styled('div')`
   color: #00937B;
@@ -20,24 +20,53 @@ const connector = connect(({ memberReducer }) => ({
   memberDetail: memberReducer.member,
 }))
 
-const Certificate = () => {
-  const [form] = Form.useForm()
+const Certificate = ({
+  memberToken
+}) => {
+  const [certs, setCerts] = useState([])
   useEffect(() => {
-    console.log('fetchCertificate')
-    form.resetFields()
+    fetchData()
   }, [])
 
-  const handleSubmit = (values) => {
-    console.log('handleSubmit', values)
+  const fetchData = async () => {
+    try {
+      const response = await axios({
+        headers: {
+          'Authorization': memberToken
+        },
+        method: 'GET',
+        url: `${API.url}/Student/CertificateReadList`
+      })
+      const responseWithData = response.data
+      if (responseWithData.success) {
+        console.log('cert', responseWithData.data.data)
+        setCerts(responseWithData.data.data)
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
   }
   return (
     <Wrapper>
-      <Form
-        onFinish={handleSubmit}
-        form={form}
-      >
-        <PageTitle>ใบประกาศนียบัตร</PageTitle>
-      </Form>
+      <PageTitle>ใบประกาศนียบัตร</PageTitle>
+      <Row gutter={16}>
+        {
+          certs.map((item, index) => (
+            <Col lg={8} style={{margin: '6px 0'}}>
+              <CourseCard
+                type='cert'
+                key={index}
+                name={item.name}
+                cover={item.cover}
+                totalLesson={item.count_lesson}
+                lessonTime={item.course_time}
+              />
+            </Col>
+          ))
+        }
+      </Row>
     </Wrapper>
   )
 }
