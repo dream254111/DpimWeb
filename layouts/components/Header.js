@@ -315,7 +315,7 @@ const Header = () => {
               </Link>
             </NavItem>
             <NavItem>
-              <Link href='/'>
+              <Link href='/howto'>
                 <a>วิธีการใช้งาน</a>
               </Link>
             </NavItem>
