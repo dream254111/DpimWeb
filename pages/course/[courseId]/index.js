@@ -1121,22 +1121,17 @@ const CourseDetailPage = ({ courseId }) => {
                   <h2>{commaNumber(courseDetail.course.cost)} บาท</h2>
                 }
               <Button
-                type='normal'
-                size='large'
+                type='primary'
                 fontSize='14px'
-                width='100%'
-                margin='0 0 8px 0'
+                block
+                style={{margin: '0 0 8px 0'}}
                 >
                   สมัครเรียน
                   </Button>
               <Button
-                type='normal'
-                size='large'
                 fontSize='14px'
-                backgroundColor='#FFFFFF'
                 color='#00937B'
-                border='none'
-                width='100%'
+                block
               >
                 ทดลองเข้าเรียน
               </Button>

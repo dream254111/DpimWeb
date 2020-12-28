@@ -1,4 +1,5 @@
-import { Divider, Avatar, Progress, Button } from 'antd'
+import { Divider, Avatar, Progress } from 'antd'
+import { Button } from '../components/index'
 import Router from 'next/router'
 import Tag from './Tag'
 import styled from 'styled-components'

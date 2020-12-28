@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import font from '../../helpers/font'
-import { Form, Button, Input, Radio, DatePicker, Select, Checkbox, Avatar, Row, Col, message } from 'antd'
+import { Form, Input, Radio, DatePicker, Select, Checkbox, Avatar, Row, Col, message } from 'antd'
+import { Button } from '../../components/index'
 import { useEffect, useState } from 'react'
 import { UserOutlined } from '@ant-design/icons'
 const CheckboxGroup = Checkbox.Group
@@ -90,7 +91,13 @@ const BasicInformation = ({
             src='https://media1.s-nbcnews.com/i/newscms/2019_07/1410593/sam-smith-today-main-190214_ada05dbc548dec5b1b4d566d924e3105.jpg'
             style={{ marginRight: '16px' }}
           />
-          <Button tyoe='outline'>เปลี่ยนรูปโปรไฟล์</Button>
+          <Button
+            color='#00937B'
+            fontWeight='normal'
+            fontSize='12px'
+          >
+            เปลี่ยนรูปโปรไฟล์
+          </Button>
         </UpdateAvatar>
         <Row gutter={16} style={{marginTop: '24px'}}>
           <Col lg={12}>
@@ -352,7 +359,7 @@ const BasicInformation = ({
 
         </UpdateDocument>
         <SaveButtonWrapper>
-          <Button>บันทึกข้อมูล</Button>
+          <Button type='primary'>บันทึกข้อมูล</Button>
         </SaveButtonWrapper>
       </Form>
     </Wrapper>

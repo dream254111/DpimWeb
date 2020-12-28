@@ -166,8 +166,7 @@ const RegisterPage = ({ master }) => {
               </Form.Item>
               <Button
                 style={{ float: 'right' }}
-                type='normal'
-                size='small'
+                type='primary'
                 htmlType='submit'
               >ขั้นตอนภัดไป</Button>
             </Form>
@@ -407,8 +406,7 @@ const RegisterPage = ({ master }) => {
               </Row>
               <Button
                 style={{ float: 'right' }}
-                type='normal'
-                size='small'
+                type='primary'
                 htmlType='submit'
               >สมัครสมาชิก</Button>
             </Form>

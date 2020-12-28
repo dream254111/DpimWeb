@@ -341,9 +341,7 @@ const Header = ({
                 <>
                   <NavItemBtn>
                     <Button
-                      type='normal'
-                      size='small'
-                      backgroundColor='#ffffff'
+                      fontSize='12px'
                       color='#00937B'
                       // onClick={() => setisLogin(!isLogin)}
                       onClick={() => setIsLoginModalOpen(true)}
@@ -354,8 +352,8 @@ const Header = ({
                   </NavItemBtn>
                   <NavItemBtn>
                     <Button
-                      type='normal'
-                      size='small'
+                      type='primary'
+                      fontSize='12px'
                       onClick={() => Router.push('/register')}
                     >
                       สมัครสมาชิก

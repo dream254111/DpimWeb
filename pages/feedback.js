@@ -111,7 +111,8 @@ const FeedbackPage = ({
                 <Button
                   htmlType='submit'
                   style={{marginTop: '32px'}} 
-                  type='normal'
+                  type='primary'
+                  fontSize='14px'
                 >ส่งข้อมูลแจ้งปัญหาการใช้งาน</Button>
               </ButtonWrapper>
             </Form>

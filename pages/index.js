@@ -437,8 +437,8 @@ const IndexPage = ({
                 }
               </Select>
               <Button
-                type='normal'
-                size='small'
+                type='primary'
+                fontSize='12px'
                 onClick={() => Router.push('/course')}
               >ดูคอร์สออนไลน์ทั้งหมด</Button>
             </CategoryWrapper>
@@ -473,8 +473,8 @@ const IndexPage = ({
                   <Option value='all'>แสดงทุกหมวดหมู่</Option>
                 </Select>
                 <Button
-                  type='normal'
-                  size='small'
+                  type='primary'
+                  fontSize='12px'
                   onClick={() => Router.push('/video-on-demand')}
                 >Video on demand ทั้งหมด</Button>
               </CategoryWrapper>

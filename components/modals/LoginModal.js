@@ -1,4 +1,5 @@
-import { Modal, Form, Button, Input, message, Select } from 'antd'
+import { Modal, Form, Input, message, Select } from 'antd'
+import { Button } from '../../components/index'
 import { useEffect } from 'react'
 import styled from 'styled-components'
 import axios from 'axios'
@@ -109,7 +110,8 @@ const LoginModal = ({
             />
           </Form.Item>
           <Button
-            type='outline'
+            type='primary'
+            fontWeight='normal'
             style={{width: '100%', marginTop: '8px'}}
             htmlType='submit'
             loading={isLoading}
