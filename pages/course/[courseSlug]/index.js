@@ -15,9 +15,12 @@ const Wrapper = styled('div')`
 `
 
 const Header = styled('div')`
-  background-color: cadetblue;
   width: 100%;
   padding: 12px;
+  height: 100%;
+  background-image: url(${props => props.src});
+  background-size: cover;
+  background-position: center;
 `
 
 const PrintHere = styled('div')`

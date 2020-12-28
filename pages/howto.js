@@ -2,7 +2,7 @@ import MainLayout from '../layouts/main'
 import styled from 'styled-components'
 import Container from '../components/Container'
 import font from '../helpers/font'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { message } from 'antd'
 import API from '../helpers/api'
@@ -29,6 +29,9 @@ const HowtoItem = styled('div')`
   background: #F9F9F9;
   border-radius: 4px;
   padding: 32px;
+  :first-child {
+    margin-top: 16px;
+  }
   :not(:first-child) {
     margin-top: 32px;
   }
@@ -50,18 +53,40 @@ const ItemTitle = styled('div')`
   margin-left: 16px;
 `
 
+const Image = styled('img')`
+  max-width: 100%;
+  margin-top: 12px;
+`
+
+const DetailTitle = styled('div')`
+  font-size: 18px;
+  margin-top: 12px;
+`
+
+const DetailItem = styled('div')`
+
+`
+
+
 const HowtoPage = () => {
   useEffect(() => {
     fetchHowTo()
   }, [])
-
+  
+  const [tutorials, setTutorials] = useState([])
   const fetchHowTo = async () => {
     try {
       const response = await axios({
         method: 'GET',
         url: `${API.url}/Student/TutorialReadList`
       })
-      console.log('response', response)
+      const responseWithData = response.data
+      console.log('response', response.data)
+      if (responseWithData.success) {
+        setTutorials(responseWithData.data)
+      } else {
+        throw new Error(responseWithData.error)
+      }
     } catch (error) {
         message.error(error.message)
     }
@@ -72,7 +97,28 @@ const HowtoPage = () => {
         <Title>วิธีการใช้งาน</Title>
         <Card>
           <Title>ปรึกษาผ่าน LINE Official Account</Title>
-          <SubTitle>ผู้เรียนสามารถแอด LINE ID จาก @dpimedlearning เพื่อสอบถามปัญหาด้านการเรียนต่าง ๆ</SubTitle>
+          <SubTitle>ผู้เรียนสามารถแอด LINE ID จาก @dpimedlearning <br /> เพื่อสอบถามปัญหาด้านการเรียนต่าง ๆ</SubTitle>
+          {
+            tutorials.map((item, index) => (
+              <HowtoItem key={index}>
+                <ItemTitleWrapper>
+                  <ItemNumber>{index + 1}.</ItemNumber>
+                  <ItemTitle>{item.tutorial_text}</ItemTitle>
+                </ItemTitleWrapper>
+                {item.image ? <Image src={item.image} /> : null}
+                {
+                  item.detail.map((detail, index) => (
+                    <DetailItem
+                      key={index}
+                    >
+                      <DetailTitle>{index + 1}. {detail.title}</DetailTitle>
+                      {detail.img_path ? <Image src={detail.img_path} /> : null}
+                    </DetailItem>
+                  ))
+                }
+              </HowtoItem>
+            ))
+          }
         </Card>
       </Container>
     </MainLayout>

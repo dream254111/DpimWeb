@@ -7,7 +7,6 @@ import Router from 'next/router'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import API from '../../helpers/api'
-
 import { Divider, Select, Row, Col, Slider } from 'antd'
 const { Option } = Select
 
