@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Container from '../components/Container'
 import font from '../helpers/font'
 import { Input, Row, Col, message, Collapse } from 'antd'
-import { SearchOutlined, SettingOutlined, UserOutlined, TagOutlined, GlobalOutlined } from '@ant-design/icons'
+import { SearchOutlined, SettingOutlined, UserOutlined, TagOutlined, GlobalOutlined, ReadOutlined } from '@ant-design/icons'
 import { useState, useEffect } from 'react'
 import axios from 'axios'
 import API from '../helpers/api'
@@ -26,9 +26,7 @@ const FaqTypeCard = styled('div')`
   border-radius: 4px;
   ${props => props.isActive && `
     ${FaqTypeIcon} {
-      svg, img {
-        filter: invert(31%) sepia(95%) saturate(1047%) hue-rotate(140deg) brightness(100%) contrast(102%);
-      }
+      color: #00937B;
     }
     border: 1px solid #00937B;
     box-shadow: 0px 0px 2px rgba(40, 41, 61, 0.04), 0px 4px 8px rgba(96, 97, 112, 0.16);
@@ -96,7 +94,7 @@ const FAQPage = ({ master }) => {
       case constants.FAQ_TYPE.COURSE:
         return (
           <FaqTypeIcon>
-              <img src='/static/images/book.svg' />
+            <ReadOutlined />
           </FaqTypeIcon>
         )
       case constants.FAQ_TYPE.REGISTER:
