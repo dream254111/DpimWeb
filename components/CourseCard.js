@@ -6,6 +6,7 @@ import font from '../helpers/font'
 const commaNumber = require('comma-number')
 import { UserOutlined } from '@ant-design/icons'
 import moment from 'moment'
+import { timeConvert } from '../helpers/util'
 moment.locale('th')
 
 const CourseCard = styled('div')`
@@ -136,15 +137,6 @@ const CourseCardComponent = ({
   }) => {
   const instructorNames = instructors.length > 0 && instructors.map(item => `${item.firstname} ${item.lastname}`) || []
   console.log('instructorNames', instructorNames)
-  const timeConvert = (n) => {
-    const num = n
-    const hours = (num / 60)
-    const rhours = Math.floor(hours)
-    const minutes = (hours - rhours) * 60
-    const rminutes = Math.round(minutes)
-    return `${rhours} ชั่วโมง ${rminutes} นาที`
-  }
-
   return (
     <CourseCard onClick={() => Router.push(`/course/${id}`)} {...rest}>
       <CourseCardHeader>
@@ -204,23 +196,6 @@ const CourseCardComponent = ({
               <RestartCourse>เรียนใหม่</RestartCourse>
             </ProgressButtom>
           }
-            {/* <AuthorContent>
-              <Avatar 
-                icon={<UserOutlined />} 
-                src={instructors.length > 0 && instructors[0].profile} size={32} />
-              <AuthorName>{instructorNames.join(', ')}</AuthorName>
-            </AuthorContent>
-            <CourseTypeContent>
-              <Tag color={categoryColor}>{categoryName}</Tag>
-              {
-                hasCertificate &&
-                <Tag outline>รับรองใบประกาศฯ</Tag>
-              }
-            </CourseTypeContent>
-            <CourseTimeContent>
-              <CourseTimeText>เริ่มเรียน {startLearning && moment(startLearning).format('DD MMMM YYYY')}</CourseTimeText>
-              <CoursePrice>{isHasCost ? `${commaNumber(cost)} บาท` : 'ฟรี'}</CoursePrice>
-            </CourseTimeContent> */}
           </>
         }
         

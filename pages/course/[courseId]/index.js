@@ -8,8 +8,13 @@ import {
   CourseCard,
 } from '../../../components/index'
 import { maxWidth } from '../../../helpers/breakpoint'
-import { useRef } from 'react'
-import { Progress } from 'antd'
+import { useRef, useEffect, useState } from 'react'
+import { Progress, message, Row, Col } from 'antd'
+import API from '../../../helpers/api'
+import axios from 'axios'
+import { timeConvert } from '../../../helpers/util' 
+const commaNumber = require('comma-number')
+import Router from 'next/router'
 
 const Wrapper = styled('div')`
 `
@@ -30,8 +35,12 @@ const PrintHere = styled('div')`
   color: white;
 `
 
-const HeaderImage = styled('img')`
-
+const HeaderImage = styled('div')`
+  height: 120px;
+  width: 214px;
+  background-image: url(${props => props.src});
+  background-size: cover;
+  background-position: center;
 `
 
 const HeaderContent = styled('div')`
@@ -428,6 +437,11 @@ const TotalQuiz = styled('div')`
   text-align: right;
 `
 
+const Instructors = styled('div')`
+  max-height: 300px;
+  overflow-y: scroll;
+`
+
 const Instructor = styled('div')`
   display: flex;
   flex-direction: column;
@@ -435,6 +449,9 @@ const Instructor = styled('div')`
   background-color: #FFFFFF;
   box-shadow: 0px 0px 2px rgba(40, 41, 61, 0.04), 0px 4px 8px rgba(96, 97, 112, 0.16);
   border-radius: 4px;
+  :not(:first-child) {
+    margin-top: 16px
+  }
 `
 const InstructorDetail = styled('div')`
   padding: 16px;
@@ -579,12 +596,8 @@ const ContactIcon = styled('img')`
 `
 
 const OtherCourse = styled('div')`
-  margin: 16px 0 98px 0;
-  display: flex;
-  flex-direction: column;
-  ${maxWidth.md`
-    margin-bottom: 50px;
-  `}
+  margin-top: 32px;
+  margin-bottom: 101px;
 `
 
 const CourseInfo = styled('div')`
@@ -611,29 +624,52 @@ const CourseExampleVideo = styled('img')`
   background-repeat: no-repeat;
 `
 
-const CourseSlugPage = ({ courseSlug }) => {
+const CourseDetailPage = ({ courseId }) => {
   const scrollRef1 = useRef(null)
   const scrollRef2 = useRef(null)
   const scrollRef3 = useRef(null)
   const scrollRef4 = useRef(null)
   const scrollRef5 = useRef(null)
+  
+  const [courseDetail, setCourseDetail] = useState(null) 
+  const executeScroll1 = () => {
+    scrollRef1.current.scrollIntoView({behavior: "smooth"})
+  }
+  const executeScroll2 = () => {
+    scrollRef2.current.scrollIntoView({behavior: "smooth"})
+  }
+  const executeScroll3 = () => {
+    scrollRef3.current.scrollIntoView({behavior: "smooth"})
+  }
+  const executeScroll4 = () => {
+    scrollRef4.current.scrollIntoView({behavior: "smooth"})
+  }
+  const executeScroll5 = () => {
+    scrollRef5.current.scrollIntoView({behavior: "smooth"})
+  }
 
-const executeScroll1 = () => {
-  scrollRef1.current.scrollIntoView({behavior: "smooth"})
-}
-const executeScroll2 = () => {
-  scrollRef2.current.scrollIntoView({behavior: "smooth"})
-}
-const executeScroll3 = () => {
-  scrollRef3.current.scrollIntoView({behavior: "smooth"})
-}
-const executeScroll4 = () => {
-  scrollRef4.current.scrollIntoView({behavior: "smooth"})
-}
-const executeScroll5 = () => {
-  scrollRef5.current.scrollIntoView({behavior: "smooth"})
-}
+  useEffect(() => {
+    fetchCourseInfo()
+  }, [])
 
+  const fetchCourseInfo = async () => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${API.url}/Course/course_info?course_id=${courseId}`
+      })
+      // setNews(response.data.data.data)
+      const responseWithData = response.data
+      if (responseWithData.success) {
+        console.log('courseDetiaql', responseWithData.data)
+        setCourseDetail(responseWithData.data)
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
   return (
     <>
     <MainLayout>
@@ -642,22 +678,25 @@ const executeScroll5 = () => {
           <Container>
             <PrintHere><span className='fa fa-print' style={{marginRight: '7.3px'}} />พิมพ์หน้านี้</PrintHere>
             <HeaderContent>
-              <HeaderImage src='/static/images/deep-learning.png' />
+              <HeaderImage src={courseDetail && courseDetail.course.cover} />
               <HeaderDescription>
-                <HeaderTitle>{courseSlug}</HeaderTitle>
+                <HeaderTitle>{courseDetail && courseDetail.course.name}</HeaderTitle>
                 <CourseCardDetail>
                   <CourseCardItem>
                     <CourseCardIcon className='fa fa-book' />
-                    <CourseCardDetailText>6 บทเรียน</CourseCardDetailText>
+                    <CourseCardDetailText>{courseDetail && courseDetail.course.total_lesson} บทเรียน</CourseCardDetailText>
                   </CourseCardItem>
                   <CourseCardItem>
                   <CourseCardIcon className='fa fa-calendar' />
-                    <CourseCardDetailText>4 ชั่วโมง 24 นาที</CourseCardDetailText>
+                    <CourseCardDetailText>{courseDetail && timeConvert(courseDetail.course.lesson_time)}</CourseCardDetailText>
                   </CourseCardItem>
                 </CourseCardDetail>
                 <CourseGroup>
-                  <Tag color='#34495E'>เทคโนโลยี</Tag>
-                  <Tag outline style={{marginLeft: '8px'}}>มีใบประกาศฯ</Tag>
+                  <Tag color={courseDetail && courseDetail.course.category.color}>{courseDetail && courseDetail.course.category.name}</Tag>
+                  {
+                    courseDetail && courseDetail.course.hasCertificate &&
+                    <Tag outline style={{marginLeft: '8px'}}>มีใบประกาศฯ</Tag>
+                  }
                 </CourseGroup>
               </HeaderDescription>
             </HeaderContent>
@@ -687,48 +726,33 @@ const executeScroll5 = () => {
             <LeftContainer>
             <CourseOverview ref={scrollRef1}>
               <CourseOverviewDetail>
-              <CourseTitle>ภาพรวมคอร์ส</CourseTitle>
-              <p dangerouslySetInnerHTML=
-              {
+                <CourseTitle>ภาพรวมคอร์ส</CourseTitle>
                 {
-                  __html: `การนำเสนอและการต่อรองเป็นเรื่องที่พวกเราทุกคนทำกันทุกวันอย่างไม่รู้ตัวแต่น้อยคนนักที่สามารถ
-                  ใช้ทักษะนี้ได้อย่างช่ำชองซึ่งถือว่าเป็นเรื่องที่เสริมโอกาสมากสำหรับหลายคน
-                  ข่าวดีคือทักษะนี้สามารถฝึกฝนให้เก่งได้ 
-                  ด้วยความรู้ความเข้าใจและทฤษฎีที่ถูกต้อง 
-                  ในคอร์สนี้คุณจะได้เรียนรู้ทักษะการนำเสนอและการต่อรองอย่างเป็นระบบ
-                  คุณจะรู้ว่าจะต้องเตรียมตัวอย่างไร วางแผนกลยุทธ์อย่างไร และปฏิบัติตนอย่างไร 
-                  เพื่อสร้างผลงานการนำเสนอและการต่อรองที่ดี`
+                  courseDetail &&
+                  <p dangerouslySetInnerHTML={{ __html: courseDetail.course.overview }} />
                 }
-              } 
-                />
-                <CourseOverviewImageContainer>
-                <CourseOverviewImage src='/static/images/CourseOverview.svg' />
-                </CourseOverviewImageContainer>
-                </CourseOverviewDetail>
+              </CourseOverviewDetail>
             </CourseOverview>
 
             <Purpose ref={scrollRef2}>
               <PurposeDetail>
                 <CourseTitle>วัตถุประสงค์</CourseTitle>
-                <p dangerouslySetInnerHTML=
                 {
-                  {
-                    __html: `การนำเสนอและการต่อรองเป็นเรื่องที่พวกเราทุกคนทำกันทุกวันอย่างไม่รู้ตัว 
-                    แต่น้อยคนนักที่สามารถใช้ทักษะนี้ได้อย่างช่ำชอง ซึ่งถือว่าเป็นเรื่องที่เสริมโอกาสมากสำหรับหลายคน 
-                    ข่าวดีคือทักษะนี้สามารถฝึกฝนให้เก่งได้ ด้วยความรู้ความเข้าใจและทฤษฎีที่ถูกต้อง 
-                    ในคอร์สนี้คุณจะได้เรียนรู้ทักษะการนำเสนอและการต่อรองอย่างเป็นระบบ คุณจะรู้ว่าจะต้องเตรียมตัวอย่างไร 
-                    วางแผนกลยุทธ์อย่างไร และปฏิบัติตนอย่างไร เพื่อสร้างผลงานการนำเสนอและการต่อรองที่ดี`
-                    }
-                } 
-                />
+                  courseDetail &&
+                  <p dangerouslySetInnerHTML={{ __html: courseDetail.course.objective_course }} />
+                }
               </PurposeDetail>
             </Purpose>
 
             <CourseContent ref={scrollRef3}>
               <CourseContentDetail>
                 <CourseTitle>เนื้อหาในคอร์ส</CourseTitle>
-
-                <Lesson>
+                {
+                  courseDetail && courseDetail.course_lesson.map((item, index) => (
+                    <p key={index}>บทที่&nbsp;{index + 1}&nbsp;:&nbsp;{item}</p>
+                  ))
+                }
+                {/* <Lesson>
                   <ChapterTitle>บทที่ 1 : แหล่งที่มาของฝุ่นสังกะสี</ChapterTitle>
                   <ChapterDetail>
 
@@ -1030,8 +1054,7 @@ const executeScroll5 = () => {
                     </CourseQuizTopic>
 
                   </CourseQuiz>
-                </Lesson>
-
+                </Lesson> */}
               </CourseContentDetail>
             </CourseContent>
 
@@ -1039,13 +1062,13 @@ const executeScroll5 = () => {
               <AdvantageDetail>
                 <CourseTitle>ประโยชน์ที่ผู้เรียนจะได้รับ</CourseTitle>
               <Benefit>
-                <BenefitItem>เข้าใจความสำคัญของการบริหารผลการปฏิบัติงาน (Performance Management)</BenefitItem>
-                <BenefitItem>เรียนรู้ระบบการวัดผลองค์กรแบบสมดุล (Balanced Scorecard)</BenefitItem>
-                <BenefitItem>เรียนรู้การนำเอาระบบ Balanced Scorecard ไปใช้ในทางปฏิบัติ</BenefitItem>
-                <BenefitItem>วิธีารการนำ OKRs ไปใช้จริง พร้อมตัวอย่าง</BenefitItem>
-                <BenefitItem>เรียนรู้กลยุทธ์และกระบวนการออกแบบระบบการวัดผลการปฏิบัติงานองค์กร</BenefitItem>
-                <BenefitItem>การออกแบบ OKRs ที่ถูกต้อง พร้อมตัวอย่าง</BenefitItem>
-                <BenefitItem>ต้นกำเนิด แนวคิด ของ OKRs</BenefitItem>
+                {
+                  courseDetail && courseDetail.course.benefits.split(',').map((item, index) => (
+                    <BenefitItem
+                      key={index}
+                    >{item}</BenefitItem>
+                  )) 
+                }
               </Benefit>
               </AdvantageDetail>
             </Advantage>
@@ -1071,12 +1094,6 @@ const executeScroll5 = () => {
                 </ContactContent>
               </ContactDetail>
             </Contact>
-
-            <OtherCourse>
-              <CourseTitle>คอร์สอื่นๆ</CourseTitle>
-            <CourseCard />
-            </OtherCourse>
-
             </LeftContainer>
 
             <RightContainer>
@@ -1099,7 +1116,10 @@ const executeScroll5 = () => {
               </CourseExampleDetail>
               <HorizontalLine></HorizontalLine>
               <CoursePrice>
-              <h2>2900 บาท</h2>
+                {
+                  courseDetail && courseDetail.course.is_has_cost &&
+                  <h2>{commaNumber(courseDetail.course.cost)} บาท</h2>
+                }
               <Button
                 type='normal'
                 size='large'
@@ -1122,24 +1142,59 @@ const executeScroll5 = () => {
               </Button>
               </CoursePrice>
             </CourseExample>
-
-            <Instructor>
-              <InstructorDetail>
-                <h2>ผู้สอน</h2>
-                <InstructorProfile>
-                  <PicProfile src='/static/images/instructor.svg' />
-                  <p>ณัฐวุฒิ พึงเจริญพงศ์ (หมู)</p>
-                </InstructorProfile>
-              </InstructorDetail>
-              <HorizontalLine></HorizontalLine>
-              <InstructorInformation>
-                <p>ผู้ก่อตั้งบริษัทสตาร์ทอัพชื่อดัง Ookbee และผู้บริหารกองทุน 500 TukTuks</p>
-                <MoreInfo>ดูประวัติเพิ่ม</MoreInfo>
-              </InstructorInformation>
-            </Instructor>
+            <Instructors>
+              {
+                courseDetail && courseDetail.list_instructor.map((item, index) => (
+                  <Instructor>
+                    <InstructorDetail>
+                      {
+                        index === 0 && 
+                        <h2>ผู้สอน</h2>
+                      }
+                      <InstructorProfile>
+                        <PicProfile src={item.profile} />
+                        <p>{item.firstname} {item.lastname}</p>
+                      </InstructorProfile>
+                    </InstructorDetail>
+                    <HorizontalLine></HorizontalLine>
+                    <InstructorInformation>
+                      <p>ผู้ก่อตั้งบริษัทสตาร์ทอัพชื่อดัง Ookbee และผู้บริหารกองทุน 500 TukTuks</p>
+                      <MoreInfo
+                        onClick={() => Router.push(`/user/${item.id}`)}
+                      >ดูประวัติเพิ่ม</MoreInfo>
+                    </InstructorInformation>
+                  </Instructor>
+                ))
+              }
+            </Instructors>
             </RightContainer>
 
             </CourseContainer>
+            <OtherCourse>
+              <CourseTitle>คอร์สอื่นๆ</CourseTitle>
+              <Row gutter={16}>
+                  {
+                    courseDetail && courseDetail.related_course.map((item, index) => (
+                      <Col xs={24} lg={8} style={{margin: '12px 0'}}>
+                        <CourseCard
+                          key={index}
+                          id={item.id}
+                          categoryName={item.category_name}
+                          categoryColor={item.category_color}
+                          cover={item.cover}
+                          isHasCost={item.is_has_cost}
+                          cost={item.cost}
+                          hasCertificate={item.hasCertificate}
+                          instructors={item.list_instructor}
+                          totalLesson={item.total_lesson}
+                          lessonTime={item.lesson_time}
+                          startLearning={item.start_learning}
+                        />
+                      </Col>
+                    ))
+                  }
+              </Row>
+            </OtherCourse>
           </Container>
         </PageColor>
 
@@ -1149,11 +1204,11 @@ const executeScroll5 = () => {
   )
 }
 
-CourseSlugPage.getInitialProps = ({ query }) => {
-  const courseSlug = query.courseSlug
+CourseDetailPage.getInitialProps = ({ query }) => {
+  const courseId = query.courseId
   return {
-    courseSlug
+    courseId
   }
 }
 
-export default CourseSlugPage
+export default CourseDetailPage

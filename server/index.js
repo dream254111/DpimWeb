@@ -67,9 +67,9 @@ app.prepare().then(() => {
     }
   })
 
-  server.get('/course/:courseSlug', (req, res) => {
+  server.get('/course/:courseId', (req, res) => {
     const actualPage = '/course'
-    const queryParams = { type: req.params.courseSlug }
+    const queryParams = { type: req.params.courseId }
     return handle(req, res, actualPage, queryParams)
   })
 
