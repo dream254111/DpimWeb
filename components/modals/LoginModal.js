@@ -105,6 +105,7 @@ const LoginModal = ({
           >
             <Input
               placeholder='กรอกรหัสผ่าน'
+              type='password'
             />
           </Form.Item>
           <Button

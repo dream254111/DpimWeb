@@ -356,7 +356,7 @@ const Header = ({
                     <Button
                       type='normal'
                       size='small'
-                      onClick={() => Router.push('/register/1')}
+                      onClick={() => Router.push('/register')}
                     >
                       สมัครสมาชิก
                     </Button>
