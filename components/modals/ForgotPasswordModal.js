@@ -1,4 +1,4 @@
-import { Modal, Form, Input, message } from 'antd'
+import { Modal, Form, Input, message, Select } from 'antd'
 import { Button } from '../../components/index'
 import { useEffect } from 'react'
 import styled from 'styled-components'
@@ -19,13 +19,15 @@ const Title = styled('div')`
   margin-top: 32px;
   text-align: center;
   font-family: ${font.bold};
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
+`
+
+const Description = styled('div')`
+  margin-top: 24px;
+  font-size: 14px;
 `
 
 const connector = connect()
-const ResetPasswordModal = ({
+const ForgotPasswordModal = ({
   isOpen = false,
   onClose = () => {},
   dispatch,
@@ -40,19 +42,18 @@ const ResetPasswordModal = ({
   
   const handleSubmit = async (values) => {
     setIsLoading(true)
-    console.log('handleSubmit', values)
     try {
       const response = await axios({
         method: 'POST',
-        url: `${API.url}/Student/ForgetPassword`,
+        url: `${API.url}/Student/RequestForgetPassword`,
         data: {
-          password: values.password,
-          token,
+          email: values.email
         }
       })
+      console.log('response', response)
       const responseWithData = response.data
+      console.log('responseWithData', responseWithData)
       if (responseWithData.success === true) {
-        message.success('เปลี่ยนรหัสผ่านสำเร็จ')
         closeModal()
       } else {
         throw new Error(responseWithData.error)
@@ -78,51 +79,24 @@ const ResetPasswordModal = ({
       footer={null}
     >
       <Card>
-        <Title>ตั้งรหัสผ่านใหม่</Title>
+        <Title>ลืมรหัสผ่าน</Title>
+        <Description>กรอกอีเมล์ที่ใช้สมัครสมาชิกระบบ เพื่อส่งอีเมล์แจ้งเปลี่ยนรหัสผ่าน</Description>
         <Form
           onFinish={handleSubmit}
           form={form}
         >
           <Form.Item
-            label="รหัสผ่าน"
-            name='password'
+            label="อีเมล"
+            name='email'
             labelCol={{ span: 24 }}
             rules={[
-              { required: true, message: 'กรุณากรอกรหัสผ่าน' },
-              {
-                pattern: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/,
-                message: 'รหัสผ่านมีความน่าเชื่อถือไม่เพียงพอ'
-              }
+              { required: true, message: 'กรุณากรอกอีเมล' },
+              { type: 'email', message: 'อีเมลไม่ถูกต้อง' }
             ]}
             style={{width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '24px'}}
           >
             <Input
-              placeholder='กรอกรหัสผ่าน'
-            />
-          </Form.Item>
-          <Form.Item 
-            label="ยืนยันรหัสผ่าน"
-            name='confirm_password'
-            labelCol={{ span: 24 }}
-            style={{width: '90%', marginLeft: 'auto', marginRight: 'auto'}}
-            rules={[
-              {
-                required: true,
-                message: 'กรุณายืนยันรหัสผ่าน',
-              },
-              ({ getFieldValue }) => ({
-                validator(rule, value) {
-                  if (!value || getFieldValue('password') === value) {
-                    return Promise.resolve()
-                  }
-                  return Promise.reject('รหัสผ่านไม่ตรงกัน')
-                },
-              }),
-            ]}
-          >
-            <Input
-              placeholder='กรอกรหัสผ่าน'
-              type='password'
+              placeholder='กรอกอีเมล'
             />
           </Form.Item>
           <Button
@@ -131,11 +105,11 @@ const ResetPasswordModal = ({
             style={{width: '100%', marginTop: '8px'}}
             htmlType='submit'
             loading={isLoading}
-          >ตั้งรหัสผ่านใหม่</Button>
+          >ส่งอีเมล</Button>
         </Form>
       </Card>
     </Modal>
   )
 }
 
-export default connector(ResetPasswordModal)
+export default connector(ForgotPasswordModal)

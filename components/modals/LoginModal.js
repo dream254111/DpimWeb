@@ -7,12 +7,8 @@ import API from '../../helpers/api'
 import { useState } from 'react'
 import { setMemberDetail } from '../../stores/memberReducer'
 import { connect } from 'react-redux'
-
-const ButtonWrapper = styled('div')`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-`
+import ForgodPasswordModal from './ForgotPasswordModal'
+import Router from 'next/router'
 
 const Card = styled('div')`
   background-color: #F9F9F9;
@@ -20,7 +16,7 @@ const Card = styled('div')`
   margin: 36px 10px 10px 10px;
 `
 
-const ForgotPassword = styled('div')`
+const ForgotPasswordText = styled('div')`
   margin-top: 22px;
   text-align: center;
   font-size: 14px;
@@ -35,7 +31,7 @@ const LoginModal = ({
 }) => {
   const [form] = Form.useForm()
   const [isLoading, setIsLoading] = useState(false)
-  
+  const [isForgotPasswordModalOpen, setIsForgotPasswordModalOpen] = useState(false)
   useEffect(() => {
     form.resetFields()
   }, [])
@@ -80,6 +76,10 @@ const LoginModal = ({
       onCancel={() => closeModal()}
       footer={null}
     >
+      <ForgodPasswordModal
+        isOpen={isForgotPasswordModalOpen}
+        onClose={() => setIsForgotPasswordModalOpen(false)}
+      />
       <Card>
         <Title>เข้าสู่ระบบ DPIM</Title>
         <Form
@@ -116,8 +116,16 @@ const LoginModal = ({
             htmlType='submit'
             loading={isLoading}
           >เข้าสู่ระบบ</Button>
-          <ForgotPassword>ลืมรหัสผ่าน?</ForgotPassword>
-          <RegisterFree>ยังไม่มีบัญชี?&nbsp;&nbsp;<RegisterHere>สมัครสมาชิกฟรี</RegisterHere></RegisterFree>
+          <ForgotPasswordText
+            onClick={() => {
+              setIsForgotPasswordModalOpen(true)
+              // closeModal()
+            }}
+          >ลืมรหัสผ่าน?</ForgotPasswordText>
+          <RegisterFree>ยังไม่มีบัญชี?&nbsp;&nbsp;
+          <RegisterHere
+            onClick={() => Router.push('/register')}
+          >สมัครสมาชิกฟรี</RegisterHere></RegisterFree>
         </Form>
       </Card>
     </Modal>
