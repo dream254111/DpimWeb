@@ -75,9 +75,11 @@ const BannerSliderContent = styled('div')`
 
 const BannerImage = styled('img')`
   width: 100%;
+
 `
 
 const CourseOnlineContent = styled('div')`
+  padding-bottom: 68px;
 `
 
 const Title = styled('div')`
@@ -243,7 +245,7 @@ const IndexPage = ({
 }) => {
   const [banners, setBanners] = useState([])
   const [courses, setCourses] = useState([])
-  const [recommendWeb, setRecommendWeb] = useState(null)
+  const [recommendWeb, setRecommendWeb] = useState([])
   const [webStat, setWebStat] = useState({})
 
   useEffect(() => {
@@ -286,7 +288,6 @@ const IndexPage = ({
       })
       const data = response.data.data.data
       setBanners(data)
-
     } catch (error) {
       message.error(error.message)
     }
@@ -312,8 +313,7 @@ const IndexPage = ({
         method: 'GET',
         url: `${API.url}/Student/GetAllSite`,
       })
-      const data = response.data.data.data
-      console.log('recommendtweb', data)
+      const data = response.data.data
       setRecommendWeb(data)
 
     } catch (error) {
@@ -407,21 +407,18 @@ const IndexPage = ({
         <Container>
           <BannerSliderContent>
             <Slider {...bannerSliderSettings}>
-              <div>
-                <BannerImage
-                  src='/static/images/banner-1.png'
-                />
-              </div>
-              <div>
-                <BannerImage
-                  src='/static/images/banner-2.png'
-                />
-              </div>
-              <div>
-                <BannerImage
-                  src='/static/images/banner-3.png'
-                />
-              </div>
+              {
+                banners.map((item, index) => (
+                  <div
+                    key={index}
+                  >
+                    <BannerImage
+                      src={item.image_pc}
+                      // srcMobile={item.image_mobile}
+                    />
+                  </div>
+                ))
+              }
             </Slider>
           </BannerSliderContent>
         </Container>
@@ -465,7 +462,7 @@ const IndexPage = ({
                 }
               </Slider>
             </CourseListContent>
-
+{/* 
             <VideoOnDemandContent>
               <Title>Video on demand</Title>
               <CategoryWrapper>
@@ -496,34 +493,20 @@ const IndexPage = ({
                   }
                 </Slider>
               </CourseListContent>
-            </VideoOnDemandContent>
+            </VideoOnDemandContent> */}
             <RecommentWebsite>
               <RecommentWebsiteTitle>เว็บไซต์แนะนำ</RecommentWebsiteTitle>
-              <RecommentWebsiteRow align='middle' justify='space-between' gutter={{lg: 133, md: 16, xs: 16}}>
-                <Col lg={6} md={12} xs={12}>
-                  <WebsiteButton>
-                    <div>เว็บไซต์ DPIM</div>
-                    <ArrowRightOutlined />
-                  </WebsiteButton>
-                </Col>
-                <Col lg={6} md={12} xs={12}>
-                  <WebsiteButton>
-                    <div>เว็บไซต์ DPIM</div>
-                    <ArrowRightOutlined />
-                  </WebsiteButton>
-                </Col>
-                <Col lg={6} md={12} xs={12}>
-                  <WebsiteButton>
-                    <div>เว็บไซต์ DPIM</div>
-                    <ArrowRightOutlined />
-                  </WebsiteButton>
-                </Col>
-                <Col lg={6} md={12} xs={12}>
-                  <WebsiteButton>
-                    <div>เว็บไซต์ DPIM</div>
-                    <ArrowRightOutlined />
-                  </WebsiteButton>
-                </Col>
+              <RecommentWebsiteRow align='middle' justify='space-between' gutter={{lg: 100, md: 16, xs: 16}}>
+                {
+                  recommendWeb.map((item, index) => (
+                    <Col lg={6} md={12} xs={12} key={index}>
+                      <WebsiteButton onClick={() => window.open(item.link, '_href')}>
+                        <div>{item.name}</div>
+                        <ArrowRightOutlined />
+                      </WebsiteButton>
+                    </Col>
+                  ))
+                }
               </RecommentWebsiteRow>
             </RecommentWebsite>
             <Stats>
@@ -552,7 +535,9 @@ const IndexPage = ({
           <Panal>
             <PanalTitle>หลักสูตรที่ช่วยต่อยอดธุรกิจคุณ</PanalTitle>
             <PanalDesc>บทเรียนที่เราคิดค้นมาแล้วว่าจะช่วยผลักดันศักยภาพของผู้ประกอบการให้เกิดประโยชน์สูงสุด</PanalDesc>
-            <PanelButton>สมัครสมาชิก</PanelButton>
+            <PanelButton
+              onClick={() => Router.push('/register')}
+            >สมัครสมาชิก</PanelButton>
           </Panal>
         </CourseOnlineContent>
       </Wrapper>
