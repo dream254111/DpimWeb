@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import font from '../../helpers/font'
-import { Tabs, Row, Col } from 'antd'
+import { Tabs, Row, Col, message } from 'antd'
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import API from '../../helpers/api'

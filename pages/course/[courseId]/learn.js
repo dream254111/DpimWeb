@@ -20,6 +20,7 @@ import API from '../../../helpers/api'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { PreExamSummary } from '../../../components/learn'
+import Router from 'next/router'
 
 const Wrapper = styled('div')`
   width: 100%;
