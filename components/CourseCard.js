@@ -44,7 +44,6 @@ const CourseCardTitle = styled('div')`
   font-family: ${font.bold};
 `
 
-
 const CourseCardDetail = styled('div')`
   margin-top: 12px;
   display: flex;
@@ -187,14 +186,24 @@ const CourseCardComponent = ({
           {
             progress !== 100 &&
             <ProgressButtom>
-              <Button type='primary'>เรียนต่อ</Button>
+              <Button
+                type='primary'
+                onClick={(event) => {
+                  event.stopPropagation()
+                  Router.push(`/course/${id}/learn`)
+                }}
+              >เรียนต่อ</Button>
               <Text>ปิดระบบใน {endDate} วัน</Text>
             </ProgressButtom>
           }
           {
             progress === 100 &&
             <ProgressButtom>
-              <RestartCourse>เรียนใหม่</RestartCourse>
+              <RestartCourse
+                onClick={(event) => {
+                  event.stopPropagation()
+                }}
+              >เรียนใหม่</RestartCourse>
             </ProgressButtom>
           }
           </>

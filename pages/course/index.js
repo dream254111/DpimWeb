@@ -7,7 +7,7 @@ import Router from 'next/router'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import API from '../../helpers/api'
-import { Divider, Select, Row, Col, Slider } from 'antd'
+import { Divider, Select, Row, Col, Slider, message } from 'antd'
 const { Option } = Select
 
 const Wrapper = styled('div')`
@@ -151,9 +151,12 @@ const CoursePage = () => {
 
   const fetchCourseList = async () => {
     try {
+      // let p = new URLSearchParams()
+      // p.set("foo", "bar")
+      console.log('p', p.toString())
       const response = await axios({
         method: 'GET',
-        url: `${API.url}/Course/list_course`,
+        url: `${API.url}/Course/list_course?`,
         // params : {
         //   search : '', // คำที่ค้นหา
         //   register_start_date : null, // ช่วงเวลาเปิดคอร์ส วันที่เริ่ม

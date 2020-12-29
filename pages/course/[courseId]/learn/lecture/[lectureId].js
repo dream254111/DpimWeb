@@ -9,6 +9,8 @@ import {
   DesktopOutlined,
   ContainerOutlined,
   MailOutlined,
+  FileTextOutlined,
+  ArrowLeftOutlined
 } from '@ant-design/icons'
 import font from '../../../../../helpers/font'
 import MainLayout from '../../../../../layouts/main'
@@ -50,6 +52,25 @@ const DescriptionValue = styled('div')`
   overflow-y: scroll;
 `
 
+const CourseDetailWrapper = styled('div')`
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  background: #F2F2F2;
+`
+
+const CourseDetail = styled('div')`
+  margin-left: 15px;
+`
+
+const CourseTitle = styled('div')`
+  font-size: 16px;
+  font-family: ${font.bold};
+`
+
+const CourseInstructure = styled('div')`
+`
+
 const { SubMenu } = Menu
 
 const LectureIdPage = () => {
@@ -67,6 +88,13 @@ const LectureIdPage = () => {
       <Wrapper>
         <Row>
           <Col lg={6} style={{ backgroundColor: 'white' }}>
+            <CourseDetailWrapper>
+              <ArrowLeftOutlined style={{ fontSize: '18px' }} onClick={() => Router.push('/course')}/>
+              <CourseDetail>
+                <CourseTitle>เหมืองแร่</CourseTitle>
+                <CourseInstructure>โดย ณัฐวุฒิ พึงเจริญพงศ์ (หมู)</CourseInstructure>
+              </CourseDetail>
+            </CourseDetailWrapper>
             <Menu
               defaultSelectedKeys={['1']}
               defaultOpenKeys={['sub1']}
@@ -74,8 +102,8 @@ const LectureIdPage = () => {
               theme="light"
               toggleCollapsed={collapsed}
             >
-              <Menu.Item key="1" icon={<PieChartOutlined />}>
-                Option 1
+              <Menu.Item key="1" icon={<FileTextOutlined />}>
+                แบบทดสอบก่อนเรียน
               </Menu.Item>
               <Menu.Item key="2" icon={<DesktopOutlined />}>
                 Option 2

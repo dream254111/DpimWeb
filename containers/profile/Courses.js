@@ -60,9 +60,10 @@ const CoursesContainer = ({
           <Row gutter={16}>
             {
               courses.filter(item => item.progress !== 100).map((item, index) => (
-                <Col lg={8} style={{margin: '6px 0'}}>
+                <Col xs={24} lg={12} style={{margin: '6px 0'}}>
                   <CourseCard
                     type='progress'
+                    id={item.id}
                     key={index}
                     name={item.name}
                     cover={item.cover}
@@ -70,7 +71,7 @@ const CoursesContainer = ({
                     lessonTime={item.course_time}
                     progress={item.progress}
                     endDate={item.learning_end_date}
-                  />
+                    />
                 </Col>
               ))
             }
@@ -80,8 +81,9 @@ const CoursesContainer = ({
         <Row gutter={16}>
             {
               courses.filter(item => item.progress === 100).map((item, index) => (
-                <Col lg={8} style={{margin: '6px 0'}}>
+                <Col xs={24} lg={12} style={{margin: '6px 0'}}>
                   <CourseCard
+                    id={item.id}
                     type='progress'
                     key={index}
                     name={item.name}
@@ -90,6 +92,7 @@ const CoursesContainer = ({
                     lessonTime={item.course_time}
                     progress={item.progress}
                     endDate={item.learning_end_date}
+                    style={{ width: '100%' }}
                   />
                 </Col>
               ))
