@@ -59,7 +59,7 @@ const fetchFunction = async () => {
     }
 }
 
-// เอาไว้ใช้ตอนvideo >= 90 % ยิง api มา หรือถ้ากดออกจาก วีดีโอบทเรียนนั้น ก็ให้ยิงเส้นนี้
+// เอาไว้ใช้ตอนvideo >= 90 % ยิง api มา , ทุกๆ15วิให้ยิงมา update stamp video ที่เป็น main video ส่วน video interactive ไม่ต้องส่ง
 const fetchFunction = async () => {
     try {
         const response = await axios({

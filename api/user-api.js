@@ -25,11 +25,11 @@ const fetchFunction = async () => {
 const fetchFunction = async () => {
     try {
         const response = await axios({
-            headers: {
-                'Authorization': `token`
-            },
-            method: 'GET',
-            url: `${API.url}/Student/RequestForgetPassword`
+            method: 'POST',
+            url: `${API.url}/Student/RequestForgetPassword`,
+            data : {
+                email : ''
+            }
         })
 
 
@@ -42,14 +42,13 @@ const fetchFunction = async () => {
 const fetchFunction = async () => {
     try {
         const response = await axios({
-            headers: {
-                'Authorization': `token`
-            },
             method: 'POST',
-            url: `${API.url}/Student/ForgetPassword`
+            url: `${API.url}/Student/ForgetPassword`,
+            data : {
+                password: "",
+                token: "" // เอามาจาก query 
+            }
         })
-
-
     } catch (error) {
         message.error(error.message)
     }
