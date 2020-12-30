@@ -12,7 +12,9 @@ import {
   FileTextOutlined,
   ArrowLeftOutlined,
   CheckCircleOutlined,
-  ArrowRightOutlined
+  ArrowRightOutlined,
+  PlayCircleOutlined,
+  FormOutlined
 } from '@ant-design/icons'
 import font from '../../../helpers/font'
 import MainLayout from '../../../layouts/main'
@@ -20,9 +22,9 @@ import styled from 'styled-components'
 import API from '../../../helpers/api'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { PreExamSummary, PreExam } from '../../../components/learn'
+import { PreExamSummary, PreExam, VideoLesson } from '../../../components/learn'
 import Router from 'next/router'
-
+const { SubMenu } = Menu
 const Wrapper = styled('div')`
   width: 100%;
 `
@@ -91,10 +93,11 @@ const LearnPage = ({
   useEffect(() => {
     fetchCourseDetail()
   }, [])
-
+  let menuKey = 0
   const [collapsed, setCollapsed] = useState(false)
   const [courseDetail, setCourseDetail] = useState({})
-  const [menu, setMenu] = useState('1')
+  const [menu, setMenu] = useState(1)
+  // const [menuKey, setMenuKey] = useState(0)
   const videoRef = useRef(null)
   let supposedCurrentTime = 0
   const isPlayed = (time, video) => {
@@ -112,6 +115,17 @@ const LearnPage = ({
     return false
   }
   
+  // const countMenuKey = () => {
+  //   const newMenuKey = menuKey + 1
+  //   setMenuKey(newMenuKey)
+  //   console.log('newMenuKey', newMenuKey)
+  //   return newMenuKey
+  // }
+
+  const countMenuKey = () => {
+    menuKey = menuKey + 1
+    return menuKey
+  }
 
   const addVideoEvent = (ref) => {
     useEffect(() => {
@@ -177,12 +191,65 @@ const LearnPage = ({
       message.error(error.message)
     }
   }
+
+  const onSubmitPreExam = async (values) => {
+    console.log('values', values)
+    const answer = values.map(item => {
+      return {
+        course_exam_id: item.course_exam_id,
+        answer: item.answer
+      }
+    })
+    console.log('answer, answer')
+    try {
+      console.log('courseId', courseId)
+      const request = {
+        headers: {
+          'Authorization': memberToken
+        },
+        method: 'POST',
+        url: `${API.url}/Course/send_answer_exam`,
+        data: {
+          is_pretest: true,
+          course_id: courseId,
+          answer
+        }
+      }
+      const response = await axios(request)
+      const responseWithData = response.data
+      console.log('responseWithData', responseWithData)
+      if (responseWithData.success) {
+        await fetchCourseDetail()
+        // setMenu('3')
+        // setCourseDetail(responseWithData.data)
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
   const courseName = courseDetail.course && courseDetail.course.name
   const courseObjective = courseDetail.course && courseDetail.course.objective_course
   const courseVideoUrl = courseDetail.course && courseDetail.course.video.original
   const courseLessons = courseDetail.course_lesson || []
   const courseLessonOne = courseDetail.course_lesson && courseDetail.course_lesson.length > 0 && courseDetail.course_lesson[0].name || ''  
-  const examPreTests = courseDetail.exam_pre_test || [] 
+  const examPreTests = courseDetail.exam_pre_test || []
+  const isPreTestPass = courseDetail.pre_test_pass
+  const renderLesson = () => {
+    const isLessonActive = courseLessons.find(item => item.id === menu)
+    if (isLessonActive) {
+      return (
+        <VideoLesson
+          videoLink
+          videoObjective
+        />
+      )
+    } else {
+      return null
+    }
+  }
   return (
     <MainLayout>
       <Wrapper>
@@ -199,30 +266,37 @@ const LearnPage = ({
               </CourseDetail>
             </CourseDetailWrapper>
             <Menu
-              defaultSelectedKeys={['1']}
+              defaultSelectedKeys={[1]}
               defaultOpenKeys={['sub1']}
               mode="inline"
               theme="light"
               toggleCollapsed={collapsed}
               onClick={({key}) => setMenu(key)}
             >
-              <Menu.Item key="1" icon={<FileTextOutlined />}>
+              <Menu.Item key={1} icon={<FileTextOutlined />}>
                 ภาพรวมคอร์ส
               </Menu.Item>
               
-              <Menu.Item key="2" icon={<FileTextOutlined />}>
+              <Menu.Item key={2} icon={<FileTextOutlined />}>
                 แบบทดสอบก่อนเรียน
               </Menu.Item>
               {
                 courseLessons.map((item, index) => (
-                  <Menu.Item
-                    key={index + 3}
-                  >
-                    {item.name}
-                  </Menu.Item>
+                  <SubMenu key="sub1" title={`บทที่ ${index + 1} : ${item.name}`}>
+                    <Menu.Item key={item.id} icon={<PlayCircleOutlined />}>วีดีโอ</Menu.Item>
+                    {
+                      item && item.exercise && item.exercise.length > 0 &&
+                      <Menu.Item key={item.exercise[0].id} icon={<FormOutlined />}>คำถามท้ายบท</Menu.Item>
+                    }
+                  </SubMenu>
+                  // <Menu.Item
+                  //   key={index + 3}
+                  // >
+                  //   บทที่&nbsp;{index + 1}&nbsp;:&nbsp;{item.name}
+                  // </Menu.Item>
                 ))
               }
-              <Menu.Item key={courseLessons.length + 3} icon={<FileTextOutlined />}>
+              <Menu.Item key={() => countMenuKey()} icon={<FileTextOutlined />}>
                 แบบทดสอบหลังเรียน
               </Menu.Item>
               
@@ -252,40 +326,29 @@ const LearnPage = ({
             }
             {
               menu === '2' &&
+              isPreTestPass &&
               <PreExamSummary
-                score='4'
-                maxScore='5'
+                score={courseDetail.score_pre_test}
+                maxScore={courseDetail.total_exam}
+                percent={courseDetail.percent_pre_test}
                 nextChapterName={courseLessonOne}
                 onClickNextChapter={() => setMenu('3')}
+                isShowNextChapterButton={false}
               />
+              
             }
             {
               menu === '2' &&
-              <PreExam
-                exams={examPreTests}
-                onSelectChoice={(value) => console.log('onSelectChoice', value)}
-                nextChapterName={courseLessonOne}
-                onSubmit={() => setMenu('3')}
-              />
-              // <PreExam>
-              //   <PreExamTitle>แบบทดสอบก่อนเรียน</PreExamTitle>
-              //   <PreExamItems>
-              //     <PreExamItem>
-              //       <PreExamWQuestion no='1 \2192'>วงกลมวงหนึ่ง เมื่อเพิ่มความยาวเส้นผ่านศูนย์กลางเป็น 4 เท่าพื้นที่วงกลมใหม่จะเพิ่มขึ้นกี่เท่าจากวงกลมเดิม</PreExamWQuestion>
-              //       <PreExamChoices>
-              //         <PreExamChoice active={true}><PreExamChoiceNo>1.</PreExamChoiceNo>4 เท่า</PreExamChoice>
-              //         <PreExamChoice><PreExamChoiceNo>2.</PreExamChoiceNo>8 เท่า</PreExamChoice>
-              //         <PreExamChoice><PreExamChoiceNo>3.</PreExamChoiceNo>15 เท่า</PreExamChoice>
-              //         <PreExamChoice><PreExamChoiceNo>4.</PreExamChoiceNo>16 เท่า</PreExamChoice>
-              //       </PreExamChoices>
-              //     </PreExamItem>
-              //   </PreExamItems>
-              //   <Button
-              //     type='primary'
-              //     style={{float: 'right', marginTop: '32px'}}
-              //     onClick={() => setMenu('3')}
-              //   >{courseLessonOne}</Button>
-              // </PreExam>
+              isPreTestPass === false &&
+                <PreExam
+                  exams={examPreTests}
+                  onSelectChoice={(value) => console.log('onSelectChoice', value)}
+                  nextChapterName={courseLessonOne}
+                  onSubmit={(values) => onSubmitPreExam(values)}
+                />
+            }
+            {
+              renderLesson()
             }
           </Col>
         </Row>

@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import Button from '../Button'
 import font from '../../helpers/font'
 import { useState } from 'react'
+import _ from 'lodash'
 
 const PreExam = styled('div')`
   margin-top: 32px;
@@ -94,23 +95,24 @@ const PreExamComponent = ({
 }) => {
   const [answers, setAnswer] = useState([]) 
   const onClickSelectChoice = (choiceId, courseExamId, answer) => {
-    console.log('choiceId', choiceId, 'courseExamId', courseExamId, 'anwserId', answer)
     const data = {
       id: choiceId,
       course_exam_id: courseExamId,
       answer
     }
     const answerIndex = answers.findIndex(item => item.course_exam_id === courseExamId)
-    console.log('answerIndex', answerIndex)
     const _answer = JSON.parse(JSON.stringify(answers))
     if (answerIndex !== -1) {
       _answer[answerIndex] = data
       setAnswer(_answer)
     } else {
       _answer.push(data)
-      console.log('datsdf')
       setAnswer(_answer)
     }
+  }
+  const handleSubmit = () => {
+    onSubmit(answers)
+    setAnswer([])
   }
   return (
     <PreExam>
@@ -125,9 +127,9 @@ const PreExamComponent = ({
                 {
                   item.list_answer.map((choice, index) => (
                     <PreExamChoice
-                      // active={true}
+                      active={!_.isEmpty(answers.find(a => a.id === choice.id))}
                       key={index}
-                      onClick={() => onClickSelectChoice(choice.id, choice.course_exam_id, choice.answer)}
+                      onClick={() => onClickSelectChoice(choice.id, choice.course_exam_id, choice.order)}
                     >
                       <PreExamChoiceNo>{index + 1}.</PreExamChoiceNo>{choice.answer}
                     </PreExamChoice>
@@ -142,7 +144,7 @@ const PreExamComponent = ({
       <Button
         type='primary'
         style={{float: 'right', marginTop: '32px'}}
-        onClick={() => onSubmit}
+        onClick={() => handleSubmit()}
       >{nextChapterName}</Button>
     </PreExam>
   )
