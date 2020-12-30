@@ -11,7 +11,8 @@ import {
   MailOutlined,
   FileTextOutlined,
   ArrowLeftOutlined,
-  CheckCircleOutlined
+  CheckCircleOutlined,
+  ArrowRightOutlined
 } from '@ant-design/icons'
 import font from '../../../helpers/font'
 import MainLayout from '../../../layouts/main'
@@ -19,7 +20,7 @@ import styled from 'styled-components'
 import API from '../../../helpers/api'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { PreExamSummary } from '../../../components/learn'
+import { PreExamSummary, PreExam } from '../../../components/learn'
 import Router from 'next/router'
 
 const Wrapper = styled('div')`
@@ -77,9 +78,6 @@ const CourseTitle = styled('div')`
 
 const CourseInstructure = styled('div')`
 `
-
-
-const { SubMenu } = Menu
 
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token,
@@ -184,7 +182,7 @@ const LearnPage = ({
   const courseVideoUrl = courseDetail.course && courseDetail.course.video.original
   const courseLessons = courseDetail.course_lesson || []
   const courseLessonOne = courseDetail.course_lesson && courseDetail.course_lesson.length > 0 && courseDetail.course_lesson[0].name || ''  
-  
+  const examPreTests = courseDetail.exam_pre_test || [] 
   return (
     <MainLayout>
       <Wrapper>
@@ -263,25 +261,31 @@ const LearnPage = ({
             }
             {
               menu === '2' &&
-              <PreExam>
-                <PreExamTitle>แบบทดสอบก่อนเรียน</PreExamTitle>
-                <PreExamItems>
-                  <PreExamItem>
-                    <PreExamWQuestion>วงกลมวงหนึ่ง เมื่อเพิ่มความยาวเส้นผ่านศูนย์กลางเป็น 4 เท่าพื้นที่วงกลมใหม่จะเพิ่มขึ้นกี่เท่าจากวงกลมเดิม</PreExamWQuestion>
-                    <PreExamChoices>
-                      <PreExamChoice active={true}><PreExamNo>1.</PreExamNo>4 เท่า</PreExamChoice>
-                      <PreExamChoice><PreExamNo>2.</PreExamNo>8 เท่า</PreExamChoice>
-                      <PreExamChoice><PreExamNo>3.</PreExamNo>15 เท่า</PreExamChoice>
-                      <PreExamChoice><PreExamNo>4.</PreExamNo>16 เท่า</PreExamChoice>
-                    </PreExamChoices>
-                  </PreExamItem>
-                </PreExamItems>
-                <Button
-                  type='primary'
-                  style={{float: 'right', marginTop: '32px'}}
-                  onClick={() => setMenu('3')}
-                >{courseLessonOne}</Button>
-              </PreExam>
+              <PreExam
+                exams={examPreTests}
+                onSelectChoice={(value) => console.log('onSelectChoice', value)}
+                nextChapterName={courseLessonOne}
+                onSubmit={() => setMenu('3')}
+              />
+              // <PreExam>
+              //   <PreExamTitle>แบบทดสอบก่อนเรียน</PreExamTitle>
+              //   <PreExamItems>
+              //     <PreExamItem>
+              //       <PreExamWQuestion no='1 \2192'>วงกลมวงหนึ่ง เมื่อเพิ่มความยาวเส้นผ่านศูนย์กลางเป็น 4 เท่าพื้นที่วงกลมใหม่จะเพิ่มขึ้นกี่เท่าจากวงกลมเดิม</PreExamWQuestion>
+              //       <PreExamChoices>
+              //         <PreExamChoice active={true}><PreExamChoiceNo>1.</PreExamChoiceNo>4 เท่า</PreExamChoice>
+              //         <PreExamChoice><PreExamChoiceNo>2.</PreExamChoiceNo>8 เท่า</PreExamChoice>
+              //         <PreExamChoice><PreExamChoiceNo>3.</PreExamChoiceNo>15 เท่า</PreExamChoice>
+              //         <PreExamChoice><PreExamChoiceNo>4.</PreExamChoiceNo>16 เท่า</PreExamChoice>
+              //       </PreExamChoices>
+              //     </PreExamItem>
+              //   </PreExamItems>
+              //   <Button
+              //     type='primary'
+              //     style={{float: 'right', marginTop: '32px'}}
+              //     onClick={() => setMenu('3')}
+              //   >{courseLessonOne}</Button>
+              // </PreExam>
             }
           </Col>
         </Row>
@@ -290,13 +294,13 @@ const LearnPage = ({
   )
 }
 
-const PreExam = styled('div')`
-  margin-top: 32px;
-  width: 70%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 200px;
-`
+// const PreExam = styled('div')`
+//   margin-top: 32px;
+//   width: 70%;
+//   margin-left: auto;
+//   margin-right: auto;
+//   margin-bottom: 200px;
+// `
 
 const PreExamItems = styled('div')`
 
@@ -315,6 +319,15 @@ const PreExamItem = styled('div')`
 
 const PreExamWQuestion = styled('div')`
   font-size: 24px;
+  position: relative;
+  :after {
+    content: '${props => props.no}';
+    position: absolute;
+    color: #C4C4C4;
+    font-size: 18px;
+    left: -6%;
+    top: 7%;
+  }
 `
 
 const PreExamChoices = styled('div')`
@@ -331,7 +344,7 @@ const PreExamChoice = styled('div')`
   ${props => props.active === true && `
     background: rgba(0, 147, 123, 0.08);
     border: 1px solid #00937B;
-    ${PreExamNo} {
+    ${PreExamChoiceNo} {
       background: #00937B;
       color: white;
     }
@@ -344,7 +357,7 @@ const PreExamChoice = styled('div')`
   align-items: center;
 `
 
-const PreExamNo = styled('div')`
+const PreExamChoiceNo = styled('div')`
   background: white;
   color: black;
   border-radius: 4px;
