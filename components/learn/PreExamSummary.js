@@ -45,6 +45,8 @@ const PreExamSummaryComponent = ({
   maxScore,
   nextChapterName,
   onClickNextChapter,
+  percent,
+  isShowNextChapterButton,
   ...rest
 }) => {
   return (
@@ -54,10 +56,13 @@ const PreExamSummaryComponent = ({
             <PreExamSummaryTitle>สรุปผลคะแนนแบบทดสอบก่อนเรียน</PreExamSummaryTitle>
             <PreExamSummaryDescription>
               <CheckCircleOutlined style={{color: '#43BF9A'}} />
-              <PreExamSummaryScore>คุณตอบถูกทั้งหมด {score} ข้อ จาก {maxScore} ข้อ</PreExamSummaryScore>
+              <PreExamSummaryScore>ผ่านการทดสอบหลักสูตร คุณตอบถูก {score} ข้อ จาก {maxScore} ข้อ = {percent.toFixed(2)}%</PreExamSummaryScore>
             </PreExamSummaryDescription>
           </div>
-          <Button type='primary' onClick={onClickNextChapter}>บทถัดไป : {nextChapterName}</Button>
+          {
+            isShowNextChapterButton &&
+            <Button type='primary' onClick={onClickNextChapter}>บทถัดไป : {nextChapterName}</Button>
+          }
         </PreExamSummary>
     </PreExam>
   )
