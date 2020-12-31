@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import font from '../../helpers/font'
-import { Form, Input, Radio, DatePicker, Select, Checkbox, Avatar, Row, Col, message } from 'antd'
+import { Form, Input, Radio, DatePicker, Select, Checkbox, Avatar, Row, Col, message, Upload } from 'antd'
 import { Button } from '../../components/index'
 import { useEffect, useState } from 'react'
 import { UserOutlined } from '@ant-design/icons'
@@ -11,6 +11,7 @@ import API from '../../helpers/api'
 import axios from 'axios'
 import constants from '../../constants'
 import moment from 'moment'
+import { UploadDocumentModal } from '../../components/modals/index'
 
 const PageTitle = styled('div')`
   color: #00937B;
@@ -76,8 +77,19 @@ const BasicInformation = ({
       message.error(error.message)
     }
   }
+  const [isUploadDocumentModalOpen, setIsUploadDocumentModalOpen] = useState(false)
+  const [isTitleChange, setIsTitleChange] = useState('')
+  const handleClickUpload = (title) => {
+    setIsUploadDocumentModalOpen(true)
+    setIsTitleChange(title)
+  }
   return (
     <Wrapper>
+      <UploadDocumentModal
+        isOpen={isUploadDocumentModalOpen}
+        onClose={() => setIsUploadDocumentModalOpen(false)}
+        onTitleChange={isTitleChange}
+      />
       <Form
         onFinish={handleSubmit}
         form={form}
@@ -101,7 +113,7 @@ const BasicInformation = ({
         </UpdateAvatar>
         <Row gutter={16} style={{marginTop: '24px'}}>
           <Col lg={12}>
-            <Form.Item 
+            <Form.Item
               label="ชื่อจริงภาษาไทย"
               name='firstname'
               labelCol={{ span: 24 }}
@@ -356,7 +368,50 @@ const BasicInformation = ({
           </Col>
         </Row>
         <UpdateDocument>
-
+          <Title style={{marginTop: '0'}}>อัพโหลดเอกสาร ยืนยันตัวตน</Title>
+          <p>เพื่อตรวจสอบตัวตน กรุณาอัพโหลดเอกสารที่ต้องการให้ครบ</p>
+          <Row gutter={16}>
+            <Col lg={24}>
+              <Form.Item
+                label="1.ภาพถ่ายบัตรประชาชนด้านหน้า และหลัง"
+                labelCol={{ span: 24 }}
+              >
+                <Row gutter={[16, 16]}>
+                  <Col lg={11}>
+                    <Button onClick={() => handleClickUpload('อัพโหลดบัตรประชาชนด้านหน้า')}>อัพโหลดบัตรประชาชนด้านหน้า</Button>
+                  </Col>
+                  <Col lg={13}>
+                    <Button onClick={() => handleClickUpload('อัพโหลดบัตรประชาชนด้านหลัง')}>อัพโหลดบัตรประชาชนด้านหลัง</Button>
+                  </Col>
+                </Row>
+              </Form.Item>
+            </Col>
+            <Col lg={24}>
+              <Form.Item
+                label="2.ภาพถ่ายหน้าตรง"
+                labelCol={{ span: 24 }}
+              >
+                 <Row gutter={[16, 16]}>
+                   <Col lg={24}>
+                      <Button onClick={() => handleClickUpload('อัพโหลดภาพถ่ายหน้าตรง')}>อัพโหลดภาพถ่ายหน้าตรง</Button>
+                   </Col>
+                 </Row>
+              </Form.Item>
+            </Col>
+            <Col lg={24}>
+              <Form.Item
+                label="3.เอกสารประกอบกิจการ"
+                labelCol={{ span: 24 }}
+              >
+                 <Row gutter={[16, 16]}>
+                   <Col lg={24}>
+                      <Button onClick={() => handleClickUpload('อัพโหลดเอกสารประกอบกิจการ')}>อัพโหลดเอกสารประกอบกิจการ</Button>
+                   </Col>
+                 </Row>
+              </Form.Item>
+            </Col>
+            
+          </Row>
         </UpdateDocument>
         <SaveButtonWrapper>
           <Button type='primary'>บันทึกข้อมูล</Button>
