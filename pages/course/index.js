@@ -165,7 +165,7 @@ const CoursePage = ({
 }) => {
   const [courses, setCourses] = useState([])
   const [filter, setFilter] = useState([])
-const courseCategoryKey = _.groupBy(master.course_category, 'name')
+  const courseCategoryKey = _.groupBy(master.course_category, 'name')
   useEffect(() => {
     fetchCourseList()
   }, [])
@@ -179,13 +179,6 @@ const courseCategoryKey = _.groupBy(master.course_category, 'name')
       let params = (Object.keys(filter).map((key, index) => {
         return `${key}=${filter[key]}`
       })).join('&')
-      // if (params) {
-      //   // window.location.search = params
-      //   const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?${params}`;
-      //   window.history.pushState({ path:newurl },'',newurl)
-      // } else {
-      //   params = window.location.search
-      // }
       const response = await axios({
         method: 'GET',
         url: `${API.url}/Course/list_course?${params}`,
