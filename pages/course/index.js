@@ -2,15 +2,25 @@ import MainLayout from '../../layouts/main'
 import styled from 'styled-components'
 import Container from '../../components/Container'
 import font from '../../helpers/font'
-import { Tag, Checkbox } from '../../components'
+import { Tag } from '../../components'
 import Router from 'next/router'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import API from '../../helpers/api'
-import { Divider, Select, Row, Col, Slider, message } from 'antd'
+import { UserOutlined } from '@ant-design/icons'
+import { Divider, Select, Row, Col, Slider, DatePicker, Space, Checkbox, Radio, message, Avatar } from 'antd'
 const { Option } = Select
+const { RangePicker } = DatePicker
+const CheckboxGroup = Checkbox.Group
+import { timeConvert } from '../../helpers/util'
+import moment from 'moment'
+import _ from 'lodash'
+const commaNumber = require('comma-number')
 
 const Wrapper = styled('div')`
+  .ant-checkbox-wrapper {
+    display: block;
+  }
 `
 
 const Title = styled('div')`
@@ -30,8 +40,8 @@ const CourseCard = styled('div')`
 `
 
 const CourseImage = styled('div')`
-  width: 275px;
-  height: 150px;
+  min-width: 275px;
+  min-height: 150px;
   background-image: url(${props => props.src});
   background-position: center;
   background-size: cover;
@@ -41,11 +51,14 @@ const CourseImage = styled('div')`
 const CourseTitle = styled('div')`
   font-size: 18px;
   font-family: ${font.bold};
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `
 
 const CourseContent = styled('div')`
   margin-left: 12px;
-
+  width: 100%;
 `
 
 const CourseDescription = styled('div')`
@@ -57,6 +70,11 @@ const CourseDescription = styled('div')`
 const CourseDescriptionText = styled('div')`
   font-size: 14px;
   width: 80%;
+  overflow: hidden;
+   text-overflow: ellipsis;
+   display: -webkit-box;
+   -webkit-line-clamp: 2; /* number of lines to show */
+   -webkit-box-orient: vertical;
 `
 
 
@@ -142,33 +160,35 @@ const FilterItem = styled('div')`
   margin: 16px 0;
 `
 
-const CoursePage = () => {
+const CoursePage = ({
+  master
+}) => {
   const [courses, setCourses] = useState([])
-
+  const [filter, setFilter] = useState([])
+const courseCategoryKey = _.groupBy(master.course_category, 'name')
   useEffect(() => {
     fetchCourseList()
   }, [])
 
+  useEffect(() => {
+    fetchCourseList()
+  }, [filter])
+
   const fetchCourseList = async () => {
     try {
-      // let p = new URLSearchParams()
-      // p.set("foo", "bar")
-      console.log('p', p.toString())
+      let params = (Object.keys(filter).map((key, index) => {
+        return `${key}=${filter[key]}`
+      })).join('&')
+      // if (params) {
+      //   // window.location.search = params
+      //   const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?${params}`;
+      //   window.history.pushState({ path:newurl },'',newurl)
+      // } else {
+      //   params = window.location.search
+      // }
       const response = await axios({
         method: 'GET',
-        url: `${API.url}/Course/list_course?`,
-        // params : {
-        //   search : '', // คำที่ค้นหา
-        //   register_start_date : null, // ช่วงเวลาเปิดคอร์ส วันที่เริ่ม
-        //   register_end_date : null, // ช่วงเวลาเปิดคอร์ส วันที่จบ
-        //   category_id : 0,
-        //   is_learning_online : 0, // 1 เรียนออนไลน์ | 0 เรียนที่สถาบัน
-        //   is_free : 1, // 1 = free | null
-        //   price_gte : 0 , // ราคาสูงสุด | null
-        //   price_lte : 0 , // ราคาตํ่าสุด | null
-        //   hasCertificate : 0 , // มีใบรับรองไหม 1 | 0
-        //   sort : '' , // ใหม่สุด = newest , ถูกสุด = cheapest , แพงสุด = expensive , null
-        // }
+        url: `${API.url}/Course/list_course?${params}`,
       })
       const data = response.data.data
       setCourses(data)
@@ -177,8 +197,11 @@ const CoursePage = () => {
       message.error(error.message)
     }
   }
-
-
+  const radioStyle = {
+    display: 'block',
+    height: '30px',
+    lineHeight: '30px',
+  }
   return (
     <MainLayout>
       <Wrapper>
@@ -187,35 +210,79 @@ const CoursePage = () => {
             <Col xs={0} md={6}>
               <Title>คอร์สเรียน</Title>
               <BoldTitle>การจัดเรียง</BoldTitle>
-              <Select defaultValue='desc' style={{marginTop: '8px', width: '100%'}}>
-                <Option value='desc'>ใหม่สุด</Option>
-                <Option value='asc'>เก่าสุด</Option>
+              <Select
+                style={{marginTop: '8px', width: '100%'}}
+                placeholder='เลือกการจัดเรียง'
+                onChange={(value) => {
+                  setFilter({
+                    ...filter,
+                    sort: value
+                  })
+                }}
+              >
+                <Option value='newest'>ใหม่สุด</Option>
+                <Option value='cheapest'>ถูกสุด</Option>
+                <Option value='expensive'>แพงสุด</Option>
               </Select>
               <BoldTitle>คัดกรอง</BoldTitle>
               <FilterTitle style={{marginTOp: '8px'}}>ช่วงเวลาเปิดคอร์ส</FilterTitle>
-              <Select defaultValue='jan' style={{marginTop: '8px', width: '100%'}}>
-                <Option value='jan'>มกราคม</Option>
-                <Option value='feb'>กุมภาพันธ์</Option>
-              </Select>
+              <RangePicker
+                placeholder={['วันเริ่มต้น', 'วันสิ้นสุด']}
+                onChange={(value) => {
+                  setFilter({
+                    ...filter,
+                    register_start_date: moment(value[0]).format('YYYY-MM-DD'),
+                    register_end_date: moment(value[1]).format('YYYY-MM-DD')
+                  })
+                }}
+              />
               <Divider style={{marginTop: '16px', marginBottom: '0'}}/>
               <FilterItem>
                 <FilterTitle>หมวดหมู่</FilterTitle>
-                <Checkbox>เหมืองแร่</Checkbox> <br />
-                <Checkbox>อุตสาหกรรม</Checkbox> <br />
-                <Checkbox>อุตสาหกรรม</Checkbox> <br />
-                <Checkbox>อุตสาหกรรม</Checkbox> <br />
-                <Checkbox>อุตสาหกรรม</Checkbox>
+                <Space direction="vertical" size={6} style={{marginTop: '10px'}}>
+                  <CheckboxGroup
+                    options={master.course_category.map(item => item.name)}
+                    onChange={(categoryDetails) => {
+                      const categoryIds = categoryDetails.map(item => courseCategoryKey[item][0].id)
+                      setFilter({
+                        ...filter,
+                        category_id: categoryIds
+                      })
+                    }}
+                  />
+                </Space>
               </FilterItem>
               <Divider style={{margin: 0}} />
               <FilterItem>
                 <FilterTitle>รูปแบบการเรียน</FilterTitle>
-                <Checkbox>คอร์สเรียนที่สถาบัน</Checkbox> <br />
-                <Checkbox>คอร์สออนไลน์</Checkbox> <br />
+                <Radio.Group
+                  style={{marginTop: '8px'}}
+                  onChange={(event) => {
+                  setFilter({
+                    ...filter,
+                    learning_online: event.target.value
+                  })
+                }}>
+                  <Radio style={radioStyle} value={1}>
+                  คอร์สเรียนที่สถาบัน
+                  </Radio>
+                  <Radio style={radioStyle} value={0}>
+                  คอร์สออนไลน์
+                  </Radio>
+                </Radio.Group>
               </FilterItem>
               <Divider style={{margin: 0}} />
               <FilterItem>
                 <FilterTitle>ราคาคอร์ส</FilterTitle>
-                <Checkbox>ฟรี</Checkbox>
+                <Checkbox
+                  onChange={(event) => {
+                    const isChecked = event.target.checked || undefined
+                    setFilter({
+                      ...filter,
+                      is_free: isChecked
+                    })
+                  }}
+                >ฟรี</Checkbox>
                 <Slider
                   range
                   min={100}
@@ -223,47 +290,78 @@ const CoursePage = () => {
                   step={100}
                   defaultValue={[100, 10000]}
                   marks={{ 0: '100.-' , 10000: '10,000.-'}}
+                  onChange={(values) => {
+                    setFilter({
+                      ...filter,
+                      price_gte: values[0],
+                      price_lte: values[1]
+                    })
+                  }}
                 />
               </FilterItem>
               <Divider style={{margin: 0}} />
               <FilterItem>
                 <FilterTitle>รับรองใบประกาศนียบัตร</FilterTitle>
-                <Checkbox>รับรอง</Checkbox> <br />
-                <Checkbox>ไม่รับรอง</Checkbox>
+                <Radio.Group onChange={(event) => {
+                  setFilter({
+                    ...filter,
+                    hasCertificate: event.target.value
+                  })
+                }}>
+                  <Radio style={radioStyle} value={1}>
+                    รับรอง
+                  </Radio>
+                  <Radio style={radioStyle} value={0}>
+                    ไม่รับรอง
+                  </Radio>
+                </Radio.Group>
               </FilterItem>
             </Col>
             <Col xs={24} md={18}>
               {
-                new Array(6).fill(null).map(item => (
-                  <CourseCard onClick={() => Router.push('/course/หลักสูตรขุดเจาะเหมืองแร่')}>
-                    <CourseImage src='/static/images/deep-learning.png' />
+                courses.map((item, index) => (
+                  <CourseCard
+                    key={index}
+                    onClick={() => Router.push(`/course/${item.id}`)}
+                  >
+                    <CourseImage src={item.cover} />
                     <CourseContent>
-                      <CourseTitle>หลักสูตร ขุดเจาะเหมืองแร่</CourseTitle>
+                      <CourseTitle>
+                        <div>
+                          {item.name}
+                        </div>
+                        {
+                          item.hasCertificate &&
+                          <Tag outline>รับรองใบประกาศฯ</Tag>
+                        }
+                      </CourseTitle>
                       <CourseDescription>
-                        <CourseDescriptionText>เนื่องจากองค์ความรู้ทางด้านวิทยาศาสตร์และสุขภาพนั้น เป็นองค์ความรู้ที่มีการเปลี่ยนแปลงอย่างรวดเร็ว</CourseDescriptionText>
-                        <Tag color='#34495E'>เทคโนโลยี</Tag>
+                        <CourseDescriptionText>{item.overview_course}</CourseDescriptionText>
+                        <Tag color={item.category_color}>{item.category_name}</Tag>
                       </CourseDescription>
                       <CourseCardDetail>
                         <CourseCardItem>
                           <CourseCardIcon className='fa fa-book' />
-                          <CourseCardDetailText>6 บทเรียน</CourseCardDetailText>
+                          <CourseCardDetailText>{item.total_lesson} บทเรียน</CourseCardDetailText>
                         </CourseCardItem>
                         <CourseCardItem>
                         <CourseCardIcon className='fa fa-calendar' />
-                          <CourseCardDetailText>4 ชั่วโมง 24 นาที</CourseCardDetailText>
+                          <CourseCardDetailText>{timeConvert(item.lesson_time)}</CourseCardDetailText>
                         </CourseCardItem>
                       </CourseCardDetail>
                       <CourseFooter>
                         <AuthorContent>
-                          <AuthorAvatar src='/static/images/avatar.png' />
-                          <AuthorName>ณัฐวุฒิ พึงเจริญพงศ์ (หมู)</AuthorName>
+                          <Avatar size={32} icon={<UserOutlined />} src={item.list_instructor[0].profile} />
+                          <AuthorName>{item.list_instructor[0].firstname} {item.list_instructor[0].lastname}</AuthorName>
                         </AuthorContent>
                         <FooterRight>
                           <CoursePrice>
-                            ฟรี
+                            {item.is_has_cost ? commaNumber(item.cost) : 'ฟรี'}
                           </CoursePrice>
                           <CourseTime>
-                          เริ่ม 1 ม.ค. 2021
+                            {
+                              item.is_always_learning === false ? `เริ่ม ${moment(item.start_learning).format('DD MMM YYYY')}` : ''
+                            }
                           </CourseTime>
                         </FooterRight>
                       </CourseFooter>
@@ -277,6 +375,10 @@ const CoursePage = () => {
       </Wrapper>
     </MainLayout>
   )
+}
+
+CoursePage.getInitialProps = () => {
+  return {}
 }
 
 export default CoursePage
