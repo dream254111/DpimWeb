@@ -92,7 +92,7 @@ export const checkMemberAlreadyLogin = (req, res) => async dispatch => {
       await dispatch({ type: MEMBER_LOGIN_SUCCESS, payload: memberDetail })
       await dispatch(fetchProfileMinimal())
     } else {
-      res.redirect('/')
+      // res.redirect('/')
     }
     return memberDetail
   } catch (error) {

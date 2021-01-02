@@ -12,7 +12,7 @@ import { useRef, useEffect, useState } from 'react'
 import { Progress, message, Row, Col, Avatar } from 'antd'
 import API from '../../../helpers/api'
 import axios from 'axios'
-import { timeConvert } from '../../../helpers/util' 
+import { timeConvert, timeConvert2 } from '../../../helpers/util' 
 const commaNumber = require('comma-number')
 import Router from 'next/router'
 import moment from 'moment'
@@ -663,10 +663,11 @@ const CourseDetailPage = ({ courseId, memberToken }) => {
 
   const fetchCourseInfo = async () => {
     try {
+      const headers = memberToken ?  {
+        'Authorization': memberToken
+      } : undefined
       const response = await axios({
-        headers: {
-          'Authorization': memberToken
-        },
+        headers,
         method: 'GET',
         url: `${API.url}/Course/course_info?course_id=${courseId}`
       })
@@ -802,91 +803,49 @@ const CourseDetailPage = ({ courseId, memberToken }) => {
               <CourseContentDetail>
                 <CourseTitle>เนื้อหาในคอร์ส</CourseTitle>
                 {
+                  courseDetail && courseDetail.is_own_course === false ?
+                  <>
+                    {
+                      courseDetail && courseDetail.course_lesson.map((item, index) => (
+                        <p key={index}>บทที่&nbsp;{index + 1}&nbsp;:&nbsp;{item}</p>
+                      ))
+                    }
+                  </>
+                  :
+                  <>
+                  {
                   courseDetail && courseDetail.course_lesson.map((item, index) => (
-                    <p key={index}>บทที่&nbsp;{index + 1}&nbsp;:&nbsp;{item.name}</p>
+                    <Lesson key={index}>
+                      <ChapterTitle>บทที่ {index + 1 } : {item.name}</ChapterTitle>
+                      <ChapterDetail>
+                        <ChapterItem>
+                          <LessonTopic>
+                          <LessonName>
+                          <LessonIcon src='/static/images/playbutton.svg' />
+                          <LessonNameText>{item.name}</LessonNameText>
+                          </LessonName>
+                          <VideoTime>{timeConvert2(item.time)}</VideoTime>
+                          </LessonTopic>
+                          <Progress
+                            percent={item.progress || 0}
+                            showInfo={false}
+                            strokeWidth={2}
+                            strokeColor={{
+                              '0%': '#00937B',
+                              '100%': '#00937B',
+                              }}
+                          />
+                        </ChapterItem>
+                      </ChapterDetail>
+                    </Lesson>
+
                   ))
                 }
+                  </>
+                }
+                
+
                 {/* <Lesson>
-                  <ChapterTitle>บทที่ 1 : แหล่งที่มาของฝุ่นสังกะสี</ChapterTitle>
-                  <ChapterDetail>
-
-                    <ChapterItem>
-                      <LessonTopic>
-                      <LessonName>
-                      <LessonIcon src='/static/images/checkmark2.svg' />
-                      <LessonNameText>Welcome</LessonNameText>
-                      </LessonName>
-                      <VideoTime>02:39</VideoTime>
-                      </LessonTopic>
-                      <Progress
-                        percent={100}
-                        showInfo={false}
-                        strokeWidth={2}
-                        strokeColor={{
-                          '0%': '#00937B',
-                          '100%': '#00937B',
-                          }}
-                      />
-                    </ChapterItem>
-
-                    <ChapterItem>
-                      <LessonTopic>
-                      <LessonName>
-                      <LessonIcon src='/static/images/playbutton.svg' />
-                      <LessonNameText>ฝุ่นสังกะสีคืออะไร</LessonNameText>
-                      </LessonName>
-                      <VideoTime>
-                        02:39
-                      </VideoTime>
-                      </LessonTopic>
-                      <Progress
-                        percent={100}
-                        showInfo={false}
-                        strokeWidth={2}
-                        strokeColor={{
-                          '0%': '#00937B',
-                          '100%': '#00937B',
-                          }}
-                      />
-                    </ChapterItem>
-
-                    <ChapterItem>
-                      <LessonTopic>
-                      <LessonName>
-                      <LessonIcon src='/static/images/playbutton.svg' />
-                      <LessonNameText>จัดการอย่างไร</LessonNameText>
-                      </LessonName>
-                      <VideoTime>
-                        02:39
-                      </VideoTime>
-                      </LessonTopic>
-                      <Progress
-                        percent={0}
-                        showInfo={false}
-                        strokeWidth={2}
-                        strokeColor={{
-                          '0%': '#00937B',
-                          '100%': '#00937B',
-                          }}
-                      />
-                    </ChapterItem>
-                  </ChapterDetail>
-
-                  <EndofChapterQuestion>
-                  <QuestionTitle>คำถามท้ายบท 1</QuestionTitle>
-                  <QuestionTopic>
-                  <QuestionName>
-                    <QuestionIcon src='/static/images/checkmarksquare.svg' />
-                    <QuestionNameText>คำถามท้ายบท 1</QuestionNameText>
-                  </QuestionName>
-                  <TotalQuestion>
-                    5 ข้อ
-                  </TotalQuestion>
-                  </QuestionTopic>
-                  </EndofChapterQuestion>
-                </Lesson>
-
-                <Lesson>
                   <ChapterTitle>บทที่ 2 : การประยุกต์ใช้ฝุ่นสังกะสี</ChapterTitle>
                   <ChapterDetail>
 
