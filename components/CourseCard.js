@@ -120,6 +120,7 @@ const CourseTypeContent = styled('div')`
 const CourseCardComponent = ({
     type='default',
     id,
+    certId,
     name,
     categoryName,
     categoryColor,
@@ -137,8 +138,17 @@ const CourseCardComponent = ({
   }) => {
   const instructorNames = instructors.length > 0 && instructors.map(item => `${item.firstname} ${item.lastname}`) || []
   console.log('instructorNames', instructorNames)
+  const onClickCard = () => {
+    if (type === 'cert') {
+      Router.push(`/profile/certificate/${certId}`)
+    } else {
+      Router.push(`/course/${id}`)
+    }
+  }
   return (
-    <CourseCard onClick={() => Router.push(`/course/${id}`)} {...rest}>
+    <CourseCard
+      onClick={onClickCard}
+      {...rest}>
       <CourseCardHeader>
         <CourseCardImage src={cover} />
         <CourseCardDetail>

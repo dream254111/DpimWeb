@@ -40,7 +40,6 @@ const Certificate = ({
       })
       const responseWithData = response.data
       if (responseWithData.success) {
-        console.log('cert', responseWithData.data.data)
         setCerts(responseWithData.data.data)
       } else {
         throw new Error(responseWithData.error)
@@ -51,14 +50,13 @@ const Certificate = ({
   }
   return (
     <Wrapper>
-      <PageTitle>ใบประกาศนียบัตร</PageTitle>
-      <Row gutter={16}>
+      <PageTitle>ใบประกาศนียบัตรนะ</PageTitle>
+      {/* <Row gutter={16}>
         {
           certs.map((item, index) => (
             <Col lg={8} style={{margin: '6px 0'}}>
               <CourseCard
                 type='cert'
-                certId={item.certificate_id}
                 key={index}
                 id={item.course_id}
                 name={item.course_name}
@@ -69,7 +67,7 @@ const Certificate = ({
             </Col>
           ))
         }
-      </Row>
+      </Row> */}
     </Wrapper>
   )
 }

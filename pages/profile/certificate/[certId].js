@@ -1,14 +1,12 @@
-import MainLayout from '../../layouts/main'
+import MainLayout from '../../../layouts/main'
 import styled from 'styled-components'
-import BasicInformation from '../../containers/profile/BasicInformation'
-import Certificate from '../../containers/profile/Certificate'
-import Courses from '../../containers/profile/Courses'
-import { PROFILE_PAGE } from '../../constants'
+import CertificateDetail from '../../../containers/profile/CertificateDetail'
+import { PROFILE_PAGE } from '../../../constants'
 import { useState, useEffect } from 'react'
 import { Row, Col, Avatar, Divider, Button } from 'antd'
-import Container from '../../components/Container'
+import Container from '../../../components/Container'
 import { UserOutlined } from '@ant-design/icons'
-import font from '../../helpers/font'
+import font from '../../../helpers/font'
 import Router from 'next/router'
 import { connect } from 'react-redux'
 
@@ -60,7 +58,7 @@ const connector = connect(({ memberReducer }) => ({
   memberDetail: memberReducer.member,
 }))
 
-const ProfileSlugPage = ({ memberDetail, master, profilePageSlug }) => {
+const CertificateIdPage = ({ memberDetail, master, profilePageSlug }) => {
 
   const onMenuChange = (tabs) => {
     switch (tabs) {
@@ -91,33 +89,22 @@ const ProfileSlugPage = ({ memberDetail, master, profilePageSlug }) => {
                 <Divider style={{margin: 0 }} />
                 <Menus>
                   <Menu
-                      isActive={profilePageSlug === PROFILE_PAGE.BASIC_INFORMATION}
+                      // isActive={profilePageSlug === PROFILE_PAGE.BASIC_INFORMATION}
                       onClick={() => onMenuChange(PROFILE_PAGE.BASIC_INFORMATION)}
                     >โปรไฟล์ของฉัน</Menu>
                   <Menu
-                      isActive={profilePageSlug === PROFILE_PAGE.COURSES}
+                      // isActive={profilePageSlug === PROFILE_PAGE.COURSES}
                       onClick={() => onMenuChange(PROFILE_PAGE.COURSES)}
                     >คอร์สของฉัน</Menu>
                   <Menu
-                      isActive={profilePageSlug === PROFILE_PAGE.CERTIFICATE}
+                      isActive={true}
                       onClick={() => onMenuChange(PROFILE_PAGE.CERTIFICATE)}
                   >ใบประกาศนียบัตร</Menu>
                 </Menus>
               </Card>
             </Col>
             <Col lg={17}>
-              {
-                profilePageSlug === PROFILE_PAGE.BASIC_INFORMATION &&
-                  <BasicInformation master={master} />
-              }
-              {
-                profilePageSlug === PROFILE_PAGE.COURSES &&
-                  <Courses master={master} />
-              }
-              {
-                profilePageSlug === PROFILE_PAGE.CERTIFICATE &&
-                  <Certificate master={master} />
-              }
+              <CertificateDetail />
             </Col>
           </Row>
         </Container>
@@ -127,10 +114,12 @@ const ProfileSlugPage = ({ memberDetail, master, profilePageSlug }) => {
 }
 
 
-ProfileSlugPage.getInitialProps = ({ query }) => {
+CertificateIdPage.getInitialProps = ({ query }) => {
   return {
-    profilePageSlug: query.profilePageSlug
+    profilePageSlug: query.profilePageSlug,
+    certId: query.certId
   }
 }
 
-export default connector(ProfileSlugPage)
+export default connector(CertificateIdPage)
+

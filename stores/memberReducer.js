@@ -65,8 +65,7 @@ export const setMemberDetail = (payload) => async (dispatch) => {
 
 export const onMemberLogout = () => async (dispatch) => {
   try {
-    const result = resetMemberCookie()
-    console.log('result', result)
+    resetMemberCookie()
     dispatch({ type: MEMBER_LOGOUT_SUCCESS })
     return true
   } catch (error) {
@@ -103,6 +102,7 @@ export const checkMemberAlreadyLogin = (req, res) => async dispatch => {
 
 export const fetchProfileMinimal = () => async (dispatch, getState) => {
   const memberToken = getState().memberReducer.member.token
+  try {
     const response = await axios({
       headers: {
           'Authorization': memberToken
@@ -110,7 +110,13 @@ export const fetchProfileMinimal = () => async (dispatch, getState) => {
       method: 'GET',
       url: `${API.url}/Student/profile_minimal`
     })
+    console.log('response', response)
     const responseWithData = response.data
     const profileMinimal = responseWithData.data
     dispatch({ type: MEMBER_PROFILE_MINIMAL, payload: profileMinimal })
+  } catch (error) {
+    if (error.response.data.Message === 'มีการรลงชื่อเข้าใช้งานจากอุปกรณ์เครื่องอื่น กรุณาตรวจสอบข้อมูลของท่าน') {
+      dispatch(onMemberLogout())
+    }
+  }
 }
