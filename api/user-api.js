@@ -289,3 +289,18 @@ const fetchFunction = async () => {
     }
 }
 
+// เอาไว้เช็ค token ตอนที่โหลดเว็บครั้งแรก เช็คว่า token หมดอายุยัง ถ้ายังไม่หมดอายุมันต่ออายุให้ถ้ายิงเส้นนี้ อันนี้ทำเรื่อง 1 user 1เครื่องด้วย ถ้าล็อคอินซ้อนมา เครื่องที่ล็อคอินล่าสุดจะใช้ tokenนั้นได้ เครื่องก่อนหน้านี้ token จะถูก expire ไป
+const fetchFunction = async () => {
+    try {
+        const response = await axios({
+            headers: {
+                'Authorization': `token`
+            },
+            method: 'GET',
+            url: `${API.url}/Authentication/Checktoken`
+        })
+
+    } catch (error) {
+        message.error(error.message)
+    }
+}
