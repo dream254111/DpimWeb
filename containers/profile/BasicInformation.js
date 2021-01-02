@@ -3,7 +3,7 @@ import font from '../../helpers/font'
 import { Form, Input, Radio, DatePicker, Select, Checkbox, Avatar, Row, Col, message, Upload } from 'antd'
 import { Button } from '../../components/index'
 import { useEffect, useState } from 'react'
-import { UserOutlined } from '@ant-design/icons'
+import { UserOutlined, UploadOutlined } from '@ant-design/icons'
 const CheckboxGroup = Checkbox.Group
 const { Option } = Select
 import { connect } from 'react-redux'
@@ -46,13 +46,20 @@ const BasicInformation = ({
   const [form] = Form.useForm()
   // const [memberState, setMemberState] = useState({})
   const [profileSetting, setProfileSetting] = useState({})
+  const [avatar, setAvatar] = useState(null)
+  const [frontIdCard, setFrontIdCard] = useState(null)
+  const [backIdCard, setBackIdCard] = useState(null)
+  const [businessAttachment, setBusinessAttachment] = useState(null)
+  const [straightFaceImage, setStraightFaceImage] = useState(null)
+  const [modalSelected, setModalSelected] = useState(null)
 
   useEffect(() => {
     form.resetFields()
     fetchData()
   }, [])
   const handleSubmit = (values) => {
-    console.log('handleSubmit', values)
+    // console.log('handleSubmit', values)
+    updateProfile(values)
   }
 
   const fetchData = async () => {
@@ -66,8 +73,18 @@ const BasicInformation = ({
       })
       const responseWithData = response.data
       if (responseWithData.success) {
-        let { student} = responseWithData.data
+        let { student } = responseWithData.data
         delete student.birthday
+        setAvatar(student.profile_image)
+        setFrontIdCard(student.front_id_card)
+        setBackIdCard(student.back_id_card)
+        setBusinessAttachment(student.business_attachment)
+        setStraightFaceImage(student.straight_face_image)
+        delete student.profile_image
+        delete student.front_id_card
+        delete student.back_id_card
+        delete student.straight_face_image
+        delete student.business_attachment
         form.setFieldsValue(student)
         setProfileSetting(responseWithData.data.profile_setting)
       } else {
@@ -77,11 +94,71 @@ const BasicInformation = ({
       message.error(error.message)
     }
   }
+
+  const uploadFile = async (file, callback) => {
+    try {
+      console.log('file', file)
+      console.log('callback', callback)
+      const bodyFormData = new FormData()
+      bodyFormData.append('', file)
+      const response = await axios({
+        headers: {
+          'Authorization': memberToken,
+        },
+        method: 'POST',
+        url: `${API.url}/FileUpload/FileUpload`,
+        data : bodyFormData
+      })
+    if (response.status === 200) {
+      const imageUrl = response.data[0].path
+      callback(imageUrl)
+    } else {
+      throw new Error('something went wrong')
+    }
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
+  const updateProfile = async (values) => {
+    try {
+      const student = Object.fromEntries(Object.entries({
+        ...values,
+        profile_image: avatar,
+        front_id_card: frontIdCard,
+        back_id_card: backIdCard,
+        straight_face_image: straightFaceImage,
+        business_attachment: businessAttachment
+      }).filter(([_, v]) => v != null && v !== ''))
+      console.log('data', student)
+      delete student.know_channel
+      const response = await axios({
+        headers: {
+          'Authorization': memberToken
+        },
+        method: 'POST',
+        url: `${API.url}/Student/ProfileUpdate`,
+        data: {
+          student
+        }
+      })
+      const responseWithData = response.data
+      if (responseWithData.success) {
+        fetchData()
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
   const [isUploadDocumentModalOpen, setIsUploadDocumentModalOpen] = useState(false)
   const [isTitleChange, setIsTitleChange] = useState('')
-  const handleClickUpload = (title) => {
-    setIsUploadDocumentModalOpen(true)
+  const handleClickUpload = (title, modalType) => {
+    setModalSelected(modalType)
     setIsTitleChange(title)
+    setIsUploadDocumentModalOpen(true)
   }
   return (
     <Wrapper>
@@ -89,6 +166,23 @@ const BasicInformation = ({
         isOpen={isUploadDocumentModalOpen}
         onClose={() => setIsUploadDocumentModalOpen(false)}
         onTitleChange={isTitleChange}
+        onSubmit={(file) => {
+          switch (modalSelected) {
+            case 'front_id_card':
+              uploadFile(file, (imageUrl) => setFrontIdCard(imageUrl))
+              break
+            case 'back_id_card':
+              uploadFile(file, (imageUrl) => setBackIdCard(imageUrl))
+              break
+            case 'straight_face_image':
+              uploadFile(file, (imageUrl) => setStraightFaceImage(imageUrl))
+            break
+            case 'business_attachment':
+              uploadFile(file, (imageUrl) => setBusinessAttachment(imageUrl))
+            break
+            default: null
+          }
+        }}
       />
       <Form
         onFinish={handleSubmit}
@@ -100,16 +194,20 @@ const BasicInformation = ({
           <Avatar 
             size={72}
             icon={<UserOutlined />}
-            src='https://media1.s-nbcnews.com/i/newscms/2019_07/1410593/sam-smith-today-main-190214_ada05dbc548dec5b1b4d566d924e3105.jpg'
+            src={avatar}
             style={{ marginRight: '16px' }}
           />
-          <Button
+          {/* <Button
             color='#00937B'
             fontWeight='normal'
             fontSize='12px'
+            type='file'
           >
             เปลี่ยนรูปโปรไฟล์
-          </Button>
+          </Button> */}
+          <Upload name='file' multiple={false} showUploadList={false} onChange={(info) => uploadFile(info.file.originFileObj, (imageUrl) => setAvatar(imageUrl))}>
+            <Button>เปลี่ยนรูปโปรไฟล์</Button>
+          </Upload>
         </UpdateAvatar>
         <Row gutter={16} style={{marginTop: '24px'}}>
           <Col lg={12}>
@@ -157,7 +255,6 @@ const BasicInformation = ({
               label="เลขบัตรประชาชน"
               name='id_card'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
               <Input placeholder='กรุณากรอกชื่อ-สกุล ของคุณ' />
             </Form.Item>
@@ -182,7 +279,6 @@ const BasicInformation = ({
               label="วันเกิด"
               name='birthday'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
               <DatePicker style={{width: '100%'}} format={'YYYY-MM-DD'} />
             </Form.Item>
@@ -232,7 +328,6 @@ const BasicInformation = ({
               label="รหัสไปรษณีย์"
               name='zipcode'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
               <Input />
             </Form.Item>
@@ -242,7 +337,6 @@ const BasicInformation = ({
               label="รายละเอียดที่อยู่ (ห้องเลขที่, บ้านเลขที่, ตึก, ชื่อถนน)"
               name='address'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
               <Input />
             </Form.Item>
@@ -263,7 +357,6 @@ const BasicInformation = ({
               label="เบอร์โทรศัพท์"
               name='phone'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
               <Input />
             </Form.Item>
@@ -315,7 +408,6 @@ const BasicInformation = ({
               label="รู้จักเราผ่านช่องทางใด"
               name='know_channel'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
               <CheckboxGroup options={['สื่อออนไลน์', 'เพื่อนแนะนำ', 'หนังสือพิมพ์', 'สื่อโทรทัศน์', 'อื่น ๆ']} />
             </Form.Item>
@@ -328,7 +420,6 @@ const BasicInformation = ({
               label="ชื่อสถานประกอบการ"
               name='business_name'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
               <Input />
             </Form.Item>
@@ -338,7 +429,6 @@ const BasicInformation = ({
               label="สถานที่ประกอบการ"
               name='business_province_id'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
               <Select>
                 <Option>dfd</Option>
@@ -351,7 +441,6 @@ const BasicInformation = ({
               label="วันที่จดทะเบียน"
               name='business_register'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
               <DatePicker style={{width: '100%'}}/>
             </Form.Item>
@@ -361,7 +450,6 @@ const BasicInformation = ({
               label="เลขที่จดทะเบียน"
               name='business_no'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
               <Input />
             </Form.Item>
@@ -378,10 +466,16 @@ const BasicInformation = ({
               >
                 <Row gutter={[16, 16]}>
                   <Col lg={11}>
-                    <Button onClick={() => handleClickUpload('อัพโหลดบัตรประชาชนด้านหน้า')}>อัพโหลดบัตรประชาชนด้านหน้า</Button>
+                    <Button
+                      disabled={frontIdCard}
+                      onClick={() => handleClickUpload('อัพโหลดบัตรประชาชนด้านหน้า', 'front_id_card')}
+                    >อัพโหลดบัตรประชาชนด้านหน้า</Button>
                   </Col>
                   <Col lg={13}>
-                    <Button onClick={() => handleClickUpload('อัพโหลดบัตรประชาชนด้านหลัง')}>อัพโหลดบัตรประชาชนด้านหลัง</Button>
+                    <Button
+                      disabled={backIdCard}
+                      onClick={() => handleClickUpload('อัพโหลดบัตรประชาชนด้านหลัง', 'back_id_card')}
+                    >อัพโหลดบัตรประชาชนด้านหลัง</Button>
                   </Col>
                 </Row>
               </Form.Item>
@@ -393,7 +487,10 @@ const BasicInformation = ({
               >
                  <Row gutter={[16, 16]}>
                    <Col lg={24}>
-                      <Button onClick={() => handleClickUpload('อัพโหลดภาพถ่ายหน้าตรง')}>อัพโหลดภาพถ่ายหน้าตรง</Button>
+                      <Button
+                        disabled={straightFaceImage}
+                        onClick={() => handleClickUpload('อัพโหลดภาพถ่ายหน้าตรง', 'straight_face_image')}
+                      >อัพโหลดภาพถ่ายหน้าตรง</Button>
                    </Col>
                  </Row>
               </Form.Item>
@@ -405,16 +502,18 @@ const BasicInformation = ({
               >
                  <Row gutter={[16, 16]}>
                    <Col lg={24}>
-                      <Button onClick={() => handleClickUpload('อัพโหลดเอกสารประกอบกิจการ')}>อัพโหลดเอกสารประกอบกิจการ</Button>
+                      <Button
+                        disabled={businessAttachment}
+                        onClick={() => handleClickUpload('อัพโหลดเอกสารประกอบกิจการ', 'business_attachment')}
+                      >อัพโหลดเอกสารประกอบกิจการ</Button>
                    </Col>
                  </Row>
               </Form.Item>
             </Col>
-            
           </Row>
         </UpdateDocument>
         <SaveButtonWrapper>
-          <Button type='primary'>บันทึกข้อมูล</Button>
+          <Button type='primary' htmlType='submit'>บันทึกข้อมูล</Button>
         </SaveButtonWrapper>
       </Form>
     </Wrapper>
@@ -433,6 +532,7 @@ const UpdateDocument = styled('div')`
 const SaveButtonWrapper = styled('div')`
   width: 100%;
   text-align: right;
+  margin-top: 40px;
 `
 
 export default connector(BasicInformation)

@@ -29,28 +29,39 @@ const ButtonContanier = styled('div')`
 const UploadDocumentModal = ({
   isOpen = false,
   onClose = () => {},
-  onTitleChange = ''
+  onTitleChange = '',
+  onSubmit = () => {}
 }) => {
   const [form] = Form.useForm()
   const closeModal = () => {
     form.resetFields()
     onClose()
   }
-  const [fileList, updateFileList] = useState()
+  const [file, setFile] = useState(null)
+  const [isUploading, setIsUploading] = useState(false)
   const beforeUpload = (file) => {
     const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
     if (isJpgOrPng === false) {
       message.error('ท่านสามารถอัพโหลดนามสกุลไฟล์ได้แค่ PNG/JPG เท่านั้น')
     }
     setIsUpload(true)
-    updateFileList(file.name)
+    setFile(file)
   }
 
   const [isUpload, setIsUpload] = useState(false)
   const handleClickCancle = () => {
     setIsUpload(false)
+    setFile(null)
   }
 
+  const handleSubmitUpload = async () => {
+    console.log('handleSubmitUpload', file)
+    setIsUploading(true)
+    await onSubmit(file)
+    setIsUploading(false)
+    setIsUpload(false)
+    onClose()
+  }
   return (
     <>
       <Modal
@@ -97,7 +108,7 @@ const UploadDocumentModal = ({
                 isUpload &&
                   <>
                     <UploadContainer>
-                      <p>{fileList}</p>
+                      <p>{file.name}</p>
                       <ButtonContanier>
                         <Button
                           onClick={() => handleClickCancle()}
@@ -108,6 +119,8 @@ const UploadDocumentModal = ({
                         <Button 
                           type='primary'
                           fontSize='12px'
+                          loading={isUploading}
+                          onClick={() => handleSubmitUpload()}
                         >
                           ยืนยันอัพโหลด
                         </Button>

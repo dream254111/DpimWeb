@@ -664,6 +664,9 @@ const CourseDetailPage = ({ courseId, memberToken }) => {
   const fetchCourseInfo = async () => {
     try {
       const response = await axios({
+        headers: {
+          'Authorization': memberToken
+        },
         method: 'GET',
         url: `${API.url}/Course/course_info?course_id=${courseId}`
       })
@@ -800,7 +803,7 @@ const CourseDetailPage = ({ courseId, memberToken }) => {
                 <CourseTitle>เนื้อหาในคอร์ส</CourseTitle>
                 {
                   courseDetail && courseDetail.course_lesson.map((item, index) => (
-                    <p key={index}>บทที่&nbsp;{index + 1}&nbsp;:&nbsp;{item}</p>
+                    <p key={index}>บทที่&nbsp;{index + 1}&nbsp;:&nbsp;{item.name}</p>
                   ))
                 }
                 {/* <Lesson>
@@ -1216,7 +1219,7 @@ const CourseDetailPage = ({ courseId, memberToken }) => {
                     fontSize='14px'
                     block
                     style={{margin: '0 0 8px 0'}}
-                    disabled={courseDetail && courseDetail.can_enroll}
+                    disabled={courseDetail && !courseDetail.can_enroll}
                     onClick={() => registerCourse()}
                     loading={isRegisterCourseLoading}
                     >
