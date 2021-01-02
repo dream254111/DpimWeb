@@ -9,12 +9,15 @@ import {
 } from '../../../components/index'
 import { maxWidth } from '../../../helpers/breakpoint'
 import { useRef, useEffect, useState } from 'react'
-import { Progress, message, Row, Col } from 'antd'
+import { Progress, message, Row, Col, Avatar } from 'antd'
 import API from '../../../helpers/api'
 import axios from 'axios'
 import { timeConvert } from '../../../helpers/util' 
 const commaNumber = require('comma-number')
 import Router from 'next/router'
+import moment from 'moment'
+import { UserOutlined } from '@ant-design/icons'
+import { connect } from 'react-redux'
 
 const Wrapper = styled('div')`
 `
@@ -618,20 +621,26 @@ const CourseInfoText = styled('div')`
   margin: 0;
 `
 
-const CourseExampleVideo = styled('img')`
-  background-image: url(${props => props.src});
-  background-position: center;
-  background-repeat: no-repeat;
+const CourseExampleVideo = styled('video')`
+  height: 154px;
+  width: 100%;
 `
 
-const CourseDetailPage = ({ courseId }) => {
+const connector = connect(({ memberReducer }) => ({
+  memberToken: memberReducer.member.token,
+  memberDetail: memberReducer.member,
+}))
+
+const CourseDetailPage = ({ courseId, memberToken }) => {
   const scrollRef1 = useRef(null)
   const scrollRef2 = useRef(null)
   const scrollRef3 = useRef(null)
   const scrollRef4 = useRef(null)
   const scrollRef5 = useRef(null)
   
-  const [courseDetail, setCourseDetail] = useState(null) 
+  const [courseDetail, setCourseDetail] = useState(null)
+  const [isRegisterCourseLoading, setIsRegisterCourseLoading] = useState(false)
+  const [isExtendTimeLoading, setIsExtendTimeLoading] = useState(false)
   const executeScroll1 = () => {
     scrollRef1.current.scrollIntoView({behavior: "smooth"})
   }
@@ -658,10 +667,9 @@ const CourseDetailPage = ({ courseId }) => {
         method: 'GET',
         url: `${API.url}/Course/course_info?course_id=${courseId}`
       })
-      // setNews(response.data.data.data)
       const responseWithData = response.data
       if (responseWithData.success) {
-        console.log('courseDetiaql', responseWithData.data)
+        console.log('courseDetail', responseWithData.data)
         setCourseDetail(responseWithData.data)
       } else {
         throw new Error(responseWithData.error)
@@ -669,6 +677,49 @@ const CourseDetailPage = ({ courseId }) => {
     } catch (error) {
       message.error(error.message)
     }
+  }
+
+  const registerCourse = async () => {
+    try {
+      setIsRegisterCourseLoading(true)
+      const response = await axios({
+        method: 'POST',
+        url: `${API.url}/Course/register_course_free`,
+        data : {
+          course_id: courseId
+        }
+      })
+      const responseWithData = response.data
+      if (responseWithData.success) {
+        message.success('สำเร็จ')
+        fetchCourseInfo()
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
+    setIsRegisterCourseLoading(false)
+  }
+
+  const extendStudyTime = async () => {
+    try {
+      setIsExtendTimeLoading(true)
+      const response = await axios({
+        method: 'PUT',
+        url: `${API.url}/Course/extend_study_time?course_id=${courseId}`,
+      })
+      const responseWithData = response.data
+      if (responseWithData.success) {
+        message.success('สำเร็จ')
+        fetchCourseInfo()
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
+    setIsExtendTimeLoading(false)
   }
   return (
     <>
@@ -1079,18 +1130,17 @@ const CourseDetailPage = ({ courseId }) => {
                 <ContactCourseOwner>ติดต่อผู้ดูแลหลักสูตร</ContactCourseOwner>
                 <ContactContent>
 
-                <ContactContentItem>พิชญา</ContactContentItem>
+                <ContactContentItem>{courseDetail && courseDetail.course.contact_name}</ContactContentItem>
 
                 <ContactContentItem>
                 <ContactIcon src='/static/images/Tel.png' />
-                <p>0 2202 3904 ตามวันและเวลาราชการ</p>
+                <p>{courseDetail && courseDetail.course.contact_phone} ตามวันและเวลาราชการ</p>
                 </ContactContentItem>
 
                 <ContactContentItem>
                 <ContactIcon src='/static/images/Mail.png' />
-                <p>innovation.dpim@gmail.com</p>
+                <p>{courseDetail && courseDetail.course.contact_email}</p>
                 </ContactContentItem>
-
                 </ContactContent>
               </ContactDetail>
             </Contact>
@@ -1100,14 +1150,27 @@ const CourseDetailPage = ({ courseId }) => {
             <CourseExample>
               <CourseExampleDetail>
               <ExampleFont>ตัวอย่างการเรียน</ExampleFont>
-              <CourseExampleVideo src='/static/images/examplevideo.svg' />
+              {
+                courseDetail &&
+                <CourseExampleVideo id="video" controls autoplay muted >
+                  <source src={courseDetail.course.video.original} type="video/mp4" />
+                </CourseExampleVideo>
+              }
               <CourseInfo>
                 <CourseInfoTitle>ช่วงเวลาลงทะเบียน</CourseInfoTitle>
-                <CourseInfoText>29 ธันวาคม 2020 - 5 มกราคม 2021</CourseInfoText>
+                <CourseInfoText>
+                  {
+                    courseDetail && courseDetail.course.isAlwaysRegister === true ? '-' : `${moment(courseDetail && courseDetail.course.register_start_date).format('DD MMM YYYY')} - ${moment(courseDetail && courseDetail.course.register_end_date).format('DD MMM YYYY')}`
+                  }
+                </CourseInfoText>
               </CourseInfo>
               <CourseInfo>
                 <CourseInfoTitle>ช่วงเวลาเปิดให้เรียน</CourseInfoTitle>
-                <CourseInfoText>1มกราคม 2021 - 31 มกราคม</CourseInfoText>
+                <CourseInfoText>
+                  {
+                    courseDetail && courseDetail.course.is_always_learning === true ? '-' : `${moment(courseDetail && courseDetail.course.learning_start_date).format('DD MMM YYYY')} - ${moment(courseDetail && courseDetail.course.learning_end_date).format('DD MMM YYYY')}`
+                  }
+                </CourseInfoText>
               </CourseInfo>
               <CourseInfo>
                 <CourseInfoTitle>เกณฑ์การเรียนจบ</CourseInfoTitle>
@@ -1120,21 +1183,59 @@ const CourseDetailPage = ({ courseId }) => {
                   courseDetail && courseDetail.course.is_has_cost &&
                   <h2>{commaNumber(courseDetail.course.cost)} บาท</h2>
                 }
-              <Button
-                type='primary'
-                fontSize='14px'
-                block
-                style={{margin: '0 0 8px 0'}}
-                >
-                  สมัครเรียน
-                  </Button>
-              <Button
-                fontSize='14px'
-                color='#00937B'
-                block
-              >
-                ทดลองเข้าเรียน
-              </Button>
+                {
+                  courseDetail && courseDetail.is_own_course === true ?
+                  <>
+                    <Button
+                      type='primary'
+                      fontSize='14px'
+                      block
+                      style={{margin: '0 0 8px 0'}}
+                      disabled={courseDetail && !courseDetail.can_extend_study_time}
+                      onClick={() => extendStudyTime()}
+                      loading={isExtendTimeLoading}
+                      >
+                        ขยายเวลาเรียน +30 วัน
+                    </Button>
+                    {
+                      courseDetail && courseDetail.student_learning_enddate &&
+                      <Button
+                        fontSize='14px'
+                        color='#00937B'
+                        block
+                        disabled={true}
+                      >
+                        เหลือเวลาเรียนอีก {moment(courseDetail.student_learning_enddate).diff(moment(), 'days')}
+                      </Button>
+                    }
+                  </>
+                  :
+                  <>
+                  <Button
+                    type='primary'
+                    fontSize='14px'
+                    block
+                    style={{margin: '0 0 8px 0'}}
+                    disabled={courseDetail && courseDetail.can_enroll}
+                    onClick={() => registerCourse()}
+                    loading={isRegisterCourseLoading}
+                    >
+                      สมัครเรียน
+                    </Button>
+                    {
+                      ((!memberToken) || (courseDetail && courseDetail.is_own_course === false)) &&
+                      <Button
+                        fontSize='14px'
+                        color='#00937B'
+                        block
+                        disabled={courseDetail && courseDetail.is_own_course}
+                        onClick={() => Router.push(`/course/${courseId}/learn`)}
+                      >
+                        ทดลองเข้าเรียน
+                      </Button>
+                    }
+                  </>
+                }
               </CoursePrice>
             </CourseExample>
             <Instructors>
@@ -1147,7 +1248,7 @@ const CourseDetailPage = ({ courseId }) => {
                         <h2>ผู้สอน</h2>
                       }
                       <InstructorProfile>
-                        <PicProfile src={item.profile} />
+                        <Avatar src={item.profile} size={72} icon={<UserOutlined />} />
                         <p>{item.firstname} {item.lastname}</p>
                       </InstructorProfile>
                     </InstructorDetail>
@@ -1206,4 +1307,4 @@ CourseDetailPage.getInitialProps = ({ query }) => {
   }
 }
 
-export default CourseDetailPage
+export default connector(CourseDetailPage)
