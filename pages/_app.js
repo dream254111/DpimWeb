@@ -45,9 +45,8 @@ App.getInitialProps = async ({ Component, ctx }) => {
       method: 'GET',
       url: `${API.url}/Student/master_data`,
     })
-    // console.log('masterData', masterData.data.data)
     master = masterData.data.data
-    await ctx.store.dispatch(checkMemberAlreadyLogin(ctx.req))
+    await ctx.store.dispatch(checkMemberAlreadyLogin(ctx.req, ctx.res))
   }
   return { pageProps, master }
 }

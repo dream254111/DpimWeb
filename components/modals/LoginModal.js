@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import axios from 'axios'
 import API from '../../helpers/api'
 import { useState } from 'react'
-import { setMemberDetail } from '../../stores/memberReducer'
+import { setMemberDetail, fetchProfileMinimal } from '../../stores/memberReducer'
 import { connect } from 'react-redux'
 import ForgodPasswordModal from './ForgotPasswordModal'
 import Router from 'next/router'
@@ -48,10 +48,13 @@ const LoginModal = ({
       const responseWithData = response.data
       console.log('responseWithData', responseWithData)
       if (responseWithData.success === true) {
-        dispatch(setMemberDetail({
-          ...responseWithData.auth,
-          token: responseWithData.token
-        }))
+        await Promise.all([
+          dispatch(setMemberDetail({
+            ...responseWithData.auth,
+            token: responseWithData.token
+          })),
+          dispatch(fetchProfileMinimal())
+        ])
         closeModal()
       } else {
         throw new Error(responseWithData.error)

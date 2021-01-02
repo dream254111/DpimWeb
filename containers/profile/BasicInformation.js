@@ -12,6 +12,8 @@ import axios from 'axios'
 import constants from '../../constants'
 import moment from 'moment'
 import { UploadDocumentModal } from '../../components/modals/index'
+import provinces from '../../api/json/province.json'
+import { fetchProfileMinimal } from '../../stores/memberReducer'
 
 const PageTitle = styled('div')`
   color: #00937B;
@@ -41,7 +43,9 @@ const connector = connect(({ memberReducer }) => ({
 }))
 
 const BasicInformation = ({
-  memberToken
+  memberToken,
+  master,
+  dispatch
 }) => {
   const [form] = Form.useForm()
   // const [memberState, setMemberState] = useState({})
@@ -52,6 +56,7 @@ const BasicInformation = ({
   const [businessAttachment, setBusinessAttachment] = useState(null)
   const [straightFaceImage, setStraightFaceImage] = useState(null)
   const [modalSelected, setModalSelected] = useState(null)
+  const [isSubmitLoading, setIsSubmitLoading] = useState(false)
 
   useEffect(() => {
     form.resetFields()
@@ -122,6 +127,7 @@ const BasicInformation = ({
 
   const updateProfile = async (values) => {
     try {
+      setIsSubmitLoading(true)
       const student = Object.fromEntries(Object.entries({
         ...values,
         profile_image: avatar,
@@ -130,8 +136,6 @@ const BasicInformation = ({
         straight_face_image: straightFaceImage,
         business_attachment: businessAttachment
       }).filter(([_, v]) => v != null && v !== ''))
-      console.log('data', student)
-      delete student.know_channel
       const response = await axios({
         headers: {
           'Authorization': memberToken
@@ -145,12 +149,15 @@ const BasicInformation = ({
       const responseWithData = response.data
       if (responseWithData.success) {
         fetchData()
+        fetchProfileMinimal()
+        message.success('บันทึกสำเร็จ')
       } else {
         throw new Error(responseWithData.error)
       }
     } catch (error) {
       message.error(error.message)
     }
+    setIsSubmitLoading(false)
   }
 
   const [isUploadDocumentModalOpen, setIsUploadDocumentModalOpen] = useState(false)
@@ -160,6 +167,7 @@ const BasicInformation = ({
     setIsTitleChange(title)
     setIsUploadDocumentModalOpen(true)
   }
+  console.log('basicInformatinop', master)
   return (
     <Wrapper>
       <UploadDocumentModal
@@ -382,11 +390,13 @@ const BasicInformation = ({
               label="อาชีพ"
               name='career_id'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
               <Select>
-                <Option>dfd</Option>
-                <Option>xxx</Option>
+                {
+                  master.career.map((item, index) => (
+                    <Option key={index}>{item.name}</Option>
+                  ))
+                }
               </Select>
             </Form.Item>
           </Col>
@@ -395,12 +405,8 @@ const BasicInformation = ({
               label="ตำแหน่ง"
               name='career_name'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <Select>
-                <Option>dfd</Option>
-                <Option>xxx</Option>
-              </Select>
+              <Input />
             </Form.Item>
           </Col>
           <Col lg={24}>
@@ -431,8 +437,14 @@ const BasicInformation = ({
               labelCol={{ span: 24 }}
             >
               <Select>
-                <Option>dfd</Option>
-                <Option>xxx</Option>
+                {
+                  provinces.map((item, index) => (
+                    <Option
+                      key={index}
+                      value={item.id}
+                    >{item.province_name}</Option>
+                  ))
+                }
               </Select>
             </Form.Item>
           </Col>
@@ -513,7 +525,11 @@ const BasicInformation = ({
           </Row>
         </UpdateDocument>
         <SaveButtonWrapper>
-          <Button type='primary' htmlType='submit'>บันทึกข้อมูล</Button>
+          <Button 
+            type='primary'
+            htmlType='submit'
+            loading={isSubmitLoading}
+          >บันทึกข้อมูล</Button>
         </SaveButtonWrapper>
       </Form>
     </Wrapper>

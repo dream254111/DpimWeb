@@ -10,6 +10,7 @@ import Container from '../../components/Container'
 import { UserOutlined } from '@ant-design/icons'
 import font from '../../helpers/font'
 import Router from 'next/router'
+import { connect } from 'react-redux'
 
 const Wrapper = styled('div')`
   
@@ -53,7 +54,13 @@ const Menu = styled('div')`
   `}
 `
 
-const ProfileSlugPage = ({ profilePageSlug }) => {
+
+const connector = connect(({ memberReducer }) => ({
+  memberToken: memberReducer.member.token,
+  memberDetail: memberReducer.member,
+}))
+
+const ProfileSlugPage = ({ memberDetail, master, profilePageSlug }) => {
   // useEffect(() => {
   //   switch (profilePageSlug) {
   //     case PROFILE_PAGE.BASIC_INFORMATION:
@@ -91,8 +98,8 @@ const ProfileSlugPage = ({ profilePageSlug }) => {
             <Col lg={7}>
               <Card>
                 <CardHeader>
-                  <Avatar size={48} icon={<UserOutlined />} src='https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png' />
-                  <CardName>อธิราช แจ่มวรรณ</CardName>
+                  <Avatar size={48} icon={<UserOutlined />} src={memberDetail.profile_path} />
+                  <CardName>{memberDetail.firstname} {memberDetail.lastname}</CardName>
                 </CardHeader>
                 <Divider style={{margin: 0 }} />
                 <Menus>
@@ -114,15 +121,15 @@ const ProfileSlugPage = ({ profilePageSlug }) => {
             <Col lg={17}>
               {
                 profilePageSlug === PROFILE_PAGE.BASIC_INFORMATION &&
-                  <BasicInformation />
+                  <BasicInformation master={master} />
               }
               {
                 profilePageSlug === PROFILE_PAGE.COURSES &&
-                  <Courses />
+                  <Courses master={master} />
               }
               {
                 profilePageSlug === PROFILE_PAGE.CERTIFICATE &&
-                  <Certificate />
+                  <Certificate master={master} />
               }
             </Col>
           </Row>
@@ -139,4 +146,4 @@ ProfileSlugPage.getInitialProps = ({ query }) => {
   }
 }
 
-export default ProfileSlugPage
+export default connector(ProfileSlugPage)
