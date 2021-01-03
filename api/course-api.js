@@ -201,3 +201,23 @@ const fetchFunction = async () => {
         message.error(error.message)
     }
 }
+
+// เอาไว้ใช้ตอนที่กดบทเรียนให้ยิง api มาจะได้ทำเอาไว้ทำรายงานนับจำนวนคนที่เข้าเรียนบทเรียน
+const fetchFunction = async () => {
+    try {
+        const response = await axios({
+            headers: {
+                'Authorization': `token`
+            },
+            method: 'POST',
+            url: `${API.url}/Course/count_view_lesson`,
+            params : {
+                lesson_id: 'lesson_id'
+            }
+        })
+
+
+    } catch (error) {
+        message.error(error.message)
+    }
+}
