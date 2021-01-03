@@ -4,6 +4,7 @@ import { wrapper } from '../stores'
 import { checkMemberAlreadyLogin } from '../stores/memberReducer'
 import axios from 'axios'
 import API from '../helpers/api'
+import { useEffect } from 'react'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -26,6 +27,14 @@ const theme = {
 
 const App = ({ Component, pageProps, master }) => {
   console.log('master', master)
+
+  useEffect(() => {
+    axios({
+      method: 'PUT',
+      url: `${API.url}/Management/VisitUpdate`,
+    })
+  },[])
+  
   return (
     <>
       <GlobalStyle />

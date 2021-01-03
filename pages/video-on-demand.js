@@ -88,6 +88,7 @@ const VideoOnDemandPage = ({
   const fetchCourseList = async () => {
     try {
       let params = (Object.keys(filter).map((key, index) => {
+        console.log('key', key)
         return `${key}=${filter[key]}`
       })).join('&')
       const response = await axios({
@@ -124,14 +125,9 @@ const VideoOnDemandPage = ({
                 }}
               >
                 <Option value='newest'>ใหม่สุด</Option>
-                <Option value='cheapest'>ถูกสุด</Option>
-                <Option value='expensive'>แพงสุด</Option>
+                <Option value='oldest'>เก่าสุด</Option>
               </Select>
               <BoldTitle>คัดกรอง</BoldTitle>
-              <FilterTitle>รูปแบบการเรียน</FilterTitle>
-                <Checkbox>คอร์สเรียนที่สถาบัน</Checkbox> <br />
-                <Checkbox>คอร์สออนไลน์</Checkbox>
-              <Divider style={{marginTop: '16px', marginBottom: '0'}}/>
               <FilterItem>
                 <FilterTitle>หมวดหมู่</FilterTitle>
                 <Space direction="vertical" size={6} style={{marginTop: '10px'}}>
@@ -141,28 +137,11 @@ const VideoOnDemandPage = ({
                       const categoryIds = categoryDetails.map(item => courseCategoryKey[item][0].id)
                       setFilter({
                         ...filter,
-                        category_id: categoryIds
+                        category_id: categoryIds.length === 0 ? 0 :categoryIds
                       })
                     }}
                   />
                 </Space>
-              </FilterItem>
-              <Divider style={{margin: 0}} />
-              <FilterItem>
-                <FilterTitle>รับรองใบประกาศนียบัตร</FilterTitle>
-                <Radio.Group onChange={(event) => {
-                  setFilter({
-                    ...filter,
-                    hasCertificate: event.target.value
-                  })
-                }}>
-                  <Radio style={radioStyle} value={1}>
-                    รับรอง
-                  </Radio>
-                  <Radio style={radioStyle} value={0}>
-                    ไม่รับรอง
-                  </Radio>
-                </Radio.Group>
               </FilterItem>
             </Col>
             <Col xs={24} md={18}>

@@ -245,15 +245,19 @@ const IndexPage = ({
 }) => {
   const [banners, setBanners] = useState([])
   const [courses, setCourses] = useState([])
+  const [vdo, setVdo] = useState([])
   const [recommendWeb, setRecommendWeb] = useState([])
   const [webStat, setWebStat] = useState({})
+  const [selectedCourseCategory , setSelectedCourseCategory] = useState(0)
+  const [selectedVDOCategory , setSelectedVDOCategory] = useState(0)
 
   useEffect(() => {
     Promise.all([
       fetchBannerList(),
       fetchCourseList(),
       fetchWebRecommendList(),
-      fetchWebOverviewStat()
+      fetchWebOverviewStat(),
+      fetchVideoOnDemandList()
     ])
   }, [])
 
@@ -262,6 +266,14 @@ const IndexPage = ({
       fetchMyCourseProgess()
     }
   }, [memberToken])
+
+  useEffect(() => {
+    fetchCourseList()
+  }, [selectedCourseCategory])
+
+  useEffect(() => {
+    fetchVideoOnDemandList()
+  }, [selectedVDOCategory])
 
   const fetchMyCourseProgess = async () => {
     try {
@@ -297,13 +309,32 @@ const IndexPage = ({
     try {
       const response = await axios({
         method: 'GET',
-        url: `${API.url}/Course/list_course`
+        url: `${API.url}/Course/list_course`,
+        params : {
+          category_id : selectedCourseCategory
+        }
       })
       const data = response.data.data
       setCourses(data)
 
     } catch (error) {
       message.error(error.message)
+    }
+  }
+
+  const fetchVideoOnDemandList = async () => {
+    try {
+      const response = await axios({
+          method: 'GET',
+          url: `${API.url}/Student/GetAllVideo`,
+          params : {
+              category_id : selectedVDOCategory, // 0 คือ เอาทุก category หรือไม่ก็ส่ง categoryId มา
+          }
+      })
+      const data = response.data.data
+      setVdo(data)
+    } catch (error) {
+        message.error(error.message)
     }
   }
 
@@ -426,7 +457,7 @@ const IndexPage = ({
           <Container paddingTop='72px' paddingBottom='72px'>
             <Title>คอร์สเรียนออนไลน์</Title>
             <CategoryWrapper>
-              <Select placeholder='แสดงหมวดหมู่' style={{ width: '208px' }}>
+              <Select placeholder='แสดงหมวดหมู่' style={{ width: '208px' }} onChange={(e) => setSelectedCourseCategory(e)} >
                 {
                   master.course_category.map((item, index) => (
                     <Option value={item.id} key={index}>{item.name}</Option>
@@ -462,12 +493,15 @@ const IndexPage = ({
                 }
               </Slider>
             </CourseListContent>
-{/* 
             <VideoOnDemandContent>
               <Title>Video on demand</Title>
               <CategoryWrapper>
-                <Select placeholder='เลือกหมวดหมู่' defaultValue='all'>
-                  <Option value='all'>แสดงทุกหมวดหมู่</Option>
+                <Select placeholder='แสดงหมวดหมู่' style={{ width: '208px' }} onChange={(e) => setSelectedVDOCategory(e)} >
+                  {
+                    master.course_category.map((item, index) => (
+                      <Option value={item.id} key={index}>{item.name}</Option>
+                    ))
+                  }
                 </Select>
                 <Button
                   type='primary'
@@ -478,14 +512,13 @@ const IndexPage = ({
               <CourseListContent>
                 <Slider {...courseSliderSettings}>
                   {
-                    new Array(7).fill(null).map(item => (
-                      <CourseCardX>
+                    vdo.map(item => (
+                      <CourseCardX onClick={() => alert('go to video on demand by id ' +item.id)}>
                         <CourseCardHeader>
-                          <CourseCardImage src='/static/images/power-bi.png' />
-                          <CourseCardTitle style={{marginTop: '12px'}}>เทคโนโลยีรีไซเคิลฝุ่นสังกะสีจากอุตสาหกรรมชุบเคลือบ สังกะสีแบบจุ่มร้อน (Hot-Dip กดกดอหกดกดกดกด)</CourseCardTitle>
+                          <CourseCardImage src={item.cover_thumbnail} />
+                          <CourseCardTitle style={{marginTop: '12px'}}>{item.name}</CourseCardTitle>
                           <CourseTypeContent>
-                            <Tag color='#34495E'>เทคโนโลยี</Tag>
-                            <Tag outline>รับรองใบประกาศฯ</Tag>
+                            <Tag color='#34495E'>{item.category_nane}</Tag>
                           </CourseTypeContent>
                         </CourseCardHeader>
                       </CourseCardX>
@@ -493,7 +526,7 @@ const IndexPage = ({
                   }
                 </Slider>
               </CourseListContent>
-            </VideoOnDemandContent> */}
+            </VideoOnDemandContent>
             <RecommentWebsite>
               <RecommentWebsiteTitle>เว็บไซต์แนะนำ</RecommentWebsiteTitle>
               <RecommentWebsiteRow align='middle' justify='space-between' gutter={{lg: 100, md: 16, xs: 16}}>

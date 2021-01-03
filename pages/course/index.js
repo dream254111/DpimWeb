@@ -224,8 +224,8 @@ const CoursePage = ({
                 onChange={(value) => {
                   setFilter({
                     ...filter,
-                    register_start_date: moment(value[0]).format('YYYY-MM-DD'),
-                    register_end_date: moment(value[1]).format('YYYY-MM-DD')
+                    register_start_date: value ? moment(value[0]).format('YYYY-MM-DD') : null,
+                    register_end_date: value ? moment(value[1]).format('YYYY-MM-DD') : null
                   })
                 }}
               />

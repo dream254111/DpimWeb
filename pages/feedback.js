@@ -1,12 +1,15 @@
 import MainLayout from '../layouts/main'
 import styled from 'styled-components'
 import font from '../helpers/font'
-import { Card, Form, Input, Select } from 'antd'
+import { Card, Form, Input, Select, message } from 'antd'
 import { useEffect } from 'react'
 const { Option } = Select
 const { TextArea } = Input
 import { Button } from '../components'
 import { maxWidth } from '../helpers/breakpoint'
+import axios from 'axios'
+import API from '../helpers/api'
+import { useRouter } from 'next/router'
 
 const Wrapper = styled('div')`
   width: 100%;
@@ -42,13 +45,31 @@ const Desc = styled('div')`
 const FeedbackPage = ({
   master
 }) => {
+  const { push } = useRouter()
   const [form] = Form.useForm()
   useEffect(() => {
     form.resetFields()
   }, [])
 
-  const handleSubmit = (values) => {
-    console.log('values', values)
+  const handleSubmit = async (values) => {
+    try {
+      await axios({
+        method: 'POST',
+        url: `${API.url}/Student/AddReportProblem`,
+        data : {
+            problem_of_use_id: values.note_id,
+            firstname: values.firstname,
+            lastname: values.lastname,
+            description: values.note,
+            phone: values.phone,
+            email: values.email,
+        }
+      })
+      message.success('ทำรายการสำเร็จ')
+      push('/')
+    } catch (e) {
+      message.error('ทำรายการไม่สำเร็จ กรุณาลองใหม่อีกครั้ง')
+    }
   }
   return (
     <MainLayout>
@@ -69,7 +90,7 @@ const FeedbackPage = ({
               >
                 <Select placeholder='กรุณาเลือกบริการภายในระบบ'>
                   {
-                    master.faq_type.map((item, index) => (
+                    master.problem_of_use.map((item, index) => (
                       <Option value={item.id} key={index}>{item.name}</Option>
                     ))
                   }
@@ -84,12 +105,20 @@ const FeedbackPage = ({
                 <TextArea placeholder='กรุณาอธิบายปัญหาการใช้งาน' />
               </Form.Item>
               <Form.Item 
-                label="ชื่อ-สกุล"
-                name='name'
+                label="ชื่อจริง"
+                name='firstname'
                 labelCol={{ span: 24 }}
-                rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
+                rules={[{ required: true, message: 'กรุณากรอกชื่อจริงของคุณ' }]}
               >
-                <Input placeholder='กรุณากรอกชื่อ-สกุล ของคุณ' />
+                <Input placeholder='กรุณากรอกชื่อจริงของคุณ' />
+              </Form.Item>
+              <Form.Item 
+                label="นามสกุล"
+                name='lastname'
+                labelCol={{ span: 24 }}
+                rules={[{ required: true, message: 'กรุณากรอกนามสกุลของคุณ' }]}
+              >
+                <Input placeholder='กรุณากรอกนามสกุลของคุณ' />
               </Form.Item>
               <Form.Item 
                 label="หมายเลขติดต่อกลับ"
