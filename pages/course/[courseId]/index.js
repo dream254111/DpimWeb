@@ -37,6 +37,8 @@ const PrintHere = styled('div')`
   top: 0;
   right: 0;
   color: white;
+  
+  cursor: pointer;
 `
 
 const HeaderImage = styled('div')`
@@ -731,6 +733,18 @@ const CourseDetailPage = ({ courseId, memberToken }) => {
     setIsPaymentModalOpen(true)
   }
 
+  const onPrintPage = async () => {
+    await axios({
+      method: 'PUT',
+      url: `${API.url}/Course/print_course`,
+      params : {
+          course_id : courseId
+      }
+    })
+
+    window.print()
+  }
+
   return (
     <>
     <MainLayout>
@@ -741,7 +755,7 @@ const CourseDetailPage = ({ courseId, memberToken }) => {
         />
         <Header src='/static/images/header.png'>
           <Container>
-            <PrintHere><span className='fa fa-print' style={{marginRight: '7.3px'}} />พิมพ์หน้านี้</PrintHere>
+            <PrintHere onClick={() => onPrintPage()}><span className='fa fa-print' style={{marginRight: '7.3px'}}/>พิมพ์หน้านี้</PrintHere>
             <HeaderContent>
               <HeaderImage src={courseDetail && courseDetail.course.cover} />
               <HeaderDescription>

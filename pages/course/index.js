@@ -161,7 +161,8 @@ const FilterItem = styled('div')`
 `
 
 const CoursePage = ({
-  master
+  master,
+  search
 }) => {
   const [courses, setCourses] = useState([])
   const [filter, setFilter] = useState([])
@@ -174,6 +175,13 @@ const CoursePage = ({
     fetchCourseList()
   }, [filter])
 
+  useEffect(() => {
+    setFilter({
+      ...filter,
+      search
+    })
+  }, [search])
+
   const fetchCourseList = async () => {
     try {
       let params = (Object.keys(filter).map((key, index) => {
@@ -181,7 +189,7 @@ const CoursePage = ({
       })).join('&')
       const response = await axios({
         method: 'GET',
-        url: `${API.url}/Course/list_course?${params}`,
+        url: `${API.url}/Course/list_course?${params}`
       })
       const data = response.data.data
       setCourses(data)
@@ -239,7 +247,7 @@ const CoursePage = ({
                       const categoryIds = categoryDetails.map(item => courseCategoryKey[item][0].id)
                       setFilter({
                         ...filter,
-                        category_id: categoryIds
+                        category_id: categoryIds.length === 0 ? 0 : categoryIds
                       })
                     }}
                   />
@@ -370,8 +378,9 @@ const CoursePage = ({
   )
 }
 
-CoursePage.getInitialProps = () => {
-  return {}
+CoursePage.getInitialProps = (ctx) => {
+  const { search } = ctx.query
+  return { search }
 }
 
 export default CoursePage

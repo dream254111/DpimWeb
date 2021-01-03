@@ -17,6 +17,7 @@ import Router from 'next/router'
 import { Avatar } from 'antd'
 import { UserOutlined } from '@ant-design/icons'
 import { onMemberLogout } from '../../stores/memberReducer'
+import { useRouter } from 'next/router'
 
 const Wrapper = styled('div')``
 
@@ -275,6 +276,9 @@ const Header = ({
   const handleClick = () => {
     setIsClick(!isClick)
   }
+
+  const { push } = useRouter()
+  
   const useOutsideClick = (ref) => {
     useEffect(() => {
       const handleClickOutside = (event) => {
@@ -290,6 +294,12 @@ const Header = ({
   }
   const wrapperRef = useRef(null)
   useOutsideClick(wrapperRef)
+
+  const handleOnEnterSearch = (e) => {
+    if (e.key === 'Enter') {
+      push(`/course?search=${e.target.value}`)
+    }
+  }
 
   return (
     <Wrapper ref={wrapperRef}>
@@ -314,6 +324,7 @@ const Header = ({
             margin='0 24px 0 0'
             backgroundColor='#F6F6F6'
             height='40px'
+            onKeyDown={handleOnEnterSearch}
           />
           <NavMenu isClick={isClick}>
             <NavItem>
