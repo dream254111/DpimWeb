@@ -25,9 +25,20 @@ const DescriptionValue = styled('div')`
 `
 
 
+const MenuHeader = styled('div')`
+  width: 100%;
+  background-color: #00937B;
+  padding: 12px 0;
+  text-align: center;
+  color: white;
+  box-shadow: 0px 4px 16px rgba(8, 53, 106, 0.08);
+  font-family: ${font.bold};
+`
+
 const VideoLesson = ({
-  videoLink,
-  videoObjective
+  title,
+  description,
+  mainVideo
 }) => {
   const videoRef = useRef(null)
   const htmlDecode = (content) => {
@@ -72,14 +83,15 @@ const VideoLesson = ({
   addVideoEvent(videoRef)
   return (
     <>
-     <Video id="video" controls autoplay muted ref={videoRef}>
-        <source src={videoLink} type="video/mp4" />
-      </Video>
-      <DescriptionTitle>คำอธิบาย</DescriptionTitle>
-      <DescriptionValue>
-      {/* https://github.com/cure53/DOMPurify */}
-        <p dangerouslySetInnerHTML={{ __html: htmlDecode(videoObjective) }} />
-      </DescriptionValue> 
+      <MenuHeader>{title}</MenuHeader>
+      <Video id="video" controls autoplay muted ref={videoRef}>
+          <source src={mainVideo} type="video/mp4" />
+        </Video>
+        <DescriptionTitle>คำอธิบาย</DescriptionTitle>
+        <DescriptionValue>
+        {/* https://github.com/cure53/DOMPurify */}
+          <p dangerouslySetInnerHTML={{ __html: htmlDecode(description) }} />
+        </DescriptionValue> 
     </>
   )
 }

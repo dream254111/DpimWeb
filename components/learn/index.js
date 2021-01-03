@@ -1,3 +1,5 @@
 export { default as PreExamSummary } from './PreExamSummary'
 export { default as PreExam } from './PreExam'
+export { default as PostExam } from './PostExam'
 export { default as VideoLesson } from './VideoLesson'
+export { default as Exercise } from './Exercise'

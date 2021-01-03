@@ -22,9 +22,10 @@ import styled from 'styled-components'
 import API from '../../../helpers/api'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { PreExamSummary, PreExam, VideoLesson } from '../../../components/learn'
+import { PreExamSummary, PreExam, PostExam, VideoLesson, Exercise } from '../../../components/learn'
 import Router from 'next/router'
 const { SubMenu } = Menu
+
 const Wrapper = styled('div')`
   width: 100%;
 `
@@ -182,7 +183,7 @@ const LearnPage = ({
       })
       const responseWithData = response.data
       if (responseWithData.success) {
-        console.log('responseWithData', responseWithData)
+        console.log('courseDetail', responseWithData.data)
         setCourseDetail(responseWithData.data)
       } else {
         throw new Error(responseWithData.error)
@@ -230,24 +231,108 @@ const LearnPage = ({
     }
   }
 
+  const onSubmitPostExam = async (values) => {
+    console.log('values', values)
+    const answer = values.map(item => {
+      return {
+        course_exam_id: item.course_exam_id,
+        answer: item.answer
+      }
+    })
+    try {
+      const request = {
+        headers: {
+          'Authorization': memberToken
+        },
+        method: 'POST',
+        url: `${API.url}/Course/send_answer_exam`,
+        data: {
+          is_pretest: true,
+          course_id: courseId,
+          answer
+        }
+      }
+      const response = await axios(request)
+      const responseWithData = response.data
+      console.log('responseWithData', responseWithData)
+      if (responseWithData.success) {
+        // setCourseDetail(responseWithData.data)
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
+
+
+
   const courseName = courseDetail.course && courseDetail.course.name
   const courseObjective = courseDetail.course && courseDetail.course.objective_course
   const courseVideoUrl = courseDetail.course && courseDetail.course.video.original
   const courseLessons = courseDetail.course_lesson || []
   const courseLessonOne = courseDetail.course_lesson && courseDetail.course_lesson.length > 0 && courseDetail.course_lesson[0].name || ''  
   const examPreTests = courseDetail.exam_pre_test || []
+  const examPostTests = courseDetail.exam_post_test || []
   const isPreTestPass = courseDetail.pre_test_pass
+
+  
+  const onFinishedExercise = async (courseLessonId) => {
+    try {
+      const request = {
+        headers: {
+          'Authorization': memberToken
+        },
+        method: 'PUT',
+        url: `${API.url}/Course/stamp_exercise`,
+        data : {
+          course_id: courseId,
+          course_lesson_id: courseLessonId
+        }
+      }
+      const response = await axios(request)
+      const responseWithData = response.data
+      console.log('responseWithData', responseWithData)
+      if (responseWithData.success) {
+        const courselessonIndex = courseLessons.findIndex(item => item.id === courseLessonId)
+        if (courseLessons.length - 1 === courselessonIndex) {
+          setMenu('999')
+        } else {
+          setMenu(courseLessons[courselessonIndex].id)
+        }
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
   const renderLesson = () => {
-    const isLessonActive = courseLessons.find(item => item.id === menu)
-    if (isLessonActive) {
+    const lessonSelected = courseLessons.find(item => +item.id === +menu)
+    console.log('lessonSelected', lessonSelected)
+    if (lessonSelected) {
       return (
         <VideoLesson
+          title={lessonSelected.name}
+          description={lessonSelected.description}
+          mainVideo={lessonSelected.main_video}
           videoLink
           videoObjective
         />
       )
     } else {
-      return null
+      const examSelected = courseLessons.find(item => (item.id).toString() + '0' == menu)
+      console.log('examSelected', examSelected)
+      if (examSelected) {
+        return (
+          <Exercise
+            exercises={examSelected.exercise}
+            onSubmit={() => onFinishedExercise(examSelected.id)}
+          />
+        )
+      }
     }
   }
   return (
@@ -271,13 +356,18 @@ const LearnPage = ({
               mode="inline"
               theme="light"
               toggleCollapsed={collapsed}
-              onClick={({key}) => setMenu(key)}
+              onClick={({key}) => {
+                console.log('menuKey', key)
+                setMenu(key)
+              }}
             >
               <Menu.Item key={1} icon={<FileTextOutlined />}>
                 ภาพรวมคอร์ส
               </Menu.Item>
               
-              <Menu.Item key={2} icon={<FileTextOutlined />}>
+              <Menu.Item key={2} icon={<FileTextOutlined />}
+                // disabled={!courseDetail.can_use_pre_test}
+              >
                 แบบทดสอบก่อนเรียน
               </Menu.Item>
               {
@@ -286,7 +376,7 @@ const LearnPage = ({
                     <Menu.Item key={item.id} icon={<PlayCircleOutlined />}>วีดีโอ</Menu.Item>
                     {
                       item && item.exercise && item.exercise.length > 0 &&
-                      <Menu.Item key={item.exercise[0].id} icon={<FormOutlined />}>คำถามท้ายบท</Menu.Item>
+                      <Menu.Item key={(item.id).toString() + '0'} icon={<FormOutlined />}>คำถามท้ายบท {index + 1}</Menu.Item>
                     }
                   </SubMenu>
                   // <Menu.Item
@@ -296,24 +386,24 @@ const LearnPage = ({
                   // </Menu.Item>
                 ))
               }
-              <Menu.Item key={() => countMenuKey()} icon={<FileTextOutlined />}>
+              <Menu.Item key={999} icon={<FileTextOutlined />} disabled={!courseDetail.can_use_post_test}>
                 แบบทดสอบหลังเรียน
               </Menu.Item>
               
             </Menu>
           </Col>
           <Col lg={18}>
-            <MenuHeader>
-              {courseName}
-              {/* <Button type="primary" onClick={() => setCollapsed(collapsed => !collapsed)} >
-                {
-                  collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
-                }
-              </Button> */}
-            </MenuHeader>
             {
               menu === '1' &&
               <>
+                <MenuHeader>
+                  {courseName}
+                  {/* <Button type="primary" onClick={() => setCollapsed(collapsed => !collapsed)} >
+                    {
+                      collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+                    }
+                  </Button> */}
+                </MenuHeader>
                 <Video id="video" controls autoplay muted ref={videoRef}>
                   <source src='https://dpimproject.ddns.net/DpimProjectV2/File/Stream?filename=20201227182144284988_original.mp4' type="video/mp4" />
                 </Video>
@@ -327,28 +417,66 @@ const LearnPage = ({
             {
               menu === '2' &&
               isPreTestPass &&
-              <PreExamSummary
-                score={courseDetail.score_pre_test}
-                maxScore={courseDetail.total_exam}
-                percent={courseDetail.percent_pre_test}
-                nextChapterName={courseLessonOne}
-                onClickNextChapter={() => setMenu('3')}
-                isShowNextChapterButton={false}
-              />
-              
+              <>
+                <MenuHeader>
+                  {courseName}
+                  {/* <Button type="primary" onClick={() => setCollapsed(collapsed => !collapsed)} >
+                    {
+                      collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+                    }
+                  </Button> */}
+                </MenuHeader>
+                <PreExamSummary
+                  score={courseDetail.score_pre_test}
+                  maxScore={courseDetail.total_exam}
+                  percent={courseDetail.percent_pre_test}
+                  nextChapterName={courseLessonOne}
+                  onClickNextChapter={() => setMenu('3')}
+                  isShowNextChapterButton={false}
+                />
+              </>
             }
             {
               menu === '2' &&
               isPreTestPass === false &&
-                <PreExam
-                  exams={examPreTests}
-                  onSelectChoice={(value) => console.log('onSelectChoice', value)}
-                  nextChapterName={courseLessonOne}
-                  onSubmit={(values) => onSubmitPreExam(values)}
-                />
+                <>
+                  <MenuHeader>
+                    {courseName}
+                    {/* <Button type="primary" onClick={() => setCollapsed(collapsed => !collapsed)} >
+                      {
+                        collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+                      }
+                    </Button> */}
+                  </MenuHeader>
+                  <PreExam
+                    exams={examPreTests}
+                    onSelectChoice={(value) => console.log('onSelectChoice', value)}
+                    nextChapterName={courseLessonOne}
+                    onSubmit={(values) => onSubmitPreExam(values)}
+                  />
+                </>
             }
             {
               renderLesson()
+            }
+            {
+              menu == 999 &&
+              <>
+                <MenuHeader>
+                  {courseName}
+                  {/* <Button type="primary" onClick={() => setCollapsed(collapsed => !collapsed)} >
+                    {
+                      collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+                    }
+                  </Button> */}
+                </MenuHeader>
+                <PostExam
+                  exams={examPostTests}
+                  onSelectChoice={(value) => console.log('onSelectChoice', value)}
+                  nextChapterName={courseLessonOne}
+                  onSubmit={(values) => onSubmitPostExam(values)}
+                />
+              </>
             }
           </Col>
         </Row>

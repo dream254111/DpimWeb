@@ -37,7 +37,8 @@ const BannerContent = styled('div')`
 `
 
 const BannerContentLeft = styled('div')`
-  width: 40%;
+  width: 50%;
+  font-size: 24px;
   ${maxWidth.xs`
     width: 100%;
   `};
@@ -60,6 +61,7 @@ const BannerTitle = styled('div')`
 
 const BannerSubtitle = styled('div')`
   margin-top: 16px;
+  font-size: 20px;
   font-family: ${font.light};
 `
 
