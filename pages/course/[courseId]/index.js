@@ -18,6 +18,7 @@ import Router from 'next/router'
 import moment from 'moment'
 import { UserOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
+import { PaymentModal } from '../../../components/modals/index'
 
 const Wrapper = styled('div')`
 `
@@ -725,10 +726,19 @@ const CourseDetailPage = ({ courseId, memberToken }) => {
     }
     setIsExtendTimeLoading(false)
   }
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
+  const handleClickPayment = () => {
+    setIsPaymentModalOpen(true)
+  }
+
   return (
     <>
     <MainLayout>
       <Wrapper>
+        <PaymentModal 
+          isOpen = {isPaymentModalOpen}
+          onClose = {() => setIsPaymentModalOpen(false)}
+        />
         <Header src='/static/images/header.png'>
           <Container>
             <PrintHere><span className='fa fa-print' style={{marginRight: '7.3px'}} />พิมพ์หน้านี้</PrintHere>
@@ -1225,6 +1235,9 @@ const CourseDetailPage = ({ courseId, memberToken }) => {
                 ))
               }
             </Instructors>
+            <Button
+              onClick={() => handleClickPayment()}
+            >TEST BUTTON</Button>
             </RightContainer>
 
             </CourseContainer>
