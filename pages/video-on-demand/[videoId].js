@@ -4,6 +4,8 @@ import Container from '../../components/Container'
 import MainLayout from '../../layouts/main'
 import font from '../../helpers/font'
 import { message } from 'antd'
+import axios from 'axios'
+import API from '../../helpers/api'
 
 const Title = styled('div')`
   background-color: #00937B;
@@ -45,6 +47,7 @@ const VideoIdPage = ({ videoId }) => {
         method: 'GET',
         url: `${API.url}/Student/GetVideo?id=${videoId}`
       })
+      setVideoDetail(response.data.data.data)
     } catch (error) {
       message.error(error.message)
     }
@@ -52,13 +55,25 @@ const VideoIdPage = ({ videoId }) => {
   return (
     <MainLayout>
       <Container>
-        <Title>เทคโนโลยีรีไซเคิลฝุ่นสังกะสีจากอุตสาหกรรมชุบเคลือบ สังกะสีแบบจุ่มร้อน (Hot-Dip...</Title>
+        <Title>{videoDetail.name}</Title>
+        {/** ตรงนี้เป็นลิ้งก์ youtube นะ */}
         <Video id="video" controls autoplay>
-          <source src='' type="video/mp4" />
+          <source src={videoDetail.video} type="video/mp4" />
         </Video>
         <DescriptionTitle>รายละเอียด</DescriptionTitle>
         <DescriptionContent>
-        <p dangerouslySetInnerHTML={{ __html: '<h2>dfdf</h2>' }} />
+          <div>- คำอธิบาย</div>
+          <p dangerouslySetInnerHTML={{ __html: videoDetail.description }} />
+          <div>- ผู้จัดทำ</div>
+          <div>{videoDetail.producer_name}</div>
+          {
+            videoDetail.attachment && <div>
+              <div>- ไฟล์แนบ</div>
+              <a href={videoDetail.attachment} target='_blank'>
+                เอกสารแนบ
+              </a>
+            </div>
+          }
         </DescriptionContent>
       </Container>
     </MainLayout>
