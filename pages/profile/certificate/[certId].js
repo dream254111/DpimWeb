@@ -1,14 +1,16 @@
 import MainLayout from '../../../layouts/main'
 import styled from 'styled-components'
-import CertificateDetail from '../../../containers/profile/CertificateDetail'
 import { PROFILE_PAGE } from '../../../constants'
 import { useState, useEffect } from 'react'
-import { Row, Col, Avatar, Divider, Button } from 'antd'
+import { Row, Col, Avatar, Divider, Button, message} from 'antd'
 import Container from '../../../components/Container'
 import { UserOutlined } from '@ant-design/icons'
 import font from '../../../helpers/font'
 import Router from 'next/router'
 import { connect } from 'react-redux'
+import axios from 'axios'
+import API from '../../../helpers/api'
+import CourseCard from '../../../components/CourseCard'
 
 const Wrapper = styled('div')`
   
@@ -52,14 +54,52 @@ const Menu = styled('div')`
   `}
 `
 
+const PageTitle = styled('div')`
+  color: #00937B;
+  font-size: 24px;
+  font-family: ${font.bold};
+`
+
+const CertImage = styled('img')`
+  margin-top: 22px;
+  width: 100%;
+`
+
+const CertDetailWrapper = styled('div')`
+  width: 80%;
+`
+
+const LeftContent = styled('div')`
+  float: right;
+  margin-top: 24px;
+`
+
+const CertButtonWrapper = styled('div')`
+  display: flex;
+  align-items: center;
+
+`
+
+const PrintCount = styled('div')`
+  display: block;
+  margin-top: 12px;
+  text-align: right;
+`
+
 
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token,
   memberDetail: memberReducer.member,
 }))
 
-const CertificateIdPage = ({ memberDetail, master, profilePageSlug }) => {
-
+const CertificateIdPage = ({
+  memberDetail,
+  master,
+  certId,
+  memberToken
+}) => {
+  const [certDetail, setCertDetail] = useState({})
+  const [courseDetail, setCourseDetail] = useState({}) 
   const onMenuChange = (tabs) => {
     switch (tabs) {
       case PROFILE_PAGE.BASIC_INFORMATION:
@@ -75,6 +115,52 @@ const CertificateIdPage = ({ memberDetail, master, profilePageSlug }) => {
     }
   }
 
+  useEffect(() => {
+    fetchCertById()
+  }, [])
+    
+  const fetchCertById = async () => {
+    try {
+      const response = await axios({
+        headers: {
+          'Authorization': memberToken
+        },
+        method: 'GET',
+        url: `${API.url}/Student/CertificateRead?certificate_id=${certId}`,
+      })
+      const responseWithData = response.data
+      console.log('responseWithData', responseWithData.data)
+      if (responseWithData.success) {
+        setCertDetail(responseWithData.data.data)
+        const courseId = responseWithData.data.data.course_id
+        fetchCourseDetail(courseId)
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
+  const fetchCourseDetail = async (courseId) => {
+    try {
+      console.log('courseId', courseId)
+      const response = await axios({
+        method: 'GET',
+        url: `${API.url}/Course/course_info?course_id=${courseId}`,
+      })
+      const responseWithData = response.data
+      if (responseWithData.success) {
+        console.log('courseDetail', responseWithData)
+        setCourseDetail(responseWithData.data.data)
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+      
   return (
     <MainLayout>
       <Wrapper>
@@ -104,7 +190,29 @@ const CertificateIdPage = ({ memberDetail, master, profilePageSlug }) => {
               </Card>
             </Col>
             <Col lg={17}>
-              <CertificateDetail />
+              <CertDetailWrapper>
+                <PageTitle>ใบประกาศนียบัตรนะ</PageTitle>
+                <CertImage src={certDetail.cover_pic} />
+                <LeftContent>
+                  <CertButtonWrapper>
+                    <Button>ส่งไปที่อีเมล</Button>
+                    <Button type='primary' style={{marginLeft: '16px'}}>ดาวน์โหลดใบประกาศ</Button>
+                  </CertButtonWrapper>
+                  <PrintCount>จำนวนครั้งที่พิมพ์ {certDetail.print_count}</PrintCount>
+                </LeftContent>
+                <CourseDetail>
+                  <CourseDetailTitle>สำหรับคอร์ส</CourseDetailTitle>
+                  <CourseCard
+                    style={{marginTop: '20px'}}
+                    type='cert'
+                    id={courseDetail.course_id}
+                    name={courseDetail.course_name}
+                    cover={courseDetail.cover_pic}
+                    totalLesson={courseDetail.count_lesson}
+                    lessonTime={courseDetail.lesson_time}
+                  />
+                </CourseDetail>
+              </CertDetailWrapper>
             </Col>
           </Row>
         </Container>
@@ -113,6 +221,14 @@ const CertificateIdPage = ({ memberDetail, master, profilePageSlug }) => {
   )
 }
 
+
+const CourseDetail = styled('div')`
+  margin-top: 24px;
+`
+
+const CourseDetailTitle = styled('div')`
+  font-size: 16px;
+`
 
 CertificateIdPage.getInitialProps = ({ query }) => {
   return {
