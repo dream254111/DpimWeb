@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 import font from '../../helpers/font'
 
 const Video = styled('video')`
@@ -35,10 +35,12 @@ const MenuHeader = styled('div')`
   font-family: ${font.bold};
 `
 
+let interval
 const VideoLesson = ({
   title,
   description,
-  mainVideo
+  mainVideo,
+  handleStampVideoLesson
 }) => {
   const videoRef = useRef(null)
   const htmlDecode = (content) => {
@@ -52,13 +54,19 @@ const VideoLesson = ({
   const addVideoEvent = (ref) => {
     useEffect(() => {
       const video = videoRef.current
-      console.log('video', video)
       var supposedCurrentTime = 0;
       const handleTimeUpdate = () => {
         if (!video.seeking) {
-          supposedCurrentTime = video.currentTime
         }
       }
+
+      interval = setInterval(() => {
+        const duration = video.duration;
+        const buffered_percentage = (video.currentTime / duration) * 100;
+        console.log('supposedCurrentTime', video.currentTime)
+        console.log('buffered_percentage', buffered_percentage)
+        handleStampVideoLesson(video.currentTime.toFixed(2), buffered_percentage.toFixed(2))
+      }, 5000)
 
       const handleSeeking = () => {
         var delta = video.currentTime > supposedCurrentTime
@@ -70,23 +78,32 @@ const VideoLesson = ({
       const handleEnded = () => {
         supposedCurrentTime = 0
       }
-      // video.addEventListener('timeupdate', handleTimeUpdate)
-      // video.addEventListener('seeking', handleSeeking)
-      // video.addEventListener('ended', handleEnded)
+      const handleProgress = () => {
+        // setVideoProgress(buffered_percentage)
+      }
+      video.addEventListener('timeupdate', handleTimeUpdate)
+      video.addEventListener('seeking', handleSeeking)
+      video.addEventListener('ended', handleEnded)
       return () => {
-        // video.removeEventListener('timeupdate', handleTimeUpdate)
-        // video.removeEventListener('seeking', handleSeeking)
-        // video.removeEventListener('ended', handleEnded)
+        video.removeEventListener('timeupdate', handleTimeUpdate)
+        video.removeEventListener('seeking', handleSeeking)
+        video.removeEventListener('ended', handleEnded)
+        clearInterval(interval)
       }
     }, [videoRef])
   }
   addVideoEvent(videoRef)
+  console.log('mainVideo', mainVideo)
   return (
     <>
       <MenuHeader>{title}</MenuHeader>
-      <Video id="video" controls autoplay muted ref={videoRef}>
-          <source src={mainVideo} type="video/mp4" />
-        </Video>
+        {
+          mainVideo && mainVideo.original &&
+          <Video id="video" controls autoplay muted ref={videoRef}>
+            <source src={mainVideo.original} type="video/mp4" />
+          </Video>
+          
+        }
         <DescriptionTitle>คำอธิบาย</DescriptionTitle>
         <DescriptionValue>
         {/* https://github.com/cure53/DOMPurify */}

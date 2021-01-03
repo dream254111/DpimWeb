@@ -299,8 +299,36 @@ const LearnPage = ({
         if (courseLessons.length - 1 === courselessonIndex) {
           setMenu('999')
         } else {
-          setMenu(courseLessons[courselessonIndex].id)
+          setMenu(courseLessons[courselessonIndex + 1].id)
         }
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+  
+  const handleStampVideoLesson = async (courseLessonId, videoPosition, videoProgress) => {
+    try {
+      const request = {
+        headers: {
+          'Authorization': memberToken
+        },
+        method: 'PUT',
+        url: `${API.url}/Course/stamp_video_lesson`,
+        data : {
+          course_id: courseId,
+          course_lesson_id: courseLessonId,
+          video_position: videoPosition,
+          video_progress: videoProgress
+        }
+      }
+      const response = await axios(request)
+      const responseWithData = response.data
+      console.log('handleStampVideoLesson', responseWithData)
+      if (responseWithData.success) {
+
       } else {
         throw new Error(responseWithData.error)
       }
@@ -318,8 +346,7 @@ const LearnPage = ({
           title={lessonSelected.name}
           description={lessonSelected.description}
           mainVideo={lessonSelected.main_video}
-          videoLink
-          videoObjective
+          handleStampVideoLesson={(videoPosition, videoProgress) => handleStampVideoLesson(lessonSelected.id, videoPosition, videoProgress)}
         />
       )
     } else {
@@ -355,9 +382,8 @@ const LearnPage = ({
               defaultOpenKeys={['sub1']}
               mode="inline"
               theme="light"
-              toggleCollapsed={collapsed}
+              inlineCollapsed={collapsed}
               onClick={({key}) => {
-                console.log('menuKey', key)
                 setMenu(key)
               }}
             >
@@ -398,11 +424,11 @@ const LearnPage = ({
               <>
                 <MenuHeader>
                   {courseName}
-                  {/* <Button type="primary" onClick={() => setCollapsed(collapsed => !collapsed)} >
+                  <Button type="primary" onClick={() => setCollapsed(collapsed => !collapsed)} >
                     {
                       collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
                     }
-                  </Button> */}
+                  </Button>
                 </MenuHeader>
                 <Video id="video" controls autoplay muted ref={videoRef}>
                   <source src='https://dpimproject.ddns.net/DpimProjectV2/File/Stream?filename=20201227182144284988_original.mp4' type="video/mp4" />
@@ -420,11 +446,11 @@ const LearnPage = ({
               <>
                 <MenuHeader>
                   {courseName}
-                  {/* <Button type="primary" onClick={() => setCollapsed(collapsed => !collapsed)} >
+                  <Button type="primary" onClick={() => setCollapsed(collapsed => !collapsed)} >
                     {
                       collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
                     }
-                  </Button> */}
+                  </Button>
                 </MenuHeader>
                 <PreExamSummary
                   score={courseDetail.score_pre_test}
