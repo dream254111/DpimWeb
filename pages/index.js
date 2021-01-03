@@ -513,7 +513,7 @@ const IndexPage = ({
                 <Slider {...courseSliderSettings}>
                   {
                     vdo.map((item, index) => (
-                      <CourseCardX key={index} onClick={() => alert('go to video on demand by id ' +item.id)}>
+                      <CourseCardX key={index} onClick={() => Router.push(`/video-on-demand/${item.id}`)}>
                         <CourseCardHeader>
                           <CourseCardImage src={item.cover_thumbnail} />
                           <CourseCardTitle style={{marginTop: '12px'}}>{item.name}</CourseCardTitle>
