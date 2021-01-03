@@ -146,13 +146,16 @@ const CertificateIdPage = ({
     try {
       console.log('courseId', courseId)
       const response = await axios({
+        headers: {
+          'Authorization': memberToken
+        },
         method: 'GET',
         url: `${API.url}/Course/course_info?course_id=${courseId}`,
       })
       const responseWithData = response.data
       if (responseWithData.success) {
         console.log('courseDetail', responseWithData)
-        setCourseDetail(responseWithData.data.data)
+        setCourseDetail(responseWithData.data)
       } else {
         throw new Error(responseWithData.error)
       }
@@ -160,7 +163,48 @@ const CertificateIdPage = ({
       message.error(error.message)
     }
   }
+
+  const handleSendCertToEmail = async () => {
+    try {
+      await axios({
+          headers: {
+            'Authorization': memberToken
+          },
+          method: 'POST',
+          url: `${API.url}/Student/send_email_cert`,
+          data : {
+            course_id :courseDetail.course.id
+          }
+      })
+      message.success('ใบประกาศได้ส่งไปที่อีเมล์ของท่านเรียบร้อยแล้ว')
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
       
+  const handleDownloadCert = async () => {
+    try {
+      await axios({
+          headers: {
+            'Authorization': memberToken
+          },
+          method: 'GET',
+          url: `${API.url}/Student/PrintCertificate`,
+          params : {
+              course_id : courseDetail.course.id
+          }
+      })
+
+      const a = document.createElement('a'); // Create <a>
+      a.href = certDetail.cert_path; // Image Base64 Goes here
+      a.download = 'Image'; // File name Here
+      a.click(); // Downloaded file
+
+    } catch (error) {
+        message.error(error.message)
+    }
+  }
+
   return (
     <MainLayout>
       <Wrapper>
@@ -192,11 +236,11 @@ const CertificateIdPage = ({
             <Col lg={17}>
               <CertDetailWrapper>
                 <PageTitle>ใบประกาศนียบัตรนะ</PageTitle>
-                <CertImage src={certDetail.cover_pic} />
+                <CertImage src={certDetail.cert_path} />
                 <LeftContent>
                   <CertButtonWrapper>
-                    <Button>ส่งไปที่อีเมล</Button>
-                    <Button type='primary' style={{marginLeft: '16px'}}>ดาวน์โหลดใบประกาศ</Button>
+                    <Button onClick={handleSendCertToEmail}>ส่งไปที่อีเมล</Button>
+                    <Button type='primary' style={{marginLeft: '16px'}} onClick={handleDownloadCert}>ดาวน์โหลดใบประกาศ</Button>
                   </CertButtonWrapper>
                   <PrintCount>จำนวนครั้งที่พิมพ์ {certDetail.print_count}</PrintCount>
                 </LeftContent>
@@ -205,11 +249,11 @@ const CertificateIdPage = ({
                   <CourseCard
                     style={{marginTop: '20px'}}
                     type='cert'
-                    id={courseDetail.course_id}
-                    name={courseDetail.course_name}
-                    cover={courseDetail.cover_pic}
-                    totalLesson={courseDetail.count_lesson}
-                    lessonTime={courseDetail.lesson_time}
+                    id={courseDetail?.course?.id}
+                    name={courseDetail?.course?.name}
+                    cover={courseDetail?.course?.cover}
+                    totalLesson={courseDetail?.course?.count_lesson}
+                    lessonTime={courseDetail?.course?.lesson_time}
                   />
                 </CourseDetail>
               </CertDetailWrapper>

@@ -90,21 +90,21 @@ const UserPage = ({ userId }) => {
       message.error(error.message)
     }
   }
-  const htmlDecode = (content) => {
-    if (process.browser) {
-      const e = document.createElement('div')
-      e.innerHTML = content
-      return e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue
-    }
-    return 'loading...'
-  }
+  // const htmlDecode = (content) => {
+  //   if (process.browser) {
+  //     const e = document.createElement('div')
+  //     e.innerHTML = content
+  //     return e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue
+  //   }
+  //   return 'loading...'
+  // }
   return (
     <MainLayout>
       <Container paddingTop='32px' paddingBottom='302px'>
         <Row gutter={{ lg: 16, xs: 0 }}>
           <Col xs={24} lg={7}>
             <InstructureCard>
-              {/* <Avatar size={72} src={instructureDetail.profile_image} /> */}
+              <Avatar size={72} src={instructureDetail.profile_image} />
               <InstructureContent>
                 <InstructureName>{instructureDetail.firstname} {instructureDetail.lastname}</InstructureName>
                 <InstructurePosition>{instructureDetail.position || '-'}</InstructurePosition>
@@ -112,22 +112,26 @@ const UserPage = ({ userId }) => {
                 <InstructureEmail>{instructureDetail.email || '-'}</InstructureEmail>
                 <InstructurePhone>{instructureDetail.phone || '-'}</InstructurePhone>
                 <InstructureSocial>
-                  <SocialIcon
-                    src='/static/images/facebook.svg'
-                    onClick={instructureDetail.facebook}
+                  {
+                    instructureDetail.facebook && <SocialIcon
+                      src='/static/images/facebook.svg'
+                      onClick={() => window.open(instructureDetail.facebook, '_blank')}
                     />
-                  <SocialIcon
-                    src='/static/images/twitter.svg'
-                    onClick={instructureDetail.twitter}
-                    style={{ marginLeft: '20px' }}
-                  />
+                  }
+                  {
+                    instructureDetail.twitter && <SocialIcon
+                      src='/static/images/twitter.svg'
+                      onClick={() => window.open(instructureDetail.twitter, '_blank')}
+                      style={{ marginLeft: '20px' }}
+                    />
+                  }
                 </InstructureSocial>
               </InstructureContent>
             </InstructureCard>
           </Col>
           <Col xs={24} lg={17}>
             <InstructureDescription>
-                <p dangerouslySetInnerHTML={{ __html: htmlDecode(instructureDetail.description) }} />
+                <p dangerouslySetInnerHTML={{ __html: (instructureDetail.description) }} />
             </InstructureDescription>
           </Col>
       </Row>
