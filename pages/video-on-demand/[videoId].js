@@ -34,6 +34,11 @@ const DescriptionContent = styled('div')`
   background-color: #F9F9F9;
 `
 
+const SubTitle = styled('div')`
+  font-family: ${font.bold};
+`
+
+
 const VideoIdPage = ({ videoId }) => {
   const [videoDetail, setVideoDetail] = useState({})
 
@@ -62,13 +67,13 @@ const VideoIdPage = ({ videoId }) => {
         </Video>
         <DescriptionTitle>รายละเอียด</DescriptionTitle>
         <DescriptionContent>
-          <div>- คำอธิบาย</div>
+          <SubTitle>- คำอธิบาย</SubTitle>
           <p dangerouslySetInnerHTML={{ __html: videoDetail.description }} />
-          <div>- ผู้จัดทำ</div>
+          <SubTitle>- ผู้จัดทำ</SubTitle>
           <div>{videoDetail.producer_name}</div>
           {
             videoDetail.attachment && <div>
-              <div>- ไฟล์แนบ</div>
+              <SubTitle>- ไฟล์แนบ</SubTitle>
               <a href={videoDetail.attachment} target='_blank'>
                 เอกสารแนบ
               </a>
