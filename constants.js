@@ -14,5 +14,10 @@ module.exports = {
   GENDER: {
     MALE: 1,
     FEMALE: 2
+  },
+  ACCOUNT_TYPE: {
+    FREE_USER: 1,
+    VERIFIED_USER: 2,
+    CERTIFIED_USER: 3,
   }
 }

@@ -102,7 +102,7 @@ const CourseCardX = styled('div')`
   background-color: white;
   border: 1px solid #F2F2F2;
   border-radius: 8px;
-  width: 331px !important;
+  width: 320px !important;
   margin-right: 16px;
   cursor: pointer;
 `
@@ -512,8 +512,8 @@ const IndexPage = ({
               <CourseListContent>
                 <Slider {...courseSliderSettings}>
                   {
-                    vdo.map(item => (
-                      <CourseCardX onClick={() => alert('go to video on demand by id ' +item.id)}>
+                    vdo.map((item, index) => (
+                      <CourseCardX key={index} onClick={() => alert('go to video on demand by id ' +item.id)}>
                         <CourseCardHeader>
                           <CourseCardImage src={item.cover_thumbnail} />
                           <CourseCardTitle style={{marginTop: '12px'}}>{item.name}</CourseCardTitle>

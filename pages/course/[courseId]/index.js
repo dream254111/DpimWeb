@@ -19,6 +19,7 @@ import moment from 'moment'
 import { UserOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 import { PaymentModal } from '../../../components/modals/index'
+import constants from '../../../constants'
 
 const Wrapper = styled('div')`
 `
@@ -634,7 +635,7 @@ const connector = connect(({ memberReducer }) => ({
   memberDetail: memberReducer.member,
 }))
 
-const CourseDetailPage = ({ courseId, memberToken }) => {
+const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
   const scrollRef1 = useRef(null)
   const scrollRef2 = useRef(null)
   const scrollRef3 = useRef(null)
@@ -687,6 +688,24 @@ const CourseDetailPage = ({ courseId, memberToken }) => {
   }
 
   const registerCourse = async () => {
+    if (courseDetail.course.is_has_cost) {
+      switch(memberDetail.student_account_type_id) {
+        case constants.ACCOUNT_TYPE.FREE_USER:
+          Router.push('/profile')
+        break
+        case constants.ACCOUNT_TYPE.VERIFIED_USER:
+          setIsPaymentModalOpen(true)
+          break
+        case constants.ACCOUNT_TYPE.CERTIFIED_USER:
+          setIsPaymentModalOpen(true)
+        break
+      }
+    } else {
+      registerCourseFree()
+    }
+  }
+
+  const registerCourseFree = async () => {
     try {
       setIsRegisterCourseLoading(true)
       const response = await axios({
@@ -729,9 +748,6 @@ const CourseDetailPage = ({ courseId, memberToken }) => {
     setIsExtendTimeLoading(false)
   }
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
-  const handleClickPayment = () => {
-    setIsPaymentModalOpen(true)
-  }
 
   const onPrintPage = async () => {
     await axios({
@@ -750,8 +766,8 @@ const CourseDetailPage = ({ courseId, memberToken }) => {
     <MainLayout>
       <Wrapper>
         <PaymentModal 
-          isOpen = {isPaymentModalOpen}
-          onClose = {() => setIsPaymentModalOpen(false)}
+          isOpen={isPaymentModalOpen}
+          onClose={() => setIsPaymentModalOpen(false)}
         />
         <Header src='/static/images/header.png'>
           <Container>
@@ -1249,9 +1265,6 @@ const CourseDetailPage = ({ courseId, memberToken }) => {
                 ))
               }
             </Instructors>
-            <Button
-              onClick={() => handleClickPayment()}
-            >TEST BUTTON</Button>
             </RightContainer>
 
             </CourseContainer>
