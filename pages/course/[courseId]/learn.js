@@ -97,7 +97,7 @@ const LearnPage = ({
   let menuKey = 0
   const [collapsed, setCollapsed] = useState(false)
   const [courseDetail, setCourseDetail] = useState({})
-  const [menu, setMenu] = useState(1)
+  const [menu, setMenu] = useState('1')
   // const [menuKey, setMenuKey] = useState(0)
   const videoRef = useRef(null)
   let supposedCurrentTime = 0
@@ -430,9 +430,12 @@ const LearnPage = ({
                     }
                   </Button>
                 </MenuHeader>
-                <Video id="video" controls autoplay muted ref={videoRef}>
-                  <source src='https://dpimproject.ddns.net/DpimProjectV2/File/Stream?filename=20201227182144284988_original.mp4' type="video/mp4" />
-                </Video>
+                {
+                  courseDetail && courseDetail.course &&
+                    <Video id="video" controls autoplay muted>
+                      {/* <source src={courseDetail.course.video.original} type="video/mp4" /> */}
+                    </Video>
+                }
                 <DescriptionTitle>คำอธิบาย</DescriptionTitle>
                 <DescriptionValue>
                 {/* https://github.com/cure53/DOMPurify */}
