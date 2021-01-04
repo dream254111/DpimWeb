@@ -411,7 +411,7 @@ const Header = ({
                     src={memberDetail.profile_path}
                     icon={<UserOutlined />}
                   />
-                  <p>{memberDetail.name_th}</p>
+                  <div>{memberDetail.firstname}</div>
                   <Chevron src='/static/images/vector.png' />
                   <DropdownMenu isClick={isClick} onClick={(event) => {
                     event.stopPropagation()
