@@ -326,9 +326,7 @@ const LearnPage = ({
       }
       const response = await axios(request)
       const responseWithData = response.data
-      console.log('handleStampVideoLesson', responseWithData)
       if (responseWithData.success) {
-
       } else {
         throw new Error(responseWithData.error)
       }
@@ -347,6 +345,9 @@ const LearnPage = ({
           description={lessonSelected.description}
           mainVideo={lessonSelected.main_video}
           handleStampVideoLesson={(videoPosition, videoProgress) => handleStampVideoLesson(lessonSelected.id, videoPosition, videoProgress)}
+          interactiveTime={lessonSelected.interactive_time}
+          interactiveVideo1={lessonSelected.interactive_video_1}
+          interactiveVideo2={lessonSelected.interactive_video_2}
         />
       )
     } else {

@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 import { useRef, useEffect, useState } from 'react'
 import font from '../../helpers/font'
+import { InteractiveVideoModal } from '../../components/modals'
+import moment from 'moment'
 
 const Video = styled('video')`
   width: 100%;
@@ -40,9 +42,14 @@ const VideoLesson = ({
   title,
   description,
   mainVideo,
-  handleStampVideoLesson
+  handleStampVideoLesson,
+  interactiveTime,
+  interactiveVideo1,
+  interactiveVideo2
 }) => {
   const videoRef = useRef(null)
+  const [isInteractiveVideoModalOpen, setIsInteractiveVideoModalOpen] = useState(false)
+  const [videoSrc, setVideoSrc] = useState(mainVideo)
   const htmlDecode = (content) => {
     if (process.browser) {
       const e = document.createElement('div')
@@ -57,15 +64,22 @@ const VideoLesson = ({
       var supposedCurrentTime = 0;
       const handleTimeUpdate = () => {
         if (!video.seeking) {
+          
+          const currentTime = Math.floor(video.currentTime / 60)+':'+Math.floor(video.currentTime % 60);
+          const _interactiveTime = moment(interactiveTime, 'HH:mm:ss').format('mm:ss')
+          const _currentTime = moment(currentTime, 'mm:ss').format('mm:ss')
+          console.log('_interactiveTime', _interactiveTime)
+          console.log('_currentTime', _currentTime)
+          if (_interactiveTime === _currentTime) {
+            onOpenVideoInteractive()
+          }
         }
       }
 
       interval = setInterval(() => {
         const duration = video.duration;
         const buffered_percentage = (video.currentTime / duration) * 100;
-        console.log('supposedCurrentTime', video.currentTime)
-        console.log('buffered_percentage', buffered_percentage)
-        handleStampVideoLesson(video.currentTime.toFixed(2), buffered_percentage.toFixed(2))
+        // handleStampVideoLesson(video.currentTime.toFixed(2), buffered_percentage.toFixed(2))
       }, 5000)
 
       const handleSeeking = () => {
@@ -93,14 +107,39 @@ const VideoLesson = ({
     }, [videoRef])
   }
   addVideoEvent(videoRef)
-  console.log('mainVideo', mainVideo)
+
+  const onOpenVideoInteractive = () => {
+    clearInterval(interval)
+    videoRef.current.pause()
+    setIsInteractiveVideoModalOpen(true)
+  }
+
+  const onSelectVideoInteractive = (key) => {
+    switch (key) {
+      case 1:
+        setVideoSrc(interactiveVideo1)
+        videoRef.current.play()
+        break;
+      case 2:
+        setVideoSrc(interactiveVideo2)
+        videoRef.current.play()
+        break
+      default: null
+    }
+
+    setIsInteractiveVideoModalOpen(false)
+  }
   return (
     <>
+      <InteractiveVideoModal
+        isOpen={isInteractiveVideoModalOpen}
+        onSubmit={(key) => onSelectVideoInteractive(key)}
+      />
       <MenuHeader>{title}</MenuHeader>
         {
-          mainVideo && mainVideo.original &&
+          videoSrc && videoSrc.original &&
           <Video id="video" controls autoplay muted ref={videoRef}>
-            <source src={mainVideo.original} type="video/mp4" />
+            <source src={videoSrc.original} type="video/mp4" />
           </Video>
           
         }
