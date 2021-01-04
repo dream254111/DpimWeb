@@ -310,10 +310,10 @@ const CoursePage = ({
   }, [filter])
 
   useEffect(() => {
-    setFilter({
+    setFilter(JSON.parse(JSON.stringify({
       ...filter,
       search
-    })
+    })))
   }, [search])
 
   const fetchCourseList = async () => {
