@@ -77,21 +77,8 @@ export const checkMemberAlreadyLogin = (req, res) => async dispatch => {
   try {
     const memberDetail = getMemberCookie(req)
     if (memberDetail) {
-      // console.log('checkMemberAlreadyLogin')
-      // console.log('token', memberDetail.token)
-      // const response = await axios({
-      //   headers: {
-      //       'Authorization': memberDetail.token
-      //   },
-      //   method: 'GET',
-      //   url: `${API.url}/Student/profile_minimal`
-      // })
-      // const responseWithData = response.data
-      // // console.log('checkMemberAlreadyLogin', responseWithData)
       await dispatch({ type: MEMBER_LOGIN_SUCCESS, payload: memberDetail })
       await dispatch(fetchProfileMinimal())
-    } else {
-      // res.redirect('/')
     }
     return memberDetail
   } catch (error) {
