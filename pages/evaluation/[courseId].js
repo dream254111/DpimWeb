@@ -92,8 +92,8 @@ const SurveyPage = ({
       if (responseWithData.success) {
         const courseDetail = responseWithData.data
         if (courseDetail.can_use_evaluation === false) {
-          // message.error('คุณยังไม่สามารถทำแบบประเมินหลักสูตรได้')
-          // Router.push('/')
+          message.error('คุณยังไม่สามารถทำแบบประเมินหลักสูตรได้')
+          Router.push('/')
         }
         console.log('courseDetail', courseDetail)
         setCourseDetail(courseDetail)
