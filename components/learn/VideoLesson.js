@@ -64,14 +64,15 @@ const VideoLesson = ({
       var supposedCurrentTime = 0;
       const handleTimeUpdate = () => {
         if (!video.seeking) {
-          
-          const currentTime = Math.floor(video.currentTime / 60)+':'+Math.floor(video.currentTime % 60);
-          const _interactiveTime = moment(interactiveTime, 'HH:mm:ss').format('mm:ss')
-          const _currentTime = moment(currentTime, 'mm:ss').format('mm:ss')
-          console.log('_interactiveTime', _interactiveTime)
-          console.log('_currentTime', _currentTime)
-          if (_interactiveTime === _currentTime) {
-            onOpenVideoInteractive()
+          if (interactiveTime && videoSrc === mainVideo) {
+            const currentTime = Math.floor(video.currentTime / 60)+':'+Math.floor(video.currentTime % 60);
+            const _interactiveTime = moment(interactiveTime, 'HH:mm:ss').format('mm:ss')
+            const _currentTime = moment(currentTime, 'mm:ss').format('mm:ss')
+            console.log('_interactiveTime', _interactiveTime)
+            console.log('_currentTime', _currentTime)
+            if (_interactiveTime === _currentTime) {
+              onOpenVideoInteractive()
+            }
           }
         }
       }
@@ -79,7 +80,7 @@ const VideoLesson = ({
       interval = setInterval(() => {
         const duration = video.duration;
         const buffered_percentage = (video.currentTime / duration) * 100;
-        // handleStampVideoLesson(video.currentTime.toFixed(2), buffered_percentage.toFixed(2))
+        handleStampVideoLesson(video.currentTime.toFixed(2), buffered_percentage.toFixed(2))
       }, 5000)
 
       const handleSeeking = () => {
@@ -92,9 +93,6 @@ const VideoLesson = ({
       const handleEnded = () => {
         supposedCurrentTime = 0
       }
-      const handleProgress = () => {
-        // setVideoProgress(buffered_percentage)
-      }
       video.addEventListener('timeupdate', handleTimeUpdate)
       video.addEventListener('seeking', handleSeeking)
       video.addEventListener('ended', handleEnded)
@@ -106,6 +104,13 @@ const VideoLesson = ({
       }
     }, [videoRef])
   }
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (video) {
+      video.currentTime = 0 
+    }
+  }, [mainVideo])
   addVideoEvent(videoRef)
 
   const onOpenVideoInteractive = () => {
@@ -138,14 +143,12 @@ const VideoLesson = ({
       <MenuHeader>{title}</MenuHeader>
         {
           videoSrc && videoSrc.original &&
-          <Video id="video" controls autoplay muted ref={videoRef}>
+          <Video key={videoSrc.original} id="video" controls autoplay muted ref={videoRef}>
             <source src={videoSrc.original} type="video/mp4" />
           </Video>
-          
         }
         <DescriptionTitle>คำอธิบาย</DescriptionTitle>
         <DescriptionValue>
-        {/* https://github.com/cure53/DOMPurify */}
           <p dangerouslySetInnerHTML={{ __html: htmlDecode(description) }} />
         </DescriptionValue> 
     </>

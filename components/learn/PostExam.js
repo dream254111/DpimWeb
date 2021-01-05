@@ -3,6 +3,11 @@ import Button from '../Button'
 import font from '../../helpers/font'
 import { useState } from 'react'
 import _ from 'lodash'
+import API from '../../helpers/api'
+import axios from 'axios'
+import { message } from 'antd'
+import { connect } from 'react-redux'
+import PostExamSummary from './PostExamSummary'
 
 const PreExam = styled('div')`
   margin-top: 32px;
@@ -59,6 +64,9 @@ const PreExamChoice = styled('div')`
       color: white;
     }
   `}
+  ${props => props.isCorrect === false && `
+    background: rgba(235, 87, 87, 0.08);
+  `}
   :not(:first-child) {
     margin-top: 16px;
   }
@@ -87,67 +95,132 @@ const PreExamTitle = styled('div')`
   font-family: ${font.bold};
 `
 
+const connector = connect(({ memberReducer }) => ({
+  memberToken: memberReducer.member.token,
+  memberDetail: memberReducer.member
+}))
+
 const PreExamComponent = ({
+  courseId,
   exams = [],
   onSelectChoice = () => {},
   onSubmit = () => {},
-  nextChapterName = null
+  nextChapterName = null,
+  memberToken
 }) => {
-  const [answers, setAnswer] = useState([]) 
-  const onClickSelectChoice = (choiceId, courseExamId, answer) => {
-    const data = {
-      id: choiceId,
-      course_exam_id: courseExamId,
-      answer
+  const [answers, setAnswer] = useState([])
+  const [isCheckAnswer, setIsCheckAnswer] = useState(false)
+  const [answerResult, setAnswerResult] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
+
+  const onClickSelectChoice = (choiceId, courseExamId, answer, isCorrect) => {
+    if (isCorrect === false || isCorrect === null) {
+      const data = {
+        id: choiceId,
+        course_exam_id: courseExamId,
+        answer
+      }
+      const answerIndex = answers.findIndex(item => item.course_exam_id === courseExamId)
+      const _answer = JSON.parse(JSON.stringify(answers))
+      if (answerIndex !== -1) {
+        _answer[answerIndex] = data
+        setAnswer(_answer)
+      } else {
+        _answer.push(data)
+        setAnswer(_answer)
+      }
     }
-    const answerIndex = answers.findIndex(item => item.course_exam_id === courseExamId)
-    const _answer = JSON.parse(JSON.stringify(answers))
-    if (answerIndex !== -1) {
-      _answer[answerIndex] = data
-      setAnswer(_answer)
-    } else {
-      _answer.push(data)
-      setAnswer(_answer)
+  }
+
+  const checkAnswer = async (values) => {
+    console.log('values', values)
+    setIsLoading(true)
+    const answer = values.map(item => {
+      return {
+        course_exam_id: item.course_exam_id,
+        answer: item.answer
+      }
+    })
+    try {
+      const request = {
+        headers: {
+          Authorization: memberToken
+        },
+        method: 'POST',
+        url: `${API.url}/Course/send_answer_exam`,
+        data: {
+          is_pretest: false,
+          course_id: courseId,
+          answer
+        }
+      }
+      const response = await axios(request)
+      const responseWithData = response.data
+      console.log('responseWithData', responseWithData)
+      if (responseWithData.success) {
+        setIsCheckAnswer(true)
+        setAnswerResult(responseWithData.data)
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
     }
+    setIsLoading(false)
   }
   const handleSubmit = () => {
     onSubmit(answers)
     setAnswer([])
   }
-  return (
-    <PreExam>
-      {JSON.stringify(answers)}
-      <PreExamTitle>แบบทดสอบหลังเรียน</PreExamTitle>
-      <PreExamItems>
-        {
-          exams.map((item, index) => (
-            <PreExamItem key={index}>
-              <PreExamWQuestion no={index + 1}>{item.question}</PreExamWQuestion>
-              <PreExamChoices>
-                {
-                  item.list_answer.map((choice, index) => (
-                    <PreExamChoice
-                      active={!_.isEmpty(answers.find(a => a.id === choice.id))}
-                      key={index}
-                      onClick={() => onClickSelectChoice(choice.id, choice.course_exam_id, choice.order)}
-                    >
-                      <PreExamChoiceNo>{index + 1}.</PreExamChoiceNo>{choice.answer}
-                    </PreExamChoice>
-                  ))
-                }
-              </PreExamChoices>
-            </PreExamItem>
 
-          ))
-        }
-      </PreExamItems>
-      <Button
-        type='primary'
-        style={{float: 'right', marginTop: '32px'}}
-        onClick={() => handleSubmit()}
-      >ตรวจคำตอบ</Button>
-    </PreExam>
+  return (
+    <>
+      {
+        isCheckAnswer === true &&
+          <PostExamSummary
+            courseId={courseId}
+            score={answerResult.score || 0}
+            maxScore={answerResult.total_exam || 0}
+            percent={answerResult.percent || 0}
+          />
+      }
+      <PreExam>
+        <PreExamTitle>แบบทดสอบหลังเรียน</PreExamTitle>
+        <PreExamItems>
+          {
+            exams.map((item, index) => (
+              <PreExamItem key={index}>
+                <PreExamWQuestion no={index + 1}>{item.question}</PreExamWQuestion>
+                <PreExamChoices>
+                  {
+                    item.list_answer.map((choice, index) => (
+                      <PreExamChoice
+                        active={!_.isEmpty(answers.find(a => a.id === choice.id))}
+                        key={index}
+                        isCorrect={answers.find(a => a.id === choice.id) && isCheckAnswer === true && answerResult && answerResult.list_result && answerResult.list_result.find(r => r.course_exam_id === item.id) && answerResult.list_result.find(r => r.course_exam_id === item.id).status || null}
+                        onClick={() => onClickSelectChoice(choice.id, choice.course_exam_id, choice.order, answerResult && answerResult.list_result === undefined ? null : answerResult.list_result.find(r => r.course_exam_id === item.id).status)}
+                      >
+                        <PreExamChoiceNo>{index + 1}.</PreExamChoiceNo>{choice.answer}
+                      </PreExamChoice>
+                    ))
+                  }
+                </PreExamChoices>
+              </PreExamItem>
+
+            ))
+          }
+        </PreExamItems>
+        <Button
+          type='primary'
+          style={{ float: 'right', marginTop: '32px' }}
+          onClick={() => checkAnswer(answers)}
+          loading={isLoading}
+        >ตรวจคำตอบ
+        </Button>
+      </PreExam>
+
+    </>
   )
 }
 
-export default PreExamComponent
+export default connector(PreExamComponent)

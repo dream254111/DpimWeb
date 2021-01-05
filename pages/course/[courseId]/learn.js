@@ -1,6 +1,6 @@
 import { Menu, Row, Col, message } from 'antd'
 import { Button, Container } from '../../../components'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import {
   AppstoreOutlined,
   MenuUnfoldOutlined,
@@ -94,27 +94,9 @@ const LearnPage = ({
   useEffect(() => {
     fetchCourseDetail()
   }, [])
-  let menuKey = 0
   const [collapsed, setCollapsed] = useState(false)
   const [courseDetail, setCourseDetail] = useState({})
   const [menu, setMenu] = useState('1')
-  // const [menuKey, setMenuKey] = useState(0)
-  const videoRef = useRef(null)
-  let supposedCurrentTime = 0
-  const isPlayed = (time, video) => {
-    var start = 0, end = 0;
-    for (var i = 0; i < video.played.length; i++) {
-      start = video.played.start(i);
-      end = video.played.end(i);
-      if (end - start < 1) {
-        continue;
-      }
-      if (time >= start && time <= end) {
-        return true
-      }
-    }
-    return false
-  }
   
   // const countMenuKey = () => {
   //   const newMenuKey = menuKey + 1
@@ -122,45 +104,6 @@ const LearnPage = ({
   //   console.log('newMenuKey', newMenuKey)
   //   return newMenuKey
   // }
-
-  const countMenuKey = () => {
-    menuKey = menuKey + 1
-    return menuKey
-  }
-
-  const addVideoEvent = (ref) => {
-    useEffect(() => {
-      const video = videoRef.current
-      console.log('video', video)
-      var supposedCurrentTime = 0;
-      const handleTimeUpdate = () => {
-        if (!video.seeking) {
-          supposedCurrentTime = video.currentTime
-        }
-      }
-
-      const handleSeeking = () => {
-        var delta = video.currentTime > supposedCurrentTime
-        if (Math.abs(delta) > 0.01) {
-          video.currentTime = supposedCurrentTime
-        }
-      }
-
-      const handleEnded = () => {
-        supposedCurrentTime = 0
-      }
-      // video.addEventListener('timeupdate', handleTimeUpdate)
-      // video.addEventListener('seeking', handleSeeking)
-      // video.addEventListener('ended', handleEnded)
-      return () => {
-        // video.removeEventListener('timeupdate', handleTimeUpdate)
-        // video.removeEventListener('seeking', handleSeeking)
-        // video.removeEventListener('ended', handleEnded)
-      }
-    }, [videoRef])
-  }
-  addVideoEvent(videoRef)
-
 
   const htmlDecode = (content) => {
     if (process.browser) {
@@ -192,81 +135,6 @@ const LearnPage = ({
       message.error(error.message)
     }
   }
-
-  const onSubmitPreExam = async (values) => {
-    console.log('values', values)
-    const answer = values.map(item => {
-      return {
-        course_exam_id: item.course_exam_id,
-        answer: item.answer
-      }
-    })
-    console.log('answer, answer')
-    try {
-      console.log('courseId', courseId)
-      const request = {
-        headers: {
-          'Authorization': memberToken
-        },
-        method: 'POST',
-        url: `${API.url}/Course/send_answer_exam`,
-        data: {
-          is_pretest: true,
-          course_id: courseId,
-          answer
-        }
-      }
-      const response = await axios(request)
-      const responseWithData = response.data
-      console.log('responseWithData', responseWithData)
-      if (responseWithData.success) {
-        await fetchCourseDetail()
-        // setMenu('3')
-        // setCourseDetail(responseWithData.data)
-      } else {
-        throw new Error(responseWithData.error)
-      }
-    } catch (error) {
-      message.error(error.message)
-    }
-  }
-
-  const onSubmitPostExam = async (values) => {
-    console.log('values', values)
-    const answer = values.map(item => {
-      return {
-        course_exam_id: item.course_exam_id,
-        answer: item.answer
-      }
-    })
-    try {
-      const request = {
-        headers: {
-          'Authorization': memberToken
-        },
-        method: 'POST',
-        url: `${API.url}/Course/send_answer_exam`,
-        data: {
-          is_pretest: true,
-          course_id: courseId,
-          answer
-        }
-      }
-      const response = await axios(request)
-      const responseWithData = response.data
-      console.log('responseWithData', responseWithData)
-      if (responseWithData.success) {
-        // setCourseDetail(responseWithData.data)
-      } else {
-        throw new Error(responseWithData.error)
-      }
-    } catch (error) {
-      message.error(error.message)
-    }
-  }
-
-
-
 
   const courseName = courseDetail.course && courseDetail.course.name
   const courseObjective = courseDetail.course && courseDetail.course.objective_course
@@ -380,7 +248,6 @@ const LearnPage = ({
             </CourseDetailWrapper>
             <Menu
               defaultSelectedKeys={[1]}
-              defaultOpenKeys={['sub1']}
               mode="inline"
               theme="light"
               inlineCollapsed={collapsed}
@@ -400,10 +267,18 @@ const LearnPage = ({
               {
                 courseLessons.map((item, index) => (
                   <SubMenu key="sub1" title={`บทที่ ${index + 1} : ${item.name}`}>
-                    <Menu.Item key={item.id} icon={<PlayCircleOutlined />}>วีดีโอ</Menu.Item>
+                    <Menu.Item
+                      key={item.id}
+                      icon={<PlayCircleOutlined />}
+                      disabled={courseDetail.can_use_pre_test}
+                    >วีดีโอ</Menu.Item>
                     {
                       item && item.exercise && item.exercise.length > 0 &&
-                      <Menu.Item key={(item.id).toString() + '0'} icon={<FormOutlined />}>คำถามท้ายบท {index + 1}</Menu.Item>
+                      <Menu.Item
+                        key={(item.id).toString() + '0'}
+                        icon={<FormOutlined />}
+                        disabled={courseDetail.can_use_pre_test}
+                      >คำถามท้ายบท {index + 1}</Menu.Item>
                     }
                   </SubMenu>
                   // <Menu.Item
@@ -413,10 +288,13 @@ const LearnPage = ({
                   // </Menu.Item>
                 ))
               }
-              <Menu.Item key={999} icon={<FileTextOutlined />} disabled={!courseDetail.can_use_post_test}>
+              <Menu.Item
+                key={999}
+                icon={<FileTextOutlined />}
+                // disabled={!courseDetail.can_use_post_test}
+              >
                 แบบทดสอบหลังเรียน
               </Menu.Item>
-              
             </Menu>
           </Col>
           <Col lg={18}>
@@ -467,8 +345,7 @@ const LearnPage = ({
               </>
             }
             {
-              menu === '2' &&
-              isPreTestPass === false &&
+              menu === '2' && courseDetail.can_use_pre_test &&
                 <>
                   <MenuHeader>
                     {courseName}
@@ -479,10 +356,12 @@ const LearnPage = ({
                     </Button> */}
                   </MenuHeader>
                   <PreExam
+                    courseId={courseDetail.course.id}
                     exams={examPreTests}
                     onSelectChoice={(value) => console.log('onSelectChoice', value)}
                     nextChapterName={courseLessonOne}
-                    onSubmit={(values) => onSubmitPreExam(values)}
+                    isFinished={courseDetail.can_use_pre_test}
+                    onSubmit={() => fetchCourseDetail()}
                   />
                 </>
             }
@@ -501,6 +380,7 @@ const LearnPage = ({
                   </Button> */}
                 </MenuHeader>
                 <PostExam
+                  courseId={courseDetail.course.id}
                   exams={examPostTests}
                   onSelectChoice={(value) => console.log('onSelectChoice', value)}
                   nextChapterName={courseLessonOne}
@@ -514,91 +394,6 @@ const LearnPage = ({
     </MainLayout>
   )
 }
-
-// const PreExam = styled('div')`
-//   margin-top: 32px;
-//   width: 70%;
-//   margin-left: auto;
-//   margin-right: auto;
-//   margin-bottom: 200px;
-// `
-
-const PreExamItems = styled('div')`
-
-`
-
-const PreExamItem = styled('div')`
-  display: flex;
-  flex-direction: column;
-  :not(:first-child) {
-    margin-top: 48px;
-  }
-  :first-child {
-    margin-top: 16px;
-  }
-`
-
-const PreExamWQuestion = styled('div')`
-  font-size: 24px;
-  position: relative;
-  :after {
-    content: '${props => props.no}';
-    position: absolute;
-    color: #C4C4C4;
-    font-size: 18px;
-    left: -6%;
-    top: 7%;
-  }
-`
-
-const PreExamChoices = styled('div')`
-  margin-top: 48px;
-`
-
-const PreExamChoice = styled('div')`
-  background: #FFFFFF;
-  border: 1px solid #EAEAEA;
-  box-sizing: border-box;
-  border-radius: 5px;
-  padding: 8px;
-  font-size: 20px;
-  ${props => props.active === true && `
-    background: rgba(0, 147, 123, 0.08);
-    border: 1px solid #00937B;
-    ${PreExamChoiceNo} {
-      background: #00937B;
-      color: white;
-    }
-  `}
-  :not(:first-child) {
-    margin-top: 16px;
-  }
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-`
-
-const PreExamChoiceNo = styled('div')`
-  background: white;
-  color: black;
-  border-radius: 4px;
-  margin-right: 22px;
-  width: 32px;
-  height: 32px;
-  font-size: 12px;
-  border: 1px solid #F2F2F2;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`
-
-
-const PreExamTitle = styled('div')`
-  font-size: 32px;
-  font-family: ${font.bold};
-`
-
 
 LearnPage.getInitialProps = ({ query }) => {
   const { courseId } = query

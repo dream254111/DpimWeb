@@ -1,7 +1,8 @@
 import styled from 'styled-components'
 import font from '../../helpers/font'
-import { CheckCircleOutlined  } from '@ant-design/icons'
+import { CheckCircleOutlined } from '@ant-design/icons'
 import Button from '../Button'
+import Router from 'next/router'
 
 const PreExam = styled('div')`
   margin: 0 auto;
@@ -19,6 +20,10 @@ const PreExamSummary = styled('div')`
   border: 1px solid #00937B;
   box-sizing: border-box;
   border-radius: 4px;
+  ${props => props.isPass === false && `
+    background: rgba(235, 87, 87, 0.08);
+    border: 1px solid #EB5757;
+  `}
 `
 
 
@@ -39,33 +44,45 @@ const PreExamSummaryDescription = styled('div')`
   margin-top: 16px;
 `
 
-
-const PreExamSummaryComponent = ({
+const PostExamSummaryComponent = ({
+  courseId,
   score,
   maxScore,
-  nextChapterName,
   onClickNextChapter,
   percent,
   isShowNextChapterButton,
   ...rest
 }) => {
+  const isPass = percent > 50
+  const textRender = () => {
+    if (isPass) {
+      return 'ผ่านการทดสอบหลักสูตร'
+    } else {
+      return 'ยังไม่ผ่านแบบทดสอบ'
+    }
+  }
   return (
     <PreExam {...rest}>
-        <PreExamSummary>
+        <PreExamSummary isPass={isPass}>
           <div>
-            <PreExamSummaryTitle>{'สรุปผลคะแนนแบบทดสอบก่อนเรียน'}</PreExamSummaryTitle>
+            <PreExamSummaryTitle>{'สรุปผลคะแนนแบบทดสอบหลังเรียน'}</PreExamSummaryTitle>
             <PreExamSummaryDescription>
               <CheckCircleOutlined style={{color: '#43BF9A'}} />
-              <PreExamSummaryScore>ผ่านการทดสอบหลักสูตร คุณตอบถูก {score} ข้อ จาก {maxScore} ข้อ = {percent.toFixed(2)}%</PreExamSummaryScore>
+              <PreExamSummaryScore>{textRender()} คุณตอบถูก {score} ข้อ จาก {maxScore} ข้อ = {percent.toFixed(2)}%</PreExamSummaryScore>
             </PreExamSummaryDescription>
           </div>
           {
-            isShowNextChapterButton &&
-            <Button type='primary' onClick={onClickNextChapter}>บทถัดไป : {nextChapterName}</Button>
+            isPass &&
+            <Button
+              type='primary'
+              onClick={() => Router.push(`/evaluation/${courseId}`)}
+            >
+              ให้คะแนนประเมิน
+            </Button>
           }
         </PreExamSummary>
     </PreExam>
   )
 }
 
-export default PreExamSummaryComponent
+export default PostExamSummaryComponent
