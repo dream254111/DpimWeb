@@ -55,6 +55,8 @@ const FaqTypeName = styled('div')`
 const FAQPage = ({ master }) => {
   const [currentType, setCurrentType] = useState(constants.FAQ_TYPE.HOW_TO_USE)
   const [faqs, setFaqs] = useState([])
+  const [searchText, setSearchText] = useState('')
+  const [searchResult, setSearchResult] = useState([])
 
   useEffect(() => {
     fetchType()
@@ -78,6 +80,17 @@ const FAQPage = ({ master }) => {
     }
   }
 
+  const onSearch = (text) => {
+    console.log('onSearch', text)
+    console.log('faqs', faqs)
+    if (text) {
+      const result = faqs.filter(item => item.question.indexOf(text) !== -1)
+      console.log('result', result)
+      setSearchResult(result)
+    } else {
+      setSearchResult([])
+    }
+  }
   const renderFaqTypeIcon = (typeId) => {
     switch (typeId) {
       case constants.FAQ_TYPE.HOW_TO_USE:
@@ -121,32 +134,49 @@ const FAQPage = ({ master }) => {
           style={{marginTop: '32px'}}
           placeholder="ค้นหาปัญหาคำถาม"
           prefix={<SearchOutlined style={{color: '#DADADA'}} />}
+          onChange={(event) => onSearch(event.target.value)}
         />
-        <Row style={{marginTop: '32px'}} gutter={{ lg: 16, xs: 8 }} justify='space-between' align='middle'>
+        {
+          searchResult.length > 0 ?
+          <CollapseWrapper defaultActiveKey={['0']} style={{marginTop: '16px'}}>
           {
-            master.faq_type.map((item, index) => (
-              <Col lg={4} key={index}>
-                <FaqTypeCard
-                  onClick={() => onChangeType(item.id)}
-                  isActive={currentType === item.id}
-                >
-                  <FaqTypeIcon>{renderFaqTypeIcon(item.id)}</FaqTypeIcon>
-                  <FaqTypeName>{item.name}</FaqTypeName>
-                </FaqTypeCard>
-              </Col>
-            ))
-          }
-        </Row>
-        <HowToTitle>การใช้งานเว็ปไซต์</HowToTitle>
-        <CollapseWrapper defaultActiveKey={['0']} style={{marginTop: '16px'}}>
-          {
-            faqs.length > 0 && faqs.filter(item => item.faq_type_id === currentType).map((faq, index) => (
+            faqs.map((faq, index) => (
               <PanelWrapper header={faq.question} key={index}>
                 <p>{stripHtml(faq.answer)}</p>
               </PanelWrapper>
             ))
           }
-        </CollapseWrapper>
+          </CollapseWrapper>
+          :
+          <>
+            <Row style={{marginTop: '32px'}} gutter={{ lg: 16, xs: 8 }} justify='space-between' align='middle'>
+            {
+              master.faq_type.map((item, index) => (
+                <Col lg={4} key={index}>
+                  <FaqTypeCard
+                    onClick={() => onChangeType(item.id)}
+                    isActive={currentType === item.id}
+                  >
+                    <FaqTypeIcon>{renderFaqTypeIcon(item.id)}</FaqTypeIcon>
+                    <FaqTypeName>{item.name}</FaqTypeName>
+                  </FaqTypeCard>
+                </Col>
+              ))
+            }
+          </Row>
+          <HowToTitle>การใช้งานเว็ปไซต์</HowToTitle>
+          <CollapseWrapper defaultActiveKey={['0']} style={{marginTop: '16px'}}>
+            {
+              faqs.length > 0 && faqs.filter(item => item.faq_type_id === currentType).map((faq, index) => (
+                <PanelWrapper header={faq.question} key={index}>
+                  <p>{stripHtml(faq.answer)}</p>
+                </PanelWrapper>
+              ))
+            }
+          </CollapseWrapper>
+          </>
+        }
+        
       </Container>
     </MainLayout>
   )

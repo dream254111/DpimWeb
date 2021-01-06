@@ -137,7 +137,6 @@ const CourseCardComponent = ({
     ...rest
   }) => {
   const instructorNames = instructors.length > 0 && instructors.map(item => `${item.firstname} ${item.lastname}`) || []
-  console.log('instructorNames', instructorNames)
   const onClickCard = () => {
     console.log('onClickCard')
     console.log('type', type)

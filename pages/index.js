@@ -77,6 +77,7 @@ const BannerSliderContent = styled('div')`
 
 const BannerImage = styled('img')`
   width: 100%;
+  cursor: pointer;
 
 `
 
@@ -265,7 +266,7 @@ const IndexPage = ({
 
   useEffect(() => {
     if(memberToken) {
-      fetchMyCourseProgess()
+      // fetchMyCourseProgess()
     }
   }, [memberToken])
 
@@ -281,18 +282,16 @@ const IndexPage = ({
     try {
       const response = await axios({
         headers: {
-          'Authorization': `${memberToken}`
+          Authorization: `${memberToken}`
         },
         method: 'GET',
         url: `${API.url}/Course/my_course_progress`,
       })
       const data = response.data.data
-
     } catch (error) {
       message.error(error.message)
     }
   }
-
 
   const fetchBannerList = async () => {
     try {
@@ -301,6 +300,7 @@ const IndexPage = ({
         url: `${API.url}/Student/GetAllBanner`,
       })
       const data = response.data.data.data
+      console.log('fetchBannerlist', data)
       setBanners(data)
     } catch (error) {
       message.error(error.message)
@@ -318,7 +318,6 @@ const IndexPage = ({
       })
       const data = response.data.data
       setCourses(data)
-
     } catch (error) {
       message.error(error.message)
     }
@@ -327,16 +326,16 @@ const IndexPage = ({
   const fetchVideoOnDemandList = async () => {
     try {
       const response = await axios({
-          method: 'GET',
-          url: `${API.url}/Student/GetAllVideo`,
-          params : {
-              category_id : selectedVDOCategory, // 0 คือ เอาทุก category หรือไม่ก็ส่ง categoryId มา
-          }
+        method: 'GET',
+        url: `${API.url}/Student/GetAllVideo`,
+        params : {
+          category_id : selectedVDOCategory, // 0 คือ เอาทุก category หรือไม่ก็ส่ง categoryId มา
+        }
       })
       const data = response.data.data
       setVdo(data)
     } catch (error) {
-        message.error(error.message)
+      message.error(error.message)
     }
   }
 
@@ -348,7 +347,6 @@ const IndexPage = ({
       })
       const data = response.data.data
       setRecommendWeb(data)
-
     } catch (error) {
       message.error(error.message)
     }
@@ -362,7 +360,6 @@ const IndexPage = ({
       })
       const data = response.data.data
       setWebStat(data)
-
     } catch (error) {
       message.error(error.message)
     }
@@ -426,7 +423,7 @@ const IndexPage = ({
             <BannerContent>
               <BannerContentLeft>
                 <BannerTitle>
-                ระบบการเรียนออนไลน์ภายใต้การพัฒนาของกรมอุตสาหกรรมพื้นฐานและการเหมืองแร่
+                  ระบบการเรียนออนไลน์ภายใต้การพัฒนาของกรมอุตสาหกรรมพื้นฐานและการเหมืองแร่
                 </BannerTitle>
                 <BannerSubtitle>คอร์สเรียนออนไลน์ พร้อมใบประกาศนียบัตร สำหรับผู้ประกอบการและบุคคลทั่วไป</BannerSubtitle>
               </BannerContentLeft>
@@ -447,6 +444,7 @@ const IndexPage = ({
                   >
                     <BannerImage
                       src={item.image_pc}
+                      onClick={() => window.open(item.link, '_href')}
                       // srcMobile={item.image_mobile}
                     />
                   </div>
@@ -455,7 +453,7 @@ const IndexPage = ({
             </Slider>
           </BannerSliderContent>
         </Container>
-        <CourseOnlineContent> 
+        <CourseOnlineContent>
           <Container paddingTop='72px' paddingBottom='72px'>
             <Title>คอร์สเรียนออนไลน์</Title>
             <CategoryWrapper>
@@ -470,7 +468,8 @@ const IndexPage = ({
                 type='primary'
                 fontSize='12px'
                 onClick={() => Router.push('/course')}
-              >ดูคอร์สออนไลน์ทั้งหมด</Button>
+              >ดูคอร์สออนไลน์ทั้งหมด
+              </Button>
             </CategoryWrapper>
             <CourseListContent>
               <Slider {...courseSliderSettings}>
