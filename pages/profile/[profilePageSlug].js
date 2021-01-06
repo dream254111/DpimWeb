@@ -5,12 +5,13 @@ import Certificate from '../../containers/profile/Certificate'
 import Courses from '../../containers/profile/Courses'
 import { PROFILE_PAGE } from '../../constants'
 import { useState, useEffect } from 'react'
-import { Row, Col, Avatar, Divider, Button } from 'antd'
+import { Row, Col, Avatar, Divider, Button, Select } from 'antd'
 import Container from '../../components/Container'
 import { UserOutlined } from '@ant-design/icons'
 import font from '../../helpers/font'
 import Router from 'next/router'
 import { connect } from 'react-redux'
+const { Option } = Select
 
 const Wrapper = styled('div')`
   
@@ -54,6 +55,20 @@ const Menu = styled('div')`
   `}
 `
 
+const MobileCard = styled(Card)`
+  margin-bottom: 24px;
+`
+
+const StyledSelect = styled(Select)`
+.ant-select-arrow {
+  color: #00937B;
+  padding-right: 30.2px;
+}
+&&& {
+  background-color: rgba(0, 147, 123, 0.08);
+  padding: 8px 0;
+}
+`
 
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token,
@@ -82,7 +97,7 @@ const ProfileSlugPage = ({ memberDetail, master, profilePageSlug }) => {
       <Wrapper>
         <Container paddingTop='32px' paddingBottom='153px'>
           <Row gutter={{ lg: 16 }}>
-            <Col lg={7}>
+            <Col lg={7} xs={0}>
               <Card>
                 <CardHeader>
                   <Avatar size={48} icon={<UserOutlined />} src={memberDetail.profile_path} />
@@ -104,6 +119,31 @@ const ProfileSlugPage = ({ memberDetail, master, profilePageSlug }) => {
                   >ใบประกาศนียบัตร</Menu>
                 </Menus>
               </Card>
+            </Col>
+            <Col sm={24} xs={24} lg={0}>
+            <MobileCard>
+                <CardHeader>
+                  <Avatar size={48} icon={<UserOutlined />} src={memberDetail.profile_path} />
+                  <CardName>{memberDetail.firstname} {memberDetail.lastname}</CardName>
+                </CardHeader>
+                <Divider style={{margin: 0 }} />
+                <StyledSelect
+                  style={{
+                    margin: '12px 0',
+                    width: '100%', 
+                    color:'#00937B', 
+                    fontSize: '14px', 
+                    fontWeight: 'bold',
+                  }}
+                  bordered={false}
+                  defaultValue='โปรไฟล์ของฉัน'
+                  onChange={(value) => onMenuChange(value)}
+                >
+                  <Option style={{padding: '8px 12px'}} value={PROFILE_PAGE.BASIC_INFORMATION}>โปรไฟล์ของฉัน</Option>
+                  <Option style={{padding: '8px 12px'}} value={PROFILE_PAGE.COURSES}>คอร์สของฉัน</Option>
+                  <Option style={{padding: '8px 12px'}} value={PROFILE_PAGE.CERTIFICATE}>ใบประกาศนียบัตร</Option>
+                </StyledSelect>
+              </MobileCard>
             </Col>
             <Col lg={17}>
               {
