@@ -50,7 +50,7 @@ const Certificate = ({
   }
   return (
     <Wrapper>
-      <PageTitle>ใบประกาศนียบัตรนะ</PageTitle>
+      <PageTitle>ใบประกาศนียบัตร</PageTitle>
       {/* <Row gutter={16}>
         {
           certs.map((item, index) => (
