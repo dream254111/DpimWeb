@@ -8,6 +8,7 @@ export const MEMBER_LOGIN_SUCCESS = 'MEMBER_LOGIN_SUCCESS' + suffix
 export const MEMBER_LOGOUT_REQUEST = 'MEMBER_LOGOUT_REQUEST' + suffix
 export const MEMBER_LOGOUT_SUCCESS = 'MEMBER_LOGOUT_SUCCESS' + suffix
 export const MEMBER_PROFILE_MINIMAL = 'MEMBER_PROFILE_MINIMAL' + suffix
+export const MEMBER_UPDATE = 'MEMBER_UPDATE' + suffix
 
 
 export const initialState = {
@@ -23,16 +24,24 @@ export default function memberReducer(state = initialState, action) {
         member: action.payload,
       }
     case MEMBER_PROFILE_MINIMAL:
-        return {
-          ...state,
-          member: {
-            ...state.member,
-            ...action.payload
-          }
+      return {
+        ...state,
+        member: {
+          ...state.member,
+          ...action.payload
         }
+      }
     case MEMBER_LOGOUT_REQUEST:
       return {
         ...state,
+      }
+    case MEMBER_UPDATE:
+      return {
+        ...state,
+        member: {
+          ...state.member,
+          ...action.payload
+        }
       }
     case MEMBER_LOGOUT_SUCCESS:
       return {
@@ -63,6 +72,20 @@ export const setMemberDetail = (payload) => async (dispatch) => {
   }
 }
 
+export const updateMemberDetail = (payload) => async (dispatch) => {
+  try {
+    const memberDetail = getMemberCookie()
+    setMemberCookie({
+      ...memberDetail,
+      ...payload
+    })
+    dispatch({ type: MEMBER_UPDATE, payload })
+    return true
+  } catch (error) {
+    console.log('error', error)
+  }
+}
+
 export const onMemberLogout = () => async (dispatch) => {
   try {
     resetMemberCookie()
@@ -85,7 +108,6 @@ export const checkMemberAlreadyLogin = (req, res) => async dispatch => {
     console.log('err', error.message)
   }
 }
-
 
 export const fetchProfileMinimal = () => async (dispatch, getState) => {
   const memberToken = getState().memberReducer.member.token

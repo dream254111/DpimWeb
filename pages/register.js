@@ -268,7 +268,7 @@ const RegisterPage = ({ master }) => {
                     labelCol={{ span: 24 }}
                     rules={[{ required: true, message: 'กรุณาเลือกจังหวัด' } ]}
                   >
-                    <Select placeholder='เลือกจังหวัด' onChange={(value) => onProvinceChange(value)} placeholder='เลือกจังหวัด'>
+                    <Select placeholder='เลือกจังหวัด' onChange={(value) => onProvinceChange(value)}>
                       {
                         provinces.map((item, index) => (
                           <Option
@@ -287,7 +287,7 @@ const RegisterPage = ({ master }) => {
                     labelCol={{ span: 24 }}
                     rules={[{ required: true, message: 'กรุณาเลือกเขต/อำเภอ' } ]}
                   >
-                    <Select placeholder='เลือกเขต/อำเภอ' onChange={(value) => onDistrictChange(value)} placeholder='เลือกเขต/อำเภอ'>
+                    <Select placeholder='เลือกเขต/อำเภอ' onChange={(value) => onDistrictChange(value)}>
                       {
                         districts.filter(item => item.province_id === provinceId).map((item, index) => (
                           <Option

@@ -13,7 +13,11 @@ import constants from '../../constants'
 import moment from 'moment'
 import { UploadDocumentModal } from '../../components/modals/index'
 import provinces from '../../api/json/province.json'
+import districts from '../../api/json/districts.json'
+import subDistricts from '../../api/json/sub-districts.json'
 import { fetchProfileMinimal } from '../../stores/memberReducer'
+import _ from 'lodash'
+import { updateMemberDetail } from '../../stores/memberReducer'
 
 const PageTitle = styled('div')`
   color: #00937B;
@@ -57,13 +61,16 @@ const BasicInformation = ({
   const [straightFaceImage, setStraightFaceImage] = useState(null)
   const [modalSelected, setModalSelected] = useState(null)
   const [isSubmitLoading, setIsSubmitLoading] = useState(false)
+  const [provinceId, setProvinceId] = useState(null)
+  const [districtId, setDistrictId] = useState(null)
+  const [subDistrictId, setSubDistrictId] = useState(null)
+  const dateFormat = 'YYYY/MM/DD'
 
   useEffect(() => {
     form.resetFields()
     fetchData()
   }, [])
   const handleSubmit = (values) => {
-    // console.log('handleSubmit', values)
     updateProfile(values)
   }
 
@@ -71,15 +78,23 @@ const BasicInformation = ({
     try {
       const response = await axios({
         headers: {
-          'Authorization': memberToken
+          Authorization: memberToken
         },
         method: 'GET',
         url: `${API.url}/Student/StudentProfile`
       })
       const responseWithData = response.data
       if (responseWithData.success) {
-        let { student } = responseWithData.data
-        delete student.birthday
+        const { student } = responseWithData.data
+        if (student.know_channel) {
+          const knowChannelKey = _.groupBy(master.know_channel, 'id')
+          const knowChannelNames = student.know_channel.map(item => knowChannelKey[item][0].name)
+          student.know_channel = knowChannelNames
+        }
+        student.birthday = student.birthday ? moment(student.birthday) : null
+        setProvinceId(student.province_id)
+        setDistrictId(student.district_id)
+        setSubDistrictId(student.sub_district_id)
         setAvatar(student.profile_image)
         setFrontIdCard(student.front_id_card)
         setBackIdCard(student.back_id_card)
@@ -108,18 +123,18 @@ const BasicInformation = ({
       bodyFormData.append('', file)
       const response = await axios({
         headers: {
-          'Authorization': memberToken,
+          Authorization: memberToken
         },
         method: 'POST',
         url: `${API.url}/FileUpload/FileUpload`,
         data : bodyFormData
       })
-    if (response.status === 200) {
-      const imageUrl = response.data[0].path
-      callback(imageUrl)
-    } else {
-      throw new Error('something went wrong')
-    }
+      if (response.status === 200) {
+        const imageUrl = response.data[0].path
+        callback(imageUrl)
+      } else {
+        throw new Error('something went wrong')
+      }
     } catch (error) {
       message.error(error.message)
     }
@@ -136,21 +151,34 @@ const BasicInformation = ({
         straight_face_image: straightFaceImage,
         business_attachment: businessAttachment
       }).filter(([_, v]) => v != null && v !== ''))
+
+      const knowChannelKey = _.groupBy(master.know_channel, 'name')
+      const knowChannelIds = values.know_channel.map(item => knowChannelKey[item][0].id)
+      console.log('knowChannelIds', knowChannelIds)
+
       const response = await axios({
         headers: {
-          'Authorization': memberToken
+          Authorization: memberToken
         },
         method: 'POST',
         url: `${API.url}/Student/ProfileUpdate`,
         data: {
-          student
+          student: {
+            ...student,
+            know_channel: knowChannelIds
+          }
         }
       })
       const responseWithData = response.data
       if (responseWithData.success) {
+        const data = responseWithData.data
         fetchData()
         fetchProfileMinimal()
         message.success('บันทึกสำเร็จ')
+        dispatch(updateMemberDetail({
+          profile_path: data.profile_image,
+          profile_image: data.profile_image
+        }))
       } else {
         throw new Error(responseWithData.error)
       }
@@ -167,7 +195,23 @@ const BasicInformation = ({
     setIsTitleChange(title)
     setIsUploadDocumentModalOpen(true)
   }
-  console.log('basicInformatinop', master)
+  const onProvinceChange = (value) => {
+    setDistrictId(null)
+    setSubDistrictId(null)
+    form.setFieldsValue({
+      district_id: null,
+      sub_district_id: null
+    })
+    setProvinceId(value)
+  }
+
+  const onDistrictChange = (value) => {
+    setSubDistrictId(null)
+    form.setFieldsValue({
+      sub_district_id: null
+    })
+    setDistrictId(value)
+  }
   return (
     <Wrapper>
       <UploadDocumentModal
@@ -288,7 +332,7 @@ const BasicInformation = ({
               name='birthday'
               labelCol={{ span: 24 }}
             >
-              <DatePicker style={{width: '100%'}} format={'YYYY-MM-DD'} />
+              <DatePicker style={{width: '100%'}} format={dateFormat} />
             </Form.Item>
           </Col>
           <Col lg={12} />
@@ -299,9 +343,19 @@ const BasicInformation = ({
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <Select>
-                <Option>dfd</Option>
-                <Option>xxx</Option>
+              <Select
+                placeholder='เลือกจังหวัด'
+                onChange={(value) => onProvinceChange(value)}
+              >
+                {
+                  provinces.map((item, index) => (
+                    <Option
+                      key={index}
+                      value={item.id}
+                    >{item.province_name}
+                    </Option>
+                  ))
+                }
               </Select>
             </Form.Item>
           </Col>
@@ -312,9 +366,16 @@ const BasicInformation = ({
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <Select>
-                <Option>dfd</Option>
-                <Option>xxx</Option>
+              <Select placeholder='เลือกเขต/อำเภอ' onChange={(value) => onDistrictChange(value)}>
+                {
+                  districts.filter(item => item.province_id === provinceId).map((item, index) => (
+                    <Option
+                      key={index}
+                      value={item.id}
+                    >{item.districts_name}
+                    </Option>
+                  ))
+                }
               </Select>
             </Form.Item>
           </Col>
@@ -325,9 +386,16 @@ const BasicInformation = ({
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <Select>
-                <Option>dfd</Option>
-                <Option>xxx</Option>
+              <Select placeholder='เลือกแขวง/ตำบล'>
+                {
+                  subDistricts.filter(item => item.districts_id === districtId).map((item, index) => (
+                    <Option
+                      key={index}
+                      value={item.id}
+                    >{item.sub_districts_name}
+                    </Option>
+                  ))
+                }
               </Select>
             </Form.Item>
           </Col>
@@ -394,7 +462,7 @@ const BasicInformation = ({
               <Select>
                 {
                   master.career.map((item, index) => (
-                    <Option key={index}>{item.name}</Option>
+                    <Option key={index} value={item.id}>{item.name}</Option>
                   ))
                 }
               </Select>
@@ -442,7 +510,8 @@ const BasicInformation = ({
                     <Option
                       key={index}
                       value={item.id}
-                    >{item.province_name}</Option>
+                    >{item.province_name}
+                    </Option>
                   ))
                 }
               </Select>

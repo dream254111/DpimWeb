@@ -326,6 +326,7 @@ const CoursePage = ({
         url: `${API.url}/Course/list_course?${params}`
       })
       const data = response.data.data
+      console.log('courseList', data)
       setCourses(data)
     } catch (error) {
       message.error(error.message)
