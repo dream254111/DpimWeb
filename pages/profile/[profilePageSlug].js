@@ -91,6 +91,18 @@ const ProfileSlugPage = ({ memberDetail, master, profilePageSlug }) => {
       default: null
     }
   }
+  
+  const selectOnChange = () => {
+    if(profilePageSlug === PROFILE_PAGE.BASIC_INFORMATION) {
+      return 'โปรไฟล์ส่วนตัว'
+    }
+    else if (profilePageSlug === PROFILE_PAGE.COURSES) {
+      return 'คอร์สของฉัน'
+    }
+    else if (profilePageSlug === PROFILE_PAGE.CERTIFICATE) {
+      return 'ใบประกาศนียบัตร'
+    }
+  }
 
   return (
     <MainLayout>
@@ -136,7 +148,7 @@ const ProfileSlugPage = ({ memberDetail, master, profilePageSlug }) => {
                     fontWeight: 'bold',
                   }}
                   bordered={false}
-                  defaultValue='โปรไฟล์ของฉัน'
+                  value={selectOnChange()}
                   onChange={(value) => onMenuChange(value)}
                 >
                   <Option style={{padding: '8px 12px'}} value={PROFILE_PAGE.BASIC_INFORMATION}>โปรไฟล์ของฉัน</Option>

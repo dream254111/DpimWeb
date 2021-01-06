@@ -2,7 +2,7 @@ import MainLayout from '../../../layouts/main'
 import styled from 'styled-components'
 import { PROFILE_PAGE } from '../../../constants'
 import { useState, useEffect } from 'react'
-import { Row, Col, Avatar, Divider, Button, message} from 'antd'
+import { Row, Col, Avatar, Divider, Button, message, Select} from 'antd'
 import Container from '../../../components/Container'
 import { UserOutlined } from '@ant-design/icons'
 import font from '../../../helpers/font'
@@ -11,6 +11,8 @@ import { connect } from 'react-redux'
 import axios from 'axios'
 import API from '../../../helpers/api'
 import CourseCard from '../../../components/CourseCard'
+import { maxWidth } from '../../../helpers/breakpoint'
+const { Option } = Select
 
 const Wrapper = styled('div')`
   
@@ -67,16 +69,27 @@ const CertImage = styled('img')`
 
 const CertDetailWrapper = styled('div')`
   width: 80%;
+  ${maxWidth.xs`
+    width: 100%;
+  `}
+
 `
 
 const LeftContent = styled('div')`
   float: right;
   margin-top: 24px;
+  ${maxWidth.sm`
+  float: none;
+  `}
 `
 
 const CertButtonWrapper = styled('div')`
   display: flex;
   align-items: center;
+  ${maxWidth.sm`
+    flex-direction: column;
+
+  `}
 
 `
 
@@ -84,6 +97,30 @@ const PrintCount = styled('div')`
   display: block;
   margin-top: 12px;
   text-align: right;
+`
+
+const MobileCard = styled(Card)`
+  margin-bottom: 24px;
+`
+
+const StyledSelect = styled(Select)`
+.ant-select-arrow {
+  color: #00937B;
+  padding-right: 30.2px;
+}
+&&& {
+  background-color: rgba(0, 147, 123, 0.08);
+  padding: 8px 0;
+}
+`
+
+const StyledButton = styled(Button)`
+  margin-left: 16px;
+  width: 100%;
+  ${maxWidth.sm`
+    margin-left: 0;
+    margin-top: 10px;
+  `}
 `
 
 
@@ -210,7 +247,7 @@ const CertificateIdPage = ({
       <Wrapper>
         <Container paddingTop='32px' paddingBottom='153px'>
           <Row gutter={{ lg: 16 }}>
-            <Col lg={7}>
+            <Col lg={7} xs={0}>
               <Card>
                 <CardHeader>
                   <Avatar size={48} icon={<UserOutlined />} src={memberDetail.profile_path} />
@@ -233,14 +270,43 @@ const CertificateIdPage = ({
                 </Menus>
               </Card>
             </Col>
+            <Col sm={24} xs={24} lg={0}>
+            <MobileCard>
+                <CardHeader>
+                  <Avatar size={48} icon={<UserOutlined />} src={memberDetail.profile_path} />
+                  <CardName>{memberDetail.firstname} {memberDetail.lastname}</CardName>
+                </CardHeader>
+                <Divider style={{margin: 0 }} />
+                <StyledSelect
+                  style={{
+                    margin: '12px 0',
+                    width: '100%', 
+                    color:'#00937B', 
+                    fontSize: '14px', 
+                    fontWeight: 'bold',
+                  }}
+                  bordered={false}
+                  value='ใบประกาศนียบัตร'
+                  onChange={(value) => onMenuChange(value)}
+                >
+                  <Option style={{padding: '8px 12px'}} value={PROFILE_PAGE.BASIC_INFORMATION}>โปรไฟล์ของฉัน</Option>
+                  <Option style={{padding: '8px 12px'}} value={PROFILE_PAGE.COURSES}>คอร์สของฉัน</Option>
+                  <Option style={{padding: '8px 12px'}} value={PROFILE_PAGE.CERTIFICATE}>ใบประกาศนียบัตร</Option>
+                </StyledSelect>
+              </MobileCard>
+            </Col>
             <Col lg={17}>
               <CertDetailWrapper>
                 <PageTitle>ใบประกาศนียบัตรนะ</PageTitle>
                 <CertImage src={certDetail.cert_path} />
                 <LeftContent>
                   <CertButtonWrapper>
-                    <Button onClick={handleSendCertToEmail}>ส่งไปที่อีเมล</Button>
-                    <Button type='primary' style={{marginLeft: '16px'}} onClick={handleDownloadCert}>ดาวน์โหลดใบประกาศ</Button>
+                    <Button onClick={handleSendCertToEmail} style={{width: '100%'}}>ส่งไปที่อีเมล</Button>
+                    <StyledButton 
+                      type='primary' 
+                      onClick={handleDownloadCert}>
+                        ดาวน์โหลดใบประกาศ
+                    </StyledButton>
                   </CertButtonWrapper>
                   <PrintCount>จำนวนครั้งที่พิมพ์ {certDetail.print_count}</PrintCount>
                 </LeftContent>
