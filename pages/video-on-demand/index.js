@@ -10,6 +10,7 @@ import API from '../../helpers/api'
 import moment from 'moment'
 import _ from 'lodash'
 import axios from 'axios'
+import { CategoryModal, ArrangeModal } from '../../components/modals/index'
 
 const CheckboxGroup = Checkbox.Group
 
@@ -27,6 +28,7 @@ const Content = styled('div')`
 const Title = styled('div')`
   font-size: 24px;
   font-family: ${font.bold};
+  font-weight: 700;
 `
 
 const CourseCard = styled('div')`
@@ -72,6 +74,36 @@ const FilterItem = styled('div')`
   margin: 16px 0;
 `
 
+const MobileContainer = styled('div')`
+  margin-bottom: 16px;
+`
+
+const TitleEventHandler = styled('div')`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  margin-top: 12px;
+  align-items: center;
+`
+
+const TitleEventHandlerItem = styled('div')`
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+`
+
+const TitleEventHandlerText = styled('div')`
+  color: #41A0FC;
+  font-size: 14px;
+`
+
+const Icon = styled('img')`
+  background-image: url(${props => props.src});
+  background-position: center;
+  background-repeat: no-repeat;
+  margin-right: 8px;
+`
+
 const VideoOnDemandPage = ({
   master
 }) => {
@@ -109,13 +141,23 @@ const VideoOnDemandPage = ({
     height: '30px',
     lineHeight: '30px',
   }
+  const [isCategoryModdalOpen, setIsCategoryModalOpen] = useState(false)
+  const [isArrangeModalOpen, setIsArrangeModalOpen] = useState(false)
   return (
     <MainLayout>
       <Wrapper>
+        <CategoryModal
+          isOpen={isCategoryModdalOpen}
+          onClose={() => setIsCategoryModalOpen(false)}
+        />
+        <ArrangeModal
+          isOpen={isArrangeModalOpen}
+          onClose={() => setIsArrangeModalOpen(false)}
+        />
         <Container paddingTop='32px'>
           <Row gutter={24}>
             <Col xs={0} md={6}>
-              <Title>คอร์สเรียน</Title>
+              <Title>Video on demand</Title>
               <BoldTitle>การจัดเรียง</BoldTitle>
               <Select
                 style={{marginTop: '8px', width: '100%'}}
@@ -146,6 +188,21 @@ const VideoOnDemandPage = ({
                   />
                 </Space>
               </FilterItem>
+            </Col>
+            <Col xs={24} md={0}>
+              <MobileContainer>
+                <Title>Video on demand</Title>
+                <TitleEventHandler>
+                  <TitleEventHandlerItem>
+                    <Icon src='/static/images/Filter.svg' />
+                    <TitleEventHandlerText onClick={() => setIsCategoryModalOpen(true)}>ตัวกรอง</TitleEventHandlerText>
+                  </TitleEventHandlerItem>
+                  <TitleEventHandlerItem>
+                    <Icon src='/static/images/Arrange.svg' />
+                    <TitleEventHandlerText onClick={() => setIsArrangeModalOpen(true)}>จัดเรียง</TitleEventHandlerText>
+                  </TitleEventHandlerItem>
+                </TitleEventHandler>
+              </MobileContainer>
             </Col>
             <Col xs={24} md={18}>
             {
