@@ -297,7 +297,7 @@ const Header = ({
 
   const handleOnEnterSearch = (e) => {
     if (e.key === 'Enter') {
-      push(`/course?search=${e.target.value}`)
+      Router.push(`/course?search=${e.target.value}`)
     }
   }
 

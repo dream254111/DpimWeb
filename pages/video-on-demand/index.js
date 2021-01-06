@@ -14,6 +14,9 @@ import axios from 'axios'
 const CheckboxGroup = Checkbox.Group
 
 const Wrapper = styled('div')`
+  .ant-checkbox-wrapper {
+    display: block;
+  }
 `
 
 const Content = styled('div')`
@@ -130,14 +133,14 @@ const VideoOnDemandPage = ({
               <BoldTitle>คัดกรอง</BoldTitle>
               <FilterItem>
                 <FilterTitle>หมวดหมู่</FilterTitle>
-                <Space direction="vertical" size={6} style={{marginTop: '10px'}}>
+                <Space direction='vertical' size={6} style={{ marginTop: '10px' }}>
                   <CheckboxGroup
                     options={master.course_category.map(item => item.name)}
                     onChange={(categoryDetails) => {
                       const categoryIds = categoryDetails.map(item => courseCategoryKey[item][0].id)
                       setFilter({
                         ...filter,
-                        category_id: categoryIds.length === 0 ? 0 :categoryIds
+                        category_id: categoryIds.length === 0 ? 0 : categoryIds
                       })
                     }}
                   />

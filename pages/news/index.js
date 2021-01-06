@@ -8,6 +8,7 @@ import axios from 'axios'
 import API from '../../helpers/api'
 import { maxWidth } from '../../helpers/breakpoint'
 import Router from 'next/router'
+import { stripHtml } from '../../helpers/util'
 
 const Title = styled('div')`
   font-size: 24px;
@@ -88,7 +89,7 @@ const NewsPage = () =>{
            <TopCardImage src={topNewsDetail.image} />
            <TopCardContent>
              <TopCardName>{topNewsDetail.name}</TopCardName>
-             <TopCardDescription>{topNewsDetail.description}</TopCardDescription>
+             <TopCardDescription>{stripHtml(topNewsDetail.description)}</TopCardDescription>
            </TopCardContent>
          </TopCard>
          <Row gutter={16}>

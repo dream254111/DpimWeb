@@ -9,6 +9,7 @@ import axios from 'axios'
 import API from '../helpers/api'
 import constants from '../constants'
 import { maxWidth } from '../helpers/breakpoint'
+import { stripHtml } from '../helpers/util'
 
 const { Panel } = Collapse
 
@@ -141,7 +142,7 @@ const FAQPage = ({ master }) => {
           {
             faqs.length > 0 && faqs.filter(item => item.faq_type_id === currentType).map((faq, index) => (
               <PanelWrapper header={faq.question} key={index}>
-                <p>{faq.answer}</p>
+                <p>{stripHtml(faq.answer)}</p>
               </PanelWrapper>
             ))
           }
@@ -177,9 +178,8 @@ const HowToTitle = styled('div')`
   margin-top: 32px;
 `
 
-FAQPage.getInitialProps = ({  }) => {
+FAQPage.getInitialProps = () => {
   return { }
 }
-
 
 export default FAQPage

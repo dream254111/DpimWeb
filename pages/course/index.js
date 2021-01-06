@@ -299,14 +299,13 @@ const CoursePage = ({
   search
 }) => {
   const [courses, setCourses] = useState([])
-  const [filter, setFilter] = useState([])
+  const [filter, setFilter] = useState(null)
   const courseCategoryKey = _.groupBy(master.course_category, 'name')
-  useEffect(() => {
-    fetchCourseList()
-  }, [])
 
   useEffect(() => {
-    fetchCourseList()
+    if (filter !== null) {
+      fetchCourseList()
+    }
   }, [filter])
 
   useEffect(() => {
@@ -321,13 +320,13 @@ const CoursePage = ({
       let params = (Object.keys(filter).map((key, index) => {
         return `${key}=${filter[key]}`
       })).join('&')
+      console.log('params', params)
       const response = await axios({
         method: 'GET',
         url: `${API.url}/Course/list_course?${params}`
       })
       const data = response.data.data
       setCourses(data)
-
     } catch (error) {
       message.error(error.message)
     }
@@ -335,7 +334,7 @@ const CoursePage = ({
   const radioStyle = {
     display: 'block',
     height: '30px',
-    lineHeight: '30px',
+    lineHeight: '30px'
   }
 
   const [isFilterModalOpen, setIsFilterModalOpen] = useState(false)
@@ -385,7 +384,7 @@ const CoursePage = ({
               <Divider style={{marginTop: '16px', marginBottom: '0'}}/>
               <FilterItem>
                 <FilterTitle>หมวดหมู่</FilterTitle>
-                <Space direction="vertical" size={6} style={{marginTop: '10px'}}>
+                <Space direction='vertical' size={6} style={{ marginTop: '10px' }}>
                   <CheckboxGroup
                     options={master.course_category.map(item => item.name)}
                     onChange={(categoryDetails) => {
@@ -489,7 +488,7 @@ const CoursePage = ({
                     <CourseContent>
                       <CourseTitle>
                         <div>
-                          {item.name}
+                          {item.name}&nbsp;(รุ่น {item.batch})
                         </div>
                         {
                           item.hasCertificate &&

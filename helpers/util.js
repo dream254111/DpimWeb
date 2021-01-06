@@ -15,3 +15,7 @@ export const timeConvert2 = (n) => {
   const rminutes = Math.round(minutes)
   return `0${rhours}:0${rminutes}`
 }
+
+export const stripHtml = (val = '') => {
+  return val.replace(/<[^>]*>?/gm, '')
+}

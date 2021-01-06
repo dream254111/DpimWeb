@@ -8,7 +8,7 @@ import {
   CourseCard,
 } from '../../../components/index'
 import { maxWidth } from '../../../helpers/breakpoint'
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useReducer } from 'react'
 import { Progress, message, Row, Col, Avatar } from 'antd'
 import API from '../../../helpers/api'
 import axios from 'axios'
@@ -641,7 +641,8 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
   const scrollRef3 = useRef(null)
   const scrollRef4 = useRef(null)
   const scrollRef5 = useRef(null)
-  
+  const [ignored, forceUpdate] = useReducer(x => x + 1, 0)
+
   const [courseDetail, setCourseDetail] = useState(null)
   const [isRegisterCourseLoading, setIsRegisterCourseLoading] = useState(false)
   const [isExtendTimeLoading, setIsExtendTimeLoading] = useState(false)
@@ -663,7 +664,8 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
 
   useEffect(() => {
     fetchCourseInfo()
-  }, [])
+    window.scrollTo(0, 0)
+  }, [courseId])
 
   const fetchCourseInfo = async () => {
     try {
