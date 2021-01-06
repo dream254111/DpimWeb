@@ -18,7 +18,7 @@ import Router from 'next/router'
 import moment from 'moment'
 import { UserOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
-import { PaymentModal } from '../../../components/modals/index'
+import { PaymentModal, LoginModal } from '../../../components/modals/index'
 import constants from '../../../constants'
 
 const Wrapper = styled('div')`
@@ -644,6 +644,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
   const [ignored, forceUpdate] = useReducer(x => x + 1, 0)
 
   const [courseDetail, setCourseDetail] = useState(null)
+  const [isModalLoginOpen, setIsModalLoginOpen] = useState(false)
   const [isRegisterCourseLoading, setIsRegisterCourseLoading] = useState(false)
   const [isExtendTimeLoading, setIsExtendTimeLoading] = useState(false)
   const executeScroll1 = () => {
@@ -690,20 +691,24 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
   }
 
   const registerCourse = async () => {
-    if (courseDetail.course.is_has_cost) {
-      switch(memberDetail.student_account_type_id) {
-        case constants.ACCOUNT_TYPE.FREE_USER:
-          Router.push('/profile')
-        break
-        case constants.ACCOUNT_TYPE.VERIFIED_USER:
-          setIsPaymentModalOpen(true)
+    if (memberToken) {
+      if (courseDetail.course.is_has_cost) {
+        switch(memberDetail.student_account_type_id) {
+          case constants.ACCOUNT_TYPE.FREE_USER:
+            Router.push('/profile')
           break
-        case constants.ACCOUNT_TYPE.CERTIFIED_USER:
-          setIsPaymentModalOpen(true)
-        break
+          case constants.ACCOUNT_TYPE.VERIFIED_USER:
+            setIsPaymentModalOpen(true)
+            break
+          case constants.ACCOUNT_TYPE.CERTIFIED_USER:
+            setIsPaymentModalOpen(true)
+          break
+        }
+      } else {
+        registerCourseFree()
       }
     } else {
-      registerCourseFree()
+      setIsModalLoginOpen(true)
     }
   }
 
@@ -770,6 +775,10 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
         <PaymentModal 
           isOpen={isPaymentModalOpen}
           onClose={() => setIsPaymentModalOpen(false)}
+        />
+        <LoginModal
+          isOpen={isModalLoginOpen}
+          onClose={() => setIsModalLoginOpen(false)}
         />
         <Header src='/static/images/header.png'>
           <Container>
@@ -1227,7 +1236,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                       สมัครเรียน
                     </Button>
                     {
-                      ((!memberToken) || (courseDetail && courseDetail.is_own_course === false)) &&
+                      memberToken && (courseDetail && courseDetail.is_own_course === false) &&
                       <Button
                         fontSize='14px'
                         color='#00937B'
