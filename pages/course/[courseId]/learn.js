@@ -22,7 +22,7 @@ import styled from 'styled-components'
 import API from '../../../helpers/api'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { PreExamSummary, PreExam, PostExam, VideoLesson, Exercise } from '../../../components/learn'
+import { PreExamSummary, PreExam, PostExam, VideoLesson, Exercise, PostExamSummary } from '../../../components/learn'
 import Router from 'next/router'
 const { SubMenu } = Menu
 import ReactPlayer from 'react-player'
@@ -145,6 +145,7 @@ const LearnPage = ({
   const examPreTests = courseDetail.exam_pre_test || []
   const examPostTests = courseDetail.exam_post_test || []
   const isPreTestPass = courseDetail.pre_test_pass
+  const isPostTestPass = courseDetail.post_test_pass
 
   
   const onFinishedExercise = async (courseLessonId) => {
@@ -293,7 +294,7 @@ const LearnPage = ({
               <Menu.Item
                 key={999}
                 icon={<FileTextOutlined />}
-                disabled={!courseDetail.can_use_post_test}
+                // disabled={!courseDetail.can_use_post_test}
               >
                 แบบทดสอบหลังเรียน
               </Menu.Item>
@@ -339,7 +340,7 @@ const LearnPage = ({
                 <PreExamSummary
                   score={courseDetail.score_pre_test}
                   maxScore={courseDetail.total_exam}
-                  percent={courseDetail.percent_pre_test}
+                  percent={courseDetail.percent_post_test}
                   nextChapterName={courseLessonOne}
                   onClickNextChapter={() => setMenu('3')}
                   isShowNextChapterButton={false}
@@ -349,14 +350,7 @@ const LearnPage = ({
             {
               menu === '2' && courseDetail.can_use_pre_test &&
                 <>
-                  <MenuHeader>
-                    {courseName}
-                    {/* <Button type="primary" onClick={() => setCollapsed(collapsed => !collapsed)} >
-                      {
-                        collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
-                      }
-                    </Button> */}
-                  </MenuHeader>
+                  <MenuHeader>{courseName}</MenuHeader>
                   <PreExam
                     courseId={courseDetail.course.id}
                     exams={examPreTests}
@@ -370,16 +364,27 @@ const LearnPage = ({
             {
               renderLesson()
             }
-            {
+             {
               menu == 999 &&
+              isPostTestPass &&
               <>
                 <MenuHeader>
                   {courseName}
-                  {/* <Button type="primary" onClick={() => setCollapsed(collapsed => !collapsed)} >
-                    {
-                      collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
-                    }
-                  </Button> */}
+                </MenuHeader>
+                <PostExamSummary
+                  courseId={courseId}
+                  score={courseDetail.score_post_test || 0}
+                  maxScore={courseDetail.total_exam || 0}
+                  percent={courseDetail.percent_post_test || 0}
+                  isShowEvaluationButton={courseDetail.can_use_evaluation}
+                />
+              </>
+            }
+            {
+              menu == 999 && !isPostTestPass &&
+              <>
+                <MenuHeader>
+                  {courseName}
                 </MenuHeader>
                 <PostExam
                   courseId={courseDetail.course.id}

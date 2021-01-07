@@ -78,9 +78,11 @@ const SurveyPage = ({
 
   const [courseDetail, setCourseDetail] = useState({})
   const [score, setScores] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
   
   const fetchCourseDetail = async () => {
     try {
+      setIsLoading(true)
       const response = await axios({
         headers: {
           'Authorization': memberToken
@@ -103,6 +105,7 @@ const SurveyPage = ({
     } catch (error) {
       message.error(error.message)
     }
+    setIsLoading(false)
   }
 
   const handleSubmit = async () => {
@@ -121,7 +124,7 @@ const SurveyPage = ({
       })
       const responseWithData = response.data
       if (responseWithData.success) {
-        Router.push('/profile')
+        Router.push('/profile/courses')
       } else {
         throw new Error(responseWithData.error)
       }
@@ -216,6 +219,7 @@ const SurveyPage = ({
         <SubmitButtonWrapper>
           <Button
             type='primary'
+            loading={isLoading}
             onClick={() => handleSubmit()}
           >ส่งแบบประเมิน</Button>
         </SubmitButtonWrapper>

@@ -50,9 +50,10 @@ const PostExamSummaryComponent = ({
   maxScore,
   onClickNextChapter,
   percent,
-  isShowNextChapterButton,
+  isShowEvaluationButton,
   ...rest
 }) => {
+  console.log('isShowEvaluationButton', isShowEvaluationButton)
   const isPass = percent > 50
   const textRender = () => {
     if (isPass) {
@@ -72,10 +73,11 @@ const PostExamSummaryComponent = ({
             </PreExamSummaryDescription>
           </div>
           {
-            isPass &&
+            (isPass) &&
             <Button
               type='primary'
               onClick={() => Router.push(`/evaluation/${courseId}`)}
+              disabled={isShowEvaluationButton}
             >
               ให้คะแนนประเมิน
             </Button>

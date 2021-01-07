@@ -110,7 +110,8 @@ const PreExamComponent = ({
   onSelectChoice = () => {},
   onSubmit = () => {},
   nextChapterName = null,
-  memberToken
+  memberToken,
+  isShowEvaluationButton
 }) => {
   const [answers, setAnswer] = useState([])
   const [isCheckAnswer, setIsCheckAnswer] = useState(false)
@@ -201,7 +202,7 @@ const PreExamComponent = ({
                       <PreExamChoice
                         active={!_.isEmpty(answers.find(a => a.id === choice.id))}
                         key={index}
-                        isCorrect={answers.find(a => a.id === choice.id) && isCheckAnswer === true && answerResult && answerResult.list_result && answerResult.list_result.find(r => r.course_exam_id === item.id) && answerResult.list_result.find(r => r.course_exam_id === item.id).status || null}
+                        isCorrect={isCheckAnswer === true ? answers.find(a => a.id === choice.id) && answerResult.list_result && answerResult.list_result.length > 0 && answerResult.list_result.find(r => r.course_exam_id === item.id) && answerResult.list_result.find(r => r.course_exam_id === item.id).status : null}
                         onClick={() => onClickSelectChoice(choice.id, choice.course_exam_id, choice.order, answerResult && answerResult.list_result === undefined ? null : answerResult.list_result.find(r => r.course_exam_id === item.id).status)}
                       >
                         <PreExamChoiceNo>{index + 1}.</PreExamChoiceNo>{choice.answer}
@@ -214,13 +215,16 @@ const PreExamComponent = ({
             ))
           }
         </PreExamItems>
-        <Button
-          type='primary'
-          style={{ float: 'right', marginTop: '32px' }}
-          onClick={() => checkAnswer(answers)}
-          loading={isLoading}
-        >ตรวจคำตอบ
-        </Button>
+        {
+          isShowEvaluationButton &&
+            <Button
+              type='primary'
+              style={{ float: 'right', marginTop: '32px' }}
+              onClick={() => checkAnswer(answers)}
+              loading={isLoading}
+            >ตรวจคำตอบ
+            </Button>
+        }
       </PreExam>
 
     </>
