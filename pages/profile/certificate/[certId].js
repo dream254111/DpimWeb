@@ -303,7 +303,7 @@ const CertificateIdPage = ({
             </Col>
             <Col lg={17}>
               <CertDetailWrapper>
-                <PageTitle>ใบประกาศนียบัตรนะ</PageTitle>
+                <PageTitle>ใบประกาศนียบัตร</PageTitle>
                 <CertImage src={certDetail.cert_path} />
                 <LeftContent>
                   <CertButtonWrapper>
