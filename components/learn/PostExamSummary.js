@@ -53,8 +53,7 @@ const PostExamSummaryComponent = ({
   isShowEvaluationButton,
   ...rest
 }) => {
-  console.log('isShowEvaluationButton', isShowEvaluationButton)
-  const isPass = percent > 50
+  const isPass = percent > 80
   const textRender = () => {
     if (isPass) {
       return 'ผ่านการทดสอบหลักสูตร'
@@ -64,16 +63,16 @@ const PostExamSummaryComponent = ({
   }
   return (
     <PreExam {...rest}>
-        <PreExamSummary isPass={isPass}>
-          <div>
-            <PreExamSummaryTitle>{'สรุปผลคะแนนแบบทดสอบหลังเรียน'}</PreExamSummaryTitle>
-            <PreExamSummaryDescription>
-              <CheckCircleOutlined style={{color: '#43BF9A'}} />
-              <PreExamSummaryScore>{textRender()} คุณตอบถูก {score} ข้อ จาก {maxScore} ข้อ = {percent.toFixed(2)}%</PreExamSummaryScore>
-            </PreExamSummaryDescription>
-          </div>
-          {
-            (isPass) &&
+      <PreExamSummary isPass={isPass}>
+        <div>
+          <PreExamSummaryTitle>สรุปผลคะแนนแบบทดสอบหลังเรียน</PreExamSummaryTitle>
+          <PreExamSummaryDescription>
+            <CheckCircleOutlined style={{ color: '#43BF9A' }} />
+            <PreExamSummaryScore>{textRender()} คุณตอบถูก {score} ข้อ จาก {maxScore} ข้อ = {percent.toFixed(2)}%</PreExamSummaryScore>
+          </PreExamSummaryDescription>
+        </div>
+        {
+          (isPass) &&
             <Button
               type='primary'
               onClick={() => Router.push(`/evaluation/${courseId}`)}
@@ -81,8 +80,8 @@ const PostExamSummaryComponent = ({
             >
               ให้คะแนนประเมิน
             </Button>
-          }
-        </PreExamSummary>
+        }
+      </PreExamSummary>
     </PreExam>
   )
 }
