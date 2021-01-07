@@ -112,7 +112,10 @@ const ProfileSlugPage = ({ memberDetail, master, profilePageSlug }) => {
             <Col lg={7} xs={0}>
               <Card>
                 <CardHeader>
-                  <Avatar size={48} icon={<UserOutlined />} src={memberDetail.profile_path} />
+                  {
+                    memberDetail.profile_path &&
+                    <Avatar size={48} icon={<UserOutlined />} src={memberDetail.profile_path} />
+                  }
                   <CardName>{memberDetail.firstname} {memberDetail.lastname}</CardName>
                 </CardHeader>
                 <Divider style={{margin: 0 }} />

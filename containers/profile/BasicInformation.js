@@ -86,12 +86,12 @@ const BasicInformation = ({
       const responseWithData = response.data
       if (responseWithData.success) {
         const { student } = responseWithData.data
-        console.log('birthday', student.birthday)
         if (student.know_channel) {
           const knowChannelKey = _.groupBy(master.know_channel, 'id')
           const knowChannelNames = student.know_channel.map(item => knowChannelKey[item][0].name)
           student.know_channel = knowChannelNames
         }
+        console.log('student', student)
         student.birthday = student.birthday ? moment(student.birthday, 'YYYY-MM-DD') : null
         student.business_province_id = +student.business_province_id === 0 ? null : student.business_province_id
         setProvinceId(student.province_id)
@@ -214,7 +214,6 @@ const BasicInformation = ({
     })
     setDistrictId(value)
   }
-  console.log('profileSetting', profileSetting)
   return (
     <Wrapper>
       <UploadDocumentModal
@@ -231,10 +230,10 @@ const BasicInformation = ({
               break
             case 'straight_face_image':
               uploadFile(file, (imageUrl) => setStraightFaceImage(imageUrl))
-            break
+              break
             case 'business_attachment':
               uploadFile(file, (imageUrl) => setBusinessAttachment(imageUrl))
-            break
+              break
             default: null
           }
         }}
@@ -246,12 +245,16 @@ const BasicInformation = ({
         <PageTitle>โปรไฟล์ของฉัน</PageTitle>
         <Title>ข้อมูลส่วนตัว</Title>
         <UpdateAvatar>
-          <Avatar 
-            size={72}
-            icon={<UserOutlined />}
-            src={avatar}
-            style={{ marginRight: '16px' }}
-          />
+          {
+            avatar &&
+              <Avatar 
+                size={72}
+                icon={<UserOutlined />}
+                src={avatar}
+                style={{ marginRight: '16px' }}
+              />
+
+          }
           <Upload name='file' multiple={false} showUploadList={false} onChange={(info) => uploadFile(info.file.originFileObj, (imageUrl) => setAvatar(imageUrl))}>
             <Button>เปลี่ยนรูปโปรไฟล์</Button>
           </Upload>
