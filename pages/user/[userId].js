@@ -143,6 +143,7 @@ const UserPage = ({ userId }) => {
                   <CourseCard
                     key={index}
                     id={item.id}
+                    batch={item.batch}
                     categoryName={item.category_name}
                     categoryColor={item.category_color}
                     cover={item.cover}

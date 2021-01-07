@@ -479,6 +479,7 @@ const IndexPage = ({
                       key={index}
                       id={item.id}
                       name={item.name}
+                      batch={item.batch}
                       categoryName={item.category_name}
                       categoryColor={item.category_color}
                       cover={item.cover}

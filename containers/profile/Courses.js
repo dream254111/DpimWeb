@@ -63,6 +63,7 @@ const CoursesContainer = ({
                 <Col xs={24} lg={12} style={{margin: '6px 0'}}>
                   <CourseCard
                     type='progress'
+                    batch={item.batch}
                     id={item.id}
                     key={index}
                     name={item.name}

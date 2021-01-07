@@ -57,6 +57,7 @@ const Certificate = ({
           certs.map((item, index) => (
             <Col lg={8} style={{margin: '6px 0'}}>
               <CourseCard
+                batch={item.batch}
                 type='cert'
                 certId={item.certificate_id}
                 key={index}

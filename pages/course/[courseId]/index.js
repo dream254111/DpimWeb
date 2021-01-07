@@ -715,7 +715,11 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
   const registerCourseFree = async () => {
     try {
       setIsRegisterCourseLoading(true)
+       const headers = memberToken ?  {
+        'Authorization': memberToken
+      } : undefined
       const response = await axios({
+        headers,
         method: 'POST',
         url: `${API.url}/Course/register_course_free`,
         data : {
@@ -1287,6 +1291,8 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                       <Col xs={24} lg={8} style={{margin: '12px 0'}}>
                         <CourseCard
                           key={index}
+                          batch={item.batch}
+                          name={item.name}
                           id={item.id}
                           categoryName={item.category_name}
                           categoryColor={item.category_color}

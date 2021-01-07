@@ -118,27 +118,28 @@ const CourseTypeContent = styled('div')`
 `
 
 const CourseCardComponent = ({
-    type='default',
-    id,
-    certId,
-    name,
-    categoryName,
-    categoryColor,
-    cover,
-    cost,
-    hasCertificate,
-    instructors = [],
-    totalLesson,
-    startLearning,
-    lessonTime,
-    endDate,
-    isHasCost,
-    progress,
-    ...rest
-  }) => {
+  type='default',
+  id,
+  certId,
+  name,
+  categoryName,
+  categoryColor,
+  cover,
+  cost,
+  hasCertificate,
+  instructors = [],
+  totalLesson,
+  startLearning,
+  lessonTime,
+  endDate,
+  isHasCost,
+  progress,
+  batch,
+  ...rest
+}) => {
   const instructorNames = instructors.length > 0 && instructors.map(item => `${item.firstname} ${item.lastname}`) || []
   const onClickCard = () => {
-    console.log('onClickCard')
+    console.log('onClickCard', id)
     console.log('type', type)
     if (type === 'cert') {
       Router.push(`/profile/certificate/${certId}`)
@@ -166,7 +167,7 @@ const CourseCardComponent = ({
       </CourseCardHeader>
       <Divider style={{ margin: 0 }} />
       <CourseCardContent>
-        <CourseCardTitle>{name}</CourseCardTitle>
+        <CourseCardTitle>{name}&nbsp;(รุ่น {batch})</CourseCardTitle>
         {
           type === 'default' &&
           <>
@@ -174,7 +175,7 @@ const CourseCardComponent = ({
               <Avatar 
                 icon={<UserOutlined />} 
                 src={instructors.length > 0 && instructors[0].profile} size={32} />
-              <AuthorName>{instructorNames.join(', ')}</AuthorName>
+              <AuthorName>{instructors.length > 0 && `${instructors[0].firstname} ${instructors[0].lastname}`}</AuthorName>
             </AuthorContent>
             <CourseTypeContent>
               <Tag color={categoryColor}>{categoryName}</Tag>

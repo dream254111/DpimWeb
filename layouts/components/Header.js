@@ -15,7 +15,7 @@ import { LoginModal } from '../../components/modals'
 import { connect } from 'react-redux'
 import Router from 'next/router'
 import { Avatar } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import { UserOutlined, DownOutlined } from '@ant-design/icons'
 import { onMemberLogout } from '../../stores/memberReducer'
 import { useRouter } from 'next/router'
 
@@ -186,14 +186,10 @@ const PicProfile = styled(Avatar)`
 `
 
 const Chevron = styled('img')`
-  box-sizing: border-box;
-  background-image: url(${props => props.src});
-  background-repeat: no-repeat:
-  background-position: center;
   margin-right: 12px;
   margin-left: 12px;
   ${maxWidth.md`
-  display: none;
+    display: none;
   `}
 `
 
@@ -413,6 +409,7 @@ const Header = ({
                   />
                   <div>{memberDetail.firstname}</div>
                   <Chevron src='/static/images/vector.png' />
+                  {/* <DownOutlined /> */}
                   <DropdownMenu isClick={isClick} onClick={(event) => {
                     event.stopPropagation()
                   }}>
