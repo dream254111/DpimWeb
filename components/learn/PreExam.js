@@ -193,7 +193,7 @@ const PreExamComponent = ({
           {
             exams.map((item, index) => (
               <PreExamItem key={index}>
-                <PreExamWQuestion no={index + 1}>{item.question}</PreExamWQuestion>
+                <PreExamWQuestion no={index + 1} dangerouslySetInnerHTML={{ __html: item.question }} />
                 <PreExamChoices>
                   {
                     item.list_answer.map((choice, index) => (

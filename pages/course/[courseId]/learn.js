@@ -263,7 +263,7 @@ const LearnPage = ({
               </Menu.Item>
               
               <Menu.Item key={2} icon={<FileTextOutlined />}
-                // disabled={!courseDetail.can_use_pre_test}
+                disabled={!courseDetail.can_use_pre_test}
               >
                 แบบทดสอบก่อนเรียน
               </Menu.Item>
@@ -294,7 +294,7 @@ const LearnPage = ({
               <Menu.Item
                 key={999}
                 icon={<FileTextOutlined />}
-                // disabled={!courseDetail.can_use_post_test}
+                disabled={!courseDetail.can_use_post_test}
               >
                 แบบทดสอบหลังเรียน
               </Menu.Item>
