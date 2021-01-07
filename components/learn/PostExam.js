@@ -111,7 +111,6 @@ const PreExamComponent = ({
   onSubmit = () => {},
   nextChapterName = null,
   memberToken,
-  isShowEvaluationButton
 }) => {
   const [answers, setAnswer] = useState([])
   const [isCheckAnswer, setIsCheckAnswer] = useState(false)
@@ -215,16 +214,13 @@ const PreExamComponent = ({
             ))
           }
         </PreExamItems>
-        {
-          isShowEvaluationButton &&
-            <Button
-              type='primary'
-              style={{ float: 'right', marginTop: '32px' }}
-              onClick={() => checkAnswer(answers)}
-              loading={isLoading}
-            >ตรวจคำตอบ
-            </Button>
-        }
+        <Button
+          type='primary'
+          style={{ float: 'right', marginTop: '32px' }}
+          onClick={() => checkAnswer(answers)}
+          loading={isLoading}
+        >ตรวจคำตอบ
+        </Button>
       </PreExam>
 
     </>
