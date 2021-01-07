@@ -86,6 +86,7 @@ const BasicInformation = ({
       const responseWithData = response.data
       if (responseWithData.success) {
         const { student } = responseWithData.data
+        console.log('birthday', student.birthday)
         if (student.know_channel) {
           const knowChannelKey = _.groupBy(master.know_channel, 'id')
           const knowChannelNames = student.know_channel.map(item => knowChannelKey[item][0].name)
