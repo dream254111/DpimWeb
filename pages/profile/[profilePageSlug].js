@@ -135,7 +135,10 @@ const ProfileSlugPage = ({ memberDetail, master, profilePageSlug }) => {
             <Col sm={24} xs={24} lg={0}>
             <MobileCard>
                 <CardHeader>
-                  <Avatar size={48} icon={<UserOutlined />} src={memberDetail.profile_path} />
+                  {
+                    memberDetail.profile_path &&
+                    <Avatar size={48} icon={<UserOutlined />} src={memberDetail.profile_path} />
+                  }
                   <CardName>{memberDetail.firstname} {memberDetail.lastname}</CardName>
                 </CardHeader>
                 <Divider style={{margin: 0 }} />

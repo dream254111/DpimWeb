@@ -92,6 +92,7 @@ const BasicInformation = ({
           student.know_channel = knowChannelNames
         }
         student.birthday = student.birthday ? moment(student.birthday) : null
+        student.business_province_id = +student.business_province_id === 0 ? null : student.business_province_id
         setProvinceId(student.province_id)
         setDistrictId(student.district_id)
         setSubDistrictId(student.sub_district_id)
@@ -495,7 +496,7 @@ const BasicInformation = ({
               name='business_name'
               labelCol={{ span: 24 }}
             >
-              <Input />
+              <Input placeholder='เลือกชื่อสถานที่ประกอบการ' />
             </Form.Item>
           </Col>
           <Col lg={12}>
@@ -504,7 +505,7 @@ const BasicInformation = ({
               name='business_province_id'
               labelCol={{ span: 24 }}
             >
-              <Select>
+              <Select placeholder='เลือกสถานที่ประกอบการ'>
                 {
                   provinces.map((item, index) => (
                     <Option
@@ -523,7 +524,7 @@ const BasicInformation = ({
               name='business_register'
               labelCol={{ span: 24 }}
             >
-              <DatePicker style={{width: '100%'}}/>
+              <DatePicker style={{width: '100%'}} placeholder='เลือกวันที่จดทะเบียน' />
             </Form.Item>
           </Col>
           <Col lg={12}>
@@ -532,7 +533,7 @@ const BasicInformation = ({
               name='business_no'
               labelCol={{ span: 24 }}
             >
-              <Input />
+              <Input placeholder='เลือกเลยที่จดทะเบียน' />
             </Form.Item>
           </Col>
         </Row>
@@ -568,10 +569,10 @@ const BasicInformation = ({
               >
                  <Row gutter={[16, 16]}>
                    <Col lg={24}>
-                      <Button
-                        disabled={straightFaceImage}
-                        onClick={() => handleClickUpload('อัพโหลดภาพถ่ายหน้าตรง', 'straight_face_image')}
-                      >อัพโหลดภาพถ่ายหน้าตรง</Button>
+                    <Button
+                      disabled={straightFaceImage}
+                      onClick={() => handleClickUpload('อัพโหลดภาพถ่ายหน้าตรง', 'straight_face_image')}
+                    >อัพโหลดภาพถ่ายหน้าตรง</Button>
                    </Col>
                  </Row>
               </Form.Item>
