@@ -47,7 +47,7 @@ const ResetPasswordModal = ({
         url: `${API.url}/Student/ForgetPassword`,
         data: {
           password: values.password,
-          token: encodeURI(token),
+          token,
         }
       })
       const responseWithData = response.data
