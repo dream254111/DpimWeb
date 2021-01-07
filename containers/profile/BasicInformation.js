@@ -91,7 +91,7 @@ const BasicInformation = ({
           const knowChannelNames = student.know_channel.map(item => knowChannelKey[item][0].name)
           student.know_channel = knowChannelNames
         }
-        student.birthday = student.birthday ? moment(student.birthday) : null
+        student.birthday = student.birthday ? moment(student.birthday, 'YYYY-MM-DD') : null
         student.business_province_id = +student.business_province_id === 0 ? null : student.business_province_id
         setProvinceId(student.province_id)
         setDistrictId(student.district_id)
@@ -446,11 +446,10 @@ const BasicInformation = ({
               label="อีเมล์"
               name='email'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
               <Input
                 placeholder='กรอกอีเมล'
-                disabled={!profileSetting.is_edit_email}
+                disabled={true}
               />
             </Form.Item>
           </Col>
@@ -577,7 +576,7 @@ const BasicInformation = ({
               labelCol={{ span: 24 }}
             >
               <Input
-                placeholder='เลือกเลยที่จดทะเบียน'
+                placeholder='กรอกเลขที่จดทะเบียน'
                 disabled={!profileSetting.is_edit_business}
               />
             </Form.Item>
