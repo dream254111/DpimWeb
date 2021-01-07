@@ -404,7 +404,7 @@ const Header = ({
                 <>
                   <PicProfile
                     size={28}
-                    src={memberDetail.profile_path}
+                    src={memberDetail.profile_path || null}
                     icon={<UserOutlined />}
                   />
                   <div>{memberDetail.firstname}</div>

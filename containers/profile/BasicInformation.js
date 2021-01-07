@@ -483,7 +483,7 @@ const BasicInformation = ({
               name='know_channel'
               labelCol={{ span: 24 }}
             >
-              <CheckboxGroup options={['สื่อออนไลน์', 'เพื่อนแนะนำ', 'หนังสือพิมพ์', 'สื่อโทรทัศน์', 'อื่น ๆ']} />
+              <CheckboxGroup options={master.know_channel.map(item => item.name)} />
             </Form.Item>
           </Col>
         </Row>

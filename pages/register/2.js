@@ -20,7 +20,7 @@ const Title = styled('div')`
   line-height: 1;
 `
 
-const RegisterStepTwoPage = () => {
+const RegisterStepTwoPage = ({ master }) => {
   const [form] = Form.useForm()
 
   const handleSubmit = (values) => {
@@ -218,7 +218,7 @@ const RegisterStepTwoPage = () => {
                 label="ตำแหน่ง"
                 name='position'
                 labelCol={{ span: 24 }}
-                rules={[{ required: true, message: 'กรุณากรอกตำแหน่ง' } ]}
+                rules={[{ required: true, message: 'กรุณากรอกตำแหน่ง' }]}
               >
                 <Input placeholder='กรอกตำแหน่ง' />
               </Form.Item>
@@ -227,15 +227,20 @@ const RegisterStepTwoPage = () => {
               label="รู้จักเราผ่านทางช่องทางใด"
               name='where'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณาเลือกช่องทางที่รู้จัก' } ]}
+              rules={[{ required: true, message: 'กรุณาเลือกช่องทางที่รู้จัก' }]}
             >
-              <CheckboxGroup options={['สื่อออนไลน์', 'เพื่อนแนะนำ', 'หนังสือพิมพ์', 'สื่อโทรทัศน์', 'อื่น ๆ']} />
+              <CheckboxGroup options={master.know_channel.map(item => item.name)} />
             </Form.Item>
           </Row>
         </Form>
       </Container>
     </MainLayout>
   )
+}
+
+
+RegisterStepTwoPage.getInitialProps = () => {
+  return {}
 }
 
 export default RegisterStepTwoPage
