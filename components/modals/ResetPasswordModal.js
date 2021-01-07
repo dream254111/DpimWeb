@@ -42,14 +42,16 @@ const ResetPasswordModal = ({
     setIsLoading(true)
     console.log('handleSubmit', values)
     try {
-      const response = await axios({
+      const request = {
         method: 'POST',
         url: `${API.url}/Student/ForgetPassword`,
         data: {
           password: values.password,
           token,
         }
-      })
+      }
+      console.log('request', request)
+      const response = await axios(request)
       const responseWithData = response.data
       if (responseWithData.success === true) {
         message.success('เปลี่ยนรหัสผ่านสำเร็จ')
