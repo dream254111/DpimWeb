@@ -237,7 +237,7 @@ const LearnPage = ({
     <MainLayout>
       <Wrapper>
         <Row>
-          <Col lg={6} style={{ backgroundColor: 'white' }}>
+          <Col xs={24} lg={6} style={{ backgroundColor: 'white' }}>
             <CourseDetailWrapper>
               <ArrowLeftOutlined
                 style={{ fontSize: '18px' }}
@@ -299,17 +299,12 @@ const LearnPage = ({
               </Menu.Item>
             </Menu>
           </Col>
-          <Col lg={18}>
+          <Col xs={24} lg={18}>
             {
               menu === '1' &&
               <>
                 <MenuHeader>
                   {courseName}
-                  <Button type="primary" onClick={() => setCollapsed(collapsed => !collapsed)} >
-                    {
-                      collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
-                    }
-                  </Button>
                 </MenuHeader>
                 {
                   courseDetail && courseDetail.course &&
@@ -340,11 +335,6 @@ const LearnPage = ({
               <>
                 <MenuHeader>
                   {courseName}
-                  <Button type="primary" onClick={() => setCollapsed(collapsed => !collapsed)} >
-                    {
-                      collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
-                    }
-                  </Button>
                 </MenuHeader>
                 <PreExamSummary
                   score={courseDetail.score_pre_test}

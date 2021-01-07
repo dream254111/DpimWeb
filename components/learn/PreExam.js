@@ -8,6 +8,7 @@ import axios from 'axios'
 import { message } from 'antd'
 import { connect } from 'react-redux'
 import PreExamSummary from './PreExamSummary'
+import { maxWidth } from '../../helpers/breakpoint'
 
 const PreExam = styled('div')`
   margin-top: 32px;
@@ -15,6 +16,9 @@ const PreExam = styled('div')`
   margin-left: auto;
   margin-right: auto;
   margin-bottom: 200px;
+  ${maxWidth.md`
+    width: 95%;
+  `}
 `
 
 const PreExamItems = styled('div')`

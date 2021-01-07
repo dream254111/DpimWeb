@@ -53,6 +53,7 @@ const VideoLesson = ({
   const [isInteractiveVideoModalOpen, setIsInteractiveVideoModalOpen] = useState(false)
   const [videoSrc, setVideoSrc] = useState(mainVideo)
   const [videoCurrentTime, setVideoCurrentTime] = useState(0)
+  const [playing, setPlaying] = useState(false)
 
   const htmlDecode = (content) => {
     if (process.browser) {
@@ -66,13 +67,18 @@ const VideoLesson = ({
   useEffect(() => {
     const video = videoRef.current
     if (video) {
-      console.log('videoPosition', videoPosition)
-      videoRef.current.seekTo(videoPosition)
+      setPlaying(false)
+      // console.log('video', video)
+      // video.seekTo(videoPosition)
+      console.log('userEffect', videoPosition)
+      setTimeout(() => {
+
+      }, 1000)
     }
   }, [mainVideo])
 
   const onOpenVideoInteractive = () => {
-    videoRef.current.playing(false)
+    setPlaying(false)
     setIsInteractiveVideoModalOpen(true)
   }
 
@@ -80,11 +86,11 @@ const VideoLesson = ({
     switch (key) {
       case 1:
         setVideoSrc(interactiveVideo1)
-        videoRef.current.play()
+        setPlaying(true)
         break;
       case 2:
         setVideoSrc(interactiveVideo2)
-        videoRef.current.play()
+        setPlaying(true)
         break
       default: null
     }
@@ -119,28 +125,29 @@ const VideoLesson = ({
         onSubmit={(key) => onSelectVideoInteractive(key)}
       />
       <MenuHeader>{title}</MenuHeader>
-          <ReactPlayer
-            ref={videoRef}
-            url={videoSrc.original}
-            width='100%'
-            height='600px'
-            controls={true}
-            onProgress={(e) => videoOnProgressHandle(e)}
-            onSeek={e => {
-              const currentTime = videoRef.current.getCurrentTime()
-              // console.log('videoCurrentTime', videoCurrentTime)
-              if (videoPosition > videoCurrentTime) {
+      <ReactPlayer
+        ref={videoRef}
+        playing={playing}
+        url={videoSrc.original}
+        width='100%'
+        height='600px'
+        controls={true}
+        onProgress={(e) => videoOnProgressHandle(e)}
+        onSeek={e => {
+          const currentTime = videoRef.current.getCurrentTime()
+          // console.log('videoCurrentTime', videoCurrentTime)
+          if (videoPosition > videoCurrentTime) {
 
-              } else if (currentTime > videoCurrentTime) {
-                videoRef.current.seekTo(videoCurrentTime, 'seconds')
-                // console.log('not allow to seek')
-              }
-            }}
-          />
-        <DescriptionTitle>คำอธิบาย</DescriptionTitle>
-        <DescriptionValue>
-          <p dangerouslySetInnerHTML={{ __html: htmlDecode(description) }} />
-        </DescriptionValue> 
+          } else if (currentTime > videoCurrentTime) {
+            videoRef.current.seekTo(videoCurrentTime, 'seconds')
+            // console.log('not allow to seek')
+          }
+        }}
+      />
+      <DescriptionTitle>คำอธิบาย</DescriptionTitle>
+      <DescriptionValue>
+        <p dangerouslySetInnerHTML={{ __html: htmlDecode(description) }} />
+      </DescriptionValue> 
     </>
   )
 }
