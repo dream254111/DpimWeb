@@ -3,6 +3,7 @@ import { useRef, useEffect, useState } from 'react'
 import font from '../../helpers/font'
 import { InteractiveVideoModal } from '../../components/modals'
 import moment from 'moment'
+import ReactPlayer from 'react-player'
 
 const Video = styled('video')`
   width: 100%;
@@ -42,6 +43,7 @@ const VideoLesson = ({
   title,
   description,
   mainVideo,
+  videoPosition,
   handleStampVideoLesson,
   interactiveTime,
   interactiveVideo1,
@@ -50,6 +52,8 @@ const VideoLesson = ({
   const videoRef = useRef(null)
   const [isInteractiveVideoModalOpen, setIsInteractiveVideoModalOpen] = useState(false)
   const [videoSrc, setVideoSrc] = useState(mainVideo)
+  const [videoCurrentTime, setVideoCurrentTime] = useState(0)
+
   const htmlDecode = (content) => {
     if (process.browser) {
       const e = document.createElement('div')
@@ -58,64 +62,17 @@ const VideoLesson = ({
     }
     return 'loading...'
   }
-  const addVideoEvent = (ref) => {
-    useEffect(() => {
-      const video = videoRef.current
-      var supposedCurrentTime = 0;
-      const handleTimeUpdate = () => {
-        if (!video.seeking) {
-          if (interactiveTime && videoSrc === mainVideo) {
-            const currentTime = Math.floor(video.currentTime / 60)+':'+Math.floor(video.currentTime % 60);
-            const _interactiveTime = moment(interactiveTime, 'HH:mm:ss').format('mm:ss')
-            const _currentTime = moment(currentTime, 'mm:ss').format('mm:ss')
-            console.log('_interactiveTime', _interactiveTime)
-            console.log('_currentTime', _currentTime)
-            if (_interactiveTime === _currentTime) {
-              onOpenVideoInteractive()
-            }
-          }
-        }
-      }
-
-      interval = setInterval(() => {
-        const duration = video.duration;
-        const buffered_percentage = (video.currentTime / duration) * 100;
-        handleStampVideoLesson(video.currentTime.toFixed(2), buffered_percentage.toFixed(2))
-      }, 5000)
-
-      const handleSeeking = () => {
-        var delta = video.currentTime > supposedCurrentTime
-        if (Math.abs(delta) > 0.01) {
-          video.currentTime = supposedCurrentTime
-        }
-      }
-
-      const handleEnded = () => {
-        supposedCurrentTime = 0
-      }
-      video.addEventListener('timeupdate', handleTimeUpdate)
-      video.addEventListener('seeking', handleSeeking)
-      video.addEventListener('ended', handleEnded)
-      return () => {
-        video.removeEventListener('timeupdate', handleTimeUpdate)
-        video.removeEventListener('seeking', handleSeeking)
-        video.removeEventListener('ended', handleEnded)
-        clearInterval(interval)
-      }
-    }, [videoRef])
-  }
 
   useEffect(() => {
     const video = videoRef.current
     if (video) {
-      video.currentTime = 0 
+      console.log('videoPosition', videoPosition)
+      videoRef.current.seekTo(videoPosition)
     }
   }, [mainVideo])
-  addVideoEvent(videoRef)
 
   const onOpenVideoInteractive = () => {
-    clearInterval(interval)
-    videoRef.current.pause()
+    videoRef.current.playing(false)
     setIsInteractiveVideoModalOpen(true)
   }
 
@@ -134,6 +91,27 @@ const VideoLesson = ({
 
     setIsInteractiveVideoModalOpen(false)
   }
+
+  const videoOnProgressHandle = (e) => {
+    const playedSeconds = e.playedSeconds
+    setVideoCurrentTime(playedSeconds)
+    const video = videoRef.current
+    const duration = video.getDuration()
+    const currentTime = video.getCurrentTime()
+    if (playedSeconds > 0 && +playedSeconds.toFixed() % 5 === 0) {
+      const percent = (currentTime / duration) * 100
+      if (currentTime.toFixed(2) > videoPosition) {
+        handleStampVideoLesson(currentTime.toFixed(2), percent.toFixed(2))
+      }
+    }
+    if (interactiveTime && videoSrc === mainVideo) {
+      const _interactiveTime = moment(interactiveTime, 'HH:mm:ss').format('mm:ss')
+      const currentTimeWithFormat = moment(currentTime * 1000).format('mm:ss')
+      if (_interactiveTime === currentTimeWithFormat) {
+        onOpenVideoInteractive()
+      }
+    }
+  }
   return (
     <>
       <InteractiveVideoModal
@@ -141,12 +119,24 @@ const VideoLesson = ({
         onSubmit={(key) => onSelectVideoInteractive(key)}
       />
       <MenuHeader>{title}</MenuHeader>
-        {
-          videoSrc && videoSrc.original &&
-          <Video key={videoSrc.original} id="video" controls autoplay muted ref={videoRef}>
-            <source src={videoSrc.original} type="video/mp4" />
-          </Video>
-        }
+          <ReactPlayer
+            ref={videoRef}
+            url={videoSrc.original}
+            width='100%'
+            height='600px'
+            controls={true}
+            onProgress={(e) => videoOnProgressHandle(e)}
+            onSeek={e => {
+              const currentTime = videoRef.current.getCurrentTime()
+              // console.log('videoCurrentTime', videoCurrentTime)
+              if (videoPosition > videoCurrentTime) {
+
+              } else if (currentTime > videoCurrentTime) {
+                videoRef.current.seekTo(videoCurrentTime, 'seconds')
+                // console.log('not allow to seek')
+              }
+            }}
+          />
         <DescriptionTitle>คำอธิบาย</DescriptionTitle>
         <DescriptionValue>
           <p dangerouslySetInnerHTML={{ __html: htmlDecode(description) }} />

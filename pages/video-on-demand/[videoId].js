@@ -16,14 +16,6 @@ const Title = styled('div')`
   padding: 12px;
 `
 
-const Video = styled('video')`
-  width: 100%;
-  height: 70vh;
-  border: unset;
-  line-height: 0;
-`
-
-
 const DescriptionTitle = styled('div')`
   background-color: white;
   padding: 12px 24px;

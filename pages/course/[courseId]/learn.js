@@ -25,6 +25,7 @@ import { connect } from 'react-redux'
 import { PreExamSummary, PreExam, PostExam, VideoLesson, Exercise } from '../../../components/learn'
 import Router from 'next/router'
 const { SubMenu } = Menu
+import ReactPlayer from 'react-player'
 
 const Wrapper = styled('div')`
   width: 100%;
@@ -216,6 +217,7 @@ const LearnPage = ({
           interactiveTime={lessonSelected.interactive_time}
           interactiveVideo1={lessonSelected.interactive_video_1}
           interactiveVideo2={lessonSelected.interactive_video_2}
+          videoPosition={lessonSelected.video_position}
         />
       )
     } else {
@@ -311,9 +313,19 @@ const LearnPage = ({
                 </MenuHeader>
                 {
                   courseDetail && courseDetail.course &&
-                    <Video id="video" controls autoplay muted>
-                      {/* <source src={courseDetail.course.video.original} type="video/mp4" /> */}
-                    </Video>
+                    <ReactPlayer
+                      url={courseDetail.course.video.original}
+                      width='100%'
+                      height='600px'
+                      controls={true}
+                      config={{
+                        file: {
+                          attributes: {
+                            poster: courseDetail.course.video.thumbnail,
+                          }
+                        }
+                      }}
+                    />
                 }
                 <DescriptionTitle>คำอธิบาย</DescriptionTitle>
                 <DescriptionValue>
