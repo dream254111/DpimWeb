@@ -262,7 +262,7 @@ const ExerciseComponent = ({
       }
       <Card>
         <CardNo>ข้อที่ {currentNo + 1} จาก {exercises.length}</CardNo>
-        <CardQuestion>{exercises[currentNo].question}</CardQuestion>
+        <CardQuestion dangerouslySetInnerHTML={{ __html: exercises[currentNo].question }} />
         {
           exercises[currentNo].is_answer_choice &&
           <ChoiceWrapper>
