@@ -76,7 +76,7 @@ const PostExamSummaryComponent = ({
             <Button
               type='primary'
               onClick={() => Router.push(`/evaluation/${courseId}`)}
-              disabled={isShowEvaluationButton}
+              disabled={!isShowEvaluationButton}
             >
               ให้คะแนนประเมิน
             </Button>
