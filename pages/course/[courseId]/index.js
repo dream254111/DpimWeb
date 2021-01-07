@@ -828,11 +828,9 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
           </TabMenu>
           </Container>
         </TabBar>
-
         <PageColor>
           <Container>
             <CourseContainer>
-
             <LeftContainer>
             <CourseOverview ref={scrollRef1}>
               <CourseOverviewDetail>
@@ -898,7 +896,6 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                 }
                   </>
                 }
-                
               </CourseContentDetail>
             </CourseContent>
 
@@ -938,7 +935,6 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
               </ContactDetail>
             </Contact>
             </LeftContainer>
-
             <RightContainer>
             <CourseExample>
               <CourseExampleDetail>
@@ -979,6 +975,15 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                 {
                   courseDetail && courseDetail.is_own_course === true ?
                   <>
+                    <Button
+                      type='primary'
+                      fontSize='14px'
+                      block
+                      style={{margin: '0 0 8px 0'}}
+                      onClick={() => Router.push(`/course/${courseId}/learn`)}
+                      >
+                        เรียนต่อ
+                    </Button>
                     <Button
                       type='primary'
                       fontSize='14px'

@@ -109,7 +109,7 @@ const RegisterPage = ({ master }) => {
                 label="อีเมล"
                 name='email'
                 labelCol={{ span: 24 }}
-                rules={[{ required: true, message: 'กรุณากรอกอีเมล' }, { type: 'email', message: 'รูปแบบของอีเมล์ไม่ถูกต้อง' } ]}
+                rules={[{ required: true, message: 'กรุณากรอกอีเมล' }, { type: 'email', message: 'อีเมล์ไม่ถูกต้อง' } ]}
               >
                 <Input placeholder='กรุณากรอกอีเมล' />
               </Form.Item>

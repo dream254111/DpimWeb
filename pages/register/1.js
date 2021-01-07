@@ -39,7 +39,7 @@ const RegisterStepOnePage = () => {
             label="อีเมล"
             name='email'
             labelCol={{ span: 24 }}
-            rules={[{ required: true, message: 'กรุณากรอกอีเมล' }, { type: 'email' } ]}
+            rules={[{ required: true, message: 'กรุณากรอกอีเมล' }, { type: 'email', message: 'อีเมลไม่ถูกต้อง' } ]}
           >
             <Input placeholder='กรุณากรอกอีเมล' />
           </Form.Item>

@@ -110,7 +110,7 @@ const RegisterStepTwoPage = ({ master }) => {
                 label="วันเกิด"
                 name='email'
                 labelCol={{ span: 24 }}
-                rules={[{ required: true, message: 'กรุณากรอกอีเมล' }, { type: 'email' } ]}
+                rules={[{ required: true, message: 'กรุณากรอกอีเมล' }, { type: 'email', message: 'อีเมลไม่ถูกต้อง' } ]}
               >
                 <DatePicker style={{width: '100%' }} />
               </Form.Item>
@@ -191,7 +191,7 @@ const RegisterStepTwoPage = ({ master }) => {
             label="วุฒิการศึกษาสูงสุด"
             name='email'
             labelCol={{ span: 24 }}
-            rules={[{ required: true, message: 'กรุณาเลือกวุฒิการศึกษาสูงสุด' }, { type: 'email' } ]}
+            rules={[{ required: true, message: 'กรุณาเลือกวุฒิการศึกษาสูงสุด' }, { type: 'email', message: 'อีเมลไม่ถูกต้อง' } ]}
           >
             <Radio.Group>
               <Radio value={1}>ต่ำกว่าปริญญาตรี</Radio>
