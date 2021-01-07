@@ -319,7 +319,7 @@ const CertificateIdPage = ({
                 <CourseDetail>
                   <CourseDetailTitle>สำหรับคอร์ส</CourseDetailTitle>
                   <CourseCard
-                    batch={item.batch}
+                    batch={courseDetail?.course?.batch}
                     style={{marginTop: '20px'}}
                     type='cert'
                     id={courseDetail?.course?.id}
