@@ -139,12 +139,18 @@ const PreExamComponent = ({
   const checkAnswer = async (values) => {
     console.log('values', values)
     setIsLoading(true)
-    const answer = values.map(item => {
+    let answer = values.map(item => {
       return {
         course_exam_id: item.course_exam_id,
         answer: item.answer
       }
     })
+    if (answerResult.list_result && answerResult.list_result.length > 0) {
+      const resultFaileds = answerResult.list_result.filter(item => item.status === false)
+      const resultFailedCourseExamIds = resultFaileds.map(item => item.course_exam_id)
+      answer = answer.filter(item => resultFailedCourseExamIds.includes(item.course_exam_id))
+      console.log('answer', answer)
+    }
     try {
       const request = {
         headers: {
@@ -219,6 +225,7 @@ const PreExamComponent = ({
           style={{ float: 'right', marginTop: '32px' }}
           onClick={() => checkAnswer(answers)}
           loading={isLoading}
+          disabled={answerResult && answerResult.percent >= 80}
         >ตรวจคำตอบ
         </Button>
       </PreExam>
