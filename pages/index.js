@@ -14,6 +14,10 @@ import { connect } from 'react-redux'
 const commaNumber = require('comma-number')
 const { Option } = Select
 import { ArrowRightOutlined } from '@ant-design/icons'
+import {
+  isMobile
+} from "react-device-detect"
+
 const Wrapper = styled('div')`
 
 `
@@ -443,7 +447,7 @@ const IndexPage = ({
                     key={index}
                   >
                     <BannerImage
-                      src={item.image_pc}
+                      src={isMobile ? item.image_mobile : item.image_pc}
                       onClick={() => window.open(item.link, '_href')}
                       // srcMobile={item.image_mobile}
                     />
