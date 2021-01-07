@@ -9,6 +9,7 @@ import { message } from 'antd'
 import { connect } from 'react-redux'
 import PreExamSummary from './PreExamSummary'
 import { maxWidth } from '../../helpers/breakpoint'
+import { stripHtml } from '../../helpers/util'
 
 const PreExam = styled('div')`
   margin-top: 32px;
@@ -193,7 +194,8 @@ const PreExamComponent = ({
           {
             exams.map((item, index) => (
               <PreExamItem key={index}>
-                <PreExamWQuestion no={index + 1} dangerouslySetInnerHTML={{ __html: item.question }} />
+                {/* <PreExamWQuestion no={index + 1} dangerouslySetInnerHTML={{ __html: item.question }} /> */}
+                <PreExamWQuestion>{stripHtml(item.question)}</PreExamWQuestion>
                 <PreExamChoices>
                   {
                     item.list_answer.map((choice, index) => (

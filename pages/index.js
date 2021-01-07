@@ -449,7 +449,6 @@ const IndexPage = ({
                     <BannerImage
                       src={isMobile ? item.image_mobile : item.image_pc}
                       onClick={() => window.open(item.link, '_href')}
-                      // srcMobile={item.image_mobile}
                     />
                   </div>
                 ))
