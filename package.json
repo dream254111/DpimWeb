@@ -33,6 +33,7 @@
     "null-loader": "2.0.0",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
+    "react-player": "^2.7.2",
     "react-redux": "^7.2.2",
     "react-slick": "^0.27.13",
     "redux": "^4.0.5",

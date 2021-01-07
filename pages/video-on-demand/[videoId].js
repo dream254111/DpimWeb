@@ -6,6 +6,7 @@ import font from '../../helpers/font'
 import { message } from 'antd'
 import axios from 'axios'
 import API from '../../helpers/api'
+import ReactPlayer from 'react-player'
 
 const Title = styled('div')`
   background-color: #00937B;
@@ -52,6 +53,7 @@ const VideoIdPage = ({ videoId }) => {
         method: 'GET',
         url: `${API.url}/Student/GetVideo?id=${videoId}`
       })
+      console.log('response.data.data.data', response.data.data.data)
       setVideoDetail(response.data.data.data)
     } catch (error) {
       message.error(error.message)
@@ -61,10 +63,12 @@ const VideoIdPage = ({ videoId }) => {
     <MainLayout>
       <Container>
         <Title>{videoDetail.name}</Title>
-        {/** ตรงนี้เป็นลิ้งก์ youtube นะ */}
-        <Video id="video" controls autoplay>
-          <source src={videoDetail.video} type="video/mp4" />
-        </Video>
+        <ReactPlayer
+          url='https://www.youtube.com/watch?v=ysz5S6PUM-U'
+          width='100%'
+          height='600px'
+          controls={true}
+        />
         <DescriptionTitle>รายละเอียด</DescriptionTitle>
         <DescriptionContent>
           <SubTitle>- คำอธิบาย</SubTitle>

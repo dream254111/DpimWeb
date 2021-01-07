@@ -205,16 +205,16 @@ const VideoOnDemandPage = ({
               </MobileContainer>
             </Col>
             <Col xs={24} md={18}>
-            {
-              courses.map((item, index) => (
-                <CourseCard key={index}>
-                  <CourseImage src={item.cover_thumbnail} />
-                  <CourseContent>
-                    <CourseTitle>{item.name}</CourseTitle>
-                  </CourseContent>
-                </CourseCard>
-              ))
-            }
+              {
+                courses.map((item, index) => (
+                  <CourseCard key={index}>
+                    <CourseImage src={item.cover_thumbnail} />
+                    <CourseContent>
+                      <CourseTitle>{item.name}</CourseTitle>
+                    </CourseContent>
+                  </CourseCard>
+                ))
+              }
             </Col>
           </Row>
         </Container>
