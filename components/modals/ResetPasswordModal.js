@@ -33,11 +33,11 @@ const ResetPasswordModal = ({
 }) => {
   const [form] = Form.useForm()
   const [isLoading, setIsLoading] = useState(false)
-  
+
   useEffect(() => {
     form.resetFields()
   }, [])
-  
+
   const handleSubmit = async (values) => {
     setIsLoading(true)
     console.log('handleSubmit', values)
@@ -98,6 +98,7 @@ const ResetPasswordModal = ({
           >
             <Input
               placeholder='กรอกรหัสผ่าน'
+              type='password'
             />
           </Form.Item>
           <Form.Item 
