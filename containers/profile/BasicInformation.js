@@ -213,6 +213,7 @@ const BasicInformation = ({
     })
     setDistrictId(value)
   }
+  console.log('profileSetting', profileSetting)
   return (
     <Wrapper>
       <UploadDocumentModal
@@ -250,14 +251,6 @@ const BasicInformation = ({
             src={avatar}
             style={{ marginRight: '16px' }}
           />
-          {/* <Button
-            color='#00937B'
-            fontWeight='normal'
-            fontSize='12px'
-            type='file'
-          >
-            เปลี่ยนรูปโปรไฟล์
-          </Button> */}
           <Upload name='file' multiple={false} showUploadList={false} onChange={(info) => uploadFile(info.file.originFileObj, (imageUrl) => setAvatar(imageUrl))}>
             <Button>เปลี่ยนรูปโปรไฟล์</Button>
           </Upload>
@@ -270,7 +263,10 @@ const BasicInformation = ({
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <Input placeholder='กรุณากรอกชื่อ-สกุล ของคุณ' />
+              <Input
+                placeholder='กรุณากรอกชื่อ-สกุล ของคุณ'
+                disabled={!profileSetting.is_edit_personal_info}
+              />
             </Form.Item>
           </Col>
           <Col lg={12}>
@@ -278,9 +274,11 @@ const BasicInformation = ({
               label="นามสกุลภาษาอังกฤษ"
               name='lastname_en'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <Input placeholder='กรุณากรอกชื่อ-สกุล ของคุณ' />
+              <Input
+                placeholder='กรอกนามสกุลภาษาอังกฤษ'
+                disabled={!profileSetting.is_edit_personal_info}
+              />
             </Form.Item>
           </Col>
           <Col lg={12}>
@@ -288,9 +286,11 @@ const BasicInformation = ({
               label="ชื่อจริงภาษาอังกฤษ"
               name='firstname_en'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <Input placeholder='กรุณากรอกชื่อ-สกุล ของคุณ' />
+              <Input
+                placeholder='กรอกชื่อจริงภาษาอังกฤษ'
+                disabled={!profileSetting.is_edit_personal_info}
+              />
             </Form.Item>
           </Col>
           <Col lg={12}>
@@ -298,9 +298,11 @@ const BasicInformation = ({
               label="นามสกุลภาษาไทย"
               name='lastname'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <Input placeholder='กรุณากรอกชื่อ-สกุล ของคุณ' />
+              <Input
+                placeholder='กรอกนามสกุลภาษาไทย'
+                disabled={!profileSetting.is_edit_personal_info}
+              />
             </Form.Item>
           </Col>
           <Col lg={12}>
@@ -309,7 +311,10 @@ const BasicInformation = ({
               name='id_card'
               labelCol={{ span: 24 }}
             >
-              <Input placeholder='กรุณากรอกชื่อ-สกุล ของคุณ' />
+              <Input
+                placeholder='กรอกเลขบัตรประชาชน'
+                disabled={!profileSetting.is_edit_personal_info}
+              />
             </Form.Item>
           </Col>
           <Col lg={12}></Col>
@@ -320,7 +325,9 @@ const BasicInformation = ({
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <Radio.Group>
+              <Radio.Group
+                disabled={!profileSetting.is_edit_personal_info}
+              >
                 <Radio value={1}>ชาย</Radio>
                 <Radio value={2}>หญิง</Radio>
               </Radio.Group>
@@ -333,7 +340,11 @@ const BasicInformation = ({
               name='birthday'
               labelCol={{ span: 24 }}
             >
-              <DatePicker style={{width: '100%'}} format={dateFormat} />
+              <DatePicker
+                style={{ width: '100%' }}
+                format={dateFormat}
+                disabled={!profileSetting.is_edit_personal_info}
+              />
             </Form.Item>
           </Col>
           <Col lg={12} />
@@ -342,11 +353,12 @@ const BasicInformation = ({
               label="จังหวัด"
               name='province_id'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
               <Select
                 placeholder='เลือกจังหวัด'
                 onChange={(value) => onProvinceChange(value)}
+                disabled={!profileSetting.is_edit_address}
+
               >
                 {
                   provinces.map((item, index) => (
@@ -365,9 +377,12 @@ const BasicInformation = ({
               label="เขต"
               name='district_id'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <Select placeholder='เลือกเขต/อำเภอ' onChange={(value) => onDistrictChange(value)}>
+              <Select
+                placeholder='เลือกเขต/อำเภอ'
+                onChange={(value) => onDistrictChange(value)}
+                disabled={!profileSetting.is_edit_address}
+              >
                 {
                   districts.filter(item => item.province_id === provinceId).map((item, index) => (
                     <Option
@@ -385,9 +400,11 @@ const BasicInformation = ({
               label="แขวง"
               name='sub_district_id'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <Select placeholder='เลือกแขวง/ตำบล'>
+              <Select
+                placeholder='เลือกแขวง/ตำบล'
+                disabled={!profileSetting.is_edit_address}
+              >
                 {
                   subDistricts.filter(item => item.districts_id === districtId).map((item, index) => (
                     <Option
@@ -406,7 +423,10 @@ const BasicInformation = ({
               name='zipcode'
               labelCol={{ span: 24 }}
             >
-              <Input />
+              <Input
+                disabled={!profileSetting.is_edit_address}
+                placeholder='กรอกรหัสไปรษณีย์'
+              />
             </Form.Item>
           </Col>
           <Col lg={24}>
@@ -415,7 +435,10 @@ const BasicInformation = ({
               name='address'
               labelCol={{ span: 24 }}
             >
-              <Input />
+              <Input
+                disabled={!profileSetting.is_edit_address}
+                placeholder='กรอกรายละเอียดที่อยู่'
+              />
             </Form.Item>
           </Col>
           <Col lg={12}>
@@ -425,7 +448,10 @@ const BasicInformation = ({
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <Input />
+              <Input
+                placeholder='กรอกอีเมล'
+                disabled={!profileSetting.is_edit_email}
+              />
             </Form.Item>
           </Col>
           <Col lg={12} />
@@ -435,7 +461,9 @@ const BasicInformation = ({
               name='phone'
               labelCol={{ span: 24 }}
             >
-              <Input />
+              <Input
+                disabled={!profileSetting.is_edit_phone}
+              />
             </Form.Item>
           </Col>
           <Col lg={12} />
@@ -446,7 +474,9 @@ const BasicInformation = ({
               labelCol={{ span: 24 }}
               rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
             >
-              <Radio.Group>
+              <Radio.Group
+                disabled={!profileSetting.is_edit_educational}
+              >
                 <Radio value={1}>ต่ำกว่าปริญญาตรี</Radio>
                 <Radio value={2}>ปริญญาตรี</Radio>
                 <Radio value={3}>ปริญญาโท</Radio>
@@ -484,7 +514,10 @@ const BasicInformation = ({
               name='know_channel'
               labelCol={{ span: 24 }}
             >
-              <CheckboxGroup options={master.know_channel.map(item => item.name)} />
+              <CheckboxGroup
+                options={master.know_channel.map(item => item.name)}
+                disabled={!profileSetting.is_edit_know_channel}
+              />
             </Form.Item>
           </Col>
         </Row>
@@ -496,7 +529,10 @@ const BasicInformation = ({
               name='business_name'
               labelCol={{ span: 24 }}
             >
-              <Input placeholder='เลือกชื่อสถานที่ประกอบการ' />
+              <Input
+                placeholder='กรอกชื่อสถานที่ประกอบการ'
+                disabled={!profileSetting.is_edit_business}
+              />
             </Form.Item>
           </Col>
           <Col lg={12}>
@@ -505,7 +541,10 @@ const BasicInformation = ({
               name='business_province_id'
               labelCol={{ span: 24 }}
             >
-              <Select placeholder='เลือกสถานที่ประกอบการ'>
+              <Select
+                placeholder='เลือกสถานที่ประกอบการ'
+                disabled={!profileSetting.is_edit_business}
+              >
                 {
                   provinces.map((item, index) => (
                     <Option
@@ -524,7 +563,11 @@ const BasicInformation = ({
               name='business_register'
               labelCol={{ span: 24 }}
             >
-              <DatePicker style={{width: '100%'}} placeholder='เลือกวันที่จดทะเบียน' />
+              <DatePicker
+                style={{width: '100%'}}
+                placeholder='เลือกวันที่จดทะเบียน'
+                disabled={!profileSetting.is_edit_business}
+              />
             </Form.Item>
           </Col>
           <Col lg={12}>
@@ -533,7 +576,10 @@ const BasicInformation = ({
               name='business_no'
               labelCol={{ span: 24 }}
             >
-              <Input placeholder='เลือกเลยที่จดทะเบียน' />
+              <Input
+                placeholder='เลือกเลยที่จดทะเบียน'
+                disabled={!profileSetting.is_edit_business}
+              />
             </Form.Item>
           </Col>
         </Row>
