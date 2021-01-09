@@ -317,8 +317,13 @@ const CoursePage = ({
 
   const fetchCourseList = async () => {
     try {
-      let params = (Object.keys(filter).map((key, index) => {
-        return `${key}=${filter[key]}`
+      let _filter = JSON.parse(JSON.stringify(filter))
+      if (_filter.is_free === true) {
+        delete _filter.price_gte
+        delete _filter.price_lte
+      }
+      let params = (Object.keys(_filter).filter(key => _filter[key]).map((key, index) => {
+        return `${key}=${_filter[key]}`
       })).join('&')
       console.log('params', params)
       const response = await axios({

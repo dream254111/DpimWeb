@@ -43,8 +43,8 @@ const PrintHere = styled('div')`
 `
 
 const HeaderImage = styled('div')`
-  height: 120px;
-  width: 214px;
+  min-height: 120px;
+  min-width: 214px;
   background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
@@ -742,7 +742,11 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
   const extendStudyTime = async () => {
     try {
       setIsExtendTimeLoading(true)
+      const headers = memberToken ?  {
+        'Authorization': memberToken
+      } : undefined
       const response = await axios({
+        headers,
         method: 'PUT',
         url: `${API.url}/Course/extend_study_time?course_id=${courseId}`,
       })

@@ -4,9 +4,9 @@ import Container from '../components/Container'
 import font from '../helpers/font'
 import { maxWidth } from '../helpers/breakpoint'
 import Slider from "react-slick"
-import { Button, Tag, CourseCard } from '../components'
+import { Tag, CourseCard } from '../components'
 import Router from 'next/router'
-import { Select, Row, Col, message } from 'antd'
+import { Select, Row, Col, message, Button } from 'antd'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import API from '../helpers/api'
@@ -244,7 +244,6 @@ const RecommentWebsiteRow = styled(Row)`
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token
 }))
-
 
 const IndexPage = ({
   memberToken,
@@ -573,9 +572,20 @@ const IndexPage = ({
           <Panal>
             <PanalTitle>หลักสูตรที่ช่วยต่อยอดธุรกิจคุณ</PanalTitle>
             <PanalDesc>บทเรียนที่เราคิดค้นมาแล้วว่าจะช่วยผลักดันศักยภาพของผู้ประกอบการให้เกิดประโยชน์สูงสุด</PanalDesc>
-            <PanelButton
-              onClick={() => Router.push('/register')}
-            >สมัครสมาชิก</PanelButton>
+            {
+              memberToken ?
+                <PanelButton
+                  onClick={() => Router.push('/course')}
+                >
+                  เริ่มต้นคอร์สเรียน
+                </PanelButton>
+                :
+                <PanelButton
+                  onClick={() => Router.push('/register')}
+                >
+                  สมัครสมาชิก
+                </PanelButton>
+            }
           </Panal>
         </CourseOnlineContent>
       </Wrapper>

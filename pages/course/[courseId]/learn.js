@@ -294,7 +294,7 @@ const LearnPage = ({
               <Menu.Item
                 key={999}
                 icon={<FileTextOutlined />}
-                disabled={!courseDetail.can_use_post_test}
+                // disabled={!courseDetail.can_use_post_test}
               >
                 แบบทดสอบหลังเรียน
               </Menu.Item>

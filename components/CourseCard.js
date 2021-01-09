@@ -42,6 +42,7 @@ const CourseCardTitle = styled('div')`
   text-overflow: ellipsis;
   font-size: 16px;
   font-family: ${font.bold};
+  height: 3.2em;
 `
 
 const CourseCardDetail = styled('div')`
