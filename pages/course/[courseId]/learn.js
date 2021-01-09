@@ -25,13 +25,17 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { PreExamSummary, PreExam, PostExam, VideoLesson, Exercise, PostExamSummary } from '../../../components/learn'
 import Router from 'next/router'
-const { SubMenu } = Menu
 import ReactPlayer from 'react-player'
+import { timeConvert } from '../../../helpers/util'
+const { SubMenu } = Menu
 
 const Wrapper = styled('div')`
   width: 100%;
 `
 
+// .ant-menu-item {
+//   height: 65px !important;
+// }
 const MenuHeader = styled('div')`
   width: 100%;
   background-color: #00937B;
@@ -213,6 +217,8 @@ const LearnPage = ({
           interactiveVideo1={lessonSelected.interactive_video_1}
           interactiveVideo2={lessonSelected.interactive_video_2}
           videoPosition={lessonSelected.video_position}
+          isInteractive={lessonSelected.is_interactive}
+          interactive={lessonSelected.interactive}
         />
       )
     } else {
@@ -277,7 +283,7 @@ const LearnPage = ({
             <PlayCircleOutlined />
             <div>วีดีโอ</div>
           </VideoTitleLeft>
-          <div>02:03</div>
+        <div>{timeConvert(obj.time)}</div>
         </VideoTitle>
         <Progress
           percent={obj.video_position || 0}
@@ -329,6 +335,7 @@ const LearnPage = ({
                 courseLessons.map((item, index) => (
                   <SubMenu key="sub1" title={renderLessonTitle(item, index + 1)}>
                     <Menu.Item
+                      style={{height: '65px'}}
                       key={item.id}
                       // icon={<PlayCircleOutlined />}
                       disabled={courseDetail.can_use_pre_test}

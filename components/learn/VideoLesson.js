@@ -1,9 +1,10 @@
 import styled from 'styled-components'
 import { useRef, useEffect, useState } from 'react'
 import font from '../../helpers/font'
-import { InteractiveVideoModal } from '../../components/modals'
+import { InteractiveQuestionModal, InteractiveVideoModal } from '../../components/modals'
 import moment from 'moment'
 import ReactPlayer from 'react-player'
+import { InteractionTwoTone } from '@ant-design/icons'
 
 const Video = styled('video')`
   width: 100%;
@@ -45,15 +46,19 @@ const VideoLesson = ({
   mainVideo,
   videoPosition,
   handleStampVideoLesson,
+  isInteractive,
+  interactive,
   interactiveTime,
   interactiveVideo1,
   interactiveVideo2
 }) => {
   const videoRef = useRef(null)
-  const [isInteractiveVideoModalOpen, setIsInteractiveVideoModalOpen] = useState(false)
+  const [isInteractiveModalOpen, setIsInteractiveModalOpen] = useState(false)
   const [videoSrc, setVideoSrc] = useState(mainVideo)
   const [videoCurrentTime, setVideoCurrentTime] = useState(0)
   const [playing, setPlaying] = useState(false)
+  const [interactiveDetail, setInteractiveDetail] = useState({})
+  const [opendedInteractive, setOpendedIntereactive] = useState([])
 
   const htmlDecode = (content) => {
     if (process.browser) {
@@ -68,8 +73,6 @@ const VideoLesson = ({
     const video = videoRef.current
     if (video) {
       setPlaying(false)
-      // console.log('video', video)
-      // video.seekTo(videoPosition)
       console.log('userEffect', videoPosition)
       setTimeout(() => {
 
@@ -79,23 +82,7 @@ const VideoLesson = ({
 
   const onOpenVideoInteractive = () => {
     setPlaying(false)
-    setIsInteractiveVideoModalOpen(true)
-  }
-
-  const onSelectVideoInteractive = (key) => {
-    switch (key) {
-      case 1:
-        setVideoSrc(interactiveVideo1)
-        setPlaying(true)
-        break;
-      case 2:
-        setVideoSrc(interactiveVideo2)
-        setPlaying(true)
-        break
-      default: null
-    }
-
-    setIsInteractiveVideoModalOpen(false)
+    setIsInteractiveModalOpen(true)
   }
 
   const videoOnProgressHandle = (e) => {
@@ -110,19 +97,27 @@ const VideoLesson = ({
         handleStampVideoLesson(currentTime.toFixed(2), percent.toFixed(2))
       }
     }
-    if (interactiveTime && videoSrc === mainVideo) {
-      const _interactiveTime = moment(interactiveTime, 'HH:mm:ss').format('mm:ss')
+    if (isInteractive) {
       const currentTimeWithFormat = moment(currentTime * 1000).format('mm:ss')
-      if (_interactiveTime === currentTimeWithFormat) {
+      const interactiveDetail = interactive.find(item => moment(item.interactive_time, 'HH:mm:ss').format('mm:ss') === currentTimeWithFormat)
+      if (interactiveDetail && !opendedInteractive.includes(interactiveDetail.id)) {
+        setInteractiveDetail(interactiveDetail)
         onOpenVideoInteractive()
+        const _opendedInteractive = JSON.parse(JSON.stringify(opendedInteractive))
+        _opendedInteractive.push(interactiveDetail.id)
+        setOpendedIntereactive(_opendedInteractive)
       }
     }
   }
   return (
-    <>
-      <InteractiveVideoModal
-        isOpen={isInteractiveVideoModalOpen}
-        onSubmit={(key) => onSelectVideoInteractive(key)}
+    <>]
+      <InteractiveQuestionModal
+        isOpen={isInteractiveModalOpen}
+        interactive={interactiveDetail}
+        onSubmit={() => {
+          setIsInteractiveModalOpen(false)
+          setPlaying(true)
+        }}
       />
       <MenuHeader>{title}</MenuHeader>
       <ReactPlayer
