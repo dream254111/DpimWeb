@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import Container from '../components/Container'
 import font from '../helpers/font'
 import { maxWidth } from '../helpers/breakpoint'
-import Slider from "react-slick"
+import Slider from 'react-slick'
 import { Tag, CourseCard } from '../components'
 import Router from 'next/router'
 import { Select, Row, Col, message, Button } from 'antd'
@@ -11,12 +11,16 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import API from '../helpers/api'
 import { connect } from 'react-redux'
-const commaNumber = require('comma-number')
-const { Option } = Select
 import { ArrowRightOutlined } from '@ant-design/icons'
 import {
   isMobile
-} from "react-device-detect"
+} from 'react-device-detect'
+import { SpecialDayModal } from '../components/modals'
+import Moment from 'moment'
+import { extendMoment } from 'moment-range'
+const moment = extendMoment(Moment)
+const commaNumber = require('comma-number')
+const { Option } = Select
 
 const Wrapper = styled('div')`
 
@@ -254,8 +258,10 @@ const IndexPage = ({
   const [vdo, setVdo] = useState([])
   const [recommendWeb, setRecommendWeb] = useState([])
   const [webStat, setWebStat] = useState({})
-  const [selectedCourseCategory , setSelectedCourseCategory] = useState(0)
-  const [selectedVDOCategory , setSelectedVDOCategory] = useState(0)
+  const [selectedCourseCategory, setSelectedCourseCategory] = useState(0)
+  const [selectedVDOCategory, setSelectedVDOCategory] = useState(0)
+  const [specialDay, setSpecialDay] = useState({})
+  const [isOpenSpecialDayModal, setIsOpenSpecialDayModal] = useState(false)
 
   useEffect(() => {
     Promise.all([
@@ -263,12 +269,13 @@ const IndexPage = ({
       fetchCourseList(),
       fetchWebRecommendList(),
       fetchWebOverviewStat(),
-      fetchVideoOnDemandList()
+      fetchVideoOnDemandList(),
+      fetchSpecialDay()
     ])
   }, [])
 
   useEffect(() => {
-    if(memberToken) {
+    if (memberToken) {
       // fetchMyCourseProgess()
     }
   }, [memberToken])
@@ -291,6 +298,32 @@ const IndexPage = ({
         url: `${API.url}/Course/my_course_progress`,
       })
       const data = response.data.data
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
+  const fetchSpecialDay = async () => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `${API.url}/Student/special_days`
+      })
+      const responseWithData = response.data
+      console.log('fetchSpecialDay', responseWithData)
+      if (responseWithData.success) {
+        const data = responseWithData.data
+        const startDate = data.start_date
+        const endDate = data.end_date
+        const inRange = moment().range(startDate, endDate)
+        if (moment().within(inRange)) {
+          setSpecialDay(data)
+          setIsOpenSpecialDayModal(true)
+          setSpecialDay(data)
+        }
+      } else {
+        throw new Error(responseWithData.error)
+      }
     } catch (error) {
       message.error(error.message)
     }
@@ -420,6 +453,11 @@ const IndexPage = ({
   }
 	return (
     <MainLayout>
+      <SpecialDayModal
+        isOpen={isOpenSpecialDayModal}
+        onClose={() => setIsOpenSpecialDayModal(false)}
+        imageUrl={specialDay.cover}
+      />
       <Wrapper>
         <Banner src='/static/images/banner.png'>
           <Container style={{height: '100%'}}>
