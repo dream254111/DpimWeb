@@ -1,4 +1,4 @@
-import { Menu, Row, Col, message } from 'antd'
+import { Menu, Row, Col, message, Progress } from 'antd'
 import { Button, Container } from '../../../components'
 import { useState, useEffect } from 'react'
 import {
@@ -238,7 +238,7 @@ const LearnPage = ({
   
   `
 
-  const renderTitleLesson = (obj, lessonNo) => {
+  const renderLessonTitle = (obj, lessonNo) => {
     if (obj.done_exercise && obj.done_lesson) {
       return (
         <TitleLesson>
@@ -251,6 +251,45 @@ const LearnPage = ({
         <TitleLessonText>บทที่ {lessonNo} : {obj.name}</TitleLessonText>
       )
     }
+  }
+
+  const VideoTitleWrapper = styled('div')`
+    display: flex;
+    flex-direction: column;
+  `
+
+  const VideoTitle = styled('div')`
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  `
+
+  const VideoTitleLeft = styled('div')`
+    display: flex;
+    align-items: center;
+  `
+
+  const renderVideoTitle = (obj) => {
+    return (
+      <VideoTitleWrapper>
+        <VideoTitle>
+          <VideoTitleLeft>
+            <PlayCircleOutlined />
+            <div>วีดีโอ</div>
+          </VideoTitleLeft>
+          <div>02:03</div>
+        </VideoTitle>
+        <Progress
+          percent={obj.video_position || 0}
+          showInfo={false}
+          strokeWidth={2}
+          strokeColor={{
+            '0%': '#00937B',
+            '100%': '#00937B',
+            }}
+        />
+      </VideoTitleWrapper>
+    )
   }
   return (
     <MainLayout>
@@ -288,12 +327,12 @@ const LearnPage = ({
               </Menu.Item>
               {
                 courseLessons.map((item, index) => (
-                  <SubMenu key="sub1" title={renderTitleLesson(item, index + 1)}>
+                  <SubMenu key="sub1" title={renderLessonTitle(item, index + 1)}>
                     <Menu.Item
                       key={item.id}
-                      icon={<PlayCircleOutlined />}
+                      // icon={<PlayCircleOutlined />}
                       disabled={courseDetail.can_use_pre_test}
-                    >วีดีโอ</Menu.Item>
+                    >{renderVideoTitle(item)}</Menu.Item>
                     {
                       item && item.exercise && item.exercise.length > 0 &&
                       <Menu.Item
