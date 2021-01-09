@@ -87,23 +87,23 @@ const Footer = () => {
           </FooterLogo>
           <ContactContainer>
             <p>ติดต่อเรา</p>
-            <p>ทุกวัน เวลา 09:00 - 18:00 น.</p>
+            <p>จันทร์ - ศุกร์ เวลา 08:30 - 16:30 น.</p>
             <Contact>
               <ContactItem>
                 <Icon src='/static/images/Tel.png' />
                 <p>+66 90 212 8819</p>
               </ContactItem>
-              <ContactItem>
+              {/* <ContactItem>
                 <Icon src='/static/images/Line.png' />
                 <p>@dpimelearn</p>
-              </ContactItem>
+              </ContactItem> */}
               <ContactItem>
                 <Icon src='/static/images/Facebook.png' />
-                <p>DPIM ELearning</p>
+                <p>DPIM Academy</p>
               </ContactItem>
               <ContactItem>
                 <Icon src='/static/images/Mail.png' />
-                <p>dpim@gmail.com</p>
+                <p>dpimacademy@gmail.com</p>
               </ContactItem>
             </Contact>
             <Report onClick={() => Router.push('/feedback')}>
