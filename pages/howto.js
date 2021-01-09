@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import axios from 'axios'
 import { message } from 'antd'
 import API from '../helpers/api'
+import ReactPlayer from 'react-player'
 
 const Title = styled('div')`
   font-size: 24px;
@@ -67,12 +68,11 @@ const DetailItem = styled('div')`
 
 `
 
-
 const HowtoPage = () => {
   useEffect(() => {
     fetchHowTo()
   }, [])
-  
+
   const [tutorials, setTutorials] = useState([])
   const fetchHowTo = async () => {
     try {
@@ -88,7 +88,7 @@ const HowtoPage = () => {
         throw new Error(responseWithData.error)
       }
     } catch (error) {
-        message.error(error.message)
+      message.error(error.message)
     }
   }
   return (
@@ -106,6 +106,16 @@ const HowtoPage = () => {
                   <ItemTitle>{item.tutorial_text}</ItemTitle>
                 </ItemTitleWrapper>
                 {item.image ? <Image src={item.image} /> : null}
+                {
+                  item.link &&
+                    <ReactPlayer
+                      url={item.link}
+                      width='100%'
+                      height='600px'
+                      style={{ marginTop: '20px' }}
+                      controls={true}
+                    />
+                  }
                 {
                   item.detail.map((detail, index) => (
                     <DetailItem
