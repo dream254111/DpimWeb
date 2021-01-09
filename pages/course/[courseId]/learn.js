@@ -14,7 +14,8 @@ import {
   CheckCircleOutlined,
   ArrowRightOutlined,
   PlayCircleOutlined,
-  FormOutlined
+  FormOutlined,
+  CheckOutlined
 } from '@ant-design/icons'
 import font from '../../../helpers/font'
 import MainLayout from '../../../layouts/main'
@@ -39,13 +40,6 @@ const MenuHeader = styled('div')`
   color: white;
   box-shadow: 0px 4px 16px rgba(8, 53, 106, 0.08);
   font-family: ${font.bold};
-`
-
-const Video = styled('video')`
-  width: 100%;
-  height: 70vh;
-  border: unset;
-  line-height: 0;
 `
 
 const DescriptionTitle = styled('div')`
@@ -234,6 +228,30 @@ const LearnPage = ({
       }
     }
   }
+  
+  const TitleLesson = styled('div')`
+    display: flex;
+    align-items: center;
+  `
+
+  const TitleLessonText = styled('div')`
+  
+  `
+
+  const renderTitleLesson = (obj, lessonNo) => {
+    if (obj.done_exercise && obj.done_lesson) {
+      return (
+        <TitleLesson>
+          <CheckOutlined style={{ color: 'green' }} />
+          <TitleLessonText>บทที่ {lessonNo} : {obj.name}</TitleLessonText>
+        </TitleLesson>
+      )
+    } else {
+      return (
+        <TitleLessonText>บทที่ {lessonNo} : {obj.name}</TitleLessonText>
+      )
+    }
+  }
   return (
     <MainLayout>
       <Wrapper>
@@ -255,6 +273,7 @@ const LearnPage = ({
               theme="light"
               inlineCollapsed={collapsed}
               onClick={({key}) => {
+                fetchCourseDetail()
                 setMenu(key)
               }}
             >
@@ -269,7 +288,7 @@ const LearnPage = ({
               </Menu.Item>
               {
                 courseLessons.map((item, index) => (
-                  <SubMenu key="sub1" title={`บทที่ ${index + 1} : ${item.name}`}>
+                  <SubMenu key="sub1" title={renderTitleLesson(item, index + 1)}>
                     <Menu.Item
                       key={item.id}
                       icon={<PlayCircleOutlined />}
