@@ -417,9 +417,9 @@ const IndexPage = ({
     speed: 1000,
     slidesToShow: 3,
     slidesToScroll: 3,
-    initialSlide: 0,
+    // initialSlide: 0,
     arrows: true,
-    variableWidth: true,
+    // variableWidth: true,
     lazyLoad: true,
     responsive: [
       {
@@ -513,25 +513,30 @@ const IndexPage = ({
               </Button>
             </CategoryWrapper>
             <CourseListContent>
-              <Slider {...courseSliderSettings}>
+              <Slider
+                {...courseSliderSettings}
+              >
                 {
                   courses.map((item, index) => (
-                    <CourseCard
+                    <div
                       key={index}
-                      id={item.id}
-                      name={item.name}
-                      batch={item.batch}
-                      categoryName={item.category_name}
-                      categoryColor={item.category_color}
-                      cover={item.cover}
-                      isHasCost={item.is_has_cost}
-                      cost={item.cost}
-                      hasCertificate={item.hasCertificate}
-                      instructors={item.list_instructor}
-                      totalLesson={item.total_lesson}
-                      lessonTime={item.lesson_time}
-                      startLearning={item.start_learning}
-                    />
+                    >
+                      <CourseCard
+                        id={item.id}
+                        name={item.name}
+                        batch={item.batch}
+                        categoryName={item.category_name}
+                        categoryColor={item.category_color}
+                        cover={item.cover}
+                        isHasCost={item.is_has_cost}
+                        cost={item.cost}
+                        hasCertificate={item.hasCertificate}
+                        instructors={item.list_instructor}
+                        totalLesson={item.total_lesson}
+                        lessonTime={item.lesson_time}
+                        startLearning={item.start_learning}
+                      />
+                    </div>
                   ))
                 }
               </Slider>
