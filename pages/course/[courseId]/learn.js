@@ -283,7 +283,7 @@ const LearnPage = ({
             <PlayCircleOutlined />
             <div>วีดีโอ</div>
           </VideoTitleLeft>
-        <div>{timeConvert(+obj.video_position)}</div>
+        <div>{timeConvert(obj.time)}</div>
         </VideoTitle>
         <Progress
           percent={obj.video_position || 0}
