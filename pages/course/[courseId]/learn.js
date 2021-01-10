@@ -333,7 +333,7 @@ const LearnPage = ({
               </Menu.Item>
               {
                 courseLessons.map((item, index) => (
-                  <SubMenu key="sub1" title={renderLessonTitle(item, index + 1)}>
+                  <SubMenu key={`sub${index}`} title={renderLessonTitle(item, index + 1)}>
                     <Menu.Item
                       style={{height: '65px'}}
                       key={item.id}

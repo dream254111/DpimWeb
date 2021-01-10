@@ -38,7 +38,6 @@ const MenuHeader = styled('div')`
   font-family: ${font.bold};
 `
 
-let interval
 const VideoLesson = ({
   title,
   description,
@@ -47,13 +46,9 @@ const VideoLesson = ({
   handleStampVideoLesson,
   isInteractive,
   interactive,
-  interactiveTime,
-  interactiveVideo1,
-  interactiveVideo2
 }) => {
   const videoRef = useRef(null)
   const [isInteractiveModalOpen, setIsInteractiveModalOpen] = useState(false)
-  const [videoSrc, setVideoSrc] = useState(mainVideo)
   const [videoCurrentTime, setVideoCurrentTime] = useState(0)
   const [playing, setPlaying] = useState(false)
   const [interactiveDetail, setInteractiveDetail] = useState({})
@@ -71,18 +66,10 @@ const VideoLesson = ({
   useEffect(() => {
     const video = videoRef.current
     if (video) {
-      setPlaying(false)
-      console.log('userEffect', videoPosition)
-      setTimeout(() => {
-
-      }, 1000)
+      video.seekTo(videoPosition)
+      setPlaying(true)
     }
   }, [mainVideo])
-
-  const onOpenVideoInteractive = () => {
-    setPlaying(false)
-    setIsInteractiveModalOpen(true)
-  }
 
   const videoOnProgressHandle = async (e) => {
     const playedSeconds = e.playedSeconds
@@ -103,8 +90,9 @@ const VideoLesson = ({
       const currentTimeWithFormat = moment(currentTime * 1000).format('mm:ss')
       const interactiveDetail = interactive.find(item => moment(item.interactive_time, 'HH:mm:ss').format('mm:ss') === currentTimeWithFormat)
       if (interactiveDetail && !opendedInteractive.includes(interactiveDetail.id)) {
+        setPlaying(false)
         setInteractiveDetail(interactiveDetail)
-        onOpenVideoInteractive()
+        setIsInteractiveModalOpen(true)
         const _opendedInteractive = JSON.parse(JSON.stringify(opendedInteractive))
         _opendedInteractive.push(interactiveDetail.id)
         setOpendedIntereactive(_opendedInteractive)
@@ -125,7 +113,7 @@ const VideoLesson = ({
       <ReactPlayer
         ref={videoRef}
         playing={playing}
-        url={videoSrc.original}
+        url={mainVideo.original}
         width='100%'
         height='600px'
         controls={true}
