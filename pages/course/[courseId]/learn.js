@@ -15,7 +15,8 @@ import {
   ArrowRightOutlined,
   PlayCircleOutlined,
   FormOutlined,
-  CheckOutlined
+  CheckOutlined,
+  ConsoleSqlOutlined
 } from '@ant-design/icons'
 import font from '../../../helpers/font'
 import MainLayout from '../../../layouts/main'
@@ -27,6 +28,9 @@ import { PreExamSummary, PreExam, PostExam, VideoLesson, Exercise, PostExamSumma
 import Router from 'next/router'
 import ReactPlayer from 'react-player'
 import { timeConvert } from '../../../helpers/util'
+import dynamic from 'next/dynamic'
+const QierPlayer = dynamic(() => import('qier-player'), { ssr: false })
+// import QierPlayer from 'qier-player'
 const { SubMenu } = Menu
 
 const Wrapper = styled('div')`
@@ -205,7 +209,6 @@ const LearnPage = ({
 
   const renderLesson = () => {
     const lessonSelected = courseLessons.find(item => +item.id === +menu)
-    console.log('lessonSelected', lessonSelected)
     if (lessonSelected) {
       return (
         <VideoLesson
@@ -219,16 +222,24 @@ const LearnPage = ({
           videoPosition={lessonSelected.video_position}
           isInteractive={lessonSelected.is_interactive}
           interactive={lessonSelected.interactive}
+          fetchCourseDetail={() => fetchCourseDetail()}
         />
       )
     } else {
       const examSelected = courseLessons.find(item => (item.id).toString() + '0' == menu)
+      const examIndex = courseLessons.findIndex(item => (item.id).toString() + '0' == menu)
       console.log('examSelected', examSelected)
+      console.log('examIndex', examIndex)
+      console.log('courseLessons.length - 1', courseLessons.length - 1)
+      const isLatest = courseLessons.length - 1 === examIndex
+      console.log('isLatest', isLatest)
       if (examSelected) {
         return (
           <Exercise
             exercises={examSelected.exercise}
             onSubmit={() => onFinishedExercise(examSelected.id)}
+            canUsePostTest={courseDetail.can_use_post_test}
+            isLatest={isLatest}
           />
         )
       }
@@ -374,7 +385,7 @@ const LearnPage = ({
                   {courseName}
                 </MenuHeader>
                 {
-                  courseDetail && courseDetail.course &&
+                  process.browser && courseDetail && courseDetail.course &&
                     <ReactPlayer
                       url={courseDetail.course.video.original}
                       width='100%'
@@ -382,12 +393,30 @@ const LearnPage = ({
                       controls={true}
                       config={{
                         file: {
+                          // forceHLS: true,
+                          // forceFLV: true,
+                          // forceDASH: true,
                           attributes: {
                             poster: courseDetail.course.video.thumbnail,
-                          }
+                          },
+                          // hlsOptions: {
+                          //   media: courseDetail.course.video.original,
+                          //   levels: [courseDetail.course.video.original, courseDetail.course.video.p_480, courseDetail.course.video.p_720, courseDetail.course.video.p_1080],
+                          //   // currentLevel: 1,
+                          //   // nextLevel: 1
+                          // }
                         }
                       }}
                     />
+                    // <QierPlayer
+                    //   width='100%'
+                    //   height={600}
+                    //   showVideoQuality={true}
+                    //   srcOrigin={courseDetail.course.video.original}
+                    //   src480p={courseDetail.course.video.p_480}
+                    //   src720p={courseDetail.course.video.p_720}
+                    //   src1080p={courseDetail.course.video.p_1080}
+                    // />
                 }
                 <DescriptionTitle>คำอธิบาย</DescriptionTitle>
                 <DescriptionValue>

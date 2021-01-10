@@ -2,9 +2,9 @@ import styled from 'styled-components'
 import { useState } from 'react'
 import font from '../../helpers/font'
 import { maxWidth } from '../../helpers/breakpoint'
-import { Button, Popover, Select } from 'antd'
-const { Option } = Select
+import { Button, message, Popover, Select } from 'antd'
 import _ from 'lodash'
+const { Option } = Select
 
 const Wrapper = styled('div')`
   margin-top: 32px;
@@ -143,7 +143,9 @@ const Tr = styled('tr')`
 
 const ExerciseComponent = ({
   exercises,
-  onSubmit
+  onSubmit,
+  isLatest,
+  canUsePostTest
 }) => {
   const [currentNo, setCurrentNo] = useState(0)
   const [answerId, setAnswerId] = useState(null)
@@ -211,7 +213,11 @@ const ExerciseComponent = ({
   }
 
   const nextChapter = () => {
-    onSubmit()
+    if (isLatest === false || (isLatest === true && canUsePostTest === true)) {
+      onSubmit()
+    } else {
+      message.warn('คุณยังไม่ผ่านเงื่อนไขการทำแบบทดสอบท้ายบท')
+    }
   }
   const tryAgain = () => {
     setIsClickCheckAnswer(false)
