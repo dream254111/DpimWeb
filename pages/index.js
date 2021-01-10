@@ -203,7 +203,8 @@ const WebsiteButton = styled('div')`
   justify-content: space-between;
   background-color: white;
   cursor: pointer;
-  margin: 8px 0;
+  margin: 8px;
+  width: 100%;
 `
 
 const VideoOnDemandContent = styled('div')`
@@ -575,10 +576,13 @@ const IndexPage = ({
                 {
                   recommendWeb.map((item, index) => (
                     <Col lg={6} md={12} xs={12} key={index}>
-                      <WebsiteButton onClick={() => window.open(item.link, '_href')}>
-                        <div>{item.name}</div>
-                        <ArrowRightOutlined />
-                      </WebsiteButton>
+                      <RecommendWeb>
+                        <RecommendWebCover src={item.cover} />
+                        <WebsiteButton onClick={() => window.open(item.link, '_href')}>
+                          <div>{item.name}</div>
+                          <ArrowRightOutlined />
+                        </WebsiteButton>
+                      </RecommendWeb>
                     </Col>
                   ))
                 }
@@ -630,6 +634,21 @@ const IndexPage = ({
     </MainLayout>
 	)
 }
+
+const RecommendWeb = styled('div')`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`
+
+const RecommendWebCover = styled('div')`
+  background-image: url(${props => props.src});
+  background-size: cover;
+  background-position: center;
+  height: 140px;
+  width: 100%;
+  border-radius: 8px;
+`
 
 const Panal = styled('div')`
   background-color: #00937B;
