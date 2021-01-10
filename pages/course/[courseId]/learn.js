@@ -320,6 +320,7 @@ const LearnPage = ({
               onClick={({key}) => {
                 fetchCourseDetail()
                 setMenu(key)
+                window.scrollTo({ top: 0, behavior: 'smooth' })
               }}
             >
               <Menu.Item key={1} icon={<FileTextOutlined />}>
