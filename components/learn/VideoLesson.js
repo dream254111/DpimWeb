@@ -28,7 +28,6 @@ const DescriptionValue = styled('div')`
   overflow-y: scroll;
 `
 
-
 const MenuHeader = styled('div')`
   width: 100%;
   background-color: #00937B;
@@ -85,17 +84,21 @@ const VideoLesson = ({
     setIsInteractiveModalOpen(true)
   }
 
-  const videoOnProgressHandle = (e) => {
+  const videoOnProgressHandle = async (e) => {
     const playedSeconds = e.playedSeconds
     setVideoCurrentTime(playedSeconds)
     const video = videoRef.current
     const duration = video.getDuration()
     const currentTime = video.getCurrentTime()
+    const percent = (currentTime / duration) * 100
+    console.log('percent', percent)
     if (playedSeconds > 0 && +playedSeconds.toFixed() % 5 === 0) {
-      const percent = (currentTime / duration) * 100
       if (currentTime.toFixed(2) > videoPosition) {
         handleStampVideoLesson(currentTime.toFixed(2), percent.toFixed(2))
       }
+    }
+    if (percent === 100) {
+      handleStampVideoLesson(currentTime.toFixed(2), 100)
     }
     if (isInteractive) {
       const currentTimeWithFormat = moment(currentTime * 1000).format('mm:ss')
