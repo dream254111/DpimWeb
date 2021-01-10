@@ -26,7 +26,7 @@ import { connect } from 'react-redux'
 import { PreExamSummary, PreExam, PostExam, VideoLesson, Exercise, PostExamSummary } from '../../../components/learn'
 import Router from 'next/router'
 import ReactPlayer from 'react-player'
-import { timeConvert } from '../../../helpers/util'
+import { timeConvert2 } from '../../../helpers/util'
 const { SubMenu } = Menu
 
 const Wrapper = styled('div')`
@@ -283,7 +283,7 @@ const LearnPage = ({
             <PlayCircleOutlined />
             <div>วีดีโอ</div>
           </VideoTitleLeft>
-        <div>{timeConvert(obj.time)}</div>
+        <div>{timeConvert2(+obj.video_position)}</div>
         </VideoTitle>
         <Progress
           percent={obj.video_position || 0}

@@ -91,7 +91,6 @@ const VideoLesson = ({
     const duration = video.getDuration()
     const currentTime = video.getCurrentTime()
     const percent = (currentTime / duration) * 100
-    console.log('percent', percent)
     if (playedSeconds > 0 && +playedSeconds.toFixed() % 5 === 0) {
       if (currentTime.toFixed(2) > videoPosition) {
         handleStampVideoLesson(currentTime.toFixed(2), percent.toFixed(2))
