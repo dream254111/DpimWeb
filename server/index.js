@@ -24,6 +24,7 @@ app.prepare().then(() => {
   server.get('/robots.txt', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/static', 'robots.txt'))
   })
+
   server.get('/sitemap.xml', async (req, res) => {
     res.header('Content-Type', 'application/xml')
     res.header('Content-Encoding', 'gzip')
@@ -50,7 +51,7 @@ app.prepare().then(() => {
     res.header('Content-Type', 'application/xml')
     res.send(sitemap)
   })
-  
+
   server.get('/profile/', (req, res) => {
     return res.redirect(`/profile/${PROFILE_PAGE.BASIC_INFORMATION}`)
   })

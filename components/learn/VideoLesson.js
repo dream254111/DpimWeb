@@ -1,17 +1,9 @@
 import styled from 'styled-components'
 import { useRef, useEffect, useState } from 'react'
 import font from '../../helpers/font'
-import { InteractiveQuestionModal, InteractiveVideoModal } from '../../components/modals'
+import { InteractiveQuestionModal } from '../../components/modals'
 import moment from 'moment'
 import ReactPlayer from 'react-player'
-import { InteractionTwoTone } from '@ant-design/icons'
-
-const Video = styled('video')`
-  width: 100%;
-  height: 70vh;
-  border: unset;
-  line-height: 0;
-`
 
 const DescriptionTitle = styled('div')`
   font-family: ${font.bold};
@@ -122,19 +114,16 @@ const VideoLesson = ({
         onProgress={(e) => videoOnProgressHandle(e)}
         onSeek={e => {
           const currentTime = videoRef.current.getCurrentTime()
-          // console.log('videoCurrentTime', videoCurrentTime)
           if (videoPosition > videoCurrentTime) {
-
           } else if (currentTime > videoCurrentTime) {
             videoRef.current.seekTo(videoCurrentTime, 'seconds')
-            // console.log('not allow to seek')
           }
         }}
       />
       <DescriptionTitle>คำอธิบาย</DescriptionTitle>
       <DescriptionValue>
         <p dangerouslySetInnerHTML={{ __html: htmlDecode(description) }} />
-      </DescriptionValue> 
+      </DescriptionValue>
     </>
   )
 }

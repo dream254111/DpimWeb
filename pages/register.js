@@ -39,7 +39,6 @@ const RegisterPage = ({ master }) => {
   const [step1Details, setStep1Details] = useState({})
 
   const handleSubmitFormStep1 = (values) => {
-    console.log('handleSubmit', values)
     delete values.confirm_password
     setStep1Details(values)
     setRegisterStep(2)
@@ -54,7 +53,6 @@ const RegisterPage = ({ master }) => {
       birthday: moment(values.birthday).format('YYYY-MM-DD'),
       know_channel: knowChannelIds
     }
-    console.log('data', data)
     try {
       const response = await axios({
         method: 'POST',

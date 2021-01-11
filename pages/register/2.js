@@ -24,7 +24,6 @@ const RegisterStepTwoPage = ({ master }) => {
   const [form] = Form.useForm()
 
   const handleSubmit = (values) => {
-    console.log('handleSubmit', values)
   }
 
   return (

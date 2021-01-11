@@ -26,15 +26,13 @@ const theme = {
 }
 
 const App = ({ Component, pageProps, master }) => {
-  console.log('master', master)
-
   useEffect(() => {
     axios({
       method: 'PUT',
       url: `${API.url}/Management/VisitUpdate`,
     })
-  },[])
-  
+  }, [])
+
   return (
     <>
       <GlobalStyle />

@@ -22,12 +22,11 @@ const ExamplePage = ({
     try {
       const response = await axios({
         headers: {
-          'Authorization': `Bearer ${memberToken}`
+          Authorization: `Bearer ${memberToken}`
         },
         method: 'GET',
         url: `${API.url}/course`,
       })
-      console.log('responseWithData', responseWithData)
       const responseWithData = response.data
       if (responseWithData.status === true) {
         setCourses(responseWithData.data)
@@ -38,7 +37,7 @@ const ExamplePage = ({
       message.error(error.message)
     }
   }
-  
+
   return (
     <div>
       {JSON.stringify(courses)}

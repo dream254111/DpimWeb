@@ -40,7 +40,6 @@ const Certificate = ({
       })
       const responseWithData = response.data
       if (responseWithData.success) {
-        console.log('cert', responseWithData.data.data)
         setCerts(responseWithData.data.data)
       } else {
         throw new Error(responseWithData.error)

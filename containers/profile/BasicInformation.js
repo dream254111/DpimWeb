@@ -91,7 +91,6 @@ const BasicInformation = ({
           const knowChannelNames = student.know_channel.map(item => knowChannelKey[item][0].name)
           student.know_channel = knowChannelNames
         }
-        console.log('student', student)
         student.birthday = student.birthday ? moment(student.birthday, 'YYYY-MM-DD') : null
         student.business_province_id = +student.business_province_id === 0 ? null : student.business_province_id
         setProvinceId(student.province_id)
@@ -119,8 +118,6 @@ const BasicInformation = ({
 
   const uploadFile = async (file, callback) => {
     try {
-      console.log('file', file)
-      console.log('callback', callback)
       const bodyFormData = new FormData()
       bodyFormData.append('', file)
       const response = await axios({
@@ -156,7 +153,6 @@ const BasicInformation = ({
 
       const knowChannelKey = _.groupBy(master.know_channel, 'name')
       const knowChannelIds = values.know_channel.map(item => knowChannelKey[item][0].id)
-      console.log('knowChannelIds', knowChannelIds)
 
       const response = await axios({
         headers: {

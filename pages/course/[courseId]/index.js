@@ -680,7 +680,6 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
       })
       const responseWithData = response.data
       if (responseWithData.success) {
-        console.log('courseDetail', responseWithData.data)
         setCourseDetail(responseWithData.data)
       } else {
         throw new Error(responseWithData.error)

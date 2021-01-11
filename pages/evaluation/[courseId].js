@@ -97,7 +97,6 @@ const SurveyPage = ({
           message.error('คุณยังไม่สามารถทำแบบประเมินหลักสูตรได้')
           Router.push('/')
         }
-        console.log('courseDetail', courseDetail)
         setCourseDetail(courseDetail)
       } else {
         throw new Error(responseWithData.error)

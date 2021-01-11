@@ -40,7 +40,6 @@ const ResetPasswordModal = ({
 
   const handleSubmit = async (values) => {
     setIsLoading(true)
-    console.log('handleSubmit', values)
     try {
       const request = {
         method: 'POST',
@@ -50,7 +49,6 @@ const ResetPasswordModal = ({
           token,
         }
       }
-      console.log('request', request)
       const response = await axios(request)
       const responseWithData = response.data
       if (responseWithData.success === true) {
@@ -73,7 +71,7 @@ const ResetPasswordModal = ({
   return (
     <Modal
       width={360}
-      bodyStyle={{padding: '4px 0 1px 0px'}}
+      bodyStyle={{ padding: '4px 0 1px 0px' }}
       title={null}
       visible={isOpen}
       onCancel={() => closeModal()}
@@ -86,7 +84,7 @@ const ResetPasswordModal = ({
           form={form}
         >
           <Form.Item
-            label="รหัสผ่าน"
+            label='รหัสผ่าน'
             name='password'
             labelCol={{ span: 24 }}
             rules={[

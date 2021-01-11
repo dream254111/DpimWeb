@@ -138,7 +138,6 @@ const PreExamComponent = ({
   }
 
   const checkAnswer = async (values) => {
-    console.log('values', values)
     setIsLoading(true)
     let answer = values.map(item => {
       return {
@@ -150,7 +149,6 @@ const PreExamComponent = ({
       const resultFaileds = answerResult.list_result.filter(item => item.status === false)
       const resultFailedCourseExamIds = resultFaileds.map(item => item.course_exam_id)
       answer = answer.filter(item => resultFailedCourseExamIds.includes(item.course_exam_id))
-      console.log('answer', answer)
     }
     try {
       const request = {

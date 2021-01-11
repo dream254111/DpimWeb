@@ -68,7 +68,6 @@ export const setMemberDetail = (payload) => async (dispatch) => {
     dispatch({ type: MEMBER_LOGIN_SUCCESS, payload })
     return true
   } catch (error) {
-    console.log('error', error)
   }
 }
 
@@ -82,7 +81,6 @@ export const updateMemberDetail = (payload) => async (dispatch) => {
     dispatch({ type: MEMBER_UPDATE, payload })
     return true
   } catch (error) {
-    console.log('error', error)
   }
 }
 
@@ -105,7 +103,6 @@ export const checkMemberAlreadyLogin = (req, res) => async dispatch => {
     }
     return memberDetail
   } catch (error) {
-    console.log('err', error.message)
   }
 }
 
@@ -114,12 +111,11 @@ export const fetchProfileMinimal = () => async (dispatch, getState) => {
   try {
     const response = await axios({
       headers: {
-          'Authorization': memberToken
+        Authorization: memberToken
       },
       method: 'GET',
       url: `${API.url}/Student/profile_minimal`
     })
-    console.log('response', response)
     const responseWithData = response.data
     const profileMinimal = responseWithData.data
     dispatch({ type: MEMBER_PROFILE_MINIMAL, payload: profileMinimal })

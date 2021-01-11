@@ -35,10 +35,9 @@ const LoginModal = ({
   useEffect(() => {
     form.resetFields()
   }, [])
-  
+
   const handleSubmit = async (values) => {
     setIsLoading(true)
-    console.log('values', values)
     try {
       const response = await axios({
         method: 'POST',
@@ -46,7 +45,6 @@ const LoginModal = ({
         data: values
       })
       const responseWithData = response.data
-      console.log('responseWithData', responseWithData)
       if (responseWithData.success === true) {
         await Promise.all([
           dispatch(setMemberDetail({

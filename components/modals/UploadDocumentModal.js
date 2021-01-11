@@ -55,7 +55,6 @@ const UploadDocumentModal = ({
   }
 
   const handleSubmitUpload = async () => {
-    console.log('handleSubmitUpload', file)
     setIsUploading(true)
     await onSubmit(file)
     setIsUploading(false)
@@ -72,67 +71,67 @@ const UploadDocumentModal = ({
         onCancel={() => closeModal()}
         footer={null}
       >
-          <Form
-            form={form}
+        <Form
+          form={form}
+        >
+          <Form.Item
+            style={{
+              background: '#FFFFFF',
+              border: '2px dashed #E0E0E0',
+              width: '428px',
+              margin: 'auto'
+            }}
+            rules={[{
+              required: true
+            }]}
           >
-            <Form.Item 
-              style={{
-                background: '#FFFFFF',
-                border: '2px dashed #E0E0E0',
-                width: '428px',
-                margin: 'auto'
-              }}
-              rules={[{
-                required: true
-              }]}
-            >
-              {
-              !isUpload &&
-                <>
-                  <Upload.Dragger
-                    style={{ padding: '100px' }}
-                    beforeUpload={beforeUpload}
+            {
+            !isUpload &&
+              <>
+                <Upload.Dragger
+                  style={{ padding: '100px' }}
+                  beforeUpload={beforeUpload}
+                >
+                  <Description>ลากไฟล์มาไว้ที่นี่</Description>
+                  <Description style={{fontSize: '10px'}}>หรือ</Description>
+                  <Button
+                    type='primary'
+                    fontSize='12px'
                   >
-                    <Description>ลากไฟล์มาไว้ที่นี่</Description>
-                    <Description style={{fontSize: '10px'}}>หรือ</Description>
-                    <Button
-                      type='primary'
-                      fontSize='12px'
-                    >
-                      เลือกไฟล์จากอุปกรณ์ของคุณ
-                    </Button>
-                  </Upload.Dragger>
+                    เลือกไฟล์จากอุปกรณ์ของคุณ
+                  </Button>
+                </Upload.Dragger>
+              </>
+            }
+            {
+              isUpload &&
+                <>
+                  <UploadContainer>
+                    <p>{file.name}</p>
+                    <ButtonContanier>
+                      <Button
+                        onClick={() => handleClickCancle()}
+                        fontSize='12px'
+                      >
+                        ยกเลิก
+                      </Button>
+                      <Button 
+                        type='primary'
+                        fontSize='12px'
+                        loading={isUploading}
+                        onClick={() => handleSubmitUpload()}
+                      >
+                        ยืนยันอัพโหลด
+                      </Button>
+                    </ButtonContanier>
+                  </UploadContainer>
                 </>
-              }
-              {
-                isUpload &&
-                  <>
-                    <UploadContainer>
-                      <p>{file.name}</p>
-                      <ButtonContanier>
-                        <Button
-                          onClick={() => handleClickCancle()}
-                          fontSize='12px'
-                        >
-                          ยกเลิก
-                        </Button>
-                        <Button 
-                          type='primary'
-                          fontSize='12px'
-                          loading={isUploading}
-                          onClick={() => handleSubmitUpload()}
-                        >
-                          ยืนยันอัพโหลด
-                        </Button>
-                      </ButtonContanier>
-                    </UploadContainer>
-                  </>
-              }
-            </Form.Item>
-          </Form>
+            }
+          </Form.Item>
+        </Form>
       </Modal>
-    </>
-    )
+  </>
+  )
 }
 
 export default UploadDocumentModal

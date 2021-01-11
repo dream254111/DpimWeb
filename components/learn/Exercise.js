@@ -158,7 +158,6 @@ const ExerciseComponent = ({
     if (exercises[currentNo].is_answer_choice) {
       const choiceDetail = exercises[currentNo].choices.find(item => item.id === answerId)
       const isCorrect = choiceDetail.correct === 1
-      console.log('choiceDetail', choiceDetail)
       if (isCorrect) {
         setIsCorrectAnswer(true)
         setRenderResult(
@@ -183,9 +182,7 @@ const ExerciseComponent = ({
       _wrongMatchQuestion = []
       const matchKey = _.groupBy(exercises[currentNo].match, 'question')
       matchAnswer.map(ma => {
-        console.log('matchKey[ma.question]', )
         const isCorrect = matchKey[ma.question][0].answer === ma.answer
-        console.log('question: isCorrect', ma.question, isCorrect)
         if (isCorrect === false) {
           _wrongMatchQuestion.push(ma.question)
         }
@@ -247,7 +244,6 @@ const ExerciseComponent = ({
     } else {
       _matchAnswer.push(data)
     }
-    console.log('_matchAnswer', _matchAnswer)
     setMatchAnswer(_matchAnswer)
   }
 
@@ -258,8 +254,8 @@ const ExerciseComponent = ({
       <Title>คำถามท้ายบท</Title>
       {
         exercises[currentNo].video.original &&
-        <Video id="video" controls autoplay>
-          <source src={exercises[currentNo].video.original} type="video/mp4" />
+        <Video id='video' controls autoplay>
+          <source src={exercises[currentNo].video.original} type='video/mp4' />
         </Video>
       }
       {
@@ -305,8 +301,8 @@ const ExerciseComponent = ({
                     key={index}
                     isWrong={isClickCheckAnswer && wrongMatchQuestion.find(wm => wm === item)}
                   >
-                    <td data-column="TIMELINE">{item}</td>
-                    <td data-column="CUSTOMER JOURNEY STAGE">
+                    <td data-column='TIMELINE'>{item}</td>
+                    <td data-column='CUSTOMER JOURNEY STAGE'>
                       <Select style={{ width: 160 }}
                         onChange={(ans) => onChangeMatchAnswer(item, ans, index)}
                       >
@@ -328,22 +324,23 @@ const ExerciseComponent = ({
         }
         {
           !isClickCheckAnswer &&
-          <Button
-            type='primary'
-            style={{
-              marginTop: '24px',
-              display: 'block',
-              marginLeft: 'auto'
-            }}
-            onClick={() => checkAnswer()}
-          >ตรวจคำตอบ</Button>
+            <Button
+              type='primary'
+              style={{
+                marginTop: '24px',
+                display: 'block',
+                marginLeft: 'auto'
+              }}
+              onClick={() => checkAnswer()}
+            >ตรวจคำตอบ
+            </Button>
         }
         {
           isCorrectAnswer === false && isClickCheckAnswer &&
             <Popover
-              placement="topLeft"
+              placement='topLeft'
               content={renderResult}
-              trigger="click"
+              trigger='click'
               visible={isClickCheckAnswer}
             >
               <Button
@@ -354,41 +351,43 @@ const ExerciseComponent = ({
                   marginLeft: 'auto'
                 }}
                 onClick={() => tryAgain()}
-              >ลองใหม่</Button>
+              >ลองใหม่
+              </Button>
             </Popover>
         }
         {
           isCorrectAnswer === true && isClickCheckAnswer &&
-          <Popover
-            placement="topLeft"
-            content={renderResult}
-            trigger="click"
-            visible={isClickCheckAnswer}
-          >
-            {
-              
-              currentNo + 1 === exercises.length ?
-              <Button
-                type='primary'
-                style={{
-                  marginTop: '24px',
-                  display: 'block',
-                  marginLeft: 'auto'
-                }}
-                onClick={() => nextChapter()}
-              >บทต่อไป</Button>
-              :
-              <Button
-                type='primary'
-                style={{
-                  marginTop: '24px',
-                  display: 'block',
-                  marginLeft: 'auto'
-                }}
-                onClick={() => nextQuestion()}
-              >คำถามถัดไป</Button>
+            <Popover
+              placement='topLeft'
+              content={renderResult}
+              trigger='click'
+              visible={isClickCheckAnswer}
+            >
+              {
+                currentNo + 1 === exercises.length ?
+                  <Button
+                    type='primary'
+                    style={{
+                      marginTop: '24px',
+                      display: 'block',
+                      marginLeft: 'auto'
+                    }}
+                    onClick={() => nextChapter()}
+                  >บทต่อไป
+                  </Button>
+                  :
+                  <Button
+                    type='primary'
+                    style={{
+                      marginTop: '24px',
+                      display: 'block',
+                      marginLeft: 'auto'
+                    }}
+                    onClick={() => nextQuestion()}
+                  >คำถามถัดไป
+                  </Button>
             }
-          </Popover>
+            </Popover>
         }
       </Card>
     </Wrapper>

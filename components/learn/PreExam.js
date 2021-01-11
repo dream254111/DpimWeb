@@ -163,7 +163,6 @@ const PreExamComponent = ({
       }
       const response = await axios(request)
       const responseWithData = response.data
-      console.log('responseWithData', responseWithData)
       if (responseWithData.success) {
         setIsCheckAnswer(true)
         setAnswerResult(responseWithData.data)

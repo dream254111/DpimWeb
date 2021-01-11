@@ -81,7 +81,6 @@ const HowtoPage = () => {
         url: `${API.url}/Student/TutorialReadList`
       })
       const responseWithData = response.data
-      console.log('response', response.data)
       if (responseWithData.success) {
         setTutorials(responseWithData.data)
       } else {

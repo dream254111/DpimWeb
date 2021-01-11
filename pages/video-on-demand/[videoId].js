@@ -45,7 +45,6 @@ const VideoIdPage = ({ videoId }) => {
         method: 'GET',
         url: `${API.url}/Student/GetVideo?id=${videoId}`
       })
-      console.log('response.data.data.data', response.data.data.data)
       setVideoDetail(response.data.data.data)
     } catch (error) {
       message.error(error.message)

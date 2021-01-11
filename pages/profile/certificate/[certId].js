@@ -15,7 +15,6 @@ import { maxWidth } from '../../../helpers/breakpoint'
 const { Option } = Select
 
 const Wrapper = styled('div')`
-  
 `
 
 const Card = styled('div')`
@@ -72,7 +71,6 @@ const CertDetailWrapper = styled('div')`
   ${maxWidth.xs`
     width: 100%;
   `}
-
 `
 
 const LeftContent = styled('div')`
@@ -166,7 +164,6 @@ const CertificateIdPage = ({
         url: `${API.url}/Student/CertificateRead?certificate_id=${certId}`,
       })
       const responseWithData = response.data
-      console.log('responseWithData', responseWithData.data)
       if (responseWithData.success) {
         setCertDetail(responseWithData.data.data)
         const courseId = responseWithData.data.data.course_id
@@ -181,7 +178,6 @@ const CertificateIdPage = ({
 
   const fetchCourseDetail = async (courseId) => {
     try {
-      console.log('courseId', courseId)
       const response = await axios({
         headers: {
           'Authorization': memberToken
@@ -191,7 +187,6 @@ const CertificateIdPage = ({
       })
       const responseWithData = response.data
       if (responseWithData.success) {
-        console.log('courseDetail', responseWithData)
         setCourseDetail(responseWithData.data)
       } else {
         throw new Error(responseWithData.error)

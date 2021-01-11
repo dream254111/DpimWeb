@@ -140,8 +140,6 @@ const CourseCardComponent = ({
 }) => {
   const instructorNames = instructors.length > 0 && instructors.map(item => `${item.firstname} ${item.lastname}`) || []
   const onClickCard = () => {
-    console.log('onClickCard', id)
-    console.log('type', type)
     if (type === 'cert') {
       Router.push(`/profile/certificate/${certId}`)
     } else {

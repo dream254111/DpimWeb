@@ -83,21 +83,12 @@ const UserPage = ({ userId }) => {
         url: `${API.url}/Student/GetInstructor?id=${userId}`,
       })
       const data = response.data.data
-      console.log('data', data)
       setInstructureDetail(data.instructor)
       setInstructureCourses(data.course)
     } catch (error) {
       message.error(error.message)
     }
   }
-  // const htmlDecode = (content) => {
-  //   if (process.browser) {
-  //     const e = document.createElement('div')
-  //     e.innerHTML = content
-  //     return e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue
-  //   }
-  //   return 'loading...'
-  // }
   return (
     <MainLayout>
       <Container paddingTop='32px' paddingBottom='302px'>

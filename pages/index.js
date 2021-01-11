@@ -311,7 +311,6 @@ const IndexPage = ({
         url: `${API.url}/Student/special_days`
       })
       const responseWithData = response.data
-      console.log('fetchSpecialDay', responseWithData)
       if (responseWithData.success) {
         const data = responseWithData.data
         const startDate = data.start_date
@@ -337,7 +336,6 @@ const IndexPage = ({
         url: `${API.url}/Student/GetAllBanner`,
       })
       const data = response.data.data.data
-      console.log('fetchBannerlist', data)
       setBanners(data)
     } catch (error) {
       message.error(error.message)

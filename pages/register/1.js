@@ -22,7 +22,6 @@ const RegisterStepOnePage = () => {
   const [form] = Form.useForm()
 
   const handleSubmit = (values) => {
-    console.log('handleSubmit', values)
   }
 
   return (

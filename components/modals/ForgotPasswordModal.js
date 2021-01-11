@@ -35,11 +35,11 @@ const ForgotPasswordModal = ({
 }) => {
   const [form] = Form.useForm()
   const [isLoading, setIsLoading] = useState(false)
-  
+
   useEffect(() => {
     form.resetFields()
   }, [])
-  
+
   const handleSubmit = async (values) => {
     setIsLoading(true)
     try {
@@ -50,9 +50,7 @@ const ForgotPasswordModal = ({
           email: values.email
         }
       })
-      console.log('response', response)
       const responseWithData = response.data
-      console.log('responseWithData', responseWithData)
       if (responseWithData.success === true) {
         closeModal()
       } else {

@@ -325,13 +325,11 @@ const CoursePage = ({
       let params = (Object.keys(_filter).filter(key => _filter[key]).map((key, index) => {
         return `${key}=${_filter[key]}`
       })).join('&')
-      console.log('params', params)
       const response = await axios({
         method: 'GET',
         url: `${API.url}/Course/list_course?${params}`
       })
       const data = response.data.data
-      console.log('courseList', data)
       setCourses(data)
     } catch (error) {
       message.error(error.message)

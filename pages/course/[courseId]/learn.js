@@ -2,21 +2,11 @@ import { Menu, Row, Col, message, Progress, Popover } from 'antd'
 import { Button, Container } from '../../../components'
 import { useState, useEffect } from 'react'
 import {
-  AppstoreOutlined,
-  MenuUnfoldOutlined,
-  MenuFoldOutlined,
-  PieChartOutlined,
-  DesktopOutlined,
-  ContainerOutlined,
-  MailOutlined,
   FileTextOutlined,
   ArrowLeftOutlined,
-  CheckCircleOutlined,
-  ArrowRightOutlined,
   PlayCircleOutlined,
   FormOutlined,
   CheckOutlined,
-  ConsoleSqlOutlined
 } from '@ant-design/icons'
 import font from '../../../helpers/font'
 import MainLayout from '../../../layouts/main'
@@ -37,9 +27,6 @@ const Wrapper = styled('div')`
   width: 100%;
 `
 
-// .ant-menu-item {
-//   height: 65px !important;
-// }
 const MenuHeader = styled('div')`
   width: 100%;
   background-color: #00937B;
@@ -65,7 +52,6 @@ const DescriptionValue = styled('div')`
   overflow-y: scroll;
 `
 
-
 const CourseDetailWrapper = styled('div')`
   padding: 16px 18px;
   display: flex;
@@ -85,6 +71,35 @@ const CourseTitle = styled('div')`
 const CourseInstructure = styled('div')`
 `
 
+
+const TitleLesson = styled('div')`
+  display: flex;
+  align-items: center;
+`
+
+const TitleLessonText = styled('div')`
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  text-overflow: ellipsis;
+`
+
+const VideoTitleWrapper = styled('div')`
+  display: flex;
+  flex-direction: column;
+`
+
+const VideoTitle = styled('div')`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`
+
+const VideoTitleLeft = styled('div')`
+  display: flex;
+  align-items: center;
+`
+
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token,
   memberDetail: memberReducer.member,
@@ -100,26 +115,9 @@ const LearnPage = ({
   const [collapsed, setCollapsed] = useState(false)
   const [courseDetail, setCourseDetail] = useState({})
   const [menu, setMenu] = useState('1')
-  
-  // const countMenuKey = () => {
-  //   const newMenuKey = menuKey + 1
-  //   setMenuKey(newMenuKey)
-  //   console.log('newMenuKey', newMenuKey)
-  //   return newMenuKey
-  // }
-
-  const htmlDecode = (content) => {
-    if (process.browser) {
-      const e = document.createElement('div')
-      e.innerHTML = content
-      return e.childNodes.length === 0 ? '' : e.childNodes[0].nodeValue
-    }
-    return 'loading...'
-  }
 
   const fetchCourseDetail = async () => {
     try {
-      console.log('courseId', courseId)
       const response = await axios({
         headers: {
           'Authorization': memberToken
@@ -129,7 +127,6 @@ const LearnPage = ({
       })
       const responseWithData = response.data
       if (responseWithData.success) {
-        console.log('courseDetail', responseWithData.data)
         setCourseDetail(responseWithData.data)
       } else {
         throw new Error(responseWithData.error)
@@ -141,7 +138,6 @@ const LearnPage = ({
 
   const courseName = courseDetail.course && courseDetail.course.name
   const courseObjective = courseDetail.course && courseDetail.course.objective_course
-  const courseVideoUrl = courseDetail.course && courseDetail.course.video.original
   const courseLessons = courseDetail.course_lesson || []
   const courseLessonOne = courseDetail.course_lesson && courseDetail.course_lesson.length > 0 && courseDetail.course_lesson[0].name || ''  
   const examPreTests = courseDetail.exam_pre_test || []
@@ -149,7 +145,6 @@ const LearnPage = ({
   const isPreTestPass = courseDetail.pre_test_pass
   const isPostTestPass = courseDetail.post_test_pass
 
-  
   const onFinishedExercise = async (courseLessonId) => {
     try {
       const request = {
@@ -165,7 +160,6 @@ const LearnPage = ({
       }
       const response = await axios(request)
       const responseWithData = response.data
-      console.log('responseWithData', responseWithData)
       if (responseWithData.success) {
         const courselessonIndex = courseLessons.findIndex(item => item.id === courseLessonId)
         if (courseLessons.length - 1 === courselessonIndex) {
@@ -228,11 +222,7 @@ const LearnPage = ({
     } else {
       const examSelected = courseLessons.find(item => (item.id).toString() + '0' == menu)
       const examIndex = courseLessons.findIndex(item => (item.id).toString() + '0' == menu)
-      console.log('examSelected', examSelected)
-      console.log('examIndex', examIndex)
-      console.log('courseLessons.length - 1', courseLessons.length - 1)
       const isLatest = courseLessons.length - 1 === examIndex
-      console.log('isLatest', isLatest)
       if (examSelected) {
         return (
           <Exercise
@@ -245,18 +235,6 @@ const LearnPage = ({
       }
     }
   }
-  
-  const TitleLesson = styled('div')`
-    display: flex;
-    align-items: center;
-  `
-
-  const TitleLessonText = styled('div')`
-    white-space: nowrap;
-    overflow: hidden;
-    width: 100%;
-    text-overflow: ellipsis;
-  `
 
   const renderLessonTitle = (obj, lessonNo) => {
     const title = `บทที่ ${lessonNo} : ${obj.name}`
@@ -272,22 +250,6 @@ const LearnPage = ({
       </TitleLesson>
     )
   }
-
-  const VideoTitleWrapper = styled('div')`
-    display: flex;
-    flex-direction: column;
-  `
-
-  const VideoTitle = styled('div')`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  `
-
-  const VideoTitleLeft = styled('div')`
-    display: flex;
-    align-items: center;
-  `
 
   const renderVideoTitle = (obj) => {
     return (
@@ -364,11 +326,6 @@ const LearnPage = ({
                       >คำถามท้ายบท {index + 1}</Menu.Item>
                     }
                   </SubMenu>
-                  // <Menu.Item
-                  //   key={index + 3}
-                  // >
-                  //   บทที่&nbsp;{index + 1}&nbsp;:&nbsp;{item.name}
-                  // </Menu.Item>
                 ))
               }
               <Menu.Item
@@ -423,8 +380,8 @@ const LearnPage = ({
                 }
                 <DescriptionTitle>คำอธิบาย</DescriptionTitle>
                 <DescriptionValue>
-                {/* https://github.com/cure53/DOMPurify */}
-                  <p dangerouslySetInnerHTML={{ __html: htmlDecode(courseObjective) }} />
+                  {/* https://github.com/cure53/DOMPurify */}
+                  <p dangerouslySetInnerHTML={{ __html: courseObjective }} />
                 </DescriptionValue>
               </>
             }

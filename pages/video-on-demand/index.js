@@ -119,16 +119,14 @@ const VideoOnDemandPage = ({
     fetchCourseList()
   }, [filter])
 
-  
   const fetchCourseList = async () => {
     try {
-      let params = (Object.keys(filter).map((key, index) => {
-        console.log('key', key)
+      const params = (Object.keys(filter).map((key, index) => {
         return `${key}=${filter[key]}`
       })).join('&')
       const response = await axios({
         method: 'GET',
-        url: `${API.url}/Student/GetAllVideo?${params}`,
+        url: `${API.url}/Student/GetAllVideo?${params}`
       })
       const data = response.data.data
       setCourses(data)
@@ -136,11 +134,7 @@ const VideoOnDemandPage = ({
       message.error(error.message)
     }
   }
-  const radioStyle = {
-    display: 'block',
-    height: '30px',
-    lineHeight: '30px',
-  }
+
   const [isCategoryModdalOpen, setIsCategoryModalOpen] = useState(false)
   const [isArrangeModalOpen, setIsArrangeModalOpen] = useState(false)
   return (
