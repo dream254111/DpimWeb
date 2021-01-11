@@ -1,4 +1,4 @@
-import { Menu, Row, Col, message, Progress } from 'antd'
+import { Menu, Row, Col, message, Progress, Popover } from 'antd'
 import { Button, Container } from '../../../components'
 import { useState, useEffect } from 'react'
 import {
@@ -252,22 +252,25 @@ const LearnPage = ({
   `
 
   const TitleLessonText = styled('div')`
-  
+    white-space: nowrap;
+    overflow: hidden;
+    width: 100%;
+    text-overflow: ellipsis;
   `
 
   const renderLessonTitle = (obj, lessonNo) => {
-    if (obj.done_exercise && obj.done_lesson) {
-      return (
-        <TitleLesson>
+    const title = `บทที่ ${lessonNo} : ${obj.name}`
+    return (
+      <TitleLesson>
+        {
+          obj.done_exercise && obj.done_lesson &&
           <CheckOutlined style={{ color: 'green' }} />
-          <TitleLessonText>บทที่ {lessonNo} : {obj.name}</TitleLessonText>
-        </TitleLesson>
-      )
-    } else {
-      return (
-        <TitleLessonText>บทที่ {lessonNo} : {obj.name}</TitleLessonText>
-      )
-    }
+        }
+        <Popover content={title}>
+          <TitleLessonText>{title}</TitleLessonText>
+        </Popover>
+      </TitleLesson>
+    )
   }
 
   const VideoTitleWrapper = styled('div')`
