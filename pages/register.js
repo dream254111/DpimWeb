@@ -63,8 +63,12 @@ const RegisterPage = ({ master }) => {
       })
       const responseWithData = response.data
       if (responseWithData.success) {
-        message.success('ลงทะเบียนสำเร็จ')
-        Router.push('/')
+        if (responseWithData.data.status_email === true) throw new Error('อีเมลซ้ำ')
+        if (responseWithData.data.status_id_card === true) throw new Error('บัตรประชาชนซ้ำ')
+        if (responseWithData.data.status_register === true) {
+          message.success('ลงทะเบียนสำเร็จ')
+          Router.push('/')
+        }
       } else {
         throw new Error(responseWithData.error)
       }
