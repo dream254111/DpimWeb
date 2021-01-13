@@ -54,6 +54,9 @@ const LoginModal = ({
           dispatch(fetchProfileMinimal())
         ])
         closeModal()
+        if (window.location.pathname === '/register') {
+          Router.push('/')
+        }
       } else {
         throw new Error(responseWithData.error)
       }

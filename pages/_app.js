@@ -53,7 +53,11 @@ App.getInitialProps = async ({ Component, ctx }) => {
       url: `${API.url}/Student/master_data`,
     })
     master = masterData.data.data
-    await ctx.store.dispatch(checkMemberAlreadyLogin(ctx.req, ctx.res))
+    const isLogin = await ctx.store.dispatch(checkMemberAlreadyLogin(ctx.req, ctx.res))
+    const isServer = !!ctx.req
+    if (isLogin && isServer && ctx.req.url === '/register') {
+      ctx.res.redirect('/')
+    }
   }
   return { pageProps, master }
 }
