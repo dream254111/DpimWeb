@@ -19,7 +19,7 @@ const Card = styled('div')`
 const ForgotPasswordText = styled('div')`
   margin-top: 22px;
   text-align: center;
-  font-size: 14px;
+  font-size: 18px;
   cursor: pointer;
 `
 
@@ -115,7 +115,6 @@ const LoginModal = ({
           </Form.Item>
           <Button
             type='primary'
-            fontWeight='normal'
             style={{width: '100%', marginTop: '8px'}}
             htmlType='submit'
             loading={isLoading}
@@ -139,11 +138,12 @@ const LoginModal = ({
 const Title = styled('div')`
   margin-top: 32px;
   text-align: center;
+  font-size: 22px;
 `
 
 const RegisterFree = styled('div')`
   margin-top: 19px;
-  font-size: 14px;
+  font-size: 18px;
   text-align: center;
 `
 

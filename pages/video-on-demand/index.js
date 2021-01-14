@@ -60,14 +60,14 @@ const CourseContent = styled('div')`
 `
 
 const BoldTitle = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
   font-family: ${font.bold};
   color: #333333;
   margin-top: 24px;
 `
 
 const FilterTitle = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
 `
 
 const FilterItem = styled('div')`
@@ -94,7 +94,7 @@ const TitleEventHandlerItem = styled('div')`
 
 const TitleEventHandlerText = styled('div')`
   color: #41A0FC;
-  font-size: 14px;
+  font-size: 18px;
 `
 
 const Icon = styled('img')`

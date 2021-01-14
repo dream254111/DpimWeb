@@ -20,28 +20,28 @@ const InstructureContent = styled('div')`
 `
 
 const InstructureName = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
   font-family: ${font.bold};
 `
 
 const InstructurePosition = styled('div')`
   margin-top: 8px;
-  font-size: 14px;
+  font-size: 18px;
 `
 
 const InstructureWork = styled('div')`
   margin-top: 8px;
-  font-size: 12px;
+  font-size: 14px;
 `
 
 const InstructureEmail = styled('div')`
   margin-top: 16px;
-  font-size: 14px;
+  font-size: 18px;
 `
 
 const InstructurePhone = styled('div')`
   margin-top: 8px;
-  font-size: 14px;
+  font-size: 18px;
 `
 
 const  InstructureSocial = styled('div')`

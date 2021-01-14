@@ -51,13 +51,13 @@ const TopCardContent = styled('div')`
 `
 
 const TopCardName = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
   font-family: ${font.bold};
 `
 
 
 const TopCardDescription = styled('div')`
-  font-size: 14px;
+  font-size: 18px;
   margin-top: 8px;
 `
 
@@ -125,7 +125,7 @@ const CardImage = styled('div')`
 `
 
 const CardName = styled('div')`
-  font-size: 14px;
+  font-size: 18px;
   margin-top: 8px;
 `
 

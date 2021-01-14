@@ -23,7 +23,7 @@ const Title = styled('div')`
 
 const Description = styled('div')`
   margin-top: 24px;
-  font-size: 14px;
+  font-size: 18px;
 `
 
 const connector = connect()

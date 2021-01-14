@@ -34,7 +34,7 @@ const PreExamSummaryTitle = styled('div')`
 `
 
 const PreExamSummaryScore = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
   margin-left: 16px;
 `
 

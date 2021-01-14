@@ -14,7 +14,7 @@ const ArrangeItem = styled('div')`
 `
 
 const ArrangeText = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
   flex: 1;
   ${props => props.selected && css`
     color: #00937B;
@@ -36,7 +36,7 @@ const Footer = styled('div')`
 
 const CloseText = styled('div')`
   margin-right: 32px;
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
 `
 

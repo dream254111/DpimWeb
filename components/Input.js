@@ -7,7 +7,7 @@ const Input = styled('input')`
 ${props => props.type === 'text' && css`
   border-radius: 5px;
   padding-left: 16px;
-  font-size: 16px;
+  font-size: 18px;
   line-height: 24px;
   font-weight: 400;
   margin: ${props => props.margin ? props.margin : ''};

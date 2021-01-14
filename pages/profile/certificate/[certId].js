@@ -34,7 +34,7 @@ const CardHeader = styled('div')`
 
 const CardName = styled('div')`
   margin-top: 8px;
-  font-size: 14px;
+  font-size: 18px;
   font-family: ${font.bold};
 `
 
@@ -46,7 +46,7 @@ const Menus = styled('div')`
 const Menu = styled('div')`
   color: #828282;
   padding: 12px 12px 12px 24px;
-  font-size: 14px;
+  font-size: 18px;
   cursor: pointer;
   ${props => props.isActive && `
     color: #00937B;
@@ -339,7 +339,7 @@ const CourseDetail = styled('div')`
 `
 
 const CourseDetailTitle = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
 `
 
 CertificateIdPage.getInitialProps = ({ query }) => {
