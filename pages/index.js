@@ -313,13 +313,15 @@ const IndexPage = ({
       const responseWithData = response.data
       if (responseWithData.success) {
         const data = responseWithData.data
-        const startDate = data.start_date
-        const endDate = data.end_date
-        const inRange = moment().range(startDate, endDate)
-        if (moment().within(inRange)) {
-          setSpecialDay(data)
-          setIsOpenSpecialDayModal(true)
-          setSpecialDay(data)
+        if (responseWithData.data) {
+          const startDate = data.start_date
+          const endDate = data.end_date
+          const inRange = moment().range(startDate, endDate)
+          if (moment().within(inRange)) {
+            setSpecialDay(data)
+            setIsOpenSpecialDayModal(true)
+            setSpecialDay(data)
+          }
         }
       } else {
         throw new Error(responseWithData.error)
@@ -403,6 +405,8 @@ const IndexPage = ({
   const bannerSliderSettings = {
     dots: true,
     infinite: true,
+    autoplay: true,
+    autoplaySpeed: 5000,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
