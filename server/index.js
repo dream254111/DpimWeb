@@ -12,6 +12,7 @@ const path = require('path')
 const cors = require('cors')
 const { join } = require('path')
 const { PROFILE_PAGE } = require('../constants')
+require('dotenv').config()
 let sitemap
 
 app.prepare().then(() => {
