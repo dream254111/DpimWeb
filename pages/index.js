@@ -84,10 +84,17 @@ const BannerSliderContent = styled('div')`
   margin-bottom: 60px;
 `
 
-const BannerImage = styled('img')`
-  width: 100%;
+const BannerImage = styled('div')`
+  width: 1024px;
+  height: 390px;
   cursor: pointer;
-
+  background-image: url(${props => props.src});
+  background-size: cover;
+  background-position: center;
+  ${maxWidth.md`
+    width: 100%;
+    height: 160px;
+  `};
 `
 
 const CourseOnlineContent = styled('div')`
