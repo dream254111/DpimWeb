@@ -647,11 +647,7 @@ const RecommendWeb = styled('div')`
   align-items: center;
 `
 
-const RecommendWebCover = styled('div')`
-  background-image: url(${props => props.src});
-  background-size: cover;
-  background-position: center;
-  height: 140px;
+const RecommendWebCover = styled('img')`
   width: 100%;
   border-radius: 8px;
 `
