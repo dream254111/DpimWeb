@@ -1,4 +1,5 @@
 /* eslint-disable */
+require('dotenv').config()
 const withLess = require('@zeit/next-less')
 const lessToJS = require('less-vars-to-js')
 const fs = require('fs')
@@ -71,4 +72,7 @@ module.exports = withOffline(withLess({
     }
     return config
   },
+  publicRuntimeConfig: {
+    API_URL: process.env.API_URL
+  }
 }))

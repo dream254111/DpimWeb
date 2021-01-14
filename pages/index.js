@@ -17,6 +17,7 @@ import {
 } from 'react-device-detect'
 import { SpecialDayModal } from '../components/modals'
 import Moment from 'moment'
+import { url } from '../helpers/api'
 import { extendMoment } from 'moment-range'
 const moment = extendMoment(Moment)
 const commaNumber = require('comma-number')
@@ -274,7 +275,7 @@ const IndexPage = ({
       fetchSpecialDay()
     ])
   }, [])
-  console.log('process.env.API_URL 2', process.env.API_URL)
+  console.log('process.env.API_URL', url)
   useEffect(() => {
     if (memberToken) {
       // fetchMyCourseProgess()
