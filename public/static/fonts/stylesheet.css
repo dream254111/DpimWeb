@@ -1,44 +1,28 @@
 @font-face {
-  font-family: 'roboto-light';
+  font-family: 'notosans-light';
   font-style: normal;
   font-weight: normal;
-  src: url('./Roboto-Light.ttf') format('truetype');
+  src: url('./NotoSansThai-Light.ttf') format('truetype');
   font-display: swap;
 }
 @font-face {
-  font-family: 'roboto-regular';
+  font-family: 'notosans-regular';
   font-style: normal;
   font-weight: normal;
-  src: url('./Roboto-Regular.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'prompt-bold';
-  font-style: normal;
-  font-weight: normal;
-  src: url('./Prompt-Bold.ttf') format('truetype');
+  src: url('./NotoSansThai-Regular.ttf') format('truetype');
   font-display: swap;
 }
 @font-face {
-  font-family: 'prompt-light';
+  font-family: 'notosans-medium';
   font-style: normal;
   font-weight: normal;
-  src: url('./Prompt-Light.ttf') format('truetype');
+  src: url('./NotoSansThai-Medium.ttf') format('truetype');
   font-display: swap;
 }
 @font-face {
-  font-family: 'prompt-regular';
+  font-family: 'notosans-bold';
   font-style: normal;
   font-weight: normal;
-  src: url('./Prompt-Regular.ttf') format('truetype');
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'roboto-bold';
-  font-style: normal;
-  font-weight: normal;
-  src: url('./Roboto-Bold.ttf') format('truetype');
+  src: url('./NotoSansThai-Bold.ttf') format('truetype');
   font-display: swap;
 }
