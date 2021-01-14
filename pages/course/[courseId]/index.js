@@ -69,7 +69,7 @@ const HeaderTitle = styled('div')`
 const CourseCardDetailText = styled('div')`
   margin-left: 7.33px;
   color: white;
-  font-size: 14px;
+  font-size: 18px;
 `
 
 const CourseCardItem = styled('div')`
@@ -119,7 +119,7 @@ const TabMenu = styled('ul')`
 `
 
 const TabItem = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
   line-height: 24px;
   color: #333333;
   cursor: pointer;
@@ -150,7 +150,7 @@ const CourseOverview = styled('div')`
   border: 1px solid #F2F2F2;
   border-radius: 4px;
   p {
-    font-size: 14px;
+    font-size: 18px;
     color: #333333;
     margin: 0;
   }
@@ -164,7 +164,7 @@ const CourseOverviewDetail = styled('div')`
   padding: 16px;
   p {
     margin-bottom: 12px;
-    font-size: 14px;
+    font-size: 18px;
   }
 `
 
@@ -235,7 +235,7 @@ const CourseExampleDetail = styled('div')`
 `
 
 const ExampleFont = styled('div')`
-  font-size: 12px;
+  font-size: 14px;
   margin: 0;
   color: #828282;
 `
@@ -269,7 +269,7 @@ const Purpose = styled('div')`
 const PurposeDetail = styled('div')`
   padding: 16px;
   p {
-    font-size: 14px;
+    font-size: 18px;
     margin: 0;
   }
 `
@@ -302,7 +302,7 @@ const Lesson = styled('div')`
 const ChapterTitle = styled('div')`
   color: #333333;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 8px;
 `
 
@@ -324,11 +324,11 @@ const LessonName = styled('div')`
 
 const LessonNameText = styled('div')`
   margin: 0 0 0 8px;
-  font-size: 14px;
+  font-size: 18px;
 `
 
 const VideoTime = styled('div')`
-  font-size: 14px;
+  font-size: 18px;
   color: #828282;
   text-align: right;
 `
@@ -348,7 +348,7 @@ const EndofChapterQuestion = styled('div')`
 `
 
 const QuestionTitle = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
   color: #333333;
   font-weight: bold;
   margin: 18px 0 8px 0;
@@ -369,12 +369,12 @@ const QuestionName = styled('div')`
 
 const QuestionNameText = styled('div')`
   margin-left: 8px;
-  font-size: 14px;
+  font-size: 18px;
   color: #333333;
 `
 
 const TotalQuestion = styled('div')`
-  font-size: 14px;
+  font-size: 18px;
   color: #828282;
   text-align: right;
 `
@@ -413,7 +413,7 @@ const CourseQuizTopic = styled('div')`
 `
 
 const CourseQuizTitle = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
   color: #333333;
   font-weight: bold;
   margin: 18px 0 8px 0;
@@ -434,12 +434,12 @@ const QuizIcon = styled('img')`
 
 const CourseQuizNameText = styled('div')`
   margin-left: 8px;
-  font-size: 14px;
+  font-size: 18px;
   color: #333333;
 `
 
 const TotalQuiz = styled('div')`
-  font-size: 14px;
+  font-size: 18px;
   color: #828282;
   text-align: right;
 `
@@ -475,7 +475,7 @@ const InstructorProfile = styled('div')`
   flex-direction: row;
   align-items: center;
   p {
-    font-size: 16px;
+    font-size: 18px;
     font-weight: bold;
     margin: 0;
   }
@@ -493,13 +493,13 @@ const InstructorInformation = styled('div')`
   padding: 16px;
   p {
     margin: 0;
-    font-size: 14px;
+    font-size: 18px;
     color: #333333;
   }
 `
 
 const MoreInfo = styled('div')`
-  font-size: 14px;
+  font-size: 18px;
   margin-top: 8px;
   color: #00937B;
   cursor: pointer;
@@ -536,7 +536,7 @@ const BenefitItem = styled('li')`
   flex-basis: 45%;
   flex-grow: 1;
   margin: 4px 0;
-  font-size: 14px;
+  font-size: 18px;
   color: #333333;
   :nth-child(even) {
     margin-left: 36px;
@@ -566,7 +566,7 @@ const ContactDetail = styled('div')`
 
 const ContactCourseOwner = styled('div')`
   margin: 4px 0;
-  font-size: 14px;
+  font-size: 18px;
   color: #333333;
   margin: 8px 0 16px 0;
 `
@@ -586,7 +586,7 @@ const ContactContentItem = styled('div')`
   align-items: center;
   margin-bottom: 8px;
   p {
-    font-size: 12px;
+    font-size: 14px;
     color: #333333;
     margin: 0;
     margin-left: 8px;
@@ -615,13 +615,13 @@ const CourseInfo = styled('div')`
 const CourseInfoTitle = styled('div')`
   margin: 16px 0 4px 0;
   color: #333333;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: bold;
 `
 
 const CourseInfoText = styled('div')`
   color: #333333;
-  font-size: 14px;
+  font-size: 18px;
   margin: 0;
 `
 
@@ -980,7 +980,6 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                   <>
                     <Button
                       type='primary'
-                      fontSize='14px'
                       block
                       style={{margin: '0 0 8px 0'}}
                       onClick={() => Router.push(`/course/${courseId}/learn`)}
@@ -989,7 +988,6 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                     </Button>
                     <Button
                       type='primary'
-                      fontSize='14px'
                       block
                       style={{margin: '0 0 8px 0'}}
                       disabled={courseDetail && !courseDetail.can_extend_study_time}
@@ -1001,7 +999,6 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                     {
                       courseDetail && courseDetail.student_learning_enddate &&
                       <Button
-                        fontSize='14px'
                         color='#00937B'
                         block
                         disabled={true}
@@ -1014,7 +1011,6 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                   <>
                   <Button
                     type='primary'
-                    fontSize='14px'
                     block
                     style={{margin: '0 0 8px 0'}}
                     disabled={courseDetail && !courseDetail.can_enroll}
@@ -1026,7 +1022,6 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                     {
                       memberToken && (courseDetail && courseDetail.is_own_course === false) &&
                       <Button
-                        fontSize='14px'
                         color='#00937B'
                         block
                         disabled={courseDetail && courseDetail.is_own_course}

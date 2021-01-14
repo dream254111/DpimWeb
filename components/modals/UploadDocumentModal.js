@@ -9,7 +9,7 @@ const Title = styled('div')`
 `
 
 const Description = styled('div')`
-  font-size: 14px;
+  font-size: 18px;
   color: #828282;
   margin-bottom: 8px;
 `
@@ -96,7 +96,6 @@ const UploadDocumentModal = ({
                   <Description style={{fontSize: '10px'}}>หรือ</Description>
                   <Button
                     type='primary'
-                    fontSize='12px'
                   >
                     เลือกไฟล์จากอุปกรณ์ของคุณ
                   </Button>
@@ -111,13 +110,11 @@ const UploadDocumentModal = ({
                     <ButtonContanier>
                       <Button
                         onClick={() => handleClickCancle()}
-                        fontSize='12px'
                       >
                         ยกเลิก
                       </Button>
                       <Button 
                         type='primary'
-                        fontSize='12px'
                         loading={isUploading}
                         onClick={() => handleSubmitUpload()}
                       >

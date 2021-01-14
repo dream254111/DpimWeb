@@ -39,7 +39,7 @@ const Title = styled('div')`
 
 const Desc = styled('div')`
   margin-top: 8px;
-  font-size: 16px;
+  font-size: 18px;
 `
 
 const FeedbackPage = ({
@@ -141,7 +141,6 @@ const FeedbackPage = ({
                   htmlType='submit'
                   style={{marginTop: '32px'}} 
                   type='primary'
-                  fontSize='14px'
                 >ส่งข้อมูลแจ้งปัญหาการใช้งาน</Button>
               </ButtonWrapper>
             </Form>

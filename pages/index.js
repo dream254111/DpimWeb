@@ -141,7 +141,7 @@ const CourseCardTitle = styled('div')`
   text-overflow: ellipsis;
   height: 3em;
   line-height: 24px;
-  font-size: 16px;
+  font-size: 18px;
   font-family: ${font.bold};
 `
 
@@ -158,7 +158,7 @@ const CourseCardIcon = styled('span')`
 
 const CourseCardDetailText = styled('div')`
   margin-left: 7.33px;
-  font-size: 12px;
+  font-size: 14px;
 `
 
 const CourseCardItem = styled('div')`
@@ -194,7 +194,7 @@ const RecommentWebsiteTitle = styled('div')`
 
 const WebsiteButton = styled('div')`
   padding: 16px 12px;
-  font-size: 12px;
+  font-size: 14px;
   color: #41A0FC;
   border: 1px solid #41A0FC;
   border-radius: 4px;
@@ -236,7 +236,7 @@ const StatsValue = styled('div')`
 const StatsTitle = styled('div')`
   font-family: ${font.bold};
   white-space: nowrap;
-  font-size: 16px;
+  font-size: 18px;
 `
 
 const RecommentWebsiteRow = styled(Row)`
@@ -509,7 +509,6 @@ const IndexPage = ({
               </Select>
               <Button
                 type='primary'
-                fontSize='12px'
                 onClick={() => Router.push('/course')}
               >ดูคอร์สออนไลน์ทั้งหมด
               </Button>
@@ -555,7 +554,6 @@ const IndexPage = ({
                 </Select>
                 <Button
                   type='primary'
-                  fontSize='12px'
                   onClick={() => Router.push('/video-on-demand')}
                 >Video on demand ทั้งหมด</Button>
               </CategoryWrapper>

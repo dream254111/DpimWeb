@@ -26,7 +26,7 @@ const Title = styled('div')`
 const CreatedTime = styled('div')`
   margin-top: 8px;
   color: #4F4F4F;
-  font-size: 12px;
+  font-size: 14px;
   margin-left: 30px;
 `
 
@@ -40,7 +40,7 @@ const Image = styled('div')`
 `
 
 const Description = styled('div')`
-  font-size: 14px;
+  font-size: 18px;
   margin-top: 32px;
 `
 

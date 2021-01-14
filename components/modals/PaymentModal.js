@@ -32,7 +32,7 @@ const PaymentMethod = styled('div')`
 `
 
 const PaymentText = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 400;
   color: #333333;
   margin: 0 0 0 16px;
@@ -147,7 +147,7 @@ const QrImage = styled('img')`
 `
 
 const AddLine = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
   color: #41a0fc;
   font-weight: bold;
 `

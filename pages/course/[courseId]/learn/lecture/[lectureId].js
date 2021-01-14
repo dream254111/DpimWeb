@@ -64,7 +64,7 @@ const CourseDetail = styled('div')`
 `
 
 const CourseTitle = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
   font-family: ${font.bold};
 `
 

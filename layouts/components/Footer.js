@@ -29,7 +29,6 @@ const Logo = styled('img')`
 const ContactContainer = styled('div')`
   width: 100%;
   p {
-    font-size: 12px;
     line-height: 18px;
     color: #333333;
     margin: 0;
@@ -52,7 +51,7 @@ const ContactItem = styled('div')`
   display: flex;
   align-items: center;
   margin-top: 14px;
-  p {
+  div {
     margin-left: 14px;
   }
 `
@@ -68,9 +67,8 @@ const Report = styled('div')`
   position: relative;
   align-items: center;
   margin-top: 15px;
-  p {
+  div {
     color: #41A0FC;
-    font-size: 12px;
     text-decoration-line: underline;
     margin-left: 10px;
     cursor: pointer;
@@ -86,12 +84,12 @@ const Footer = () => {
             <Logo src='/static/images/logo.png' />
           </FooterLogo>
           <ContactContainer>
-            <p>ติดต่อเรา</p>
-            <p>จันทร์ - ศุกร์ เวลา 08:30 - 16:30 น.</p>
+            <div>ติดต่อเรา</div>
+            <div>จันทร์ - ศุกร์ เวลา 08:30 - 16:30 น.</div>
             <Contact>
               <ContactItem>
                 <Icon src='/static/images/Tel.png' />
-                <p>+66 90 212 8819</p>
+                <div>+66 90 212 8819</div>
               </ContactItem>
               {/* <ContactItem>
                 <Icon src='/static/images/Line.png' />
@@ -99,16 +97,16 @@ const Footer = () => {
               </ContactItem> */}
               <ContactItem>
                 <Icon src='/static/images/Facebook.png' />
-                <p>DPIM Academy</p>
+                <div>DPIM Academy</div>
               </ContactItem>
               <ContactItem>
                 <Icon src='/static/images/Mail.png' />
-                <p>dpimacademy@gmail.com</p>
+                <div>dpimacademy@gmail.com</div>
               </ContactItem>
             </Contact>
             <Report onClick={() => Router.push('/feedback')}>
               <Icon src='/static/images/Exclamation.svg' />
-              <p>แจ้งปัญหาการใช้งาน</p>
+              <div>แจ้งปัญหาการใช้งาน</div>
             </Report>
           </ContactContainer>
         </FooterContainer>

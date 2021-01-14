@@ -31,7 +31,7 @@ const Wrapper = styled('div')`
 
 const Title = styled('div')`
   margin-top: 24px;
-  font-size: 16px;
+  font-size: 18px;
   font-family: ${font.bold};
 `
 

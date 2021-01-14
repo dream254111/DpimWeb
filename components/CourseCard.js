@@ -40,7 +40,7 @@ const CourseCardTitle = styled('div')`
   word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
-  font-size: 16px;
+  font-size: 18px;
   font-family: ${font.bold};
   height: 3.2em;
 `
@@ -57,7 +57,7 @@ const CourseCardIcon = styled('span')`
 
 const CourseCardDetailText = styled('div')`
   margin-left: 7.33px;
-  font-size: 12px;
+  font-size: 14px;
 `
 
 const CourseCardItem = styled('div')`
@@ -102,7 +102,7 @@ const CourseTimeContent = styled('div')`
 `
 
 const CourseTimeText = styled('div')`
-  font-size: 14px;
+  font-size: 18px;
 `
 
 const CoursePrice = styled('div')`
@@ -228,12 +228,12 @@ const CourseCardComponent = ({
 
 const RestartCourse = styled('div')`
   color: #00937B;
-  font-size: 12px;
+  font-size: 14px;
   font-family: ${font.bold};
 `
 
 const Text = styled('div')`
-  font-size: 12px;
+  font-size: 14px;
 ` 
 
 const ProgressButtom = styled('div')`

@@ -101,7 +101,7 @@ const CourseDescription = styled('div')`
 `
 
 const CourseDescriptionText = styled('div')`
-  font-size: 14px;
+  font-size: 18px;
   width: 80%;
   margin-top: 4px;
   overflow: hidden;
@@ -121,7 +121,7 @@ const CourseDescriptionText = styled('div')`
 const CourseCardDetailText = styled('div')`
   margin-left: 7.33px;
   color: #828282;
-  font-size: 14px;
+  font-size: 18px;
 `
 
 const CourseCardItem = styled('div')`
@@ -176,7 +176,7 @@ const AuthorAvatar = styled('div')`
 const AuthorName = styled('div')`
   margin-left: 8px;
   color: #828282;
-  font-size: 14px;
+  font-size: 18px;
 `
 
 const FooterRight = styled('div')`
@@ -205,7 +205,7 @@ const CoursePrice = styled('div')`
 
 const CourseTime = styled('div')`
   margin-top: 8px;
-  font-size: 14px;
+  font-size: 18px;
   ${maxWidth.sm`
     margin-top: 0;
     order: 1;
@@ -214,14 +214,14 @@ const CourseTime = styled('div')`
 `
 
 const BoldTitle = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
   font-family: ${font.bold};
   color: #333333;
   margin-top: 24px;
 `
 
 const FilterTitle = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
 `
 
 const FilterItem = styled('div')`
@@ -284,7 +284,7 @@ const TitleEventHandlerItem = styled('div')`
 
 const TitleEventHandlerText = styled('div')`
   color: #41A0FC;
-  font-size: 14px;
+  font-size: 18px;
 `
 
 const Icon = styled('img')`

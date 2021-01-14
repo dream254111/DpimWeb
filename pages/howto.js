@@ -14,7 +14,7 @@ const Title = styled('div')`
 `
 
 const SubTitle = styled('div')`
-  font-size: 14px;
+  font-size: 18px;
   margin-top: 12px;
 `
 

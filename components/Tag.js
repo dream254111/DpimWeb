@@ -4,12 +4,12 @@ const TagStyle = styled('div')`
     border-color: transparent;
     box-sizing: border-box;
     color: white;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 1.5715;
     list-style: none;
     display: inline-block;
     height: auto;
-    font-size: 12px;
+    font-size: 14px;
     line-height: 20px;
     white-space: nowrap;
     background: #fafafa;

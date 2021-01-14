@@ -69,7 +69,7 @@ const PreExamChoiceNo = styled('div')`
   margin-right: 22px;
   min-width: 32px;
   min-height: 32px;
-  font-size: 12px;
+  font-size: 14px;
   border: 1px solid #F2F2F2;
   display: flex;
   flex-direction: column;

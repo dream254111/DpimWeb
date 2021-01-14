@@ -4,7 +4,7 @@ import { Button } from '../index'
 const CheckboxGroup = Checkbox.Group
 
 const FilterTitle = styled('div')`
-  font-size: 16px;
+  font-size: 18px;
 `
 
 const FilterItem = styled('div')`
@@ -27,7 +27,7 @@ const Footer = styled('div')`
 
 const CloseText = styled('div')`
   margin-right: 32px;
-  font-size: 16px;
+  font-size: 18px;
   cursor: pointer;
 `
 

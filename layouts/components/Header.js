@@ -101,7 +101,6 @@ const NavItem = styled('div')`
     color: #333333;
     text-decoration: none;
     line-height: 24px;
-    font-size: 16px;
     font-family: ${font.regular};
     text-align: center;
     ${props => props.logout && css`
@@ -161,7 +160,7 @@ justify-content: center;
 align-items: center;
 cursor: pointer;
   p {
-    font-size: 14px;
+    font-size: 18px;
     line-height: 20px;
     color: #333333;
     max-width: ${({ isLogin }) => !isLogin ? '' : '200px'};
@@ -348,7 +347,6 @@ const Header = ({
                 <>
                   <NavItemBtn>
                     <Button
-                      fontSize='12px'
                       color='#00937B'
                       // onClick={() => setisLogin(!isLogin)}
                       onClick={() => setIsLoginModalOpen(true)}
@@ -360,7 +358,6 @@ const Header = ({
                   <NavItemBtn>
                     <Button
                       type='primary'
-                      fontSize='12px'
                       onClick={() => Router.push('/register')}
                     >
                       สมัครสมาชิก
