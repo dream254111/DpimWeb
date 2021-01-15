@@ -16,9 +16,9 @@ module.exports = withOffline(withLess({
     modifyVars: themeVariables, // make your antd custom effective
   },
   target: 'serverless',
-  env: {
-    API_URL: process.env.API_URL
-  },
+  // env: {
+  //   API_URL: process.env.API_URL
+  // },
   transformManifest: manifest => ['/'].concat(manifest), // add the homepage to the cache
   generateInDevMode: false,
   workboxOpts: {
