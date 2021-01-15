@@ -1,5 +1,4 @@
 /* eslint-disable */
-require('dotenv').config()
 const withLess = require('@zeit/next-less')
 const lessToJS = require('less-vars-to-js')
 const fs = require('fs')
@@ -17,6 +16,9 @@ module.exports = withOffline(withLess({
     modifyVars: themeVariables, // make your antd custom effective
   },
   target: 'serverless',
+  env: {
+    API_URL: process.env.API_URL
+  },
   transformManifest: manifest => ['/'].concat(manifest), // add the homepage to the cache
   generateInDevMode: false,
   workboxOpts: {
