@@ -215,6 +215,7 @@ const LearnPage = ({
           interactiveVideo2={lessonSelected.interactive_video_2}
           videoPosition={lessonSelected.video_position}
           isInteractive={lessonSelected.is_interactive}
+          attachmentFile={lessonSelected.attachment}
           interactive={lessonSelected.interactive}
           fetchCourseDetail={() => fetchCourseDetail()}
         />

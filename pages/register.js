@@ -37,6 +37,7 @@ const RegisterPage = ({ master }) => {
   const [districtId, setDistrictId] = useState(null)
   const [subDistrictId, setSubDistrictId] = useState(null)
   const [step1Details, setStep1Details] = useState({})
+  const [knowChannels, setKnowChannels] = useState([])
 
   const handleSubmitFormStep1 = (values) => {
     delete values.confirm_password
@@ -51,14 +52,15 @@ const RegisterPage = ({ master }) => {
       ...step1Details,
       ...values,
       birthday: moment(values.birthday).format('YYYY-MM-DD'),
-      know_channel: knowChannelIds
+      know_channel: knowChannelIds,
+      know_channel_name: knowChannels.find(item => item === 'อื่นๆ') ? values.know_channel_name : undefined
     }
     try {
       const response = await axios({
         method: 'POST',
         url: `${API.url}/Student/RegisterStudent`,
         data: {
-          student: data
+          student: JSON.parse(JSON.stringify(data))
         }
       })
       const responseWithData = response.data
@@ -397,14 +399,29 @@ const RegisterPage = ({ master }) => {
                     <Input placeholder='กรอกตำแหน่ง' />
                   </Form.Item>
                 </Col>
-                <Form.Item 
-                  label="รู้จักเราผ่านทางช่องทางใด"
-                  name='know_channel'
-                  labelCol={{ span: 24 }}
-                  rules={[{ required: true, message: 'กรุณาเลือกช่องทางที่รู้จัก' } ]}
-                >
-                  <CheckboxGroup options={master.know_channel.map(item => item.name)} />
-                </Form.Item>
+                <Row align='bottom' gutter={2}>
+                  <Col xs={18}>
+                    <Form.Item 
+                      label='รู้จักเราผ่านทางช่องทางใด'
+                      name='know_channel'
+                      labelCol={{ span: 24 }}
+                      rules={[{ required: true, message: 'กรุณาเลือกช่องทางที่รู้จัก' } ]}
+                    >
+                      <CheckboxGroup options={master.know_channel.map(item => item.name)} onChange={(value) => setKnowChannels(value)} />
+                    </Form.Item>
+                  </Col>
+                  <Col xs={6}>
+                    <Form.Item
+                      name='know_channel_name'
+                      labelCol={{ span: 24 }}
+                    >
+                      <Input
+                        placeholder='โปรดระบุ'
+                        disabled={!knowChannels.find(item => item === 'อื่นๆ')}
+                      />
+                    </Form.Item>
+                  </Col>
+                </Row>
               </Row>
               <Button
                 style={{ float: 'right' }}

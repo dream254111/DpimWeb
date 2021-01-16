@@ -17,6 +17,7 @@ import {
 } from 'react-device-detect'
 import { SpecialDayModal } from '../components/modals'
 import Moment from 'moment'
+import { url } from '../helpers/api'
 import { extendMoment } from 'moment-range'
 const moment = extendMoment(Moment)
 const commaNumber = require('comma-number')
@@ -83,10 +84,17 @@ const BannerSliderContent = styled('div')`
   margin-bottom: 60px;
 `
 
-const BannerImage = styled('img')`
-  width: 100%;
+const BannerImage = styled('div')`
+  width: 1024px;
+  height: 390px;
   cursor: pointer;
-
+  background-image: url(${props => props.src});
+  background-size: cover;
+  background-position: center;
+  ${maxWidth.md`
+    width: 100%;
+    height: 160px;
+  `};
 `
 
 const CourseOnlineContent = styled('div')`
@@ -274,7 +282,7 @@ const IndexPage = ({
       fetchSpecialDay()
     ])
   }, [])
-  console.log('process.env.API_URL 2', process.env.API_URL)
+  console.log('process.env.API_URL', url)
   useEffect(() => {
     if (memberToken) {
       // fetchMyCourseProgess()
@@ -478,24 +486,28 @@ const IndexPage = ({
             </BannerContent>
           </Container>
         </Banner>
-        <Container>
-          <BannerSliderContent>
-            <Slider {...bannerSliderSettings}>
-              {
-                banners.map((item, index) => (
-                  <div
-                    key={index}
-                  >
-                    <BannerImage
-                      src={isMobile ? item.image_mobile : item.image_pc}
-                      onClick={() => window.open(item.link, '_href')}
-                    />
-                  </div>
-                ))
-              }
-            </Slider>
-          </BannerSliderContent>
-        </Container>
+        {
+          banners &&
+            <Container>
+              <BannerSliderContent>
+                <Slider {...bannerSliderSettings}>
+                  {
+                    banners.map((item, index) => (
+                      <div
+                        key={index}
+                      >
+                        <BannerImage
+                          src={isMobile ? item.image_mobile : item.image_pc}
+                          onClick={() => window.open(item.link, '_href')}
+                        />
+                      </div>
+                    ))
+                  }
+                </Slider>
+              </BannerSliderContent>
+            </Container>
+
+        }
         <CourseOnlineContent>
           <Container paddingTop='72px' paddingBottom='72px'>
             <Title>คอร์สเรียนออนไลน์</Title>
@@ -646,11 +658,7 @@ const RecommendWeb = styled('div')`
   align-items: center;
 `
 
-const RecommendWebCover = styled('div')`
-  background-image: url(${props => props.src});
-  background-size: cover;
-  background-position: center;
-  height: 140px;
+const RecommendWebCover = styled('img')`
   width: 100%;
   border-radius: 8px;
 `

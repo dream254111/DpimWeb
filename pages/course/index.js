@@ -372,6 +372,7 @@ const CoursePage = ({
                 <Option value='newest'>ใหม่สุด</Option>
                 <Option value='cheapest'>ถูกสุด</Option>
                 <Option value='expensive'>แพงสุด</Option>
+                <Option value='letters'>ลำดับตัวอักษร</Option>
               </Select>
               <BoldTitle>คัดกรอง</BoldTitle>
               <FilterTitle style={{marginTOp: '8px'}}>ช่วงเวลาเปิดคอร์ส</FilterTitle>
