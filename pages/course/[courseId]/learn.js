@@ -145,8 +145,8 @@ const LearnPage = ({
   const examPostTests = courseDetail.exam_post_test || []
   const isPreTestPass = courseDetail.pre_test_pass
   const isPostTestPass = courseDetail.post_test_pass
-  const isTrialClass = courseDetail.trial_class || true
-
+  const isTrialClass = courseDetail.trial_class
+  const lessonSelected = courseLessons.find(item => (item.id + '00') == menu)
   const onFinishedExercise = async (courseLessonId) => {
     try {
       const request = {
@@ -204,7 +204,6 @@ const LearnPage = ({
   }
 
   const renderLesson = () => {
-    const lessonSelected = courseLessons.find(item => (item.id + '00') == menu)
     if (lessonSelected) {
       return (
         <VideoLesson
@@ -288,7 +287,10 @@ const LearnPage = ({
               />
               <CourseDetail>
                 <CourseTitle>{courseName}</CourseTitle>
-                <CourseInstructure>โดย ณัฐวุฒิ พึงเจริญพงศ์ (หมู)</CourseInstructure>
+                {
+                  lessonSelected &&
+                    <CourseInstructure>โดย {lessonSelected.instructor.firstname} {lessonSelected.instructor.lastname}</CourseInstructure>
+                }
               </CourseDetail>
             </CourseDetailWrapper>
             <Menu
