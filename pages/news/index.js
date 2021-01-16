@@ -79,8 +79,8 @@ const NewsPage = () =>{
         message.error(error.message)
     }
   }
-  const topNewsDetail = news.length > 0 && news.find((item, index) => index === 0) || {}
-  const removeFirstIndexNews = news.length > 0 && news.filter((item, index) => index !== 0) || []
+  const topNewsDetail = news?.length > 0 && news.find((item, index) => index === 0) || {}
+  const removeFirstIndexNews = news?.length > 0 && news.filter((item, index) => index !== 0) || []
   return (
     <MainLayout>
       <Container paddingTop='32px' paddingBottom='292px'>
