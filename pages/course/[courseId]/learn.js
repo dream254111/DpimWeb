@@ -126,6 +126,7 @@ const LearnPage = ({
         url: `${API.url}/Course/course_by_id?course_id=${courseId}`
       })
       const responseWithData = response.data
+      console.log('responseWithData', responseWithData.data)
       if (responseWithData.success) {
         setCourseDetail(responseWithData.data)
       } else {
@@ -144,7 +145,8 @@ const LearnPage = ({
   const examPostTests = courseDetail.exam_post_test || []
   const isPreTestPass = courseDetail.pre_test_pass
   const isPostTestPass = courseDetail.post_test_pass
-
+  const isTrialClass = courseDetail.trial_class
+  const lessonSelected = courseLessons.find(item => (item.id + '00') == menu)
   const onFinishedExercise = async (courseLessonId) => {
     try {
       const request = {
@@ -202,7 +204,6 @@ const LearnPage = ({
   }
 
   const renderLesson = () => {
-    const lessonSelected = courseLessons.find(item => +item.id === +menu)
     if (lessonSelected) {
       return (
         <VideoLesson
@@ -286,7 +287,10 @@ const LearnPage = ({
               />
               <CourseDetail>
                 <CourseTitle>{courseName}</CourseTitle>
-                <CourseInstructure>โดย ณัฐวุฒิ พึงเจริญพงศ์ (หมู)</CourseInstructure>
+                {
+                  lessonSelected &&
+                    <CourseInstructure>โดย {lessonSelected.instructor.firstname} {lessonSelected.instructor.lastname}</CourseInstructure>
+                }
               </CourseDetail>
             </CourseDetailWrapper>
             <Menu
@@ -314,16 +318,16 @@ const LearnPage = ({
                   <SubMenu key={`sub${index}`} title={renderLessonTitle(item, index + 1)}>
                     <Menu.Item
                       style={{height: '65px'}}
-                      key={item.id}
+                      key={item.id + '00'}
                       // icon={<PlayCircleOutlined />}
-                      disabled={courseDetail.can_use_pre_test}
+                      disabled={courseDetail.can_use_pre_test || (isTrialClass === true && index !== 0)}
                     >{renderVideoTitle(item)}</Menu.Item>
                     {
                       item && item.exercise && item.exercise.length > 0 &&
                       <Menu.Item
                         key={(item.id).toString() + '0'}
                         icon={<FormOutlined />}
-                        disabled={courseDetail.can_use_pre_test}
+                        disabled={courseDetail.can_use_pre_test || (isTrialClass === true && index !== 0)}
                       >คำถามท้ายบท {index + 1}</Menu.Item>
                     }
                   </SubMenu>

@@ -10,6 +10,7 @@ import { connect } from 'react-redux'
 import PreExamSummary from './PreExamSummary'
 import { maxWidth } from '../../helpers/breakpoint'
 import { stripHtml } from '../../helpers/util'
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
 
 const PreExam = styled('div')`
   margin-top: 32px;
@@ -78,6 +79,7 @@ const PreExamChoice = styled('div')`
   cursor: pointer;
   display: flex;
   align-items: center;
+  justify-content: space-between;
 `
 
 const PreExamChoiceNo = styled('div')`
@@ -98,6 +100,11 @@ const PreExamChoiceNo = styled('div')`
 const PreExamTitle = styled('div')`
   font-size: 32px;
   font-family: ${font.bold};
+`
+
+const Flex = styled('div')`
+  display: flex;
+  align-items: center;
 `
 
 const connector = connect(({ memberReducer }) => ({
@@ -204,7 +211,20 @@ const PreExamComponent = ({
                         key={index}
                         onClick={() => onClickSelectChoice(choice.id, choice.course_exam_id, choice.order)}
                       >
-                        <PreExamChoiceNo>{index + 1}.</PreExamChoiceNo>{choice.answer}
+                        <Flex>
+                          <PreExamChoiceNo>{index + 1}.</PreExamChoiceNo>
+                          <div>
+                            {choice.answer}
+                          </div>
+                        </Flex>
+                        {
+                          isCheckAnswer && answers.find(a => a.id === choice.id) && answerResult.list_result && answerResult.list_result.length > 0 && answerResult.list_result.find(r => r.course_exam_id === item.id) && answerResult.list_result.find(r => r.course_exam_id === item.id).status === true &&
+                            <CheckOutlined style={{ color: '#00937B' }} />
+                        }
+                        {
+                          isCheckAnswer && answers.find(a => a.id === choice.id) && answerResult.list_result && answerResult.list_result.length > 0 && answerResult.list_result.find(r => r.course_exam_id === item.id) && answerResult.list_result.find(r => r.course_exam_id === item.id).status === false &&
+                            <CloseOutlined style={{ color: '#EB5757' }} />
+                        }
                       </PreExamChoice>
                     ))
                   }
