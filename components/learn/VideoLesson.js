@@ -138,7 +138,7 @@ const VideoLesson = ({
         attachmentFile &&
           <Attachment>
             <AttachmentTitle>เอกสารประกอบการเรียน</AttachmentTitle>
-            {JSON.stringify(attachmentFile)}
+            <a href={attachmentFile} target='_blank' rel='noreferrer'>Download</a>
           </Attachment>
       }
     </>
