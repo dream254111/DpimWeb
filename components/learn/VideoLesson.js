@@ -30,6 +30,15 @@ const MenuHeader = styled('div')`
   font-family: ${font.bold};
 `
 
+const Attachment = styled('div')`
+  margin-top: 32px;
+`
+
+const AttachmentTitle = styled('div')`
+  font-size: 18px;
+  margin-top: 32px;
+`
+
 const VideoLesson = ({
   title,
   description,
@@ -38,7 +47,8 @@ const VideoLesson = ({
   handleStampVideoLesson,
   isInteractive,
   interactive,
-  fetchCourseDetail
+  fetchCourseDetail,
+  attachmentFile
 }) => {
   const videoRef = useRef(null)
   const [isInteractiveModalOpen, setIsInteractiveModalOpen] = useState(false)
@@ -124,6 +134,13 @@ const VideoLesson = ({
       <DescriptionValue>
         <p dangerouslySetInnerHTML={{ __html: htmlDecode(description) }} />
       </DescriptionValue>
+      {
+        attachmentFile &&
+          <Attachment>
+            <AttachmentTitle>เอกสารประกอบการเรียน</AttachmentTitle>
+            {JSON.stringify(attachmentFile)}
+          </Attachment>
+      }
     </>
   )
 }

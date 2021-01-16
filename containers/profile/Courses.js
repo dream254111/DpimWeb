@@ -56,7 +56,7 @@ const CoursesContainer = ({
     <Wrapper>
       <PageTitle>คอร์สของฉัน</PageTitle>
       <Tabs defaultActiveKey="1">
-        <TabPane tab="กำลังเรียนอยู่" key="1">
+        <TabPane tab={`กำลังเรียนอยู่(${courses.filter(item => item.progress !== 100).length})`} key="1">
           <Row gutter={16}>
             {
               courses.filter(item => item.progress !== 100).map((item, index) => (
@@ -78,7 +78,7 @@ const CoursesContainer = ({
             }
           </Row>
         </TabPane>
-        <TabPane tab="จบหลักสูตร" key="2">
+        <TabPane tab={`จบหลักสูตร(${courses.filter(item => item.progress === 100).length})`} key="2">
         <Row gutter={16}>
             {
               courses.filter(item => item.progress === 100).map((item, index) => (

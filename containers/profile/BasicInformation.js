@@ -64,6 +64,7 @@ const BasicInformation = ({
   const [provinceId, setProvinceId] = useState(null)
   const [districtId, setDistrictId] = useState(null)
   const [subDistrictId, setSubDistrictId] = useState(null)
+  const [knowChannels, setKnowChannels] = useState([])
   const dateFormat = 'YYYY/MM/DD'
 
   useEffect(() => {
@@ -163,7 +164,8 @@ const BasicInformation = ({
         data: {
           student: {
             ...student,
-            know_channel: knowChannelIds
+            know_channel: knowChannelIds,
+            know_channel_name: knowChannels.find(item => item === 'อื่นๆ') ? values.know_channel_name : undefined
           }
         }
       })
@@ -507,19 +509,33 @@ const BasicInformation = ({
               <Input />
             </Form.Item>
           </Col>
-          <Col lg={24}>
-            <Form.Item 
-              label="รู้จักเราผ่านช่องทางใด"
-              name='know_channel'
-              labelCol={{ span: 24 }}
-            >
-              <CheckboxGroup
-                options={master.know_channel.map(item => item.name)}
-                disabled={!profileSetting.is_edit_know_channel}
-              />
-            </Form.Item>
-          </Col>
-        </Row>
+          </Row>
+          <Row align='bottom' gutter={2}>
+            <Col lg={19}>
+              <Form.Item 
+                label="รู้จักเราผ่านช่องทางใด"
+                name='know_channel'
+                labelCol={{ span: 24 }}
+              >
+                <CheckboxGroup
+                  options={master.know_channel.map(item => item.name)}
+                  disabled={!profileSetting.is_edit_know_channel}
+                  onChange={(value) => setKnowChannels(value)}
+                />
+              </Form.Item>
+            </Col>
+            <Col xs={5}>
+              <Form.Item
+                name='know_channel_name'
+                labelCol={{ span: 24 }}
+              >
+                <Input
+                  placeholder='โปรดระบุ'
+                  disabled={!knowChannels.find(item => item === 'อื่นๆ')}
+                />
+              </Form.Item>
+            </Col>
+          </Row>
         <Title style={{marginTop: '54px'}}>ข้อมูลสถานประกอบการ</Title>
         <Row gutter={16}>
           <Col lg={12}>

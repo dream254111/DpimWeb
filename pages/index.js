@@ -486,24 +486,28 @@ const IndexPage = ({
             </BannerContent>
           </Container>
         </Banner>
-        <Container>
-          <BannerSliderContent>
-            <Slider {...bannerSliderSettings}>
-              {
-                banners.map((item, index) => (
-                  <div
-                    key={index}
-                  >
-                    <BannerImage
-                      src={isMobile ? item.image_mobile : item.image_pc}
-                      onClick={() => window.open(item.link, '_href')}
-                    />
-                  </div>
-                ))
-              }
-            </Slider>
-          </BannerSliderContent>
-        </Container>
+        {
+          banners &&
+            <Container>
+              <BannerSliderContent>
+                <Slider {...bannerSliderSettings}>
+                  {
+                    banners.map((item, index) => (
+                      <div
+                        key={index}
+                      >
+                        <BannerImage
+                          src={isMobile ? item.image_mobile : item.image_pc}
+                          onClick={() => window.open(item.link, '_href')}
+                        />
+                      </div>
+                    ))
+                  }
+                </Slider>
+              </BannerSliderContent>
+            </Container>
+
+        }
         <CourseOnlineContent>
           <Container paddingTop='72px' paddingBottom='72px'>
             <Title>คอร์สเรียนออนไลน์</Title>
