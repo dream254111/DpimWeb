@@ -56,7 +56,7 @@ const PreExamSummaryComponent = ({
             <PreExamSummaryTitle>{'สรุปผลคะแนนแบบทดสอบก่อนเรียน'}</PreExamSummaryTitle>
             <PreExamSummaryDescription>
               <CheckCircleOutlined style={{color: '#43BF9A'}} />
-              <PreExamSummaryScore>ผ่านการทดสอบหลักสูตร คุณตอบถูก {score} ข้อ จาก {maxScore} ข้อ = {percent.toFixed(2)}%</PreExamSummaryScore>
+              <PreExamSummaryScore>คุณตอบถูก {score} ข้อ จาก {maxScore} ข้อ = {percent.toFixed(2)}%</PreExamSummaryScore>
             </PreExamSummaryDescription>
           </div>
           {

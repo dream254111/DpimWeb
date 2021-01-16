@@ -9,7 +9,7 @@ import Router from 'next/router'
 import { Select, Row, Col, message, Button } from 'antd'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import API from '../helpers/api'
+import API, { url } from '../helpers/api'
 import { connect } from 'react-redux'
 import { ArrowRightOutlined } from '@ant-design/icons'
 import {
@@ -17,7 +17,6 @@ import {
 } from 'react-device-detect'
 import { SpecialDayModal } from '../components/modals'
 import Moment from 'moment'
-import { url } from '../helpers/api'
 import { extendMoment } from 'moment-range'
 const moment = extendMoment(Moment)
 const commaNumber = require('comma-number')
