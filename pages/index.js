@@ -17,7 +17,6 @@ import {
 } from 'react-device-detect'
 import { SpecialDayModal } from '../components/modals'
 import Moment from 'moment'
-import { url } from '../helpers/api'
 import { extendMoment } from 'moment-range'
 const moment = extendMoment(Moment)
 const commaNumber = require('comma-number')
@@ -414,7 +413,7 @@ const IndexPage = ({
     dots: true,
     infinite: true,
     autoplay: true,
-    autoplaySpeed: 5000,
+    autoplaySpeed: 15000,
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
