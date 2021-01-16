@@ -12,11 +12,11 @@ import { useRef, useEffect, useState, useReducer } from 'react'
 import { Progress, message, Row, Col, Avatar } from 'antd'
 import API from '../../../helpers/api'
 import axios from 'axios'
-import { timeConvert, timeConvert2 } from '../../../helpers/util' 
+import { timeConvert } from '../../../helpers/util' 
 const commaNumber = require('comma-number')
 import Router from 'next/router'
 import moment from 'moment'
-import { UserOutlined } from '@ant-design/icons'
+import { UserOutlined, ArrowRightOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 import { PaymentModal, LoginModal } from '../../../components/modals/index'
 import constants from '../../../constants'
@@ -630,6 +630,25 @@ const CourseExampleVideo = styled('video')`
   width: 100%;
 `
 
+const ContinueLearning = styled('div')`
+  background-color: white;
+  border-radius: 4px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-left: auto;
+`
+
+const ContinueLearningLeft = styled('div')`
+  margin-right: 18px;
+`
+
+const ContinueLearningTitle = styled('div')`
+  font-size: 14px;
+  font-family: ${font.bold};
+`
+
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token,
   memberDetail: memberReducer.member,
@@ -811,6 +830,28 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                     courseDetail && courseDetail.course.hasCertificate &&
                     <Tag outline style={{marginLeft: '8px'}}>มีใบประกาศฯ</Tag>
                   }
+                  {
+                    courseDetail && courseDetail.continue_learning &&
+                    <ContinueLearning>
+                      <ContinueLearningLeft>
+                        <ContinueLearningTitle>เรียนต่อ : {courseDetail.continue_learning.name}</ContinueLearningTitle>
+                        <Progress
+                          percent={courseDetail.continue_learning.progress || 0}
+                          showInfo={true}
+                          strokeWidth={6}
+                          strokeColor={{
+                            '0%': '#00937B',
+                            '100%': '#00937B',
+                            }}
+                        />
+                      </ContinueLearningLeft>
+                      <Button 
+                        type='primary'
+                        style={{ height: '100%' }}
+                        onClick={() => Router.push(`/course/${courseId}/learn`)}
+                      >เรียนต่อ <ArrowRightOutlined /></Button>
+                    </ContinueLearning>
+                  }
                 </CourseGroup>
               </HeaderDescription>
             </HeaderContent>
@@ -881,7 +922,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                           <LessonIcon src='/static/images/playbutton.svg' />
                           <LessonNameText>{item.name}</LessonNameText>
                           </LessonName>
-                          <VideoTime>{timeConvert2(item.time)}</VideoTime>
+                          <VideoTime>{timeConvert(item.time)}</VideoTime>
                           </LessonTopic>
                           <Progress
                             percent={item.progress || 0}

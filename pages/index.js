@@ -9,7 +9,7 @@ import Router from 'next/router'
 import { Select, Row, Col, message, Button } from 'antd'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
-import API from '../helpers/api'
+import API, { url } from '../helpers/api'
 import { connect } from 'react-redux'
 import { ArrowRightOutlined } from '@ant-design/icons'
 import {

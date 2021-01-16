@@ -82,15 +82,18 @@ const PreExamTitle = styled('div')`
   font-family: ${font.bold};
 `
 
+const ModalStyle = styled(Modal)`
+  .ant-modal-close-x {
+    display: none;
+  }
+`
+
 const InteractiveQuestionModal = ({
   isOpen = false,
   onClose = () => {},
   interactive = {},
   onSubmit
 }) => {
-  const closeModal = () => {
-    onClose()
-  }
   const [answer, setAnswer] = useState({})
   const [isCheckAnswer, setIsCheckAnswer] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -115,12 +118,12 @@ const InteractiveQuestionModal = ({
     setAnswer(obj)
   }
   return (
-    <Modal
+    <ModalStyle
       width={800}
       bodyStyle={{ padding: '33px 24px 16px 24px' }}
       title={null}
       visible={isOpen}
-      onCancel={() => closeModal()}
+      // onCancel={() => closeModal()}
       footer={null}
     >
       <PreExamTitle>คำถามระหว่างเรียน</PreExamTitle>
@@ -155,7 +158,7 @@ const InteractiveQuestionModal = ({
         onClick={() => checkAnswer()}
       >ตรวจคำตอบ
       </Button>
-    </Modal>
+    </ModalStyle>
   )
 }
 
