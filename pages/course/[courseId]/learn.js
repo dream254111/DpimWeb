@@ -410,6 +410,7 @@ const LearnPage = ({
                   process.browser && courseDetail && courseDetail.course &&
                   <PlayerWrapper>
                     <ReactPlayer
+                      playsinline
                       url={courseDetail.course.video[currentVideoQuality]}
                       width='100%'
                       height='600px'

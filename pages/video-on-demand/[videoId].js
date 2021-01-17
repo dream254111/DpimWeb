@@ -104,6 +104,7 @@ const VideoIdPage = ({ videoId }) => {
           videoDetail && videoDetail.video &&
           <PlayerWrapper>
             <ReactPlayer
+              playsinline
               url={videoDetail.video[currentVideoQuality]}
               width='100%'
               height='600px'
