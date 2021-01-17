@@ -384,7 +384,7 @@ const Header = ({
                       <a>ใบประกาศนียบัตร</a>
                     </Link>
                   </NavItem>
-                  <NavItem display='none'>
+                  <NavItem display='none' onClick={() => dispatch(onMemberLogout())}>
                     <Link href='/'>
                       <a style={{ color: '#EB5757' }}>
                         ออกจากระบบ

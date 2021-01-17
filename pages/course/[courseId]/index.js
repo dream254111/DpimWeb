@@ -38,8 +38,10 @@ const PrintHere = styled('div')`
   top: 0;
   right: 0;
   color: white;
-  
   cursor: pointer;
+  ${maxWidth.sm`
+    display: none;
+  `}
 `
 
 const HeaderImage = styled('div')`
@@ -48,11 +50,18 @@ const HeaderImage = styled('div')`
   background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
+  ${maxWidth.sm`
+    width: 100%;
+    height: 150px;
+  `}
 `
 
 const HeaderContent = styled('div')`
   display: flex;
-  align-items: flex-start; 
+  align-items: flex-start;
+  ${maxWidth.sm`
+    flex-wrap: wrap;
+  `}
 `
 
 const HeaderDescription = styled('div')`
@@ -63,6 +72,10 @@ const HeaderTitle = styled('div')`
   font-size: 32px;
   font-family: ${font.bold};
   color: white;
+  ${maxWidth.sm`
+    font-size: 22px;
+    margin-top: 16px;
+  `}
 `
 
 
@@ -638,6 +651,9 @@ const ContinueLearning = styled('div')`
   align-items: center;
   justify-content: space-between;
   margin-left: auto;
+  ${maxWidth.sm`
+    display: none;
+  `}
 `
 
 const ContinueLearningLeft = styled('div')`
