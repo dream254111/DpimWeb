@@ -132,14 +132,26 @@ const LearnPage = ({
   courseId
 }) => {
   useEffect(() => {
-    fetchCourseDetail()
+    fetchCourseDetail(true)
   }, [])
 
   const [collapsed, setCollapsed] = useState(false)
   const [courseDetail, setCourseDetail] = useState({})
   const [menu, setMenu] = useState('1')
 
-  const fetchCourseDetail = async () => {
+  const courseName = courseDetail.course && courseDetail.course.name
+  const courseObjective = courseDetail.course && courseDetail.course.objective_course
+  const courseLessons = courseDetail.course_lesson || []
+  const courseLessonOne = courseDetail.course_lesson && courseDetail.course_lesson.length > 0 && courseDetail.course_lesson[0].name || ''  
+  const examPreTests = courseDetail.exam_pre_test || []
+  const examPostTests = courseDetail.exam_post_test || []
+  const isPreTestPass = courseDetail.pre_test_pass
+  const isPostTestPass = courseDetail.post_test_pass
+  const isTrialClass = courseDetail.trial_class
+  let lessonSelected = courseLessons.find(item => (item.id + '00') == menu)
+
+
+  const fetchCourseDetail = async (isFirst = false) => {
     try {
       const response = await axios({
         headers: {
@@ -149,10 +161,22 @@ const LearnPage = ({
         url: `${API.url}/Course/course_by_id?course_id=${courseId}`
       })
       const responseWithData = response.data
-      console.log('responseWithData', responseWithData.data)
+      console.log('isFirst', isFirst)
+      console.log('responseWithData', responseWithData)
+      console.log('responseWithData.data', responseWithData.data)
       // setVideoCourseOverview(responseWithData.data.course.video.original)
       if (responseWithData.success) {
         setCourseDetail(responseWithData.data)
+        console.log('responseWithData.data.continue_learning.continue_learning', responseWithData.data.continue_learning.continue_lern)
+        if (isFirst === true && responseWithData.data.continue_learning.continue_lern === true) {
+          const menu = responseWithData.data.continue_learning.id + '00'
+          const _courseLessons = responseWithData.data.course_lesson
+          setMenu(menu)
+          console.log('menu', menu)
+          console.log('_courseLessons', _courseLessons)
+          lessonSelected = _courseLessons.find(item => (item.id + '00') == menu)
+          console.log('lessonSelected', lessonSelected)
+        }
       } else {
         throw new Error(responseWithData.error)
       }
@@ -180,16 +204,6 @@ const LearnPage = ({
     </Menu>
   )
 
-  const courseName = courseDetail.course && courseDetail.course.name
-  const courseObjective = courseDetail.course && courseDetail.course.objective_course
-  const courseLessons = courseDetail.course_lesson || []
-  const courseLessonOne = courseDetail.course_lesson && courseDetail.course_lesson.length > 0 && courseDetail.course_lesson[0].name || ''  
-  const examPreTests = courseDetail.exam_pre_test || []
-  const examPostTests = courseDetail.exam_post_test || []
-  const isPreTestPass = courseDetail.pre_test_pass
-  const isPostTestPass = courseDetail.post_test_pass
-  const isTrialClass = courseDetail.trial_class
-  const lessonSelected = courseLessons.find(item => (item.id + '00') == menu)
   const onFinishedExercise = async (courseLessonId) => {
     try {
       const request = {
@@ -350,7 +364,6 @@ const LearnPage = ({
               <Menu.Item key={1} icon={<FileTextOutlined />}>
                 ภาพรวมคอร์ส
               </Menu.Item>
-              
               <Menu.Item key={2} icon={<FileTextOutlined />}
                 disabled={!courseDetail.can_use_pre_test}
               >
