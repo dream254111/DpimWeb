@@ -172,7 +172,8 @@ const RegisterPage = ({ master }) => {
                 style={{ float: 'right' }}
                 type='primary'
                 htmlType='submit'
-              >ขั้นตอนภัดไป</Button>
+              >ขั้นตอนถัดไป
+              </Button>
             </Form>
           </>
         }
