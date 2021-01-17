@@ -3,10 +3,12 @@ import { useEffect, useState } from 'react'
 import Container from '../../components/Container'
 import MainLayout from '../../layouts/main'
 import font from '../../helpers/font'
-import { message } from 'antd'
+import { message, Dropdown, Menu } from 'antd'
 import axios from 'axios'
 import API from '../../helpers/api'
 import ReactPlayer from 'react-player'
+import { VIDEO_QUALITY } from '../../constants'
+import { SettingOutlined, CheckOutlined } from '@ant-design/icons'
 
 const Title = styled('div')`
   background-color: #00937B;
@@ -32,8 +34,31 @@ const SubTitle = styled('div')`
 `
 
 
+const ControllsWrapper = styled('div')`
+  position: absolute;
+  right: 14%;
+  bottom: 5.2%;
+  cursor: pointer;
+  color: white;
+  transition: visibility 0.4s linear,opacity 0.4s linear;
+  visibility: hidden;
+  opacity: 0;
+}
+`
+
+const PlayerWrapper = styled('div')`
+  position: relative;
+  :hover {
+    ${ControllsWrapper} {
+      visibility:visible;
+    opacity:1;
+    }
+  }
+`
+
 const VideoIdPage = ({ videoId }) => {
   const [videoDetail, setVideoDetail] = useState({})
+  const [currentVideoQuality, setCurrentVideoQuality] = useState(VIDEO_QUALITY['Original'])
 
   useEffect(() => {
     fetchVideoDetailById()
@@ -45,21 +70,52 @@ const VideoIdPage = ({ videoId }) => {
         method: 'GET',
         url: `${API.url}/Student/GetVideo?id=${videoId}`
       })
+      console.log('response', response.data.data.data)
       setVideoDetail(response.data.data.data)
     } catch (error) {
       message.error(error.message)
     }
   }
+
+  
+  const qualityMenu = (
+    <Menu>
+      {
+        Object.keys(VIDEO_QUALITY).map((key, index) => (
+          <Menu.Item
+            key={index}
+            onClick={() => setCurrentVideoQuality(VIDEO_QUALITY[key])}
+          >
+            {
+              currentVideoQuality === VIDEO_QUALITY[key] &&
+                <CheckOutlined />
+            }
+            {key}
+          </Menu.Item>
+        ))
+      }
+    </Menu>
+  )
   return (
     <MainLayout>
       <Container>
         <Title>{videoDetail.name}</Title>
-        <ReactPlayer
-          url='https://www.youtube.com/watch?v=ysz5S6PUM-U'
-          width='100%'
-          height='600px'
-          controls={true}
-        />
+        {
+          videoDetail &&
+          <PlayerWrapper>
+            <ReactPlayer
+              url={videoDetail.video[currentVideoQuality]}
+              width='100%'
+              height='600px'
+              controls={true}
+            />
+            <ControllsWrapper>
+              <Dropdown overlay={qualityMenu} placement="topRight" trigger={['click']}>
+                <SettingOutlined />
+              </Dropdown>
+            </ControllsWrapper>
+          </PlayerWrapper>
+        }
         <DescriptionTitle>รายละเอียด</DescriptionTitle>
         <DescriptionContent>
           <SubTitle>- คำอธิบาย</SubTitle>
