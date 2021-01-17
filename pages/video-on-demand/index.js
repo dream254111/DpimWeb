@@ -39,6 +39,7 @@ const CourseCard = styled('div')`
   margin-bottom: 16px;
   display: flex;
   align-items: flex-start;
+  cursor: pointer;
 `
 
 const CourseImage = styled('div')`
@@ -109,7 +110,7 @@ const VideoOnDemandPage = ({
 }) => {
   const [courses, setCourses] = useState([])
   const [filter, setFilter] = useState([])
-  
+
   const courseCategoryKey = _.groupBy(master.course_category, 'name')
   useEffect(() => {
     fetchCourseList()
@@ -129,6 +130,7 @@ const VideoOnDemandPage = ({
         url: `${API.url}/Student/GetAllVideo?${params}`
       })
       const data = response.data.data
+      console.log('courses', data)
       setCourses(data)
     } catch (error) {
       message.error(error.message)
@@ -201,7 +203,10 @@ const VideoOnDemandPage = ({
             <Col xs={24} md={18}>
               {
                 courses.map((item, index) => (
-                  <CourseCard key={index}>
+                  <CourseCard
+                    key={index}
+                    onClick={() => Router.push(`/video-on-demand/${item.id}`)}
+                  >
                     <CourseImage src={item.cover_thumbnail} />
                     <CourseContent>
                       <CourseTitle>{item.name}</CourseTitle>
