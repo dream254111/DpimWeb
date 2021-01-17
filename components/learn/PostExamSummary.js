@@ -51,9 +51,9 @@ const PostExamSummaryComponent = ({
   onClickNextChapter,
   percent,
   isShowEvaluationButton = true,
+  isPass,
   ...rest
 }) => {
-  const isPass = percent >= 80
   const textRender = () => {
     if (isPass) {
       return 'ผ่านการทดสอบหลักสูตร'
