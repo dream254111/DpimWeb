@@ -342,9 +342,9 @@ const IndexPage = ({
     try {
       const response = await axios({
         method: 'GET',
-        url: `${API.url}/Student/GetAllBanner`,
+        url: `${API.url}/Student/GetAllBanner`
       })
-      const data = response.data.data.data
+      const data = response.data.data
       setBanners(data)
     } catch (error) {
       message.error(error.message)

@@ -134,7 +134,7 @@ const CertificateIdPage = ({
   memberToken
 }) => {
   const [certDetail, setCertDetail] = useState({})
-  const [courseDetail, setCourseDetail] = useState({}) 
+  const [courseDetail, setCourseDetail] = useState(null) 
   const onMenuChange = (tabs) => {
     switch (tabs) {
       case PROFILE_PAGE.BASIC_INFORMATION:
@@ -187,6 +187,7 @@ const CertificateIdPage = ({
       })
       const responseWithData = response.data
       if (responseWithData.success) {
+        console.log('responseWithData.data', responseWithData.data)
         setCourseDetail(responseWithData.data)
       } else {
         throw new Error(responseWithData.error)
@@ -313,16 +314,23 @@ const CertificateIdPage = ({
                 </LeftContent>
                 <CourseDetail>
                   <CourseDetailTitle>สำหรับคอร์ส</CourseDetailTitle>
-                  <CourseCard
-                    batch={courseDetail?.course?.batch}
-                    style={{marginTop: '20px'}}
-                    type='cert'
-                    id={courseDetail?.course?.id}
-                    name={courseDetail?.course?.name}
-                    cover={courseDetail?.course?.cover}
-                    totalLesson={courseDetail?.course?.count_lesson}
-                    lessonTime={courseDetail?.course?.lesson_time}
-                  />
+                  {
+                    courseDetail && courseDetail.course &&
+                      <CourseCard
+                        id={courseDetail.course.id}
+                        batch={courseDetail.course.batch}
+                        categoryName={courseDetail.course.category.name}
+                        categoryColor={courseDetail.course.category.color}
+                        cover={courseDetail.course.cover}
+                        isHasCost={courseDetail.course.is_has_cost}
+                        cost={courseDetail.course.cost}
+                        hasCertificate={courseDetail.course.hasCertificate}
+                        instructors={courseDetail.list_instructor}
+                        totalLesson={courseDetail.course.total_lesson}
+                        lessonTime={courseDetail.course.lesson_time}
+                        startLearning={courseDetail.course.start_learning}
+                      />
+                  }
                 </CourseDetail>
               </CertDetailWrapper>
             </Col>
