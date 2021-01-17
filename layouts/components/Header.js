@@ -184,9 +184,10 @@ const PicProfile = styled(Avatar)`
   margin-right: 4px;
 `
 
-const Chevron = styled('img')`
+const Chevron = styled(DownOutlined)`
   margin-right: 12px;
   margin-left: 12px;
+  font-size: 12px;
   ${maxWidth.md`
     display: none;
   `}
@@ -408,7 +409,8 @@ const Header = ({
                       />
                   }
                   <div>{memberDetail.firstname}</div>
-                  <Chevron src='/static/images/vector.png' />
+                  <Chevron />
+                  {/* <Chevron src='/static/images/vector.png' /> */}
                   {/* <DownOutlined /> */}
                   <DropdownMenu isClick={isClick} onClick={(event) => {
                     event.stopPropagation()
