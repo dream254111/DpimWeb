@@ -51,10 +51,10 @@ const Certificate = ({
   return (
     <Wrapper>
       <PageTitle>ใบประกาศนียบัตร</PageTitle>
-      <Row gutter={16}>
+      <Row gutter={[16,16]}>
         {
           certs.map((item, index) => (
-            <Col lg={8} style={{margin: '6px 0'}}>
+            <Col lg={12}>
               <CourseCard
                 batch={item.batch}
                 type='cert'
