@@ -162,6 +162,7 @@ const VideoLesson = ({
       <PlayerWrapper>
         <ReactPlayer
           ref={videoRef}
+          playsinline
           playing={playing}
           url={mainVideo[currentVideoQuality]}
           width='100%'

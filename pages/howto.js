@@ -108,6 +108,7 @@ const HowtoPage = () => {
                 {
                   item.link &&
                     <ReactPlayer
+                      playsinline
                       url={item.link}
                       width='100%'
                       height='600px'
