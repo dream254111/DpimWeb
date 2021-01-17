@@ -1,7 +1,7 @@
 import moment from 'moment'
 
-export const timeConvert = (n) => {
-  const time = new Date(n * 1000).toISOString().substr(11, 8)
+export const timeConvert = (n = 0) => {
+  const time = new Date(+n * 1000).toISOString().substr(11, 8)
   const momentFormat = moment(time, 'HH:mm:ss')
   if (+moment(time, 'HH').format('H') === 0) {
     return momentFormat.format('m นาที s วินาที')

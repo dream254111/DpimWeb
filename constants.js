@@ -19,5 +19,11 @@ module.exports = {
     FREE_USER: 1,
     VERIFIED_USER: 2,
     CERTIFIED_USER: 3,
+  },
+  VIDEO_QUALITY: {
+    '1080p': 'p_1080',
+    '720p': 'p_720',
+    '480p': 'p_480',
+    Original: 'original'
   }
 }

@@ -1,12 +1,13 @@
-import { Menu, Row, Col, message, Progress, Popover } from 'antd'
+import { Menu, Row, Col, message, Progress, Popover, Dropdown } from 'antd'
 import { Button, Container } from '../../../components'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import {
   FileTextOutlined,
   ArrowLeftOutlined,
   PlayCircleOutlined,
   FormOutlined,
   CheckOutlined,
+  SettingOutlined
 } from '@ant-design/icons'
 import font from '../../../helpers/font'
 import MainLayout from '../../../layouts/main'
@@ -15,14 +16,13 @@ import API from '../../../helpers/api'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { PreExamSummary, PreExam, PostExam, VideoLesson, Exercise, PostExamSummary } from '../../../components/learn'
-import Router from 'next/router'
+import Router, { useRouter } from 'next/router'
 import ReactPlayer from 'react-player'
 import { timeConvert } from '../../../helpers/util'
 import dynamic from 'next/dynamic'
-const QierPlayer = dynamic(() => import('qier-player'), { ssr: false })
-// import QierPlayer from 'qier-player'
-const { SubMenu } = Menu
+import { VIDEO_QUALITY } from '../../../constants'
 
+const { SubMenu } = Menu
 const Wrapper = styled('div')`
   width: 100%;
 `
@@ -100,6 +100,28 @@ const VideoTitleLeft = styled('div')`
   align-items: center;
 `
 
+const ControllsWrapper = styled('div')`
+  position: absolute;
+  right: 14%;
+  bottom: 5.2%;
+  cursor: pointer;
+  color: white;
+  transition: visibility 0.4s linear,opacity 0.4s linear;
+  visibility: hidden;
+  opacity: 0;
+}
+`
+
+const PlayerWrapper = styled('div')`
+  position: relative;
+  :hover {
+    ${ControllsWrapper} {
+      visibility:visible;
+    opacity:1;
+    }
+  }
+`
+
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token,
   memberDetail: memberReducer.member,
@@ -112,6 +134,7 @@ const LearnPage = ({
   useEffect(() => {
     fetchCourseDetail()
   }, [])
+
   const [collapsed, setCollapsed] = useState(false)
   const [courseDetail, setCourseDetail] = useState({})
   const [menu, setMenu] = useState('1')
@@ -127,6 +150,7 @@ const LearnPage = ({
       })
       const responseWithData = response.data
       console.log('responseWithData', responseWithData.data)
+      // setVideoCourseOverview(responseWithData.data.course.video.original)
       if (responseWithData.success) {
         setCourseDetail(responseWithData.data)
       } else {
@@ -136,6 +160,25 @@ const LearnPage = ({
       message.error(error.message)
     }
   }
+
+  const [currentVideoQuality, setCurrentVideoQuality] = useState(VIDEO_QUALITY['Original'])
+  const qualityMenu = (
+    <Menu>
+      {
+        Object.keys(VIDEO_QUALITY).map(key => (
+          <Menu.Item onClick={() => {
+            setCurrentVideoQuality(VIDEO_QUALITY[key])
+          }}>
+            {
+              currentVideoQuality === VIDEO_QUALITY[key] &&
+              <CheckOutlined /> 
+            }
+            {key}
+          </Menu.Item>
+        ))
+      }
+    </Menu>
+  )
 
   const courseName = courseDetail.course && courseDetail.course.name
   const courseObjective = courseDetail.course && courseDetail.course.objective_course
@@ -351,37 +394,26 @@ const LearnPage = ({
                 </MenuHeader>
                 {
                   process.browser && courseDetail && courseDetail.course &&
+                  <PlayerWrapper>
                     <ReactPlayer
-                      url={courseDetail.course.video.original}
+                      url={courseDetail.course.video[currentVideoQuality]}
                       width='100%'
                       height='600px'
                       controls={true}
                       config={{
                         file: {
-                          // forceHLS: true,
-                          // forceFLV: true,
-                          // forceDASH: true,
                           attributes: {
                             poster: courseDetail.course.video.thumbnail,
                           },
-                          // hlsOptions: {
-                          //   media: courseDetail.course.video.original,
-                          //   levels: [courseDetail.course.video.original, courseDetail.course.video.p_480, courseDetail.course.video.p_720, courseDetail.course.video.p_1080],
-                          //   // currentLevel: 1,
-                          //   // nextLevel: 1
-                          // }
                         }
                       }}
                     />
-                    // <QierPlayer
-                    //   width='100%'
-                    //   height={600}
-                    //   showVideoQuality={true}
-                    //   srcOrigin={courseDetail.course.video.original}
-                    //   src480p={courseDetail.course.video.p_480}
-                    //   src720p={courseDetail.course.video.p_720}
-                    //   src1080p={courseDetail.course.video.p_1080}
-                    // />
+                    <ControllsWrapper>
+                      <Dropdown overlay={qualityMenu} placement="topRight" trigger={['click']}>
+                        <SettingOutlined />
+                      </Dropdown>
+                    </ControllsWrapper>
+                  </PlayerWrapper>
                 }
                 <DescriptionTitle>คำอธิบาย</DescriptionTitle>
                 <DescriptionValue>
