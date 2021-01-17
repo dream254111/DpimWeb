@@ -351,7 +351,7 @@ const LearnPage = ({
               </CourseDetail>
             </CourseDetailWrapper>
             <Menu
-              defaultSelectedKeys={[1]}
+              selectedKeys={[menu]}
               mode="inline"
               theme="light"
               inlineCollapsed={collapsed}
@@ -363,6 +363,7 @@ const LearnPage = ({
             >
               <Menu.Item key={1} icon={<FileTextOutlined />}>
                 ภาพรวมคอร์ส
+                {menu}
               </Menu.Item>
               <Menu.Item key={2} icon={<FileTextOutlined />}
                 disabled={!courseDetail.can_use_pre_test}
@@ -371,7 +372,7 @@ const LearnPage = ({
               </Menu.Item>
               {
                 courseLessons.map((item, index) => (
-                  <SubMenu key={`sub${index}`} title={renderLessonTitle(item, index + 1)}>
+                  <SubMenu key={`sub${item.id + '00'}`} title={renderLessonTitle(item, index + 1)}>
                     <Menu.Item
                       style={{height: '65px'}}
                       key={item.id + '00'}
