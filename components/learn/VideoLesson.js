@@ -4,6 +4,31 @@ import font from '../../helpers/font'
 import { InteractiveQuestionModal } from '../../components/modals'
 import moment from 'moment'
 import ReactPlayer from 'react-player'
+import { Dropdown, Menu } from 'antd'
+import { VIDEO_QUALITY } from '../../constants'
+import { SettingOutlined, CheckOutlined } from '@ant-design/icons'
+
+const ControllsWrapper = styled('div')`
+  position: absolute;
+  right: 14%;
+  bottom: 5.2%;
+  cursor: pointer;
+  color: white;
+  transition: visibility 0.4s linear,opacity 0.4s linear;
+  visibility: hidden;
+  opacity: 0;
+}
+`
+
+const PlayerWrapper = styled('div')`
+  position: relative;
+  :hover {
+    ${ControllsWrapper} {
+      visibility:visible;
+    opacity:1;
+    }
+  }
+`
 
 const DescriptionTitle = styled('div')`
   font-family: ${font.bold};
@@ -56,6 +81,26 @@ const VideoLesson = ({
   const [playing, setPlaying] = useState(false)
   const [interactiveDetail, setInteractiveDetail] = useState({})
   const [opendedInteractive, setOpendedIntereactive] = useState([])
+  const [currentVideoQuality, setCurrentVideoQuality] = useState(VIDEO_QUALITY['Original'])
+
+  const qualityMenu = (
+    <Menu>
+      {
+        Object.keys(VIDEO_QUALITY).map((key, index) => (
+          <Menu.Item
+            key={index}
+            onClick={() => setCurrentVideoQuality(VIDEO_QUALITY[key])}
+          >
+            {
+              currentVideoQuality === VIDEO_QUALITY[key] &&
+                <CheckOutlined />
+            }
+            {key}
+          </Menu.Item>
+        ))
+      }
+    </Menu>
+  )
 
   const htmlDecode = (content) => {
     if (process.browser) {
@@ -104,7 +149,7 @@ const VideoLesson = ({
     }
   }
   return (
-    <>]
+    <>
       <InteractiveQuestionModal
         isOpen={isInteractiveModalOpen}
         interactive={interactiveDetail}
@@ -114,22 +159,30 @@ const VideoLesson = ({
         }}
       />
       <MenuHeader>{title}</MenuHeader>
-      <ReactPlayer
-        ref={videoRef}
-        playing={playing}
-        url={mainVideo.original}
-        width='100%'
-        height='600px'
-        controls={true}
-        onProgress={(e) => videoOnProgressHandle(e)}
-        onSeek={e => {
-          const currentTime = videoRef.current.getCurrentTime()
-          if (videoPosition > videoCurrentTime) {
-          } else if (currentTime > videoCurrentTime) {
-            videoRef.current.seekTo(videoCurrentTime, 'seconds')
-          }
-        }}
-      />
+      <PlayerWrapper>
+        <ReactPlayer
+          ref={videoRef}
+          playing={playing}
+          url={mainVideo[currentVideoQuality]}
+          width='100%'
+          height='600px'
+          controls={true}
+          onProgress={(e) => videoOnProgressHandle(e)}
+          onSeek={e => {
+            const currentTime = videoRef.current.getCurrentTime()
+            if (videoPosition > videoCurrentTime) {
+            } else if (currentTime > videoCurrentTime) {
+              videoRef.current.seekTo(videoCurrentTime, 'seconds')
+            }
+          }}
+        />
+        <ControllsWrapper>
+          <Dropdown overlay={qualityMenu} placement="topRight" trigger={['click']}>
+            <SettingOutlined />
+          </Dropdown>
+        </ControllsWrapper>
+
+      </PlayerWrapper>
       <DescriptionTitle>คำอธิบาย</DescriptionTitle>
       <DescriptionValue>
         <p dangerouslySetInnerHTML={{ __html: htmlDecode(description) }} />
