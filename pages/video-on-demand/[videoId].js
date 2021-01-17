@@ -101,7 +101,7 @@ const VideoIdPage = ({ videoId }) => {
       <Container>
         <Title>{videoDetail.name}</Title>
         {
-          videoDetail &&
+          videoDetail && videoDetail.video &&
           <PlayerWrapper>
             <ReactPlayer
               url={videoDetail.video[currentVideoQuality]}

@@ -49,7 +49,8 @@ const connector = connect(({ memberReducer }) => ({
 const BasicInformation = ({
   memberToken,
   master,
-  dispatch
+  dispatch,
+  memberDetail
 }) => {
   const [form] = Form.useForm()
   // const [memberState, setMemberState] = useState({})
@@ -65,6 +66,7 @@ const BasicInformation = ({
   const [districtId, setDistrictId] = useState(null)
   const [subDistrictId, setSubDistrictId] = useState(null)
   const [knowChannels, setKnowChannels] = useState([])
+  const [isForgetPasswordLoading, setIsForgetPasswordLoading] = useState(false)
   const dateFormat = 'YYYY/MM/DD'
 
   useEffect(() => {
@@ -138,6 +140,24 @@ const BasicInformation = ({
     } catch (error) {
       message.error(error.message)
     }
+  }
+  const forgetPassword = async () => {
+    try {
+      setIsForgetPasswordLoading(true)
+      const response = await axios({
+        headers: {
+          Authorization: memberToken
+        },
+        method: 'GET',
+        url: `${API.url}/Authentication/ForgetPassword?email=${memberDetail.email}`,
+      })
+      if (response.status === 200) {
+        message.success('ระบบได้ส่งไปยังอีเมลเรียบร้อยแล้ว')
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
+    setIsForgetPasswordLoading(false)
   }
 
   const updateProfile = async (values) => {
@@ -256,6 +276,13 @@ const BasicInformation = ({
           <Upload name='file' multiple={false} showUploadList={false} onChange={(info) => uploadFile(info.file.originFileObj, (imageUrl) => setAvatar(imageUrl))}>
             <Button>เปลี่ยนรูปโปรไฟล์</Button>
           </Upload>
+          <Button
+            style={{ marginLeft: '16px' }}
+            type='primary'
+            onClick={() => forgetPassword()}
+            loading={isForgetPasswordLoading}
+          >เปลี่ยนรหัสผ่าน
+          </Button>
         </UpdateAvatar>
         <Row gutter={16} style={{marginTop: '24px'}}>
           <Col lg={12}>
