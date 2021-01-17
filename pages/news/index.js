@@ -74,7 +74,7 @@ const NewsPage = () =>{
         method: 'GET',
         url: `${API.url}/Student/GetAllNews`
       })
-      setNews(response.data.data.data)
+      setNews(response.data.data)
     } catch (error) {
         message.error(error.message)
     }
