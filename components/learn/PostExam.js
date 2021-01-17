@@ -194,6 +194,7 @@ const PreExamComponent = ({
         isCheckAnswer === true &&
           <PostExamSummary
             courseId={courseId}
+            isPass={answerResult.is_pass}
             score={answerResult.score || 0}
             maxScore={answerResult.total_exam || 0}
             percent={answerResult.percent || 0}
