@@ -1,6 +1,7 @@
 import { Modal, Checkbox, message, Radio, Space } from 'antd'
 import styled, { css } from 'styled-components'
 import { Button } from '../index'
+import { useState } from 'react'
 
 const ArrangeContainer = styled('div')`
   display: flex;
@@ -43,10 +44,18 @@ const CloseText = styled('div')`
 const ArrangeModal = ({
   isOpen = false,
   onClose = () => {},
+  onSubmit = () => {},
+  sort
 
 }) => {
   const closeModal = () => {
     onClose()
+  }
+  const [sortState, setSortState] = useState(sort)
+  const submit = () => {
+    console.log('sortState', sortState)
+    onSubmit(sortState)
+    closeModal()
   }
 
   return (
@@ -58,23 +67,43 @@ const ArrangeModal = ({
       onCancel={() => closeModal()}
     >
       <ArrangeContainer>
-        <ArrangeItem>
-          <ArrangeText>ราคาต่ำสุดก่อน</ArrangeText>
-          <Icon src='/static/images/checkmark.svg' />
+        <ArrangeItem onClick={() => setSortState('cheapest')}>
+          <ArrangeText>ถูกสุด</ArrangeText>
+          {
+            sortState === 'cheapest' &&
+              <Icon src='/static/images/checkmark.svg' />
+          }
         </ArrangeItem>
-        <ArrangeItem>
-          <ArrangeText>ราคาสูงสุดก่อน</ArrangeText>
+        <ArrangeItem onClick={() => setSortState('expensive')}>
+          <ArrangeText>แพงสุด</ArrangeText>
+          {
+            sortState === 'expensive' &&
+              <Icon src='/static/images/checkmark.svg' />
+          }
         </ArrangeItem>
-        <ArrangeItem>
-          <ArrangeText>ใหม่สุดก่อน</ArrangeText>
+        <ArrangeItem onClick={() => setSortState('newest')}>
+          <ArrangeText>ใหม่สุด</ArrangeText>
+          {
+            sortState === 'newest' &&
+              <Icon src='/static/images/checkmark.svg' />
+          }
         </ArrangeItem>
-        <ArrangeItem>
-          <ArrangeText>เก่าสุดก่อน</ArrangeText>
+        <ArrangeItem onClick={() => setSortState('letters')}>
+          <ArrangeText>ลำดับตัวอักษร</ArrangeText>
+          {
+            sortState === 'letters' &&
+              <Icon src='/static/images/checkmark.svg' />
+          }
         </ArrangeItem>
       </ArrangeContainer>
       <Footer>
         <CloseText onClick={() => closeModal()}>ปิด</CloseText>
-        <Button type='primary' fontWeight='normal'>เสร็จสิ้น</Button>
+        <Button
+          type='primary'
+          fontWeight='normal'
+          onClick={() => submit()}
+        >เสร็จสิ้น
+        </Button>
       </Footer>
     </Modal>
   )

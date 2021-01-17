@@ -27,7 +27,8 @@ const CloseText = styled('div')`
 const FilterModal = ({
   isOpen = false,
   onClose = () => { },
-
+  learningOnline,
+  onSubmit = () => { }
 }) => {
   const closeModal = () => {
     onClose()
@@ -37,7 +38,13 @@ const FilterModal = ({
     height: '30px',
     lineHeight: '30px',
   }
-  const [filter, setFilter] = useState([])
+
+  const [learningOnlineState, setLearningOnlineState] = useState(learningOnline)
+
+  const submit = () => {
+    onSubmit(learningOnlineState)
+    closeModal()
+  }
 
   return (
     <Modal
@@ -51,11 +58,9 @@ const FilterModal = ({
         <FilterTitle>รูปแบบการเรียน</FilterTitle>
         <Radio.Group
           style={{ marginTop: '8px' }}
+          value={learningOnlineState}
           onChange={(event) => {
-            setFilter({
-              ...filter,
-              learning_online: event.target.value
-            })
+            setLearningOnlineState(event.target.value)
           }}
         >
           <Radio style={radioStyle} value={1}>
@@ -69,7 +74,7 @@ const FilterModal = ({
       <HorizontalLine />
       <Footer>
         <CloseText onClick={() => closeModal()}>ปิด</CloseText>
-        <Button type='primary' fontWeight='normal'>เสร็จสิ้น</Button>
+        <Button type='primary' fontWeight='normal' onClick={() => submit()}>เสร็จสิ้น</Button>
       </Footer>
     </Modal>
   )
