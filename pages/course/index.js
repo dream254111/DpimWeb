@@ -349,7 +349,7 @@ const CoursePage = ({
         <FilterModal
           isOpen={isFilterModalOpen}
           onClose={() => setIsFilterModalOpen(false)}
-          learningOnline={filter.learning_online}
+          learningOnline={filter?.learning_online}
           onSubmit={(value) => {
             setFilter({
               ...filter,
@@ -360,7 +360,7 @@ const CoursePage = ({
         <ArrangeModal
           isOpen={isArrangeModalOpen}
           onClose={() => setIsArrangeModalOpen(false)}
-          sort={filter.sort}
+          sort={filter?.sort}
           onSubmit={(value) => {
             setFilter({
               ...filter,

@@ -143,8 +143,15 @@ const VideoOnDemandPage = ({
     <MainLayout>
       <Wrapper>
         <CategoryModal
+          master={master}
           isOpen={isCategoryModdalOpen}
           onClose={() => setIsCategoryModalOpen(false)}
+          onSubmit={(value) => {
+            setFilter({
+              ...filter,
+              category_id: value
+            })
+          }}
         />
         <ArrangeModal
           isOpen={isArrangeModalOpen}

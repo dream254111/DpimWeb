@@ -1,21 +1,33 @@
-import styled from 'styled-components'
-import { Modal, Space, Checkbox } from 'antd'
+import { Modal, Checkbox, message, Radio, Space } from 'antd'
+import styled, { css } from 'styled-components'
 import { Button } from '../index'
+import { useState } from 'react'
 const CheckboxGroup = Checkbox.Group
+import _ from 'lodash'
 
-const FilterTitle = styled('div')`
+const ArrangeContainer = styled('div')`
+  display: flex;
+  flex-direction: column;
+`
+
+const ArrangeItem = styled('div')`
+  margin-top: 16px;
+  display: flex;
+  cursor: pointer;
+`
+
+const ArrangeText = styled('div')`
   font-size: 18px;
+  flex: 1;
+  ${props => props.selected && css`
+    color: #00937B;
+  `}
 `
 
-const FilterItem = styled('div')`
-  margin: 16px 0;
-`
-
-const HorizontalLine = styled('div')`
-  width: 100%;
-  height: 1px;
-  background-color: #E0E0E0;
-  margin: 16px 0;
+const Icon = styled('img')`
+  background-image: url(${props => props.src});
+  background-position: center;
+  background-repeat: no-repeat;
 `
 
 const Footer = styled('div')`
@@ -32,29 +44,48 @@ const CloseText = styled('div')`
 `
 
 const CategoryModal = ({
-  isOpen,
+  isOpen = false,
   onClose = () => {},
+  onSubmit = () => {},
+  sort,
+  master
 }) => {
   const closeModal = () => {
     onClose()
   }
+  const courseCategoryKey = _.groupBy(master.course_category, 'name')
+
+  const [categoryState, setCategoryState] = useState(null)
+  const submit = () => {
+    onSubmit(categoryState)
+    closeModal()
+  }
+
   return (
     <Modal
       width={320}
       visible={isOpen}
-      title='คัดกรอง'
+      title='หมวดหมู่'
       footer={null}
       onCancel={() => closeModal()}
     >
-      <FilterItem>
-        <FilterTitle>หมวดหมู่</FilterTitle>
-        <Space direction='vertical' size={6} style={{ marginTop: '10px' }}>
-          
-        </Space>
-      </FilterItem>
+      <ArrangeContainer>
+        <CheckboxGroup
+          options={master.course_category.map(item => item.name)}
+          onChange={(categoryDetails) => {
+            const categoryIds = categoryDetails.map(item => courseCategoryKey[item][0].id)
+            setCategoryState(categoryIds.length === 0 ? 0 : categoryIds)
+          }}
+        />
+      </ArrangeContainer>
       <Footer>
         <CloseText onClick={() => closeModal()}>ปิด</CloseText>
-        <Button type='primary' fontWeight='normal'>เสร็จสิ้น</Button>
+        <Button
+          type='primary'
+          fontWeight='normal'
+          onClick={() => submit()}
+        >เสร็จสิ้น
+        </Button>
       </Footer>
     </Modal>
   )
