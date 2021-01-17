@@ -87,10 +87,10 @@ const Footer = () => {
             <div>ติดต่อเรา</div>
             <div>จันทร์ - ศุกร์ เวลา 08:30 - 16:30 น.</div>
             <Contact>
-              <ContactItem>
+              {/* <ContactItem>
                 <Icon src='/static/images/Tel.png' />
                 <div>+66 90 212 8819</div>
-              </ContactItem>
+              </ContactItem> */}
               {/* <ContactItem>
                 <Icon src='/static/images/Line.png' />
                 <p>@dpimelearn</p>
