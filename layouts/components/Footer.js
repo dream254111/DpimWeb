@@ -44,7 +44,7 @@ const Contact = styled('div')`
   grid-auto-rows: 1fr;
   grid-column-gap: 20px;
   ${maxWidth.md`
-  grid-template-columns: 50% 50%;
+    grid-template-columns: 100%;
   `}
 `
 const ContactItem = styled('div')`
@@ -87,14 +87,6 @@ const Footer = () => {
             <div>ติดต่อเรา</div>
             <div>จันทร์ - ศุกร์ เวลา 08:30 - 16:30 น.</div>
             <Contact>
-              {/* <ContactItem>
-                <Icon src='/static/images/Tel.png' />
-                <div>+66 90 212 8819</div>
-              </ContactItem> */}
-              {/* <ContactItem>
-                <Icon src='/static/images/Line.png' />
-                <p>@dpimelearn</p>
-              </ContactItem> */}
               <ContactItem>
                 <Icon src='/static/images/Facebook.png' />
                 <div>DPIM Academy</div>
