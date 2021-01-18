@@ -161,21 +161,13 @@ const LearnPage = ({
         url: `${API.url}/Course/course_by_id?course_id=${courseId}`
       })
       const responseWithData = response.data
-      console.log('isFirst', isFirst)
-      console.log('responseWithData', responseWithData)
-      console.log('responseWithData.data', responseWithData.data)
-      // setVideoCourseOverview(responseWithData.data.course.video.original)
       if (responseWithData.success) {
         setCourseDetail(responseWithData.data)
-        console.log('responseWithData.data.continue_learning.continue_learning', responseWithData.data.continue_learning.continue_lern)
-        if (isFirst === true && responseWithData.data.continue_learning.continue_lern === true) {
+        if (isFirst === true && responseWithData.data.continue_learning && responseWithData.data.continue_learning.continue_lern === true) {
           const menu = responseWithData.data.continue_learning.id + '00'
           const _courseLessons = responseWithData.data.course_lesson
           setMenu(menu)
-          console.log('menu', menu)
-          console.log('_courseLessons', _courseLessons)
           lessonSelected = _courseLessons.find(item => (item.id + '00') == menu)
-          console.log('lessonSelected', lessonSelected)
         }
       } else {
         throw new Error(responseWithData.error)
@@ -363,7 +355,6 @@ const LearnPage = ({
             >
               <Menu.Item key={1} icon={<FileTextOutlined />}>
                 ภาพรวมคอร์ส
-                {menu}
               </Menu.Item>
               <Menu.Item key={2} icon={<FileTextOutlined />}
                 disabled={!courseDetail.can_use_pre_test}
