@@ -174,7 +174,7 @@ const CourseCardComponent = ({
               <Avatar 
                 icon={<UserOutlined />} 
                 src={instructors.length > 0 && instructors[0].profile} size={32} />
-              <AuthorName>{instructors.length > 0 && `${instructors[0].firstname} ${instructors[0].lastname}`}</AuthorName>
+              <AuthorName>{instructors.length > 0 && `${instructors[0].firstname} ${instructors[0].lastname} และผู้สอนอีก ${instructors.length - 1} ท่าน`}</AuthorName>
             </AuthorContent>
             <CourseTypeContent>
               <Tag color={categoryColor}>{categoryName}</Tag>

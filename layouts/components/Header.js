@@ -370,17 +370,17 @@ const Header = ({
               memberToken &&
                 <>
                   <NavItem display='none'>
-                    <Link href='/'>
+                    <Link href='/profile/basic-information'>
                       <a>โปรไฟล์ส่วนตัว</a>
                     </Link>
                   </NavItem>
                   <NavItem display='none'>
-                    <Link href='/'>
+                    <Link href='/profile/courses'>
                       <a>คอร์สของฉัน</a>
                     </Link>
                   </NavItem>
                   <NavItem display='none'>
-                    <Link href='/'>
+                    <Link href='/profile/certificate'>
                       <a>ใบประกาศนียบัตร</a>
                     </Link>
                   </NavItem>
