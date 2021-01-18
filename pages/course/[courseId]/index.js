@@ -665,6 +665,12 @@ const ContinueLearningTitle = styled('div')`
   font-family: ${font.bold};
 `
 
+const TimeupText = styled('div')`
+  color: red;
+  margin-top: 12px;
+  font-size: 16px;
+`
+
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token,
   memberDetail: memberReducer.member,
@@ -1063,6 +1069,10 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                       >
                         เหลือเวลาเรียนอีก {moment(courseDetail.student_learning_enddate).diff(moment(), 'days')}
                       </Button>
+                    }
+                    {
+                      courseDetail && courseDetail.is_timeup &&
+                      <TimeupText>คอร์สนี้หมดเวลาเรียนแล้ว ท่านจะไม่ได้รับใบประกาศนียบัตร</TimeupText>
                     }
                   </>
                   :
