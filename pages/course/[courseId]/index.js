@@ -1118,7 +1118,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                     </InstructorDetail>
                     <HorizontalLine></HorizontalLine>
                     <InstructorInformation>
-                      <p>ผู้ก่อตั้งบริษัทสตาร์ทอัพชื่อดัง Ookbee และผู้บริหารกองทุน 500 TukTuks</p>
+                      <p>{item.description}</p>
                       <MoreInfo
                         onClick={() => Router.push(`/user/${item.id}`)}
                       >ดูประวัติเพิ่ม</MoreInfo>
