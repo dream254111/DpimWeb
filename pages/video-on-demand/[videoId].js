@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import Container from '../../components/Container'
 import MainLayout from '../../layouts/main'
 import font from '../../helpers/font'
@@ -59,6 +59,8 @@ const PlayerWrapper = styled('div')`
 const VideoIdPage = ({ videoId }) => {
   const [videoDetail, setVideoDetail] = useState({})
   const [currentVideoQuality, setCurrentVideoQuality] = useState(VIDEO_QUALITY['Original'])
+  const [temp, setTemp] = useState(false)
+  const videoRef = useRef(null)
 
   useEffect(() => {
     fetchVideoDetailById()
@@ -84,7 +86,13 @@ const VideoIdPage = ({ videoId }) => {
         Object.keys(VIDEO_QUALITY).map((key, index) => (
           <Menu.Item
             key={index}
-            onClick={() => setCurrentVideoQuality(VIDEO_QUALITY[key])}
+            onClick={() => {
+              const currentTime = videoRef.current.getCurrentTime()
+              setCurrentVideoQuality(VIDEO_QUALITY[key])
+              setTimeout(() => {
+                videoRef.current.seekTo(currentTime)
+              }, 500)
+            }}
           >
             {
               currentVideoQuality === VIDEO_QUALITY[key] &&
@@ -104,6 +112,7 @@ const VideoIdPage = ({ videoId }) => {
           videoDetail && videoDetail.video &&
           <PlayerWrapper>
             <ReactPlayer
+              ref={videoRef}
               playsinline
               url={videoDetail.video[currentVideoQuality]}
               width='100%'
@@ -111,7 +120,7 @@ const VideoIdPage = ({ videoId }) => {
               controls={true}
             />
             <ControllsWrapper>
-              <Dropdown overlay={qualityMenu} placement="topRight" trigger={['click']}>
+              <Dropdown overlay={qualityMenu} placement="topRight" trigger={['click']} >
                 <SettingOutlined />
               </Dropdown>
             </ControllsWrapper>

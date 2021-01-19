@@ -138,7 +138,7 @@ const LearnPage = ({
   const [collapsed, setCollapsed] = useState(false)
   const [courseDetail, setCourseDetail] = useState({})
   const [menu, setMenu] = useState('1')
-
+  const videoRef = useRef(null)
   const courseName = courseDetail.course && courseDetail.course.name
   const courseObjective = courseDetail.course && courseDetail.course.objective_course
   const courseLessons = courseDetail.course_lesson || []
@@ -183,7 +183,11 @@ const LearnPage = ({
       {
         Object.keys(VIDEO_QUALITY).map(key => (
           <Menu.Item onClick={() => {
+            const currentTime = videoRef.current.getCurrentTime()
             setCurrentVideoQuality(VIDEO_QUALITY[key])
+            setTimeout(() => {
+              videoRef.current.seekTo(currentTime)
+            }, 500)
           }}>
             {
               currentVideoQuality === VIDEO_QUALITY[key] &&
@@ -402,6 +406,7 @@ const LearnPage = ({
                   <PlayerWrapper>
                     <ReactPlayer
                       playsinline
+                      ref={videoRef}
                       url={courseDetail.course.video[currentVideoQuality]}
                       width='100%'
                       height='600px'
