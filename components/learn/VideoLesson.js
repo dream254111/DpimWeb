@@ -94,6 +94,7 @@ const VideoLesson = ({
               setCurrentVideoQuality(VIDEO_QUALITY[key])
               setTimeout(() => {
                 videoRef.current.seekTo(currentTime)
+                setPlaying(true)
               }, 500)
             }}
           >
@@ -120,13 +121,15 @@ const VideoLesson = ({
   useEffect(() => {
     const video = videoRef.current
     if (video) {
-      video.seekTo(videoPosition)
-      setPlaying(true)
+      if (videoPosition) {
+        video.seekTo(videoPosition)
+        setPlaying(true)
+      }
     }
   }, [mainVideo])
 
   const videoOnProgressHandle = async (e) => {
-    const playedSeconds = e.playedSeconds
+    const playedSeconds = Math.floor(e.playedSeconds)
     setVideoCurrentTime(playedSeconds)
     const video = videoRef.current
     const duration = video.getDuration()

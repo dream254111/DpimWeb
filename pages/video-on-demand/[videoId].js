@@ -58,6 +58,7 @@ const PlayerWrapper = styled('div')`
 
 const VideoIdPage = ({ videoId }) => {
   const [videoDetail, setVideoDetail] = useState({})
+  const [playing, setPlaying] = useState(false)
   const [currentVideoQuality, setCurrentVideoQuality] = useState(VIDEO_QUALITY['Original'])
   const [temp, setTemp] = useState(false)
   const videoRef = useRef(null)
@@ -91,6 +92,7 @@ const VideoIdPage = ({ videoId }) => {
               setCurrentVideoQuality(VIDEO_QUALITY[key])
               setTimeout(() => {
                 videoRef.current.seekTo(currentTime)
+                setPlaying(true)
               }, 500)
             }}
           >
@@ -114,6 +116,7 @@ const VideoIdPage = ({ videoId }) => {
             <ReactPlayer
               ref={videoRef}
               playsinline
+              playing={playing}
               url={videoDetail.video[currentVideoQuality]}
               width='100%'
               height='600px'

@@ -21,6 +21,9 @@ import ReactPlayer from 'react-player'
 import { timeConvert } from '../../../helpers/util'
 import dynamic from 'next/dynamic'
 import { VIDEO_QUALITY } from '../../../constants'
+import {
+  isMobile
+} from 'react-device-detect'
 
 const { SubMenu } = Menu
 const Wrapper = styled('div')`
@@ -188,6 +191,7 @@ const LearnPage = ({
             setCurrentVideoQuality(VIDEO_QUALITY[key])
             setTimeout(() => {
               videoRef.current.seekTo(currentTime)
+              setPlaying(true)
             }, 500)
           }}>
             {
@@ -360,7 +364,9 @@ const LearnPage = ({
               onClick={({key}) => {
                 fetchCourseDetail()
                 setMenu(key)
-                window.scrollTo({ top: 0, behavior: 'smooth' })
+                if(!isMobile) {
+                  window.scrollTo({ top: 0, behavior: 'smooth' })
+                }
               }}
             >
               <Menu.Item key={1} icon={<FileTextOutlined />}>
