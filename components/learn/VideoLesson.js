@@ -82,6 +82,7 @@ const VideoLesson = ({
   const [interactiveDetail, setInteractiveDetail] = useState({})
   const [opendedInteractive, setOpendedIntereactive] = useState([])
   const [currentVideoQuality, setCurrentVideoQuality] = useState(VIDEO_QUALITY['Original'])
+  const [ct, setCt] = useState(0)
 
   const qualityMenu = (
     <Menu>
@@ -130,6 +131,9 @@ const VideoLesson = ({
 
   const videoOnProgressHandle = async (e) => {
     const playedSeconds = Math.floor(e.playedSeconds)
+    setTimeout(() => {
+      setCt(e.playedSeconds)
+    }, 1000)
     setVideoCurrentTime(playedSeconds)
     const video = videoRef.current
     const duration = video.getDuration()
@@ -182,7 +186,7 @@ const VideoLesson = ({
             const currentTime = videoRef.current.getCurrentTime()
             if (videoPosition > videoCurrentTime) {
             } else if (currentTime > videoCurrentTime) {
-              videoRef.current.seekTo(videoCurrentTime, 'seconds')
+              videoRef.current.seekTo(ct, 'seconds')
             }
           }}
         />
