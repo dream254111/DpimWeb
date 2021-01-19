@@ -155,72 +155,74 @@ const ExerciseComponent = ({
   const [matchAnswer, setMatchAnswer] = useState([])
   const [wrongMatchQuestion, setWrongMatchQuestion] = useState([])
   const checkAnswer = () => {
-    if (exercises[currentNo].is_answer_choice) {
-      const choiceDetail = exercises[currentNo].choices.find(item => item.id === answerId)
-      const isCorrect = choiceDetail.correct === 1
-      if (isCorrect) {
-        setIsCorrectAnswer(true)
-        setRenderResult(
-          <Flex> 
-            <Icon src='/static/images/true.svg' />
-            <div>คุณตอบถูกแล้ว</div>
-          </Flex >
-        )
-      } else {
-        setIsCorrectAnswer(false)
-        setRenderResult(
-          <Flex> 
-            <Icon src='/static/images/false.svg' />
-            <div>คุณตอบข้อนี้ผิด</div>
-          </Flex>
-        )
-      }
-    }
-
-    if (exercises[currentNo].is_answer_match) {
-      let _wrongMatchQuestion = JSON.parse(JSON.stringify(wrongMatchQuestion))
-      _wrongMatchQuestion = []
-      const matchKey = _.groupBy(exercises[currentNo].match, 'question')
-      matchAnswer.map(ma => {
-        const isCorrect = matchKey[ma.question][0].answer === ma.answer
-        if (isCorrect === false) {
-          _wrongMatchQuestion.push(ma.question)
+    try {
+      if (answerId === null) throw new Error('กรุณาเลือกคำตอบก่อน')
+      if (exercises[currentNo].is_answer_choice) {
+        const choiceDetail = exercises[currentNo].choices.find(item => item.id === answerId)
+        const isCorrect = choiceDetail.correct === 1
+        if (isCorrect) {
+          setIsCorrectAnswer(true)
+          setRenderResult(
+            <Flex> 
+              <Icon src='/static/images/true.svg' />
+              <div>คุณตอบถูกแล้ว</div>
+            </Flex >
+          )
+        } else {
+          setIsCorrectAnswer(false)
+          setRenderResult(
+            <Flex> 
+              <Icon src='/static/images/false.svg' />
+              <div>คุณตอบข้อนี้ผิด</div>
+            </Flex>
+          )
         }
-      })
-      if (_wrongMatchQuestion.length > 0) {
-        setIsCorrectAnswer(false)
-        setRenderResult(
-          <Flex> 
-            <Icon src='/static/images/false.svg' />
-            <div>คุณตอบข้อนี้ผิด</div>
-          </Flex>
-        )
-      } else {
-        setIsCorrectAnswer(true)
-        setRenderResult(
-          <Flex> 
-            <Icon src='/static/images/true.svg' />
-            <div>คุณตอบถูกแล้ว</div>
-          </Flex >
-        )
       }
-      setWrongMatchQuestion(_wrongMatchQuestion)
+
+      if (exercises[currentNo].is_answer_match) {
+        let _wrongMatchQuestion = JSON.parse(JSON.stringify(wrongMatchQuestion))
+        _wrongMatchQuestion = []
+        const matchKey = _.groupBy(exercises[currentNo].match, 'question')
+        matchAnswer.map(ma => {
+          const isCorrect = matchKey[ma.question][0].answer === ma.answer
+          if (isCorrect === false) {
+            _wrongMatchQuestion.push(ma.question)
+          }
+        })
+        if (_wrongMatchQuestion.length > 0) {
+          setIsCorrectAnswer(false)
+          setRenderResult(
+            <Flex> 
+              <Icon src='/static/images/false.svg' />
+              <div>คุณตอบข้อนี้ผิด</div>
+            </Flex>
+          )
+        } else {
+          setIsCorrectAnswer(true)
+          setRenderResult(
+            <Flex>
+              <Icon src='/static/images/true.svg' />
+              <div>คุณตอบถูกแล้ว</div>
+            </Flex>
+          )
+        }
+        setWrongMatchQuestion(_wrongMatchQuestion)
+      }
+      setIsClickCheckAnswer(true)
+    } catch (error) {
+      message.error(error.message)
     }
-    setIsClickCheckAnswer(true)
   }
 
   const nextChapter = () => {
-    if (isLatest === false || (isLatest === true && canUsePostTest === true)) {
-      onSubmit()
-    } else {
-      message.warn('คุณยังไม่ผ่านเงื่อนไขการทำแบบทดสอบท้ายบท')
-    }
+    onSubmit()
   }
   const tryAgain = () => {
     setIsClickCheckAnswer(false)
   }
 
   const nextQuestion = () => {
+    setAnswerId(null)
     setIsClickCheckAnswer(false)
     setCurrentNo(item => item + 1)
   }

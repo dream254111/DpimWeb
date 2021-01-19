@@ -163,6 +163,7 @@ const LearnPage = ({
       const responseWithData = response.data
       if (responseWithData.success) {
         setCourseDetail(responseWithData.data)
+        console.log('responseWithData.data', responseWithData.data)
         if (isFirst === true && responseWithData.data.continue_learning && responseWithData.data.continue_learning.continue_lern === true) {
           const menu = responseWithData.data.continue_learning.id + '00'
           const _courseLessons = responseWithData.data.course_lesson
@@ -214,11 +215,16 @@ const LearnPage = ({
         }
       }
       const response = await axios(request)
+      await fetchCourseDetail()
       const responseWithData = response.data
       if (responseWithData.success) {
         const courselessonIndex = courseLessons.findIndex(item => item.id === courseLessonId)
         if (courseLessons.length - 1 === courselessonIndex) {
-          setMenu('999')
+          if (courseDetail.can_use_post_test) {
+            setMenu('999')
+          } else {
+            message.error('คุณยังไม่ผ่านเงื่อนไขการทำแบบทดสอบท้ายบท')
+          }
         } else {
           setMenu(courseLessons[courselessonIndex + 1].id)
         }
