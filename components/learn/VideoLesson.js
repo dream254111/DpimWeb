@@ -89,7 +89,13 @@ const VideoLesson = ({
         Object.keys(VIDEO_QUALITY).map((key, index) => (
           <Menu.Item
             key={index}
-            onClick={() => setCurrentVideoQuality(VIDEO_QUALITY[key])}
+            onClick={() => {
+              const currentTime = videoRef.current.getCurrentTime()
+              setCurrentVideoQuality(VIDEO_QUALITY[key])
+              setTimeout(() => {
+                videoRef.current.seekTo(currentTime)
+              }, 500)
+            }}
           >
             {
               currentVideoQuality === VIDEO_QUALITY[key] &&
