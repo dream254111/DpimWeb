@@ -22,6 +22,10 @@ app.prepare().then(() => {
   server.use(bodyParser.urlencoded({ extended: false, limit: '50mb' }))
   server.use(bodyParser.json({ type: 'application/json' }))
 
+  server.get('/service-worker.js', (req, res) => {
+    res.sendFile(join(__dirname, '.next', 'service-worker.js'))
+  })
+
   server.get('/robots.txt', (req, res) => {
     res.sendFile(path.join(__dirname, '/public/static', 'robots.txt'))
   })
@@ -73,10 +77,6 @@ app.prepare().then(() => {
     const actualPage = '/course'
     const queryParams = { type: req.params.courseId }
     return handle(req, res, actualPage, queryParams)
-  })
-
-  server.get('/service-worker.js', (req, res) => {
-    res.sendFile(join(__dirname, '.next', 'service-worker.js'))
   })
 
   server.all('*', (req, res) => handle(req, res))
