@@ -282,7 +282,6 @@ const IndexPage = ({
       fetchSpecialDay()
     ])
   }, [])
-  console.log('process.env.API_URL', url)
   useEffect(() => {
     if (memberToken) {
       // fetchMyCourseProgess()

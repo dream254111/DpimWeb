@@ -26,4 +26,4 @@ export const initStore = () => {
   return createStore(reducer, composeWithDevTools(applyMiddleware(thunkMiddleware)))
 }
 
-export const wrapper = createWrapper(initStore, { debug: true })
+export const wrapper = createWrapper(initStore, { debug: false })
