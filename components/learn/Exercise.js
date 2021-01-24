@@ -156,17 +156,17 @@ const ExerciseComponent = ({
   const [wrongMatchQuestion, setWrongMatchQuestion] = useState([])
   const checkAnswer = () => {
     try {
-      if (answerId === null) throw new Error('กรุณาเลือกคำตอบก่อน')
       if (exercises[currentNo].is_answer_choice) {
+        if (answerId === null) throw new Error('กรุณาเลือกคำตอบก่อน')
         const choiceDetail = exercises[currentNo].choices.find(item => item.id === answerId)
         const isCorrect = choiceDetail.correct === 1
         if (isCorrect) {
           setIsCorrectAnswer(true)
           setRenderResult(
-            <Flex> 
+            <Flex>
               <Icon src='/static/images/true.svg' />
               <div>คุณตอบถูกแล้ว</div>
-            </Flex >
+            </Flex>
           )
         } else {
           setIsCorrectAnswer(false)
@@ -180,6 +180,9 @@ const ExerciseComponent = ({
       }
 
       if (exercises[currentNo].is_answer_match) {
+        console.log('matchAnswer.length', matchAnswer.length)
+        console.log('exercises[currentNo].choices.length', matchQuestions.length)
+        if (matchAnswer.length !== matchQuestions.length) throw new Error('กรุณาเลือกคำตอบก่อน')
         let _wrongMatchQuestion = JSON.parse(JSON.stringify(wrongMatchQuestion))
         _wrongMatchQuestion = []
         const matchKey = _.groupBy(exercises[currentNo].match, 'question')
@@ -192,7 +195,7 @@ const ExerciseComponent = ({
         if (_wrongMatchQuestion.length > 0) {
           setIsCorrectAnswer(false)
           setRenderResult(
-            <Flex> 
+            <Flex>
               <Icon src='/static/images/false.svg' />
               <div>คุณตอบข้อนี้ผิด</div>
             </Flex>
@@ -223,6 +226,7 @@ const ExerciseComponent = ({
 
   const nextQuestion = () => {
     setAnswerId(null)
+    setMatchAnswer([])
     setIsClickCheckAnswer(false)
     setCurrentNo(item => item + 1)
   }
