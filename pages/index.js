@@ -353,13 +353,19 @@ const IndexPage = ({
 
   const fetchCourseList = async () => {
     try {
-      const response = await axios({
+      const request = {
         method: 'GET',
         url: `${API.url}/Course/list_course`,
-        params : {
-          category_id : selectedCourseCategory
+        params: {
+          category_id: selectedCourseCategory
         }
-      })
+      }
+      if (memberToken) {
+        request.headers = {
+          Authorization: memberToken
+        }
+      }
+      const response = await axios(request)
       const data = response.data.data
       setCourses(data)
     } catch (error) {
@@ -369,13 +375,19 @@ const IndexPage = ({
 
   const fetchVideoOnDemandList = async () => {
     try {
-      const response = await axios({
+      const request = {
         method: 'GET',
         url: `${API.url}/Student/GetAllVideo`,
-        params : {
-          category_id : selectedVDOCategory, // 0 คือ เอาทุก category หรือไม่ก็ส่ง categoryId มา
+        params: {
+          category_id: selectedVDOCategory, // 0 คือ เอาทุก category หรือไม่ก็ส่ง categoryId มา
         }
-      })
+      }
+      if (memberToken) {
+        request.headers = {
+          Authorization: memberToken
+        }
+      }
+      const response = await axios(request)
       const data = response.data.data
       setVdo(data)
     } catch (error) {

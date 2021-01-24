@@ -10,6 +10,7 @@ import API from '../../helpers/api'
 import moment from 'moment'
 import _ from 'lodash'
 import axios from 'axios'
+import { connect } from 'react-redux'
 import { CategoryModal, ArrangeModal } from '../../components/modals/index'
 
 const CheckboxGroup = Checkbox.Group
@@ -105,8 +106,13 @@ const Icon = styled('img')`
   margin-right: 8px;
 `
 
+const connector = connect(({ memberReducer }) => ({
+  memberToken: memberReducer.member.token
+}))
+
 const VideoOnDemandPage = ({
-  master
+  master,
+  memberToken
 }) => {
   const [courses, setCourses] = useState([])
   const [filter, setFilter] = useState([])
@@ -125,12 +131,18 @@ const VideoOnDemandPage = ({
       const params = (Object.keys(filter).map((key, index) => {
         return `${key}=${filter[key]}`
       })).join('&')
-      const response = await axios({
+
+      const request = {
         method: 'GET',
         url: `${API.url}/Student/GetAllVideo?${params}`
-      })
+      }
+      if (memberToken) {
+        request.headers = {
+          Authorization: memberToken
+        }
+      }
+      const response = await axios(request)
       const data = response.data.data
-      console.log('courses', data)
       setCourses(data)
     } catch (error) {
       message.error(error.message)
@@ -233,4 +245,4 @@ VideoOnDemandPage.getInitialProps = () => {
   return {}
 }
 
-export default VideoOnDemandPage
+export default connector(VideoOnDemandPage)
