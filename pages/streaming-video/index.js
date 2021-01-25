@@ -172,7 +172,7 @@ const VideoOnDemandPage = ({
         <Container paddingTop='32px'>
           <Row gutter={24}>
             <Col xs={0} md={6}>
-              <Title>Video on demand</Title>
+              <Title>Streaming Video</Title>
               <BoldTitle>การจัดเรียง</BoldTitle>
               <Select
                 style={{marginTop: '8px', width: '100%'}}
@@ -206,7 +206,7 @@ const VideoOnDemandPage = ({
             </Col>
             <Col xs={24} md={0}>
               <MobileContainer>
-                <Title>Video on demand</Title>
+                <Title>Streaming Video</Title>
                 <TitleEventHandler>
                   <TitleEventHandlerItem>
                     <Icon src='/static/images/Filter.svg' />
@@ -224,7 +224,7 @@ const VideoOnDemandPage = ({
                 courses.map((item, index) => (
                   <CourseCard
                     key={index}
-                    onClick={() => Router.push(`/video-on-demand/${item.id}`)}
+                    onClick={() => Router.push(`/streaming-video/${item.id}`)}
                   >
                     <CourseImage src={item.cover_thumbnail} />
                     <CourseContent>

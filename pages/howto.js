@@ -50,7 +50,7 @@ const ItemNumber = styled('div')`
 `
 
 const ItemTitle = styled('div')`
-  font-size: 18px;
+  font-size: 32px;
   margin-left: 16px;
 `
 

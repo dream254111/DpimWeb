@@ -383,9 +383,9 @@ const CoursePage = ({
                   })
                 }}
               >
-                <Option value='newest'>ใหม่สุด</Option>
-                <Option value='cheapest'>ถูกสุด</Option>
-                <Option value='expensive'>แพงสุด</Option>
+                <Option value='cheapest'>ราคาต่ำสุด</Option>
+                <Option value='expensive'>ราคาแพงสุด</Option>
+                <Option value='newest'>หลักสูตรใหม่</Option>
                 <Option value='letters'>ลำดับตัวอักษร</Option>
               </Select>
               <BoldTitle>คัดกรอง</BoldTitle>
@@ -473,10 +473,10 @@ const CoursePage = ({
                   })
                 }}>
                   <Radio style={radioStyle} value={1}>
-                    รับรอง
+                    มี
                   </Radio>
                   <Radio style={radioStyle} value={0}>
-                    ไม่รับรอง
+                    ไม่มี
                   </Radio>
                 </Radio.Group>
               </FilterItem>

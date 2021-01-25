@@ -282,11 +282,6 @@ const IndexPage = ({
       fetchSpecialDay()
     ])
   }, [])
-  useEffect(() => {
-    if (memberToken) {
-      // fetchMyCourseProgess()
-    }
-  }, [memberToken])
 
   useEffect(() => {
     fetchCourseList()
@@ -295,21 +290,6 @@ const IndexPage = ({
   useEffect(() => {
     fetchVideoOnDemandList()
   }, [selectedVDOCategory])
-
-  const fetchMyCourseProgess = async () => {
-    try {
-      const response = await axios({
-        headers: {
-          Authorization: `${memberToken}`
-        },
-        method: 'GET',
-        url: `${API.url}/Course/my_course_progress`,
-      })
-      const data = response.data.data
-    } catch (error) {
-      message.error(error.message)
-    }
-  }
 
   const fetchSpecialDay = async () => {
     try {
@@ -438,39 +418,23 @@ const IndexPage = ({
     speed: 1000,
     slidesToShow: 3,
     slidesToScroll: 3,
-    // initialSlide: 0,
     arrows: true,
-    // variableWidth: true,
     lazyLoad: true,
     responsive: [
       {
-        breakpoint: 1340,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 3
-        }
-      },
-      {
-        breakpoint: 1100,
+        breakpoint: 1124,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 2
         }
       },
       {
-        breakpoint: 600,
+        breakpoint: 700,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1
         }
       },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1
-        }
-      }
     ]
   }
 	return (
@@ -566,7 +530,7 @@ const IndexPage = ({
               </Slider>
             </CourseListContent>
             <VideoOnDemandContent>
-              <Title>Video on demand</Title>
+              <Title>Streaming Video</Title>
               <CategoryWrapper>
                 <Select placeholder='แสดงหมวดหมู่' style={{ width: '208px' }} onChange={(e) => setSelectedVDOCategory(e)} >
                   {
@@ -577,14 +541,14 @@ const IndexPage = ({
                 </Select>
                 <Button
                   type='primary'
-                  onClick={() => Router.push('/video-on-demand')}
-                >Video on demand ทั้งหมด</Button>
+                  onClick={() => Router.push('/streaming-video')}
+                >Streaming Video ทั้งหมด</Button>
               </CategoryWrapper>
               <CourseListContent>
                 <Slider {...courseSliderSettings}>
                   {
                     vdo.map((item, index) => (
-                      <CourseCardX key={index} onClick={() => Router.push(`/video-on-demand/${item.id}`)}>
+                      <CourseCardX key={index} onClick={() => Router.push(`/streaming-video/${item.id}`)}>
                         <CourseCardHeader>
                           <CourseCardImage src={item.cover_thumbnail} />
                           <CourseCardTitle style={{marginTop: '12px'}}>{item.name}</CourseCardTitle>
