@@ -47,7 +47,7 @@ const fetchFunction = async () => {
     }
 }
 
-// เอาไว้ video on demand (search) ใช้กับหน้าแรกด้วยได้
+// เอาไว้ Streaming Video (search) ใช้กับหน้าแรกด้วยได้
 const fetchFunction = async () => {
     try {
         const response = await axios({
@@ -65,14 +65,14 @@ const fetchFunction = async () => {
     }
 }
 
-// เอาไว้ video on demand by id
+// เอาไว้ Streaming Video by id
 const fetchFunction = async () => {
     try {
         const response = await axios({
             method: 'GET',
             url: `${API.url}/Student/GetVideo`,
             params : {
-                id : '' // id ของ video on demand
+                id : '' // id ของ Streaming Video
             }
         })
 
