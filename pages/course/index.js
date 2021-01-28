@@ -353,7 +353,7 @@ const CoursePage = ({
           onSubmit={(value) => {
             setFilter({
               ...filter,
-              learning_online: value
+              learning_online: value.toString()
             })
           }}
         />
@@ -424,7 +424,7 @@ const CoursePage = ({
                   onChange={(event) => {
                   setFilter({
                     ...filter,
-                    learning_online: event.target.value
+                    learning_online: event.target.value.toString()
                   })
                 }}>
                   <Radio style={radioStyle} value={1}>
@@ -469,7 +469,7 @@ const CoursePage = ({
                 <Radio.Group onChange={(event) => {
                   setFilter({
                     ...filter,
-                    hasCertificate: event.target.value
+                    hasCertificate: event.target.value.toString()
                   })
                 }}>
                   <Radio style={radioStyle} value={1}>
