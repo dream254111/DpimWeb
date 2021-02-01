@@ -135,6 +135,9 @@ const NavItem = styled('div')`
     margin: 0;
     z-index: 1;
 `}
+  :hover {
+    font-size: 20px;
+  }
 `
 
 const NavItemBtn = styled('div')`
