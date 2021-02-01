@@ -102,7 +102,7 @@ const HowtoPage = () => {
               <HowtoItem key={index}>
                 <ItemTitleWrapper>
                   <ItemNumber>{index + 1}.</ItemNumber>
-                  <ItemTitle>{item.tutorial_text}</ItemTitle>
+                  <ItemTitle><span dangerouslySetInnerHTML={{ __html: item.tutorial_text }} /></ItemTitle>
                 </ItemTitleWrapper>
                 {item.image ? <Image src={item.image} /> : null}
                 {
@@ -121,7 +121,7 @@ const HowtoPage = () => {
                     <DetailItem
                       key={index}
                     >
-                      <DetailTitle>{index + 1}. {detail.title}</DetailTitle>
+                      <DetailTitle>{index + 1}. <span dangerouslySetInnerHTML={{ __html: detail.title }} /> </DetailTitle>
                       {detail.img_path ? <Image src={detail.img_path} /> : null}
                     </DetailItem>
                   ))
