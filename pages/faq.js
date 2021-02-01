@@ -10,6 +10,7 @@ import API from '../helpers/api'
 import constants from '../constants'
 import { maxWidth } from '../helpers/breakpoint'
 import { stripHtml } from '../helpers/util'
+import _ from 'lodash'
 
 const { Panel } = Collapse
 
@@ -57,7 +58,7 @@ const FAQPage = ({ master }) => {
   const [faqs, setFaqs] = useState([])
   const [searchText, setSearchText] = useState('')
   const [searchResult, setSearchResult] = useState([])
-
+  const faqTypeKey = _.groupBy(master.faq_type, 'id')
   useEffect(() => {
     fetchType()
   }, [])
@@ -160,7 +161,7 @@ const FAQPage = ({ master }) => {
                   ))
                 }
               </Row>
-              <HowToTitle>การใช้งานเว็ปไซต์</HowToTitle>
+              <HowToTitle>{faqTypeKey[currentType][0].name}</HowToTitle>
               <CollapseWrapper defaultActiveKey={['0']} style={{marginTop: '16px'}}>
                 {
                   faqs.length > 0 && faqs.filter(item => item.faq_type_id === currentType).map((faq, index) => (
