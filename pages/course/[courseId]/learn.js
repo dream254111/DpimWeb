@@ -172,6 +172,10 @@ const LearnPage = ({
           const _courseLessons = responseWithData.data.course_lesson
           setMenu(menu)
           lessonSelected = _courseLessons.find(item => (item.id + '00') == menu)
+          if (responseWithData.data.not_yet_learn === true) {
+            message.error('ยังไม่ถึงเวลาเรียน')
+            Router.push(`/course/${courseId}`)
+          }
         }
       } else {
         throw new Error(responseWithData.error)
