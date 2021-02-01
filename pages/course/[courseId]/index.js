@@ -1087,17 +1087,14 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                     >
                       สมัครเรียน
                     </Button>
-                    {
-                      memberToken && (courseDetail && courseDetail.is_own_course === false) &&
-                      <Button
-                        color='#00937B'
-                        block
-                        disabled={courseDetail && courseDetail.is_own_course}
-                        onClick={() => Router.push(`/course/${courseId}/learn`)}
-                      >
-                        ทดลองเข้าเรียน
-                      </Button>
-                    }
+                    <Button
+                      color='#00937B'
+                      block
+                      disabled={courseDetail && courseDetail.is_own_course}
+                      onClick={() => Router.push(`/course/${courseId}/learn`)}
+                    >
+                      ทดลองเข้าเรียน
+                    </Button>
                   </>
                 }
               </CoursePrice>
