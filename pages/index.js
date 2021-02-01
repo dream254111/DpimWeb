@@ -124,6 +124,10 @@ const CourseCardX = styled('div')`
   width: 320px !important;
   margin-right: 16px;
   cursor: pointer;
+  transition: .5s ease;
+  :hover {
+    transform: scale(1.1);
+  }
 `
 
 const CourseCardHeader = styled('div')`
