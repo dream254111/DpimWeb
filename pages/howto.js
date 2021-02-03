@@ -40,7 +40,7 @@ const HowtoItem = styled('div')`
 
 const ItemTitleWrapper = styled('div')`
   display: flex;
-  align-items: center;
+  align-items: baseline;
 `
 
 const ItemNumber = styled('div')`

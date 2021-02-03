@@ -247,9 +247,10 @@ const PreExamComponent = ({
             <Button
               type='primary'
               style={{float: 'right', marginTop: '32px'}}
-              onClick={() => handleSubmit()}
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
             >
-              {nextChapterName}
+              {/* {nextChapterName} */}
+              ไปด้านบนสุด
             </Button>
         }
       </PreExam>

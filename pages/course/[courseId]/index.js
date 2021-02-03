@@ -858,7 +858,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                       <ContinueLearningLeft>
                         <ContinueLearningTitle>เรียนต่อ : {courseDetail.continue_learning.name}</ContinueLearningTitle>
                         <Progress
-                          percent={courseDetail.continue_learning.progress || 0}
+                          percent={courseDetail.continue_learning.progress.toFixed(2) || 0}
                           showInfo={true}
                           strokeWidth={6}
                           strokeColor={{
@@ -949,7 +949,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                           <Progress
                             percent={item.progress || 0}
                             showInfo={false}
-                            strokeWidth={2}
+                            strokeWidth={6}
                             strokeColor={{
                               '0%': '#00937B',
                               '100%': '#00937B',

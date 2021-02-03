@@ -54,11 +54,18 @@ const FaqTypeName = styled('div')`
 `
 
 const FAQPage = ({ master }) => {
+  const masterFaqTypes = [
+    { id: 5, name: 'หลักสูตรการเรียน' },
+    { id: 6, name: 'สมัครสมาชิก' },
+    { id: 7, name: 'การชำระเงิน' },
+    { id: 4, name: 'การใช้งานเว็บไซต์' },
+    { id: 8, name: 'อื่นๆ' }
+  ]
   const [currentType, setCurrentType] = useState(constants.FAQ_TYPE.HOW_TO_USE)
   const [faqs, setFaqs] = useState([])
   const [searchText, setSearchText] = useState('')
   const [searchResult, setSearchResult] = useState([])
-  const faqTypeKey = _.groupBy(master.faq_type, 'id')
+  const faqTypeKey = _.groupBy(masterFaqTypes, 'id')
   useEffect(() => {
     fetchType()
   }, [])
@@ -123,6 +130,7 @@ const FAQPage = ({ master }) => {
       default: return null
     }
   }
+  console.log('masterFaqTypes', masterFaqTypes)
   return (
     <MainLayout>
       <Container paddingTop='32px' paddingBottom='47px'>
@@ -148,7 +156,7 @@ const FAQPage = ({ master }) => {
             <>
               <Row style={{marginTop: '32px'}} gutter={{ lg: 16, xs: 8 }} justify='space-between' align='middle'>
                 {
-                  master.faq_type.map((item, index) => (
+                  masterFaqTypes.map((item, index) => (
                     <Col lg={4} key={index}>
                       <FaqTypeCard
                         onClick={() => onChangeType(item.id)}

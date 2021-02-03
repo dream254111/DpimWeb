@@ -23,7 +23,7 @@ const commaNumber = require('comma-number')
 const { Option } = Select
 
 const Wrapper = styled('div')`
-
+  padding-bottom: 72px;
 `
 
 const Banner = styled('div')`
@@ -78,11 +78,6 @@ const BannerHeadline = styled('div')`
   font-family: ${font.bold};
 `
 
-const BannerSliderContent = styled('div')`
-  margin-top: 32px;
-  margin-bottom: 60px;
-`
-
 const BannerImage = styled('div')`
   width: 1024px;
   height: 390px;
@@ -97,7 +92,7 @@ const BannerImage = styled('div')`
 `
 
 const CourseOnlineContent = styled('div')`
-  padding-bottom: 68px;
+  margin-top: 72px;
 `
 
 const Title = styled('div')`
@@ -119,7 +114,7 @@ const CourseListContent = styled('div')`
 
 const CourseCardX = styled('div')`
   background-color: white;
-  border: 1px solid #F2F2F2;
+  border: 1px solid #BDBDBD;
   border-radius: 8px;
   width: 320px !important;
   margin-right: 16px;
@@ -151,9 +146,9 @@ const CourseCardTitle = styled('div')`
   word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
-  height: 3em;
   line-height: 24px;
   font-size: 18px;
+  white-space: nowrap;
   font-family: ${font.bold};
 `
 
@@ -190,7 +185,7 @@ const CourseTypeContent = styled('div')`
 `
 
 const RecommentWebsite = styled('div')`
-  margin-top: 100px;
+  margin-top: 72px;
   text-align: center;
   width: 100%;
 
@@ -217,14 +212,19 @@ const WebsiteButton = styled('div')`
   cursor: pointer;
   margin: 8px;
   width: 100%;
+  transition: .5s ease;
+  :hover {
+    background-color: #41A0FC;
+    color: white;
+  }
 `
 
 const VideoOnDemandContent = styled('div')`
-  margin-top: 48px;
+  margin-top: 72px;
 `
 
 const Stats = styled('div')`
-  margin-top: 177px;
+  margin-top: 72px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -256,6 +256,11 @@ const RecommentWebsiteRow = styled(Row)`
   ${maxWidth.md`
     margin-top: 16px;
   `};
+`
+
+const BannerSlideWrapper = styled('div')`
+  background-color: white;
+  padding-top: 32px;
 `
 
 const connector = connect(({ memberReducer }) => ({
@@ -413,7 +418,7 @@ const IndexPage = ({
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
+    arrows: true
   }
 
   const courseSliderSettings = {
@@ -465,30 +470,29 @@ const IndexPage = ({
             </BannerContent>
           </Container>
         </Banner>
+        <BannerSlideWrapper>
         {
           banners &&
-            <Container>
-              <BannerSliderContent>
-                <Slider {...bannerSliderSettings}>
-                  {
-                    banners.map((item, index) => (
-                      <div
-                        key={index}
-                      >
-                        <BannerImage
-                          src={isMobile ? item.image_mobile : item.image_pc}
-                          onClick={() => window.open(item.link, '_href')}
-                        />
-                      </div>
-                    ))
-                  }
-                </Slider>
-              </BannerSliderContent>
-            </Container>
-
+          <Container>
+              <Slider {...bannerSliderSettings}>
+                {
+                  banners.map((item, index) => (
+                    <div
+                      key={index}
+                    >
+                      <BannerImage
+                        src={isMobile ? item.image_mobile : item.image_pc}
+                        onClick={() => window.open(item.link, '_href')}
+                      />
+                    </div>
+                  ))
+                }
+              </Slider>
+          </Container>
         }
+        </BannerSlideWrapper>
         <CourseOnlineContent>
-          <Container paddingTop='72px' paddingBottom='72px'>
+          <Container>
             <Title>คอร์สเรียนออนไลน์</Title>
             <CategoryWrapper>
               <Select placeholder='แสดงหมวดหมู่' style={{ width: '208px' }} onChange={(e) => setSelectedCourseCategory(e)} >
@@ -501,7 +505,7 @@ const IndexPage = ({
               <Button
                 type='primary'
                 onClick={() => Router.push('/course')}
-              >ดูคอร์สออนไลน์ทั้งหมด
+              >ดูทั้งหมด
               </Button>
             </CategoryWrapper>
             <CourseListContent>
@@ -546,7 +550,7 @@ const IndexPage = ({
                 <Button
                   type='primary'
                   onClick={() => Router.push('/streaming-video')}
-                >Streaming Video ทั้งหมด</Button>
+                >ดูทั้งหมด</Button>
               </CategoryWrapper>
               <CourseListContent>
                 <Slider {...courseSliderSettings}>
@@ -652,7 +656,7 @@ const Panal = styled('div')`
   width: 80%;
   margin: 0 auto;
   text-align: center;
-  margin-top: 48px;
+  margin-top: 72px;
   border-radius: 32px;
   ${maxWidth.md`
     width: 100%;
