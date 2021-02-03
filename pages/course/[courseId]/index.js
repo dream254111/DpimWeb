@@ -941,7 +941,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                         <ChapterItem>
                           <LessonTopic>
                           <LessonName>
-                          <LessonIcon src='/static/images/playbutton.svg' />
+                          {/* <LessonIcon src='/static/images/playbutton.svg' /> */}
                           <LessonNameText>{item.name}</LessonNameText>
                           </LessonName>
                           <VideoTime>{timeConvert(item.time)}</VideoTime>

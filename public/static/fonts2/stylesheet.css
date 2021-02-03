@@ -1,0 +1,49 @@
+@font-face {
+  font-family: 'notosans-regular';
+  src: url('NotoSansThai-Regular.eot');
+  src: url('NotoSansThai-Regular.eot?#iefix') format('embedded-opentype'),
+       url('NotoSansThai-Regular.svg#notosans-regular') format('svg'),
+       url('NotoSansThai-Regular.ttf') format('truetype'),
+       url('NotoSansThai-Regular.woff') format('woff'),
+       url('NotoSansThai-Regular.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'notosans-light';
+  src: url('NotoSansThai-Light.eot');
+  src: url('NotoSansThai-Light.eot?#iefix') format('embedded-opentype'),
+       url('NotoSansThai-Light.svg#notosans-light') format('svg'),
+       url('NotoSansThai-Light.ttf') format('truetype'),
+       url('NotoSansThai-Light.woff') format('woff'),
+       url('NotoSansThai-Light.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'notosans-medium';
+  src: url('NotoSansThai-Medium.eot');
+  src: url('NotoSansThai-Medium.eot?#iefix') format('embedded-opentype'),
+       url('NotoSansThai-Medium.svg#notosans-medium') format('svg'),
+       url('NotoSansThai-Medium.ttf') format('truetype'),
+       url('NotoSansThai-Medium.woff') format('woff'),
+       url('NotoSansThai-Medium.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'notosans-bold';
+  src: url('NotoSansThai-Bold.eot');
+  src: url('NotoSansThai-Bold.eot?#iefix') format('embedded-opentype'),
+       url('NotoSansThai-Bold.svg#notosans-bold') format('svg'),
+       url('NotoSansThai-Bold.ttf') format('truetype'),
+       url('NotoSansThai-Bold.woff') format('woff'),
+       url('NotoSansThai-Bold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+
