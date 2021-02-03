@@ -43,10 +43,10 @@ const CourseCardContent = styled('div')`
 const CourseCardTitle = styled('div')`
   word-break: break-all;
   overflow: hidden;
+  white-space: nowrap
   text-overflow: ellipsis;
   font-size: 18px;
   font-family: ${font.bold};
-  height: 3.2em;
 `
 
 const CourseCardDetail = styled('div')`
