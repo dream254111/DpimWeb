@@ -300,12 +300,12 @@ const BasicInformation = ({
           </Col>
           <Col lg={12}>
             <Form.Item 
-              label="นามสกุลภาษาอังกฤษ"
-              name='lastname_en'
+              label="นามสกุลภาษาไทย"
+              name='lastname'
               labelCol={{ span: 24 }}
             >
               <Input
-                placeholder='กรอกนามสกุลภาษาอังกฤษ'
+                placeholder='กรอกนามสกุลภาษาไทย'
                 disabled={!profileSetting.is_edit_personal_info}
               />
             </Form.Item>
@@ -324,12 +324,12 @@ const BasicInformation = ({
           </Col>
           <Col lg={12}>
             <Form.Item 
-              label="นามสกุลภาษาไทย"
-              name='lastname'
+              label="นามสกุลภาษาอังกฤษ"
+              name='lastname_en'
               labelCol={{ span: 24 }}
             >
               <Input
-                placeholder='กรอกนามสกุลภาษาไทย'
+                placeholder='กรอกนามสกุลภาษาอังกฤษ'
                 disabled={!profileSetting.is_edit_personal_info}
               />
             </Form.Item>

@@ -12,7 +12,7 @@ moment.locale('th')
 
 const CourseCard = styled('div')`
   background-color: white;
-  border: 1px solid #F2F2F2;
+  border: 1px solid #BDBDBD;
   border-radius: 8px;
   width: 331px !important;
   margin-right: 16px;
@@ -43,10 +43,10 @@ const CourseCardContent = styled('div')`
 const CourseCardTitle = styled('div')`
   word-break: break-all;
   overflow: hidden;
+  white-space: nowrap;
   text-overflow: ellipsis;
   font-size: 18px;
   font-family: ${font.bold};
-  height: 3.2em;
 `
 
 const CourseCardDetail = styled('div')`
@@ -94,6 +94,7 @@ const AuthorName = styled('div')`
   text-overflow: ellipsis;
   overflow: hidden;
   width: 80%;
+  padding-bottom: 32px;
   height: 1.2em;
   white-space: nowrap;
 `

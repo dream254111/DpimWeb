@@ -33,7 +33,7 @@ export default class MyDocument extends Document {
         <Head>
           <meta charSet='UTF-8' />
           <meta name="theme-color" content="#28d2af" />
-          <link href='/static/fonts/stylesheet.css' rel='stylesheet' />
+          <link href='/static/font3/stylesheet.css' rel='stylesheet' />
           <link href='/static/css/slick.css' rel='stylesheet' />
           <link href='/static/css/slick-theme.css' rel='stylesheet' />
         </Head>
