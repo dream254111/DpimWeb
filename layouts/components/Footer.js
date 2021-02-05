@@ -9,16 +9,12 @@ const FooterContainer = styled('div')`
   padding: 24px 0;
   display: flex;
   white-space: no-wrap;
-  ${maxWidth.md`
-    flex-direction: column;
-    padding: 8px 0;
-  `}
+  flex-direction: column;
+  padding: 8px 0;
+
 `
 const FooterLogo = styled('div')`
-margin-right: 34px;
-${maxWidth.md`
-  margin 0 0 16px 0;
-`}
+  margin-top: 24px;
 `
 const Logo = styled('img')`
   background-image: url(${props => props.src});
@@ -28,29 +24,21 @@ const Logo = styled('img')`
 
 const ContactContainer = styled('div')`
   width: 100%;
-  p {
-    line-height: 18px;
-    color: #333333;
-    margin: 0;
-  }
-  p:nth-child(1)  {
-    color: #BDBDBD;
-    margin-bottom: 12px;
-  }
 `
+
+const ContactTitle = styled('div')`
+  margin-top: 16px;
+`
+
 const Contact = styled('div')`
   display: grid;
-  grid-template-columns: 18% 18% 18% 18%;
-  grid-auto-rows: 1fr;
-  grid-column-gap: 20px;
-  ${maxWidth.md`
-    grid-template-columns: 100%;
-  `}
+  grid-template-columns: 1fr;
 `
+
 const ContactItem = styled('div')`
   display: flex;
   align-items: center;
-  margin-top: 14px;
+  margin-top: 8px;
   div {
     margin-left: 14px;
   }
@@ -66,7 +54,8 @@ const Report = styled('div')`
   display: flex;
   position: relative;
   align-items: center;
-  margin-top: 15px;
+  margin-top: 8px;
+  margin-bottom: 24px;
   div {
     color: #41A0FC;
     text-decoration-line: underline;
@@ -84,8 +73,7 @@ const Footer = () => {
             <Logo src='/static/images/logo.png' />
           </FooterLogo>
           <ContactContainer>
-            <div>ติดต่อเรา</div>
-            <div>จันทร์ - ศุกร์ เวลา 08:30 - 16:30 น.</div>
+            <ContactTitle>ติดต่อเรา</ContactTitle>
             <Contact>
               <ContactItem>
                 <Icon src='/static/images/Facebook.png' />
