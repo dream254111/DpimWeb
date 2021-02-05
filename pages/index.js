@@ -561,7 +561,7 @@ const IndexPage = ({
                           <CourseCardImage src={item.cover_thumbnail} />
                           <CourseCardTitle style={{marginTop: '12px'}}>{item.name}</CourseCardTitle>
                           <CourseTypeContent>
-                            <Tag color='#34495E'>{item.category_nane}</Tag>
+                            <Tag color={item.category_color}>{item.category_nane}</Tag>
                           </CourseTypeContent>
                         </CourseCardHeader>
                       </CourseCardX>

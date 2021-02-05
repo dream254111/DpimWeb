@@ -157,12 +157,14 @@ const LearnPage = ({
   const fetchCourseDetail = async (isFirst = false) => {
     try {
       const response = await axios({
-        headers: {
-          'Authorization': memberToken
-        },
         method: 'GET',
         url: `${API.url}/Course/course_by_id?course_id=${courseId}`
       })
+      if (memberToken) {
+        response.headers = {
+          'Authorization': memberToken
+        }
+      }
       const responseWithData = response.data
       if (responseWithData.success) {
         setCourseDetail(responseWithData.data)
@@ -331,7 +333,7 @@ const LearnPage = ({
         <div>{timeConvert(obj.time)}</div>
         </VideoTitle>
         <Progress
-          percent={obj.video_position || 0}
+          percent={obj.done_lesson ? 100 : obj.video_position || 0}
           showInfo={false}
           strokeWidth={2}
           strokeColor={{
