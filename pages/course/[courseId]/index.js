@@ -18,7 +18,7 @@ import Router from 'next/router'
 import moment from 'moment'
 import { UserOutlined, ArrowRightOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
-import { PaymentModal, LoginModal } from '../../../components/modals/index'
+import { PaymentModal, LoginModal, VoucherModal } from '../../../components/modals/index'
 import constants from '../../../constants'
 
 const Wrapper = styled('div')`
@@ -462,6 +462,19 @@ const Instructors = styled('div')`
   overflow-y: scroll;
 `
 
+const Voucher = styled('div')`
+  background-color: #FFFFFF;
+  box-shadow: 0px 0px 2px rgba(40, 41, 61, 0.04), 0px 4px 8px rgba(96, 97, 112, 0.16);
+  border-radius: 4px;
+  padding: 16px;
+`
+
+const VoucherTitle = styled('div')`
+  font-size: 22px;
+  font-weight: bold;
+`
+
+
 const Instructor = styled('div')`
   display: flex;
   flex-direction: column;
@@ -487,6 +500,7 @@ const InstructorProfile = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: space-evenly;
   p {
     font-size: 18px;
     font-weight: bold;
@@ -688,6 +702,8 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
   const [isModalLoginOpen, setIsModalLoginOpen] = useState(false)
   const [isRegisterCourseLoading, setIsRegisterCourseLoading] = useState(false)
   const [isExtendTimeLoading, setIsExtendTimeLoading] = useState(false)
+  const [isVoucherModalOpen, setIsVoucherModalOpen] = useState(false)
+
   const executeScroll1 = () => {
     scrollRef1.current.scrollIntoView({behavior: "smooth"})
   }
@@ -803,6 +819,35 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
     }
     setIsExtendTimeLoading(false)
   }
+
+  const onSubmitVoucher = async (code) => {
+    try {
+      setIsExtendTimeLoading(true)
+      const headers = memberToken ?  {
+        'Authorization': memberToken
+      } : undefined
+      const response = await axios({
+        headers,
+        method: 'POST',
+        url: `${API.url}/Course/register_course_voucher`,
+        data: {
+          course_id: courseId,
+          voucher_id: code
+        }
+      })
+      const responseWithData = response.data
+      if (responseWithData.success) {
+        message.success('สำเร็จ')
+        fetchCourseInfo()
+      } else {
+        throw new Error(responseWithData.error)
+      }
+    } catch (error) {
+      message.error(error.message)
+    }
+    setIsExtendTimeLoading(false)
+  }
+
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false)
 
   const onPrintPage = async () => {
@@ -828,6 +873,11 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
         <LoginModal
           isOpen={isModalLoginOpen}
           onClose={() => setIsModalLoginOpen(false)}
+        />
+        <VoucherModal
+          isOpen={isVoucherModalOpen}
+          onClose={() => setIsVoucherModalOpen(false)}
+          onSubmit={(code) => onSubmitVoucher(code)}
         />
         <Header src='/static/images/header.png'>
           <Container>
@@ -1099,6 +1149,17 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                 }
               </CoursePrice>
             </CourseExample>
+            <Voucher>
+              <VoucherTitle>Voucher ส่วนลด</VoucherTitle>
+              <Button
+                block
+                style={{ marginTop: '14px' }}
+                type='primary'
+                onClick={() => setIsVoucherModalOpen(true)}
+              >
+                เพิ่มรหัส Voucher
+              </Button>
+            </Voucher>
             <Instructors>
               {
                 courseDetail && courseDetail.list_instructor.map((item, index) => (
