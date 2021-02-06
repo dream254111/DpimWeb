@@ -12,6 +12,7 @@ import _ from 'lodash'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { CategoryModal, ArrangeModal } from '../../components/modals/index'
+import { maxWidth } from '../../helpers/breakpoint'
 
 const CheckboxGroup = Checkbox.Group
 
@@ -41,6 +42,7 @@ const CourseCard = styled('div')`
   display: flex;
   align-items: flex-start;
   cursor: pointer;
+  flex-wrap: wrap;
 `
 
 const CourseImage = styled('div')`
@@ -50,6 +52,11 @@ const CourseImage = styled('div')`
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  flex: 1;
+  ${maxWidth.sm`
+    width: 100%;
+    flex: unset;
+  `}
 `
 
 const CourseTitle = styled('div')`
@@ -59,6 +66,11 @@ const CourseTitle = styled('div')`
 
 const CourseContent = styled('div')`
   margin-left: 12px;
+  flex: 2;
+  ${maxWidth.sm`
+    width: 100%;
+    flex: unset;
+  `}
 `
 
 const BoldTitle = styled('div')`
