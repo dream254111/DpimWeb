@@ -165,6 +165,7 @@ const LearnPage = ({
           'Authorization': memberToken
         }
       }
+      console.log('response', response)
       const responseWithData = response.data
       if (responseWithData.success) {
         setCourseDetail(responseWithData.data)
