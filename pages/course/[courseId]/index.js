@@ -997,7 +997,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                           <VideoTime>{timeConvert(item.time)}</VideoTime>
                           </LessonTopic>
                           <Progress
-                            percent={item.progress > 95 ? 100 : item.progress || 0}
+                            percent={item.is_done_lesson === 1 ? 100 : item.progress || 0}
                             showInfo={false}
                             strokeWidth={6}
                             strokeColor={{
