@@ -156,15 +156,16 @@ const LearnPage = ({
 
   const fetchCourseDetail = async (isFirst = false) => {
     try {
-      const response = await axios({
+      const request = {
         method: 'GET',
         url: `${API.url}/Course/course_by_id?course_id=${courseId}`
-      })
+      }
       if (memberToken) {
-        response.headers = {
+        request.headers = {
           'Authorization': memberToken
         }
       }
+      const response = await axios(request)
       console.log('response', response)
       const responseWithData = response.data
       if (responseWithData.success) {
