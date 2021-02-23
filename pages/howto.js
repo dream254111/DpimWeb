@@ -108,6 +108,7 @@ const HowtoPage = () => {
                 {
                   item.link &&
                     <ReactPlayer
+                      config={{ file: { attributes: { controlsList: 'nodownload' } } }}
                       playsinline
                       url={item.link}
                       width='100%'

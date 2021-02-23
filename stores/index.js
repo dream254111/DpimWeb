@@ -21,7 +21,6 @@ const reducer = (state, action) => {
   }
 }
 
-
 export const initStore = () => {
   return createStore(reducer, composeWithDevTools(applyMiddleware(thunkMiddleware)))
 }
