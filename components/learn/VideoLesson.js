@@ -174,6 +174,7 @@ const VideoLesson = ({
       <MenuHeader>{title}</MenuHeader>
       <PlayerWrapper>
         <ReactPlayer
+          config={{ file: { attributes: { controlsList: 'nodownload' } } }}
           ref={videoRef}
           playsinline
           playing={playing}

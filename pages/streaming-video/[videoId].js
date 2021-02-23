@@ -114,6 +114,7 @@ const VideoIdPage = ({ videoId }) => {
           videoDetail && videoDetail.video &&
           <PlayerWrapper>
             <ReactPlayer
+              config={{ file: { attributes: { controlsList: 'nodownload' } } }}
               ref={videoRef}
               playsinline
               playing={playing}

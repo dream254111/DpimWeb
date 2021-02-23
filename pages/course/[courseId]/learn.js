@@ -166,11 +166,9 @@ const LearnPage = ({
         }
       }
       const response = await axios(request)
-      console.log('response', response)
       const responseWithData = response.data
       if (responseWithData.success) {
         setCourseDetail(responseWithData.data)
-        console.log('responseWithData.data', responseWithData.data)
         if (isFirst === true && responseWithData.data.continue_learning && responseWithData.data.continue_learning.continue_lern === true) {
           const menu = responseWithData.data.continue_learning.id + '00'
           const _courseLessons = responseWithData.data.course_lesson
@@ -434,6 +432,9 @@ const LearnPage = ({
                       config={{
                         file: {
                           attributes: {
+                            controlsList: {
+                              'nodownload'
+                            },
                             poster: courseDetail.course.video.thumbnail,
                           },
                         }
