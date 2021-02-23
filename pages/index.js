@@ -110,6 +110,9 @@ const CategoryWrapper = styled('div')`
 
 const CourseListContent = styled('div')`
   margin-top: 46px;
+  max-width: 1200px;
+  width: 100%;
+  overflow: hidden;
 `
 
 const CourseCardX = styled('div')`
@@ -427,8 +430,8 @@ const IndexPage = ({
     speed: 1000,
     slidesToShow: 3,
     slidesToScroll: 3,
+    lazyLoad: false,
     arrows: true,
-    lazyLoad: true,
     responsive: [
       {
         breakpoint: 1124,
@@ -438,7 +441,7 @@ const IndexPage = ({
         }
       },
       {
-        breakpoint: 700,
+        breakpoint: 730,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1
