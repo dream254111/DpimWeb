@@ -432,9 +432,7 @@ const LearnPage = ({
                       config={{
                         file: {
                           attributes: {
-                            controlsList: {
-                              'nodownload'
-                            },
+                            controlsList: 'nodownload',
                             poster: courseDetail.course.video.thumbnail,
                           },
                         }
