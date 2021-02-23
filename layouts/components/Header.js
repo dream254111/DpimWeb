@@ -23,7 +23,7 @@ const Wrapper = styled('div')``
 
 const Nav = styled('div')`
   box-sizing: border-box;
-  background-color: #FFFFFF;
+  background-color: #00937B;
   width: 100%;
   height: 64px;
   display: flex;
@@ -98,7 +98,7 @@ const NavItem = styled('div')`
   position: relative;
   display: ${props => props.display ? 'none' : ''};
   a {
-    color: #333333;
+    color: #FFFFFF;
     text-decoration: none;
     line-height: 24px;
     font-family: ${font.regular};
@@ -134,6 +134,9 @@ const NavItem = styled('div')`
     align-items: center;
     margin: 0;
     z-index: 1;
+    a {
+      color: #333333;
+    }
 `}
   :hover {
     font-size: 20px;
@@ -253,6 +256,16 @@ ${maxWidth.md`
 `}
 `
 const StyledInput = styled(Input)`
+  background: rgba(255, 255, 255, 0.16) url(/static/images/magnifying_glass.svg) no-repeat scroll 16px;
+  padding-left: 45px;
+  ::placeholder {
+    color: rgba(255, 255, 255, 0.48);
+  }
+  &:focus {
+    background rgba(255, 255, 255, 0.16);
+    padding-left: 16px;
+  }
+  border: none;
   ${maxWidth.md`
     margin: 0;
   `}
@@ -311,17 +324,18 @@ const Header = ({
           <NavLogo>
             <Link href='/'>
               <a>
-                <NavIcon src='/static/images/logo.png' />
+                <NavIcon src='/static/images/Logo_V2.svg' />
               </a>
             </Link>
           </NavLogo>
           <StyledInput
             type='text'
             placeholder='ค้นหาคอร์ส'
+            color='rgba(255, 255, 255, 0.48)'
             maxWidth='300px'
             width='100%'
             margin='0 24px 0 0'
-            backgroundColor='#F6F6F6'
+            backgroundColor='rgba(255, 255, 255, 0.16)'
             height='40px'
             onKeyDown={handleOnEnterSearch}
           />
@@ -351,7 +365,8 @@ const Header = ({
                 <>
                   <NavItemBtn>
                     <Button
-                      color='#00937B'
+                      type='primary'
+                      borderColor='#FFFFFF'
                       // onClick={() => setisLogin(!isLogin)}
                       onClick={() => setIsLoginModalOpen(true)}
 
@@ -361,7 +376,7 @@ const Header = ({
                   </NavItemBtn>
                   <NavItemBtn>
                     <Button
-                      type='primary'
+                      color='#00937B'
                       onClick={() => Router.push('/register')}
                     >
                       สมัครสมาชิก
