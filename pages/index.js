@@ -449,7 +449,7 @@ const IndexPage = ({
     autoplay: true,
     autoplaySpeed: 15000,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true
   }
