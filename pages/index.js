@@ -510,7 +510,7 @@ const IndexPage = ({
         <BannerSlideWrapper>
         {
           banners &&
-          <BannerContainer>
+          <Container>
               <Slider {...bannerSliderSettings}>
                 {
                   banners.map((item, index) => (
@@ -525,7 +525,7 @@ const IndexPage = ({
                   ))
                 }
               </Slider>
-              </BannerContainer>
+              </Container>
         }
         </BannerSlideWrapper>
         <CourseOnlineContent>
