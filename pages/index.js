@@ -126,10 +126,6 @@ const CourseCardX = styled('div')`
     z-index: 999;
     transform: scale(1.1);
   }
-
-  ${maxWidth.md`
-  width: 294px !important;
-  `}
 `
 
 const CourseCardHeader = styled('div')`
@@ -279,7 +275,7 @@ const BannerImageContainer = styled('div')`
 
 const Div = styled('div')` 
   padding: 22px 0px;
-  padding-left: 15px;
+  padding-left: 14px;
 `
 
 const CourseCardY = styled(CourseCard)`
@@ -289,9 +285,9 @@ const CourseCardY = styled(CourseCard)`
 
 const StyledSlider = styled(Slider)`
 .slick-slide {
+
 }
 .slick-list {
-  margin: 0 20px 0 0;
 
 }
 `
