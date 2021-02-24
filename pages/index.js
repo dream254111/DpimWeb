@@ -92,7 +92,7 @@ const BannerImage = styled('div')`
 `
 
 const CourseOnlineContent = styled('div')`
-  margin-top: 72px;
+  margin-top: 47px;
 `
 
 const Title = styled('div')`
@@ -109,21 +109,21 @@ const CategoryWrapper = styled('div')`
 `
 
 const CourseListContent = styled('div')`
-  margin-top: 46px;
-  max-width: 1200px;
-  width: 100%;
-  overflow: hidden;
+  margin-top: 21px;
+
 `
 
 const CourseCardX = styled('div')`
   background-color: white;
   border: 1px solid #BDBDBD;
   border-radius: 8px;
-  width: 320px !important;
+  width: 290px !important;
   margin-right: 16px;
   cursor: pointer;
   transition: .5s ease;
+  z-index: 99;
   :hover {
+    z-index: 999;
     transform: scale(1.1);
   }
 `
@@ -206,12 +206,10 @@ const WebsiteButton = styled('div')`
   padding: 16px 12px;
   font-size: 14px;
   color: #41A0FC;
-  border: 1px solid #41A0FC;
   border-radius: 4px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: white;
+  justify-content: center;
   cursor: pointer;
   margin: 8px;
   width: 100%;
@@ -223,7 +221,7 @@ const WebsiteButton = styled('div')`
 `
 
 const VideoOnDemandContent = styled('div')`
-  margin-top: 72px;
+  margin-top: 47px;
 `
 
 const Stats = styled('div')`
@@ -266,6 +264,41 @@ const BannerSlideWrapper = styled('div')`
   padding-top: 32px;
 `
 
+const BannerContainer = styled('div')`
+  padding: 0 32px;
+`
+
+const BannerImageContainer = styled('div')`
+`
+
+const Div = styled('div')` 
+  padding: 22px 0px;
+  padding-left: 14px;
+`
+
+const CourseCardY = styled(CourseCard)`
+  width: 293px !important;
+`
+
+const StyledSlider = styled(Slider)`
+.slick-slide {
+
+}
+.slick-list {
+}
+`
+
+const StyledSelect = styled(Select)`
+  position: relative;
+  &&& {
+    .ant-select-selection-search-input {
+      padding: 20px !important;
+  }
+}
+`
+
+
+
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token
 }))
@@ -283,7 +316,8 @@ const IndexPage = ({
   const [selectedVDOCategory, setSelectedVDOCategory] = useState(0)
   const [specialDay, setSpecialDay] = useState({})
   const [isOpenSpecialDayModal, setIsOpenSpecialDayModal] = useState(false)
-
+  const [isMouseEnter, setIsMouseEnter] = useState(false)
+  const [isMouseEnter2, setIsMouseEnter2] = useState(false)
   useEffect(() => {
     Promise.all([
       fetchBannerList(),
@@ -430,12 +464,14 @@ const IndexPage = ({
     speed: 1000,
     slidesToShow: 3,
     slidesToScroll: 3,
+    initialSlide: 3,
     lazyLoad: false,
     arrows: true,
     responsive: [
       {
         breakpoint: 1124,
         settings: {
+          infinite: false,
           slidesToShow: 2,
           slidesToScroll: 2
         }
@@ -443,8 +479,10 @@ const IndexPage = ({
       {
         breakpoint: 730,
         settings: {
+          infinite: false,
           slidesToShow: 1,
-          slidesToScroll: 1
+          slidesToScroll: 1,
+          initialSlide: 1
         }
       },
     ]
@@ -480,31 +518,38 @@ const IndexPage = ({
               <Slider {...bannerSliderSettings}>
                 {
                   banners.map((item, index) => (
-                    <div
+                    <BannerImageContainer
                       key={index}
                     >
                       <BannerImage
                         src={isMobile ? item.image_mobile : item.image_pc}
                         onClick={() => window.open(item.link, '_href')}
                       />
-                    </div>
+                    </BannerImageContainer>
                   ))
                 }
               </Slider>
-          </Container>
+              </Container>
         }
         </BannerSlideWrapper>
         <CourseOnlineContent>
           <Container>
             <Title>คอร์สเรียนออนไลน์</Title>
             <CategoryWrapper>
-              <Select placeholder='แสดงหมวดหมู่' style={{ width: '208px' }} onChange={(e) => setSelectedCourseCategory(e)} >
+              <StyledSelect 
+                placeholder='แสดงหมวดหมู่' 
+                style={{ width: '208px'}} 
+                onChange={(e) => setSelectedCourseCategory(e)} 
+                open={isMouseEnter} 
+                onMouseOver={() => setIsMouseEnter(true)}
+                onMouseLeave={() => setIsMouseEnter(false)}
+              >
                 {
                   master.course_category.map((item, index) => (
                     <Option value={item.id} key={index}>{item.name}</Option>
                   ))
                 }
-              </Select>
+              </StyledSelect>
               <Button
                 type='primary'
                 onClick={() => Router.push('/course')}
@@ -512,15 +557,13 @@ const IndexPage = ({
               </Button>
             </CategoryWrapper>
             <CourseListContent>
-              <Slider
+              <StyledSlider
                 {...courseSliderSettings}
               >
                 {
                   courses.map((item, index) => (
-                    <div
-                      key={index}
-                    >
-                      <CourseCard
+                    <Div key={index}>
+                      <CourseCardY
                         id={item.id}
                         name={item.name}
                         batch={item.batch}
@@ -534,22 +577,30 @@ const IndexPage = ({
                         totalLesson={item.total_lesson}
                         lessonTime={item.lesson_time}
                         startLearning={item.start_learning}
-                      />
-                    </div>
+                      >
+                        </CourseCardY>
+                        </Div>
                   ))
                 }
-              </Slider>
+              </StyledSlider>
             </CourseListContent>
             <VideoOnDemandContent>
               <Title>Streaming Video</Title>
               <CategoryWrapper>
-                <Select placeholder='แสดงหมวดหมู่' style={{ width: '208px' }} onChange={(e) => setSelectedVDOCategory(e)} >
+                <StyledSelect 
+                  placeholder='แสดงหมวดหมู่' 
+                  style={{ width: '208px' }} 
+                  onChange={(e) => setSelectedVDOCategory(e)} 
+                  open={isMouseEnter2} 
+                  onMouseOver={() => setIsMouseEnter2(true)}
+                  onMouseLeave={() => setIsMouseEnter2(false)}
+                >
                   {
                     master.course_category.map((item, index) => (
                       <Option value={item.id} key={index}>{item.name}</Option>
                     ))
                   }
-                </Select>
+                </StyledSelect>
                 <Button
                   type='primary'
                   onClick={() => Router.push('/streaming-video')}
@@ -559,7 +610,8 @@ const IndexPage = ({
                 <Slider {...courseSliderSettings}>
                   {
                     vdo.map((item, index) => (
-                      <CourseCardX key={index} onClick={() => Router.push(`/streaming-video/${item.id}`)}>
+                      <Div key={index}>
+                      <CourseCardX onClick={() => Router.push(`/streaming-video/${item.id}`)}>
                         <CourseCardHeader>
                           <CourseCardImage src={item.cover_thumbnail} />
                           <CourseCardTitle style={{marginTop: '12px'}}>{item.name}</CourseCardTitle>
@@ -568,6 +620,7 @@ const IndexPage = ({
                           </CourseTypeContent>
                         </CourseCardHeader>
                       </CourseCardX>
+                      </Div>
                     ))
                   }
                 </Slider>
@@ -583,7 +636,7 @@ const IndexPage = ({
                         <RecommendWebCover src={item.cover} />
                         <WebsiteButton onClick={() => window.open(item.link, '_href')}>
                           <div>{item.name}</div>
-                          <ArrowRightOutlined />
+                          <ArrowRightOutlined style={{marginLeft: '18px'}} />
                         </WebsiteButton>
                       </RecommendWeb>
                     </Col>

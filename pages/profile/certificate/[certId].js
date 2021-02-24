@@ -348,6 +348,10 @@ const CourseDetail = styled('div')`
 
 const CourseDetailTitle = styled('div')`
   font-size: 18px;
+  margin-bottom: 60px;
+  ${maxWidth.sm`
+    margin-bottom: 0;
+  `}
 `
 
 CertificateIdPage.getInitialProps = ({ query }) => {

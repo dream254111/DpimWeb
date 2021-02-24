@@ -63,12 +63,17 @@ const CourseImage = styled('div')`
 
 const CourseTitle = styled('div')`
   font-size: 18px;
+  margin-top: 45px;
   font-family: ${font.bold};
   display: flex;
   align-items: center;
   justify-content: space-between;
     div&:nth-child(1) {
-      width: 68%;
+      width: 98%;
+      display: inline-block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-height: 4.8em;
     }
   
   ${maxWidth.sm`
@@ -222,6 +227,7 @@ const BoldTitle = styled('div')`
 
 const FilterTitle = styled('div')`
   font-size: 18px;
+  font-family: ${font.bold};
 `
 
 const FilterItem = styled('div')`
@@ -230,8 +236,8 @@ const FilterItem = styled('div')`
 
 const LeftTag = styled(Tag)`
   position: absolute;
-    top: 50px;
-    right: 12px;
+    top: 12px;
+    left: 300px;
   ${maxWidth.sm`
     position: absolute;
     top: initial;
@@ -243,13 +249,14 @@ const LeftTag = styled(Tag)`
 
 const RightTag = styled(Tag)`
   position: absolute;
-  right: 12px;
+  left: 385px;
   top: 12px;
   ${maxWidth.sm`
     top: initial;
     position: absolute;
-    bottom: 53px;
+    left: initial;
     right: 12px;
+    bottom: 53px;
 `}
 `
 
@@ -292,6 +299,13 @@ const Icon = styled('img')`
   background-position: center;
   background-repeat: no-repeat;
   margin-right: 8px;
+`
+
+const CourseContainer = styled(Container)`
+  &&& {
+    max-width: 1440px;
+    width: 93%;
+  }
 `
 
 const CoursePage = ({
@@ -368,7 +382,7 @@ const CoursePage = ({
             })
           }}
         />
-        <Container paddingTop='32px'>
+        <CourseContainer paddingTop='32px'>
           <Row gutter={24}>
             <Col xs={0} md={6}>
               <Title>คอร์สเรียน</Title>
@@ -515,7 +529,6 @@ const CoursePage = ({
                         }
                       </CourseTitle>
                       <CourseDescription>
-                        <CourseDescriptionText>{item.overview_course}</CourseDescriptionText>
                         <LeftTag color={item.category_color}>{item.category_name}</LeftTag>
                       </CourseDescription>
                       <CourseCardDetail>
@@ -551,7 +564,7 @@ const CoursePage = ({
               }
             </Col>
           </Row>
-        </Container>
+        </CourseContainer>
       </Wrapper>
     </MainLayout>
   )
