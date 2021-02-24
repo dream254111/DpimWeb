@@ -92,7 +92,7 @@ const BannerImage = styled('div')`
 `
 
 const CourseOnlineContent = styled('div')`
-  margin-top: 72px;
+  margin-top: 47px;
 `
 
 const Title = styled('div')`
@@ -109,23 +109,27 @@ const CategoryWrapper = styled('div')`
 `
 
 const CourseListContent = styled('div')`
-  margin-top: 46px;
-  max-width: 1200px;
-  width: 100%;
-  overflow: hidden;
+  margin-top: 21px;
+
 `
 
 const CourseCardX = styled('div')`
   background-color: white;
   border: 1px solid #BDBDBD;
   border-radius: 8px;
-  width: 320px !important;
+  width: 290px !important;
   margin-right: 16px;
   cursor: pointer;
   transition: .5s ease;
+  z-index: 99;
   :hover {
+    z-index: 999;
     transform: scale(1.1);
   }
+
+  ${maxWidth.md`
+  width: 294px !important;
+  `}
 `
 
 const CourseCardHeader = styled('div')`
@@ -223,7 +227,7 @@ const WebsiteButton = styled('div')`
 `
 
 const VideoOnDemandContent = styled('div')`
-  margin-top: 72px;
+  margin-top: 47px;
 `
 
 const Stats = styled('div')`
@@ -268,27 +272,28 @@ const BannerSlideWrapper = styled('div')`
 
 const BannerContainer = styled('div')`
   padding: 0 32px;
-
 `
 
 const BannerImageContainer = styled('div')`
-  display: inline-block;
 `
 
 const Div = styled('div')` 
-  &&& {
-    width: 100% !important;
-  }
+  padding: 22px 0px;
+  padding-left: 15px;
 `
 
 const CourseCardY = styled(CourseCard)`
-  width: 316px !important;
+  width: 293px !important;
 `
 
-const StyledSlider = styled(Slider)`
-.slick-list {
-}
 
+const StyledSlider = styled(Slider)`
+.slick-slide {
+}
+.slick-list {
+  margin: 0 20px 0 0;
+
+}
 `
 
 const connector = connect(({ memberReducer }) => ({
@@ -444,7 +449,7 @@ const IndexPage = ({
     autoplay: true,
     autoplaySpeed: 15000,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 3,
     slidesToScroll: 1,
     arrows: true
   }
@@ -455,12 +460,14 @@ const IndexPage = ({
     speed: 1000,
     slidesToShow: 3,
     slidesToScroll: 3,
+    initialSlide: 3,
     lazyLoad: false,
     arrows: true,
     responsive: [
       {
         breakpoint: 1124,
         settings: {
+          infinite: false,
           slidesToShow: 2,
           slidesToScroll: 2
         }
@@ -468,9 +475,10 @@ const IndexPage = ({
       {
         breakpoint: 730,
         settings: {
+          infinite: false,
           slidesToShow: 1,
           slidesToScroll: 1,
-          initialSlide: 0
+          initialSlide: 1
         }
       },
     ]
@@ -543,9 +551,7 @@ const IndexPage = ({
               >
                 {
                   courses.map((item, index) => (
-                    <Div
-                      key={index}
-                    >
+                    <Div key={index}>
                       <CourseCardY
                         id={item.id}
                         name={item.name}
@@ -562,7 +568,7 @@ const IndexPage = ({
                         startLearning={item.start_learning}
                       >
                         </CourseCardY>
-                    </Div>
+                        </Div>
                   ))
                 }
               </StyledSlider>
@@ -586,7 +592,8 @@ const IndexPage = ({
                 <Slider {...courseSliderSettings}>
                   {
                     vdo.map((item, index) => (
-                      <CourseCardX key={index} onClick={() => Router.push(`/streaming-video/${item.id}`)}>
+                      <Div key={index}>
+                      <CourseCardX onClick={() => Router.push(`/streaming-video/${item.id}`)}>
                         <CourseCardHeader>
                           <CourseCardImage src={item.cover_thumbnail} />
                           <CourseCardTitle style={{marginTop: '12px'}}>{item.name}</CourseCardTitle>
@@ -595,6 +602,7 @@ const IndexPage = ({
                           </CourseTypeContent>
                         </CourseCardHeader>
                       </CourseCardX>
+                      </Div>
                     ))
                   }
                 </Slider>
