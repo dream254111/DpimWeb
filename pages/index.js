@@ -206,12 +206,10 @@ const WebsiteButton = styled('div')`
   padding: 16px 12px;
   font-size: 14px;
   color: #41A0FC;
-  border: 1px solid #41A0FC;
   border-radius: 4px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background-color: white;
+  justify-content: center;
   cursor: pointer;
   margin: 8px;
   width: 100%;
@@ -282,15 +280,24 @@ const CourseCardY = styled(CourseCard)`
   width: 293px !important;
 `
 
-
 const StyledSlider = styled(Slider)`
 .slick-slide {
 
 }
 .slick-list {
-
 }
 `
+
+const StyledSelect = styled(Select)`
+  position: relative;
+  &&& {
+    .ant-select-selection-search-input {
+      padding: 20px !important;
+  }
+}
+`
+
+
 
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token
@@ -309,7 +316,8 @@ const IndexPage = ({
   const [selectedVDOCategory, setSelectedVDOCategory] = useState(0)
   const [specialDay, setSpecialDay] = useState({})
   const [isOpenSpecialDayModal, setIsOpenSpecialDayModal] = useState(false)
-
+  const [isMouseEnter, setIsMouseEnter] = useState(false)
+  const [isMouseEnter2, setIsMouseEnter2] = useState(false)
   useEffect(() => {
     Promise.all([
       fetchBannerList(),
@@ -528,13 +536,20 @@ const IndexPage = ({
           <Container>
             <Title>คอร์สเรียนออนไลน์</Title>
             <CategoryWrapper>
-              <Select placeholder='แสดงหมวดหมู่' style={{ width: '208px' }} onChange={(e) => setSelectedCourseCategory(e)} >
+              <StyledSelect 
+                placeholder='แสดงหมวดหมู่' 
+                style={{ width: '208px'}} 
+                onChange={(e) => setSelectedCourseCategory(e)} 
+                open={isMouseEnter} 
+                onMouseOver={() => setIsMouseEnter(true)}
+                onMouseLeave={() => setIsMouseEnter(false)}
+              >
                 {
                   master.course_category.map((item, index) => (
                     <Option value={item.id} key={index}>{item.name}</Option>
                   ))
                 }
-              </Select>
+              </StyledSelect>
               <Button
                 type='primary'
                 onClick={() => Router.push('/course')}
@@ -572,13 +587,20 @@ const IndexPage = ({
             <VideoOnDemandContent>
               <Title>Streaming Video</Title>
               <CategoryWrapper>
-                <Select placeholder='แสดงหมวดหมู่' style={{ width: '208px' }} onChange={(e) => setSelectedVDOCategory(e)} >
+                <StyledSelect 
+                  placeholder='แสดงหมวดหมู่' 
+                  style={{ width: '208px' }} 
+                  onChange={(e) => setSelectedVDOCategory(e)} 
+                  open={isMouseEnter2} 
+                  onMouseOver={() => setIsMouseEnter2(true)}
+                  onMouseLeave={() => setIsMouseEnter2(false)}
+                >
                   {
                     master.course_category.map((item, index) => (
                       <Option value={item.id} key={index}>{item.name}</Option>
                     ))
                   }
-                </Select>
+                </StyledSelect>
                 <Button
                   type='primary'
                   onClick={() => Router.push('/streaming-video')}
@@ -614,7 +636,7 @@ const IndexPage = ({
                         <RecommendWebCover src={item.cover} />
                         <WebsiteButton onClick={() => window.open(item.link, '_href')}>
                           <div>{item.name}</div>
-                          <ArrowRightOutlined />
+                          <ArrowRightOutlined style={{marginLeft: '18px'}} />
                         </WebsiteButton>
                       </RecommendWeb>
                     </Col>
