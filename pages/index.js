@@ -266,6 +266,31 @@ const BannerSlideWrapper = styled('div')`
   padding-top: 32px;
 `
 
+const BannerContainer = styled('div')`
+  padding: 0 32px;
+
+`
+
+const BannerImageContainer = styled('div')`
+  display: inline-block;
+`
+
+const Div = styled('div')` 
+  &&& {
+    width: 100% !important;
+  }
+`
+
+const CourseCardY = styled(CourseCard)`
+  width: 316px !important;
+`
+
+const StyledSlider = styled(Slider)`
+.slick-list {
+}
+
+`
+
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token
 }))
@@ -444,7 +469,8 @@ const IndexPage = ({
         breakpoint: 730,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1
+          slidesToScroll: 1,
+          initialSlide: 0
         }
       },
     ]
@@ -476,22 +502,22 @@ const IndexPage = ({
         <BannerSlideWrapper>
         {
           banners &&
-          <Container>
+          <BannerContainer>
               <Slider {...bannerSliderSettings}>
                 {
                   banners.map((item, index) => (
-                    <div
+                    <BannerImageContainer
                       key={index}
                     >
                       <BannerImage
                         src={isMobile ? item.image_mobile : item.image_pc}
                         onClick={() => window.open(item.link, '_href')}
                       />
-                    </div>
+                    </BannerImageContainer>
                   ))
                 }
               </Slider>
-          </Container>
+              </BannerContainer>
         }
         </BannerSlideWrapper>
         <CourseOnlineContent>
@@ -512,15 +538,15 @@ const IndexPage = ({
               </Button>
             </CategoryWrapper>
             <CourseListContent>
-              <Slider
+              <StyledSlider
                 {...courseSliderSettings}
               >
                 {
                   courses.map((item, index) => (
-                    <div
+                    <Div
                       key={index}
                     >
-                      <CourseCard
+                      <CourseCardY
                         id={item.id}
                         name={item.name}
                         batch={item.batch}
@@ -534,11 +560,12 @@ const IndexPage = ({
                         totalLesson={item.total_lesson}
                         lessonTime={item.lesson_time}
                         startLearning={item.start_learning}
-                      />
-                    </div>
+                      >
+                        </CourseCardY>
+                    </Div>
                   ))
                 }
-              </Slider>
+              </StyledSlider>
             </CourseListContent>
             <VideoOnDemandContent>
               <Title>Streaming Video</Title>
