@@ -176,6 +176,7 @@ const VideoLesson = ({
         <ReactPlayer
           config={{ file: { attributes: { controlsList: 'nodownload' } } }}
           ref={videoRef}
+          onContextMenu={e => e.preventDefault()}
           playsinline
           playing={playing}
           url={mainVideo[currentVideoQuality]}
