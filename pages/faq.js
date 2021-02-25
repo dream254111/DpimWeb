@@ -11,6 +11,7 @@ import constants from '../constants'
 import { maxWidth } from '../helpers/breakpoint'
 import { stripHtml } from '../helpers/util'
 import _ from 'lodash'
+import { Banner } from '../components/index'
 
 const { Panel } = Collapse
 
@@ -133,8 +134,8 @@ const FAQPage = ({ master }) => {
   console.log('masterFaqTypes', masterFaqTypes)
   return (
     <MainLayout>
+      <Banner IconImage='/static/images/fagicon.svg'>คำถามที่พบบ่อย</Banner>
       <Container paddingTop='32px' paddingBottom='47px'>
-        <Title>คำถามที่พบบ่อย</Title>
         <Input
           style={{marginTop: '32px'}}
           placeholder='ค้นหาปัญหาคำถาม'

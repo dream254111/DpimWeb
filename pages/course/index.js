@@ -18,6 +18,7 @@ import moment from 'moment'
 import _ from 'lodash'
 const commaNumber = require('comma-number')
 import { FilterModal, ArrangeModal } from '../../components/modals/index'
+import { Banner } from '../../components/index'
 
 const Wrapper = styled('div')`
   .ant-checkbox-wrapper {
@@ -382,6 +383,7 @@ const CoursePage = ({
             })
           }}
         />
+        <Banner IconImage='/static/images/courseicon.svg'>คอร์สเรียน</Banner>
         <CourseContainer paddingTop='32px'>
           <Row gutter={24}>
             <Col xs={0} md={6}>

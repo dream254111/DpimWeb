@@ -28,7 +28,7 @@ const CourseCardHeader = styled('div')`
 `
 
 const CourseCardImage = styled('div')`
-  height: 170px;
+  height: 152px;
   width: 100%;
   background-image: url(${props => props.src});
   background-size: cover;

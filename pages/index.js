@@ -204,12 +204,12 @@ const RecommentWebsiteTitle = styled('div')`
 
 const WebsiteButton = styled('div')`
   padding: 16px 12px;
-  font-size: 14px;
+  font-size: 24px;
   color: #41A0FC;
   border-radius: 4px;
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   cursor: pointer;
   margin: 8px;
   width: 100%;
@@ -217,6 +217,10 @@ const WebsiteButton = styled('div')`
   :hover {
     background-color: #41A0FC;
     color: white;
+  }
+  div {
+    text-align: left;
+    
   }
 `
 
@@ -296,9 +300,14 @@ const StyledSelect = styled(Select)`
   }
 }
 `
-
-
-
+const CircleIcon = styled('div')`
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: ${props => props.backgroundColor};
+  display: inline-block;
+  margin-right: 8px;
+`
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token
 }))
@@ -546,7 +555,7 @@ const IndexPage = ({
               >
                 {
                   master.course_category.map((item, index) => (
-                    <Option value={item.id} key={index}>{item.name}</Option>
+                    <Option value={item.id} key={index}><CircleIcon backgroundColor={item.color} />{item.name}</Option>
                   ))
                 }
               </StyledSelect>
@@ -597,7 +606,7 @@ const IndexPage = ({
                 >
                   {
                     master.course_category.map((item, index) => (
-                      <Option value={item.id} key={index}>{item.name}</Option>
+                      <Option value={item.id} key={index}><CircleIcon backgroundColor={item.color} />{item.name}</Option>
                     ))
                   }
                 </StyledSelect>
@@ -628,7 +637,7 @@ const IndexPage = ({
             </VideoOnDemandContent>
             <RecommentWebsite>
               <RecommentWebsiteTitle>เว็บไซต์แนะนำ</RecommentWebsiteTitle>
-              <RecommentWebsiteRow align='middle' justify='space-between' gutter={{lg: 100, md: 16, xs: 16}}>
+              <RecommentWebsiteRow  justify='space-between' gutter={{lg: 100, md: 16, xs: 16}}>
                 {
                   recommendWeb.map((item, index) => (
                     <Col lg={6} md={12} xs={12} key={index}>
@@ -636,7 +645,7 @@ const IndexPage = ({
                         <RecommendWebCover src={item.cover} />
                         <WebsiteButton onClick={() => window.open(item.link, '_href')}>
                           <div>{item.name}</div>
-                          <ArrowRightOutlined style={{marginLeft: '18px'}} />
+                          <ArrowRightOutlined  />
                         </WebsiteButton>
                       </RecommendWeb>
                     </Col>

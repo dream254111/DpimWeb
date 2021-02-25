@@ -9,6 +9,7 @@ import API from '../../helpers/api'
 import { maxWidth } from '../../helpers/breakpoint'
 import Router from 'next/router'
 import { stripHtml } from '../../helpers/util'
+import { Banner } from '../../components/index'
 
 const Title = styled('div')`
   font-size: 24px;
@@ -83,8 +84,8 @@ const NewsPage = () =>{
   const removeFirstIndexNews = news?.length > 0 && news.filter((item, index) => index !== 0) || []
   return (
     <MainLayout>
+      <Banner IconImage='/static/images/newsicon.svg'>ข่าวประชาสัมพันธ์</Banner>
       <Container paddingTop='32px' paddingBottom='292px'>
-        <Title>ข่าวประชาสัมพันธ์</Title>
          <TopCard onClick={() => Router.push(`/news/${topNewsDetail.id}`)}>
            <TopCardImage src={topNewsDetail.image} />
            <TopCardContent>

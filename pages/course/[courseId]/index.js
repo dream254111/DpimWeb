@@ -34,11 +34,17 @@ const Header = styled('div')`
 `
 
 const PrintHere = styled('div')`
-  position: absolute;
-  top: 0;
-  right: 0;
   color: white;
   cursor: pointer;
+  margin-left: 8px;
+  &:before {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 24px;
+    background-color: #F2F2F2;
+    opacity: 0.24;
+  }
   ${maxWidth.sm`
     display: none;
   `}
@@ -881,7 +887,6 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
         />
         <Header src='/static/images/header.png'>
           <Container>
-            <PrintHere onClick={() => onPrintPage()}><span className='fa fa-print' style={{marginRight: '7.3px'}}/>พิมพ์หน้านี้</PrintHere>
             <HeaderContent>
               <HeaderImage src={courseDetail && courseDetail.course.cover} />
               <HeaderDescription>
@@ -902,6 +907,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                     courseDetail && courseDetail.course.hasCertificate &&
                     <Tag outline style={{marginLeft: '8px'}}>มีใบประกาศฯ</Tag>
                   }
+                  <PrintHere onClick={() => onPrintPage()}><span className='fa fa-print' style={{marginRight: '7.3px'}}/>พิมพ์หน้านี้</PrintHere>
                   {
                     courseDetail && courseDetail.continue_learning &&
                     <ContinueLearning>

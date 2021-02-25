@@ -7,6 +7,7 @@ import axios from 'axios'
 import { message } from 'antd'
 import API from '../helpers/api'
 import ReactPlayer from 'react-player'
+import { Banner } from '../components/index'
 
 const Title = styled('div')`
   font-size: 24px;
@@ -92,6 +93,7 @@ const HowtoPage = () => {
   }
   return (
     <MainLayout>
+      <Banner IconImage='/static/images/fagicon.svg'>วิธีการใช้งาน</Banner>
       <Container paddingTop='32px' paddingBottom='142px'>
         <Title>วิธีการใช้งาน</Title>
         <Card>
