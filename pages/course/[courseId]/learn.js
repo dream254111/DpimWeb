@@ -429,6 +429,7 @@ const LearnPage = ({
                       width='100%'
                       height='600px'
                       controls={true}
+                      onContextMenu={e => e.preventDefault()}
                       config={{
                         file: {
                           attributes: {

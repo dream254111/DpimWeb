@@ -110,6 +110,7 @@ const HowtoPage = () => {
                     <ReactPlayer
                       config={{ file: { attributes: { controlsList: 'nodownload' } } }}
                       playsinline
+                      onContextMenu={e => e.preventDefault()}
                       url={item.link}
                       width='100%'
                       height='600px'

@@ -116,6 +116,7 @@ const VideoIdPage = ({ videoId }) => {
             <ReactPlayer
               config={{ file: { attributes: { controlsList: 'nodownload' } } }}
               ref={videoRef}
+              onContextMenu={e => e.preventDefault()}
               playsinline
               playing={playing}
               url={videoDetail.video[currentVideoQuality]}
