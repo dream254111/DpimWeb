@@ -82,11 +82,15 @@ const BannerHeadline = styled('div')`
   font-family: ${font.bold};
 `
 
-const BannerImage = styled('img')`
-  max-width: 95%;
-  height: auto;
-  cursor: pointer;
+const BannerImage = styled('div')`
+  width: 1024px;
+  height: 390px;
+  background-image: url(${props => props.src});
+  background-size: cover;
+  background-position: center;
 ${maxWidth.md`
+  width: 100%;
+  height: 160px;
 `};
 `
 
@@ -484,7 +488,7 @@ const IndexPage = ({
     autoplay: true,
     autoplaySpeed: 15000,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
     initialSlide: 1,
@@ -493,7 +497,7 @@ const IndexPage = ({
         breakpoint: 1124,
         settings: {
           infinite: true,
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 1,
           initialSlide: 1
         }
@@ -566,7 +570,7 @@ const IndexPage = ({
         <BannerSlideWrapper>
         {
           banners &&
-          <BannerContainer>
+          <Container>
               <Slider {...bannerSliderSettings}>
                 {
                   banners.map((item, index) => (
@@ -582,7 +586,7 @@ const IndexPage = ({
                   ))
                 }
               </Slider>
-              </BannerContainer>
+              </Container>
         }
         </BannerSlideWrapper>
         <CourseOnlineContent>
