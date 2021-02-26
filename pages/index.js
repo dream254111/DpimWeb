@@ -68,6 +68,7 @@ const BannerTitle = styled('div')`
 `
 
 const Span = styled('span')`
+  display: inline-block;
 `
 
 const BannerSubtitle = styled('div')`
@@ -81,17 +82,12 @@ const BannerHeadline = styled('div')`
   font-family: ${font.bold};
 `
 
-const BannerImage = styled('div')`
-width: 1024px;
-height: 390px;
-background-image: url(${props => props.src});
-background-size: cover;
-background-position: center;
-${maxWidth.md`
-  width: 100%;
-  height: 160px;
-`};
+const BannerImage = styled('img')`
+  max-width: 95%;
+  height: auto;
   cursor: pointer;
+${maxWidth.md`
+`};
 `
 
 const CourseOnlineContent = styled('div')`
@@ -488,7 +484,7 @@ const IndexPage = ({
     autoplay: true,
     autoplaySpeed: 15000,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 3,
     slidesToScroll: 1,
     arrows: true,
     initialSlide: 1,
@@ -497,7 +493,7 @@ const IndexPage = ({
         breakpoint: 1124,
         settings: {
           infinite: true,
-          slidesToShow: 1,
+          slidesToShow: 2,
           slidesToScroll: 1,
           initialSlide: 1
         }
@@ -556,7 +552,7 @@ const IndexPage = ({
             <BannerContent>
               <BannerContentLeft>
                 <BannerTitle>
-                  ระบบการเรียนออนไลน์ภายใต้การพัฒนาของ<Span>กรมอุตสาหกรรมพื้นฐานและการเหมืองแร่</Span>
+                  ระบบการเรียนออนไลน์ภายใต้การพัฒนาของ<Span>กรมอุตสาหกรรม</Span>พื้นฐานและการเหมืองแร่
                 </BannerTitle>
                 <BannerSubtitle>คอร์สเรียนออนไลน์ พร้อมใบประกาศนียบัตร สำหรับผู้ประกอบการและบุคคลทั่วไป</BannerSubtitle>
               </BannerContentLeft>
@@ -570,7 +566,7 @@ const IndexPage = ({
         <BannerSlideWrapper>
         {
           banners &&
-          <Container>
+          <BannerContainer>
               <Slider {...bannerSliderSettings}>
                 {
                   banners.map((item, index) => (
@@ -586,7 +582,7 @@ const IndexPage = ({
                   ))
                 }
               </Slider>
-              </Container>
+              </BannerContainer>
         }
         </BannerSlideWrapper>
         <CourseOnlineContent>
