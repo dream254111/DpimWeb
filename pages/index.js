@@ -279,9 +279,11 @@ const CourseCardY = styled(CourseCard)`
 
 const StyledSlider = styled(Slider)`
 .slick-slide {
+  height: auto
 }
 
-.slick-list {
+.slick-slide img {
+  height: auto;
 }
 `
 
@@ -451,7 +453,7 @@ const IndexPage = ({
 
   const bannerSliderSettings = {
     dots: true,
-    infinite: true,
+    infinite: false,
     autoplay: true,
     autoplaySpeed: 15000,
     speed: 500,
