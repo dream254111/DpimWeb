@@ -78,17 +78,10 @@ const BannerHeadline = styled('div')`
   font-family: ${font.bold};
 `
 
-const BannerImage = styled('div')`
-  width: 1024px;
-  height: 390px;
+const BannerImage = styled('img')`
+  max-width: 95%;
+  height: auto;
   cursor: pointer;
-  background-image: url(${props => props.src});
-  background-size: cover;
-  background-position: center;
-  ${maxWidth.md`
-    width: 100%;
-    height: 160px;
-  `};
 `
 
 const CourseOnlineContent = styled('div')`
@@ -269,7 +262,7 @@ const BannerSlideWrapper = styled('div')`
 `
 
 const BannerContainer = styled('div')`
-  padding: 0 32px;
+  padding: 0 0 0 32px;
 `
 
 const BannerImageContainer = styled('div')`
@@ -286,8 +279,8 @@ const CourseCardY = styled(CourseCard)`
 
 const StyledSlider = styled(Slider)`
 .slick-slide {
-
 }
+
 .slick-list {
 }
 `
@@ -462,9 +455,30 @@ const IndexPage = ({
     autoplay: true,
     autoplaySpeed: 15000,
     speed: 500,
-    slidesToShow: 1,
+    slidesToShow: 3,
     slidesToScroll: 1,
-    arrows: true
+    arrows: true,
+    initialSlide: 1,
+    responsive: [
+      {
+        breakpoint: 1124,
+        settings: {
+          infinite: true,
+          slidesToShow: 2,
+          slidesToScroll: 1,
+          initialSlide: 1
+        }
+      },
+      {
+        breakpoint: 730,
+        settings: {
+          infinite: true,
+          slidesToShow: 1,
+          slidesToScroll: 1,
+          initialSlide: 1
+        }
+      },
+    ]
   }
 
   const courseSliderSettings = {
@@ -504,7 +518,7 @@ const IndexPage = ({
         imageUrl={specialDay.cover}
       />
       <Wrapper>
-        <Banner src='/static/images/banner.png'>
+        <Banner src='/static/images/banner.png' style={{paddingTop: '64px'}}>
           <Container style={{height: '100%'}}>
             <BannerContent>
               <BannerContentLeft>
@@ -523,7 +537,7 @@ const IndexPage = ({
         <BannerSlideWrapper>
         {
           banners &&
-          <Container>
+          <BannerContainer>
               <Slider {...bannerSliderSettings}>
                 {
                   banners.map((item, index) => (
@@ -538,7 +552,7 @@ const IndexPage = ({
                   ))
                 }
               </Slider>
-              </Container>
+              </BannerContainer>
         }
         </BannerSlideWrapper>
         <CourseOnlineContent>

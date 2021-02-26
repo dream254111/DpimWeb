@@ -670,18 +670,34 @@ const ContinueLearning = styled('div')`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-left: auto;
+  width: 100%;
   ${maxWidth.sm`
-    display: none;
+    flex-direction: column;
   `}
 `
 
 const ContinueLearningLeft = styled('div')`
-  margin-right: 18px;
+  width: 70%;
+  ${maxWidth.sm`
+    width: 90%;
+  `}
+`
+
+const ContinueLearningRight = styled('div')`
+${maxWidth.sm`
+    width: 100%;
+    margin-top: 8px;
+`}
+`
+
+const StyledButton = styled(Button)`
+  ${maxWidth.sm`
+    width: 100%;
+  `}
 `
 
 const ContinueLearningTitle = styled('div')`
-  font-size: 14px;
+  font-size: 0.75em;
   font-family: ${font.bold};
 `
 
@@ -908,28 +924,6 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                     <Tag outline style={{marginLeft: '8px'}}>มีใบประกาศฯ</Tag>
                   }
                   <PrintHere onClick={() => onPrintPage()}><span className='fa fa-print' style={{marginRight: '7.3px'}}/>พิมพ์หน้านี้</PrintHere>
-                  {
-                    courseDetail && courseDetail.continue_learning &&
-                    <ContinueLearning>
-                      <ContinueLearningLeft>
-                        <ContinueLearningTitle>เรียนต่อ : {courseDetail.continue_learning.name}</ContinueLearningTitle>
-                        <Progress
-                          percent={courseDetail.continue_learning.progress.toFixed(2) || 0}
-                          showInfo={true}
-                          strokeWidth={6}
-                          strokeColor={{
-                            '0%': '#00937B',
-                            '100%': '#00937B',
-                            }}
-                        />
-                      </ContinueLearningLeft>
-                      <Button 
-                        type='primary'
-                        style={{ height: '100%' }}
-                        onClick={() => Router.push(`/course/${courseId}/learn`)}
-                      >เรียนต่อ <ArrowRightOutlined /></Button>
-                    </ContinueLearning>
-                  }
                 </CourseGroup>
               </HeaderDescription>
             </HeaderContent>
@@ -955,6 +949,31 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
           <Container>
             <CourseContainer>
             <LeftContainer>
+            {
+                    courseDetail && courseDetail.continue_learning &&
+                    <ContinueLearning>
+                      <ContinueLearningLeft>
+                        <ContinueLearningTitle>เรียนต่อ : {courseDetail.continue_learning.name}</ContinueLearningTitle>
+                        <Progress
+                          percent={courseDetail.continue_learning.progress.toFixed(2) || 0}
+                          showInfo={true}
+                          strokeWidth={6}
+                          strokeColor={{
+                            '0%': '#00937B',
+                            '100%': '#00937B',
+                            }}
+                        />
+                      </ContinueLearningLeft>
+                      <ContinueLearningRight>
+                      <StyledButton 
+                        type='primary'
+                        style={{ height: '100%' }}
+                        onClick={() => Router.push(`/course/${courseId}/learn`)}
+                      >เรียนต่อ <ArrowRightOutlined /></StyledButton>
+                      </ContinueLearningRight>
+                    </ContinueLearning>
+                  }
+
             <CourseOverview ref={scrollRef1}>
               <CourseOverviewDetail>
                 <CourseTitle>ภาพรวมคอร์ส</CourseTitle>

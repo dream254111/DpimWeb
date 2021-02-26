@@ -29,7 +29,8 @@ const Nav = styled('div')`
   display: flex;
   flex-direction: row;
   align-items: center;
-  position: relative;
+  position: fixed;
+  z-index: 2;
 `
 
 const NavbarContainer = styled('div')`

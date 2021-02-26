@@ -3,7 +3,9 @@ import { maxWidth } from '../helpers/breakpoint'
 import font from '../helpers/font'
 import { Container } from './index'
 
-const Wrapper = styled('div')``
+const Wrapper = styled('div')`
+  padding: 64px 0 0 0;
+`
 
 const Banner = styled('div')`
   width: 100%;
@@ -83,7 +85,7 @@ const BannerIcon = styled('img')`
 
 const BannerStyleComponent = ({
   children,
-  IconImage
+  IconImage,
 }) => {
   return (
     <Wrapper>
