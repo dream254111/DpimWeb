@@ -78,9 +78,16 @@ const BannerHeadline = styled('div')`
   font-family: ${font.bold};
 `
 
-const BannerImage = styled('img')`
-  max-width: 95%;
-  height: auto;
+const BannerImage = styled('div')`
+width: 1024px;
+height: 390px;
+background-image: url(${props => props.src});
+background-size: cover;
+background-position: center;
+${maxWidth.md`
+  width: 100%;
+  height: 160px;
+`};
   cursor: pointer;
 `
 
@@ -539,7 +546,7 @@ const IndexPage = ({
         <BannerSlideWrapper>
         {
           banners &&
-          <BannerContainer>
+          <Container>
               <Slider {...bannerSliderSettings}>
                 {
                   banners.map((item, index) => (
@@ -555,7 +562,7 @@ const IndexPage = ({
                   ))
                 }
               </Slider>
-              </BannerContainer>
+              </Container>
         }
         </BannerSlideWrapper>
         <CourseOnlineContent>
