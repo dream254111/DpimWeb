@@ -15,6 +15,7 @@ import { maxWidth } from '../../../helpers/breakpoint'
 const { Option } = Select
 
 const Wrapper = styled('div')`
+  padding: 64px 0 0 0;
 `
 
 const Card = styled('div')`

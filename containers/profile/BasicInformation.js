@@ -26,7 +26,6 @@ const PageTitle = styled('div')`
 `
 
 const Wrapper = styled('div')`
-
 `
 
 const Title = styled('div')`

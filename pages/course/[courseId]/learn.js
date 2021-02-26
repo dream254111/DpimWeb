@@ -28,6 +28,7 @@ import {
 const { SubMenu } = Menu
 const Wrapper = styled('div')`
   width: 100%;
+  padding: 64px 0 0;
 `
 
 const MenuHeader = styled('div')`

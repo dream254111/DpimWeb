@@ -64,6 +64,7 @@ const HeaderImage = styled('div')`
 
 const HeaderContent = styled('div')`
   display: flex;
+  padding: 64px 0 0;
   align-items: flex-start;
   ${maxWidth.sm`
     flex-wrap: wrap;

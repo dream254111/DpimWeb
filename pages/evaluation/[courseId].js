@@ -176,7 +176,7 @@ const SurveyPage = ({
   const evaluations = courseDetail.evaluation || []
   return (
     <MainLayout>
-      <Container paddingTop='34px' paddingBottom='87px'>
+      <Container paddingTop='98px' paddingBottom='87px'>
         <Title>แบบประเมินหลักสูตร</Title>
         <Cards>
           {

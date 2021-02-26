@@ -91,7 +91,7 @@ const UserPage = ({ userId }) => {
   }
   return (
     <MainLayout>
-      <Container paddingTop='32px' paddingBottom='302px'>
+      <Container paddingTop='96px' paddingBottom='302px'>
         <Row gutter={{ lg: 16, xs: 0 }}>
           <Col xs={24} lg={7}>
             <InstructureCard>

@@ -108,7 +108,7 @@ const VideoIdPage = ({ videoId }) => {
   )
   return (
     <MainLayout>
-      <Container>
+      <Container style={{paddingTop: '64px'}}>
         <Title>{videoDetail.name}</Title>
         {
           videoDetail && videoDetail.video &&

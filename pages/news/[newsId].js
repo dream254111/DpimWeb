@@ -73,7 +73,7 @@ const NewsDetailPage = ({ newsId }) =>{
   }
   return (
     <MainLayout>
-      <Container paddingTop='32px' paddingBottom='399px'>
+      <Container paddingTop='96px' paddingBottom='399px'>
           <TitleWrapper>
           <ArrowLeftOutlined onClick={() => Router.push('/news')} />
           <Title>{newsDetail.name}</Title>

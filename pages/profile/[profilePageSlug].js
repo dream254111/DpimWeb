@@ -14,7 +14,7 @@ import { connect } from 'react-redux'
 const { Option } = Select
 
 const Wrapper = styled('div')`
-  
+  padding: 64px 0 0;
 `
 
 const Card = styled('div')`

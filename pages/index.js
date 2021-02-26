@@ -67,6 +67,9 @@ const BannerTitle = styled('div')`
   `};
 `
 
+const Span = styled('span')`
+`
+
 const BannerSubtitle = styled('div')`
   margin-top: 16px;
   font-size: 20px;
@@ -553,7 +556,7 @@ const IndexPage = ({
             <BannerContent>
               <BannerContentLeft>
                 <BannerTitle>
-                  ระบบการเรียนออนไลน์ภายใต้การพัฒนาของกรมอุตสาหกรรมพื้นฐานและการเหมืองแร่
+                  ระบบการเรียนออนไลน์ภายใต้การพัฒนาของ<Span>กรมอุตสาหกรรมพื้นฐานและการเหมืองแร่</Span>
                 </BannerTitle>
                 <BannerSubtitle>คอร์สเรียนออนไลน์ พร้อมใบประกาศนียบัตร สำหรับผู้ประกอบการและบุคคลทั่วไป</BannerSubtitle>
               </BannerContentLeft>

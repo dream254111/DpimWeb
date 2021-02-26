@@ -98,7 +98,7 @@ const RegisterPage = ({ master }) => {
   }
   return (
     <MainLayout>
-      <Container maxWidth='780px' paddingTop='32px' paddingBottom='150px'>
+      <Container maxWidth='780px' paddingTop='96px' paddingBottom='150px'>
         <PageTitle>สมัครสมาชิก</PageTitle>
         {
           registerStep === 1 &&
