@@ -209,17 +209,15 @@ const WebsiteButton = styled('div')`
   border-radius: 4px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   cursor: pointer;
   margin: 8px;
   width: 100%;
   transition: .5s ease;
   :hover {
-    background-color: #41A0FC;
-    color: white;
+    text-decoration: underline;
   }
   div {
-    text-align: left;
     
   }
 `
@@ -310,6 +308,29 @@ const CircleIcon = styled('div')`
   display: inline-block;
   margin-right: 8px;
 `
+
+const RecGrid = styled('div')`
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  grid-auto-rows: 1fr;
+  column-gap: 16px;
+  margin-top: 63px;
+  ${maxWidth.md`
+    margin-top: 16px;
+    grid-template-columns: repeat(2,1fr);
+    row-gap: 16px;
+`};
+${maxWidth.xs`
+    margin-top: 16px;
+    grid-template-columns: repeat(1,1fr);
+`};
+  
+`
+
+const RecGridItem = styled('div')`
+
+`
+
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token
 }))
@@ -661,21 +682,19 @@ const IndexPage = ({
             </VideoOnDemandContent>
             <RecommentWebsite>
               <RecommentWebsiteTitle>เว็บไซต์แนะนำ</RecommentWebsiteTitle>
-              <RecommentWebsiteRow  justify='space-between' gutter={{lg: 100, md: 16, xs: 16}}>
+              <RecGrid>
                 {
                   recommendWeb.map((item, index) => (
-                    <Col lg={6} md={12} xs={12} key={index}>
-                      <RecommendWeb>
+                      <RecommendWeb key={index}>
                         <RecommendWebCover src={item.cover} />
                         <WebsiteButton onClick={() => window.open(item.link, '_href')}>
                           <div>{item.name}</div>
-                          <ArrowRightOutlined  />
+                          {/* <ArrowRightOutlined  /> */}
                         </WebsiteButton>
                       </RecommendWeb>
-                    </Col>
                   ))
                 }
-              </RecommentWebsiteRow>
+              </RecGrid>
             </RecommentWebsite>
             <Stats>
               <Row align='middle' justify='space-between' gutter={{lg: 200, md: 0, xs: 0}}>
@@ -728,6 +747,10 @@ const RecommendWeb = styled('div')`
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #FFFFFF;
+  border: 1px solid #F2F2F2;
+  border-radius: 16px;
+  padding: 20px;
 `
 
 const RecommendWebCover = styled('img')`
