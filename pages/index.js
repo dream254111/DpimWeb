@@ -453,11 +453,11 @@ const IndexPage = ({
 
   const bannerSliderSettings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     autoplay: true,
     autoplaySpeed: 15000,
     speed: 500,
-    slidesToShow: 3,
+    slidesToShow: 1,
     slidesToScroll: 1,
     arrows: true,
     initialSlide: 1,
@@ -466,7 +466,7 @@ const IndexPage = ({
         breakpoint: 1124,
         settings: {
           infinite: true,
-          slidesToShow: 2,
+          slidesToShow: 1,
           slidesToScroll: 1,
           initialSlide: 1
         }
@@ -550,6 +550,7 @@ const IndexPage = ({
                         src={isMobile ? item.image_mobile : item.image_pc}
                         onClick={() => window.open(item.link, '_href')}
                       />
+                      
                     </BannerImageContainer>
                   ))
                 }
