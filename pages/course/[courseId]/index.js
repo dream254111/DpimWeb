@@ -56,6 +56,7 @@ const HeaderImage = styled('div')`
   background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
+  border-radius: 16px;
   ${maxWidth.sm`
     width: 100%;
     height: 150px;

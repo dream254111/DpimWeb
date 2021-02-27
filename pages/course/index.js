@@ -57,6 +57,7 @@ const CourseImage = styled('div')`
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  border-radius: 16px;
   ${maxWidth.sm`
    
   `}
