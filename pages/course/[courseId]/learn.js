@@ -334,7 +334,7 @@ const LearnPage = ({
         <div>{timeConvert(obj.time)}</div>
         </VideoTitle>
         <Progress
-          percent={obj.done_lesson ? 100 : obj.video_position || 0}
+          percent={obj.done_lesson ? 100 : obj.video_progress || 0}
           showInfo={false}
           strokeWidth={2}
           strokeColor={{
