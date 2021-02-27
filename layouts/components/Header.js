@@ -73,6 +73,7 @@ const Hamburger = styled('img')`
 
 const NavMenu = styled('div')`
   white-space: nowrap;
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
@@ -85,12 +86,29 @@ const NavMenu = styled('div')`
   width: 100%;
   max-height: 100vh;
   position: absolute;
-  top: 57px;
+  top: 67px;
   left: 0;
   border: 1px solid #F2F2F2;
   box-shadow: 0px 2px 4px rgba(40, 41, 61, 0.04), 0px 8px 16px rgba(96, 97, 112, 0.16);
   border-radius: 4px;
   transition: 0.4s all ease-in-out;
+`}
+
+${({ rightBorder }) => rightBorder && css`
+&:after {
+  position: absolute;
+  content: '';
+  width: 2px;
+  height: 32px;
+  background-color: #E0E0E0;
+  right: 270px;
+  top: -3px;
+}
+${maxWidth.md`
+&:after {
+  display: none;
+} 
+`}
 `}
 `
 
@@ -98,6 +116,9 @@ const NavItem = styled('div')`
   margin-right: 32px;
   position: relative;
   display: ${props => props.display ? 'none' : ''};
+  :hover {
+    transform: scale(1.15);
+  }
   a {
     color: #FFFFFF;
     text-decoration: none;
@@ -108,22 +129,7 @@ const NavItem = styled('div')`
       color: #EB5757;
      `}
   }
-  ${({ rightBorder }) => rightBorder && css`
-    &:after {
-      position: absolute;
-      content: '';
-      width: 2px;
-      height: 32px;
-      background-color: #E0E0E0;
-      right: -24px;
-      top: -3px;
-    }
-    ${maxWidth.md`
-    &:after {
-      display: none;
-    } 
-  `}
-  `}
+
   ${maxWidth.md`
     padding: 0;
     box-sizing: border-box;
@@ -135,13 +141,20 @@ const NavItem = styled('div')`
     align-items: center;
     margin: 0;
     z-index: 1;
+    :hover {
+      transform: none !important;
+    }
     a {
       color: #333333;
+      :hover {
+        transform: scale(1.15);
+      }
     }
+    
 `}
-  :hover {
-    font-size: 20px;
-  }
+:hover {
+  transform: scale(1.15);
+}
 `
 
 const NavItemBtn = styled('div')`
@@ -340,7 +353,7 @@ const Header = ({
             height='40px'
             onKeyDown={handleOnEnterSearch}
           />
-          <NavMenu isClick={isClick}>
+          <NavMenu isClick={isClick} rightBorder>
             <NavItem>
               <Link href='/course'>
                 <a>คอร์สเรียน</a>
