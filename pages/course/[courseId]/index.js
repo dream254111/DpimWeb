@@ -56,6 +56,7 @@ const HeaderImage = styled('div')`
   background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
+  border-radius: 16px;
   ${maxWidth.sm`
     width: 100%;
     height: 150px;
@@ -954,7 +955,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                     courseDetail && courseDetail.continue_learning &&
                     <ContinueLearning>
                       <ContinueLearningLeft>
-                        <ContinueLearningTitle>เรียนต่อ : {courseDetail.continue_learning.name}</ContinueLearningTitle>
+                        <ContinueLearningTitle>เข้าสู่บทเรียน : {courseDetail.continue_learning.name}</ContinueLearningTitle>
                         <Progress
                           percent={courseDetail.continue_learning.progress.toFixed(2) || 0}
                           showInfo={true}
@@ -970,7 +971,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                         type='primary'
                         style={{ height: '100%' }}
                         onClick={() => Router.push(`/course/${courseId}/learn`)}
-                      >เรียนต่อ <ArrowRightOutlined /></StyledButton>
+                      >เข้าสู่บทเรียน <ArrowRightOutlined /></StyledButton>
                       </ContinueLearningRight>
                     </ContinueLearning>
                   }
@@ -1084,7 +1085,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
               <ExampleFont>ตัวอย่างการเรียน</ExampleFont>
               {
                 courseDetail &&
-                <CourseExampleVideo id="video" controls autoplay muted >
+                <CourseExampleVideo id="video" controls muted >
                   <source src={courseDetail.course.video.original} type="video/mp4" />
                 </CourseExampleVideo>
               }
@@ -1124,7 +1125,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                       style={{margin: '0 0 8px 0'}}
                       onClick={() => Router.push(`/course/${courseId}/learn`)}
                       >
-                        เรียนต่อ
+                        เข้าสู่บทเรียน
                     </Button>
                     <Button
                       type='primary'

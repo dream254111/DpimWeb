@@ -127,7 +127,12 @@ const LoginModal = ({
           >ลืมรหัสผ่าน?</ForgotPasswordText>
           <RegisterFree>ยังไม่มีบัญชี?&nbsp;&nbsp;
           <RegisterHere
-            onClick={() => Router.push('/register')}
+            onClick={() => {
+              Router.push('/register')
+              if (window.location.pathname === '/register') {
+                closeModal()
+              }
+            }}
           >สมัครสมาชิกฟรี</RegisterHere></RegisterFree>
         </Form>
       </Card>

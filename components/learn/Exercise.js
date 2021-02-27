@@ -260,7 +260,7 @@ const ExerciseComponent = ({
       <Title>คำถามท้ายบท</Title>
       {
         exercises[currentNo].video.original &&
-        <Video id='video' controls autoplay>
+        <Video id='video' controls>
           <source src={exercises[currentNo].video.original} type='video/mp4' />
         </Video>
       }
