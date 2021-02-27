@@ -2,8 +2,8 @@ import { Modal } from 'antd'
 import styled from 'styled-components'
 
 const Image = styled('img')`
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  height: auto;
 `
 
 const SpecialDayModal = ({
@@ -17,7 +17,7 @@ const SpecialDayModal = ({
 
   return (
     <Modal
-      width={360}
+      width={1024}
       bodyStyle={{ padding: '0px' }}
       title={null}
       visible={isOpen}
