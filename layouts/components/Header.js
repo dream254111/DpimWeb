@@ -93,23 +93,6 @@ const NavMenu = styled('div')`
   border-radius: 4px;
   transition: 0.4s all ease-in-out;
 `}
-
-${({ rightBorder }) => rightBorder && css`
-&:after {
-  position: absolute;
-  content: '';
-  width: 2px;
-  height: 32px;
-  background-color: #E0E0E0;
-  right: 270px;
-  top: -3px;
-}
-${maxWidth.md`
-&:after {
-  display: none;
-} 
-`}
-`}
 `
 
 const NavItem = styled('div')`
@@ -155,6 +138,16 @@ const NavItem = styled('div')`
 :hover {
   transform: scale(1.15);
 }
+`
+
+const RightBorder = styled('div')`
+  width: 2px;
+  height: 32px;
+  background-color: #E0E0E0;
+${maxWidth.md`
+  display: none;
+`}
+
 `
 
 const NavItemBtn = styled('div')`
@@ -353,7 +346,7 @@ const Header = ({
             height='40px'
             onKeyDown={handleOnEnterSearch}
           />
-          <NavMenu isClick={isClick} rightBorder>
+          <NavMenu isClick={isClick}>
             <NavItem>
               <Link href='/course'>
                 <a>คอร์สเรียน</a>
@@ -374,6 +367,7 @@ const Header = ({
                 <a>คำถามที่พบบ่อย</a>
               </Link>
             </NavItem>
+            <RightBorder />
             {
               !memberToken &&
                 <>
