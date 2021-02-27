@@ -209,7 +209,7 @@ const CourseCardComponent = ({
                   event.stopPropagation()
                   Router.push(`/course/${id}/learn`)
                 }}
-              >เรียนต่อ</Button>
+              >เข้าสู่บทเรียน</Button>
               <Text>ปิดระบบใน {endDate} วัน</Text>
             </ProgressButtom>
           }

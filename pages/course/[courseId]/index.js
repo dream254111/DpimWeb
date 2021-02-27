@@ -955,7 +955,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                     courseDetail && courseDetail.continue_learning &&
                     <ContinueLearning>
                       <ContinueLearningLeft>
-                        <ContinueLearningTitle>เรียนต่อ : {courseDetail.continue_learning.name}</ContinueLearningTitle>
+                        <ContinueLearningTitle>เข้าสู่บทเรียน : {courseDetail.continue_learning.name}</ContinueLearningTitle>
                         <Progress
                           percent={courseDetail.continue_learning.progress.toFixed(2) || 0}
                           showInfo={true}
@@ -971,7 +971,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                         type='primary'
                         style={{ height: '100%' }}
                         onClick={() => Router.push(`/course/${courseId}/learn`)}
-                      >เรียนต่อ <ArrowRightOutlined /></StyledButton>
+                      >เข้าสู่บทเรียน <ArrowRightOutlined /></StyledButton>
                       </ContinueLearningRight>
                     </ContinueLearning>
                   }
@@ -1125,7 +1125,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                       style={{margin: '0 0 8px 0'}}
                       onClick={() => Router.push(`/course/${courseId}/learn`)}
                       >
-                        เรียนต่อ
+                        เข้าสู่บทเรียน
                     </Button>
                     <Button
                       type='primary'
