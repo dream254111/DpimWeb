@@ -17,7 +17,6 @@ const SpecialDayModal = ({
 
   return (
     <Modal
-      width={1024}
       bodyStyle={{ padding: '0px' }}
       title={null}
       visible={isOpen}
