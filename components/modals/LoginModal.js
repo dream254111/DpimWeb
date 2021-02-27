@@ -129,7 +129,9 @@ const LoginModal = ({
           <RegisterHere
             onClick={() => {
               Router.push('/register')
-              closeModal()
+              if (window.location.pathname === '/register') {
+                closeModal()
+              }
             }}
           >สมัครสมาชิกฟรี</RegisterHere></RegisterFree>
         </Form>
