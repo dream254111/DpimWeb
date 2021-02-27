@@ -38,7 +38,7 @@ const Title = styled('div')`
 const CourseCard = styled('div')`
   position: relative;
   background-color: white;
-  border-radius: 4px;
+  border-radius: 16px;
   padding: 12px;
   width: 100%;
   margin-bottom: 16px;
@@ -64,13 +64,13 @@ const CourseImage = styled('div')`
 
 const CourseTitle = styled('div')`
   font-size: 18px;
-  margin-top: 45px;
   font-family: ${font.bold};
   display: flex;
   align-items: center;
   justify-content: space-between;
+
     div&:nth-child(1) {
-      width: 98%;
+      width: 75%;
       display: inline-block;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -238,7 +238,7 @@ const FilterItem = styled('div')`
 const LeftTag = styled(Tag)`
   position: absolute;
     top: 12px;
-    left: 300px;
+    right: 12px;
   ${maxWidth.sm`
     position: absolute;
     top: initial;
@@ -250,8 +250,8 @@ const LeftTag = styled(Tag)`
 
 const RightTag = styled(Tag)`
   position: absolute;
-  left: 385px;
-  top: 12px;
+  right: 12px;
+  top: 48px;
   ${maxWidth.sm`
     top: initial;
     position: absolute;
