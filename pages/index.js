@@ -568,36 +568,35 @@ const IndexPage = ({
           </Container>
         </Banner>
         <BannerSlideWrapper>
-        {
-          banners &&
-          <Container>
-              <Slider {...bannerSliderSettings}>
-                {
-                  banners.map((item, index) => (
-                    <BannerImageContainer
-                      key={index}
-                    >
-                      <BannerImage
-                        src={isMobile ? item.image_mobile : item.image_pc}
-                        onClick={() => window.open(item.link, '_href')}
-                      />
-                      
-                    </BannerImageContainer>
-                  ))
-                }
-              </Slider>
+          {
+            banners.length > 0 &&
+              <Container>
+                <Slider {...bannerSliderSettings}>
+                  {
+                    banners.map((item, index) => (
+                      <BannerImageContainer
+                        key={index}
+                      >
+                        <BannerImage
+                          src={isMobile ? item.image_mobile : item.image_pc}
+                          onClick={() => window.open(item.link, '_href')}
+                        />
+                      </BannerImageContainer>
+                    ))
+                  }
+                </Slider>
               </Container>
-        }
+          }
         </BannerSlideWrapper>
         <CourseOnlineContent>
           <Container>
             <Title>คอร์สเรียนออนไลน์</Title>
             <CategoryWrapper>
-              <StyledSelect 
-                placeholder='แสดงหมวดหมู่' 
-                style={{ width: '208px'}} 
-                onChange={(e) => setSelectedCourseCategory(e)} 
-                open={isMouseEnter} 
+              <StyledSelect
+                placeholder='แสดงหมวดหมู่'
+                style={{ width: '208px'}}
+                onChange={(e) => setSelectedCourseCategory(e)}
+                open={isMouseEnter}
                 onMouseOver={() => setIsMouseEnter(true)}
                 onMouseLeave={() => setIsMouseEnter(false)}
               >
@@ -614,32 +613,34 @@ const IndexPage = ({
               </Button>
             </CategoryWrapper>
             <CourseListContent>
-              <StyledSlider
-                {...courseSliderSettings}
-              >
-                {
-                  courses.map((item, index) => (
-                    <Div key={index}>
-                      <CourseCardY
-                        id={item.id}
-                        name={item.name}
-                        batch={item.batch}
-                        categoryName={item.category_name}
-                        categoryColor={item.category_color}
-                        cover={item.cover}
-                        isHasCost={item.is_has_cost}
-                        cost={item.cost}
-                        hasCertificate={item.hasCertificate}
-                        instructors={item.list_instructor}
-                        totalLesson={item.total_lesson}
-                        lessonTime={item.lesson_time}
-                        startLearning={item.start_learning}
-                      >
-                        </CourseCardY>
+              {
+                courses.length > 0 &&
+                  <StyledSlider
+                    {...courseSliderSettings}
+                  >
+                    {
+                      courses.length > 0 && courses.map((item, index) => (
+                        <Div key={index}>
+                          <CourseCardY
+                            id={item.id}
+                            name={item.name}
+                            batch={item.batch}
+                            categoryName={item.category_name}
+                            categoryColor={item.category_color}
+                            cover={item.cover}
+                            isHasCost={item.is_has_cost}
+                            cost={item.cost}
+                            hasCertificate={item.hasCertificate}
+                            instructors={item.list_instructor}
+                            totalLesson={item.total_lesson}
+                            lessonTime={item.lesson_time}
+                            startLearning={item.start_learning}
+                          />
                         </Div>
-                  ))
-                }
-              </StyledSlider>
+                      ))
+                    }
+                  </StyledSlider>
+              }
             </CourseListContent>
             <VideoOnDemandContent>
               <Title>Streaming Video</Title>
@@ -661,26 +662,31 @@ const IndexPage = ({
                 <Button
                   type='primary'
                   onClick={() => Router.push('/streaming-video')}
-                >ดูทั้งหมด</Button>
+                >ดูทั้งหมด
+                </Button>
               </CategoryWrapper>
               <CourseListContent>
-                <Slider {...courseSliderSettings}>
-                  {
-                    vdo.map((item, index) => (
-                      <Div key={index}>
-                      <CourseCardX onClick={() => Router.push(`/streaming-video/${item.id}`)}>
-                        <CourseCardHeader>
-                          <CourseCardImage src={item.cover_thumbnail} />
-                          <CourseCardTitle style={{marginTop: '12px'}}>{item.name}</CourseCardTitle>
-                          <CourseTypeContent>
-                            <Tag color={item.category_color}>{item.category_nane}</Tag>
-                          </CourseTypeContent>
-                        </CourseCardHeader>
-                      </CourseCardX>
-                      </Div>
-                    ))
-                  }
-                </Slider>
+                {
+                  vdo.length > 0 &&
+                    <Slider {...courseSliderSettings}>
+                      {
+                        vdo.map((item, index) => (
+                          <Div key={index}>
+                            <CourseCardX onClick={() => Router.push(`/streaming-video/${item.id}`)}>
+                              <CourseCardHeader>
+                                <CourseCardImage src={item.cover_thumbnail} />
+                                <CourseCardTitle style={{ marginTop: '12px' }}>{item.name}</CourseCardTitle>
+                                <CourseTypeContent>
+                                  <Tag color={item.category_color}>{item.category_nane}</Tag>
+                                </CourseTypeContent>
+                              </CourseCardHeader>
+                            </CourseCardX>
+                          </Div>
+                        ))
+                      }
+                    </Slider>
+
+                }
               </CourseListContent>
             </VideoOnDemandContent>
             <RecommentWebsite>
