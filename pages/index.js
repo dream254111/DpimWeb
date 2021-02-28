@@ -141,7 +141,7 @@ const CourseCardImage = styled('div')`
   background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
-  border-radius: 8px;
+  border-radius: 16px;
 `
 
 const CourseCardContent = styled('div')`
