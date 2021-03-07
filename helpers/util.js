@@ -28,7 +28,12 @@ export const timeConvert2 = (n) => {
 }
 
 export const timeConvert3 = (time) => {
-  return moment.utc(time * 1000).format('HH:mm:ss')
+  if (time >= 3600) {
+    return moment.utc(time * 1000).format('HH:mm:ss')
+  }
+  else {
+    return moment.utc(time * 1000).format('mm:ss')
+  }
 }
 
 export const stripHtml = (val = '') => {
