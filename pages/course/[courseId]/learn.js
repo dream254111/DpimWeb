@@ -21,6 +21,7 @@ import ReactPlayer from 'react-player'
 import { timeConvert } from '../../../helpers/util'
 import dynamic from 'next/dynamic'
 import { VIDEO_QUALITY } from '../../../constants'
+import FinishedVideoModal from '../../../components/modals/FinishedVideoModal'
 import {
   isMobile
 } from 'react-device-detect'
@@ -142,6 +143,7 @@ const LearnPage = ({
   const [collapsed, setCollapsed] = useState(false)
   const [courseDetail, setCourseDetail] = useState({})
   const [menu, setMenu] = useState('1')
+  const [isModalFinishedVideoOpen, setIsModalFinishedVideoOpen] = useState(false)
   const videoRef = useRef(null)
   const courseName = courseDetail.course && courseDetail.course.name
   const courseObjective = courseDetail.course && courseDetail.course.objective_course
@@ -153,8 +155,39 @@ const LearnPage = ({
   const isPostTestPass = courseDetail.post_test_pass
   const isTrialClass = courseDetail.trial_class
   let lessonSelected = courseLessons.find(item => (item.id + '00') == menu)
+  let lessonSelectedIndex = courseLessons.findIndex(item => (item.id + '00') == menu)
+  useEffect(() => {
+    countView()
+  }, [lessonSelected])
 
+  const countView = async () => {
+    if (lessonSelected) {
+      try {
+        const request = {
+          method: 'POST',
+          url: `${API.url}/Course/count_view_lesson`,
+          data: {
+            lesson_id: lessonSelected.id
+          }
+        }
 
+        if (memberToken) {
+          request.headers = {
+            'Authorization': memberToken
+          }
+        }
+        const response = await axios(request)
+        const responseWithData = response.data
+        if (responseWithData.success) {
+        } else {
+          throw new Error(responseWithData.error)
+        }
+      } catch (error) {
+        message.error(error.message)
+      }
+
+    }
+  }
   const fetchCourseDetail = async (isFirst = false) => {
     try {
       const request = {
@@ -237,7 +270,7 @@ const LearnPage = ({
             message.error('คุณยังไม่ผ่านเงื่อนไขการทำแบบทดสอบท้ายบท')
           }
         } else {
-          setMenu(courseLessons[courselessonIndex + 1].id)
+          setMenu(courseLessons[courselessonIndex + 1].id + '00')
         }
       } else {
         throw new Error(responseWithData.error)
@@ -272,12 +305,12 @@ const LearnPage = ({
       message.error(error.message)
     }
   }
-
   const renderLesson = () => {
     if (lessonSelected) {
       return (
         <VideoLesson
           title={lessonSelected.name}
+          order={lessonSelected.order}
           description={lessonSelected.description}
           mainVideo={lessonSelected.main_video}
           handleStampVideoLesson={(videoPosition, videoProgress) => handleStampVideoLesson(lessonSelected.id, videoPosition, videoProgress)}
@@ -289,6 +322,11 @@ const LearnPage = ({
           attachmentFile={lessonSelected.attachment}
           interactive={lessonSelected.interactive}
           fetchCourseDetail={() => fetchCourseDetail()}
+          onFinishedVideo={() => {
+            if (courseLessons.length - 1 !== lessonSelectedIndex) {
+              setIsModalFinishedVideoOpen(true)
+            }
+          }}
         />
       )
     } else {
@@ -345,8 +383,25 @@ const LearnPage = ({
       </VideoTitleWrapper>
     )
   }
+  // const onSubmitFinishedVideo = () => {
+  //   const index = lessonSelectedIndex + 1
+  //   if (lessonSelected.exercise.length > 0) {
+  //     setMenu(courseLessons[index].id + '0')
+  //   } else {
+  //     setMenu(courseLessons[index].id + '00')
+  //   }
+  //   setIsModalFinishedVideoOpen(false)
+  // }
   return (
     <MainLayout>
+      {/* <FinishedVideoModal
+        isOpen={isModalFinishedVideoOpen}
+        onClose={() => setIsModalFinishedVideoOpen(false)}
+        onSubmit={() => {
+          onSubmitFinishedVideo()
+        }}
+      /> */}
+      
       <Wrapper>
         <Row>
           <Col xs={24} lg={6} style={{ backgroundColor: 'white' }}>
@@ -455,6 +510,7 @@ const LearnPage = ({
                 </DescriptionValue>
               </>
             }
+            {/* id {courseLessons && JSON.stringify(courseLessons[0].id)}00 */}
             {
               menu === '2' &&
               isPreTestPass &&
@@ -472,6 +528,7 @@ const LearnPage = ({
                 />
               </>
             }
+            
             {
               menu === '2' && courseDetail.can_use_pre_test &&
                 <>
@@ -482,7 +539,11 @@ const LearnPage = ({
                     onSelectChoice={(value) => console.log('onSelectChoice', value)}
                     nextChapterName={courseLessonOne}
                     isFinished={courseDetail.can_use_pre_test}
-                    onSubmit={() => fetchCourseDetail()}
+                    onSubmit={() => {
+                      fetchCourseDetail()
+                      const id = JSON.stringify(courseLessons[0].id) + '00'
+                      setMenu(id)
+                    }}
                   />
                 </>
             }

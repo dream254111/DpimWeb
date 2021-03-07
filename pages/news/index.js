@@ -23,18 +23,16 @@ const TopCard = styled('div')`
   background: #FFFFFF;
   margin-top: 24px;
   cursor: pointer;
+  margin-bottom: 24px;
   ${maxWidth.md`
     flex-direction: column;
   `}
 
 `
 
-const TopCardImage = styled('div')`
+const TopCardImage = styled('img')`
   width: 50%;
-  height: 272px;
-  background-image: url(${props => props.src});
-  background-size: cover;
-  background-position: center;
+  height: auto;
   ${maxWidth.md`
     width: 100%;
   `}
@@ -62,6 +60,14 @@ const TopCardDescription = styled('div')`
   margin-top: 8px;
 `
 
+const NewGrid = styled('div')`
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+`
+
+
+const NewGridItem = styled('div')``
 
 const NewsPage = () =>{
   const [news, setNews] = useState([])
@@ -117,17 +123,22 @@ const CardContent = styled('div')`
   cursor: pointer;
 `
 
-const CardImage = styled('div')`
-  width: 100%%;
-  height: 331px;
-  background-image: url(${props => props.src});
-  background-size: cover;
-  background-position: center;
+const CardImage = styled('img')`
+  max-width: 331px;
+  height:auto;
+  ${maxWidth.md`
+    max-width: 100%;
+    height: auto;
+  `}
+
 `
 
 const CardName = styled('div')`
   font-size: 18px;
   margin-top: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 3.2em;
 `
 
 NewsPage.getInitialProps = () => {

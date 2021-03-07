@@ -14,6 +14,9 @@ const Banner = styled('div')`
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  ${maxWidth.xs`
+  background-position: 15% 50%;
+  `}
 `
 
 const BannerContent = styled('div')`
@@ -89,7 +92,7 @@ const BannerStyleComponent = ({
 }) => {
   return (
     <Wrapper>
-      <Banner src='/static/images/banner.png'>
+      <Banner src='/static/images/newBanner.svg'>
         <Container style={{ height: '100%' }}>
           <BannerContent>
             <BannerContentLeft>

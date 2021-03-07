@@ -32,6 +32,12 @@ const Banner = styled('div')`
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  ${maxWidth.md`
+    background-position: 8% 50%;
+  `}
+  ${maxWidth.xs`
+    background-position: 25% 50%;
+  `}
 `
 
 const BannerContent = styled('div')`
@@ -40,23 +46,27 @@ const BannerContent = styled('div')`
   align-items: center;
   justify-content: space-between;
   color: white;
-  flex-wrap: wrap-reverse;
   padding: 26px 0;
+  ${maxWidth.xs`
+  flex-wrap: wrap-reverse;
+  `}
 `
 
 const BannerContentLeft = styled('div')`
-  width: 50%;
   font-size: 24px;
+  width: 50%;
   ${maxWidth.xs`
     width: 100%;
   `};
 `
 
-const BannerContentRight = styled(BannerContentLeft)`
+const BannerContentRight = styled('div')`
   line-height: 1;
-  text-align: right;
+  text-align: left;
+  font-size: 24px;
   ${maxWidth.xs`
     text-align: left;
+    width: 100%;
   `};
 `
 
@@ -80,6 +90,15 @@ const BannerSubtitle = styled('div')`
 const BannerHeadline = styled('div')`
   font-size: 60px;
   font-family: ${font.bold};
+  ${maxWidth.xs`
+  `}
+`
+
+const Arcademy = styled('span')`
+  display: block;
+  ${maxWidth.xs`
+    display: inline-block;
+  `}
 `
 
 const BannerImage = styled('div')`
@@ -88,6 +107,7 @@ const BannerImage = styled('div')`
   background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
+  cursor: pointer;
 ${maxWidth.md`
   width: 100%;
   height: 160px;
@@ -206,8 +226,8 @@ const RecommentWebsiteTitle = styled('div')`
 `
 
 const WebsiteButton = styled('div')`
-  padding: 16px 12px;
-  font-size: 24px;
+  padding: 2px;
+  font-size: 18px;
   color: #41A0FC;
   border-radius: 4px;
   display: flex;
@@ -221,7 +241,7 @@ const WebsiteButton = styled('div')`
     text-decoration: underline;
   }
   div {
-    
+    margin-right: 18px;
   }
 `
 
@@ -267,6 +287,7 @@ const RecommentWebsiteRow = styled(Row)`
 const BannerSlideWrapper = styled('div')`
   background-color: white;
   padding-top: 32px;
+  padding-bottom: 32px;
 `
 
 const BannerContainer = styled('div')`
@@ -353,6 +374,7 @@ const IndexPage = ({
   const [isOpenSpecialDayModal, setIsOpenSpecialDayModal] = useState(false)
   const [isMouseEnter, setIsMouseEnter] = useState(false)
   const [isMouseEnter2, setIsMouseEnter2] = useState(false)
+  const [isClickBannerImage, setIsClickBannerImage] = useState(false)
   useEffect(() => {
     Promise.all([
       fetchBannerList(),
@@ -551,7 +573,7 @@ const IndexPage = ({
         imageUrl={specialDay.cover}
       />
       <Wrapper>
-        <Banner src='/static/images/banner.png' style={{paddingTop: '64px'}}>
+        <Banner src='/static/images/newBanner.svg' style={{paddingTop: '64px'}}>
           <Container style={{height: '100%'}}>
             <BannerContent>
               <BannerContentLeft>
@@ -561,8 +583,8 @@ const IndexPage = ({
                 <BannerSubtitle>คอร์สเรียนออนไลน์ พร้อมใบประกาศนียบัตร สำหรับผู้ประกอบการและบุคคลทั่วไป</BannerSubtitle>
               </BannerContentLeft>
               <BannerContentRight>
-                <BannerHeadline>DPIM</BannerHeadline>
-                <BannerHeadline>Academy</BannerHeadline>
+                <BannerHeadline>DPIM <Arcademy>Arcademy</Arcademy></BannerHeadline>
+                {/* <BannerHeadline>Academy</BannerHeadline> */}
               </BannerContentRight>
             </BannerContent>
           </Container>
@@ -579,7 +601,7 @@ const IndexPage = ({
                       >
                         <BannerImage
                           src={isMobile ? item.image_mobile : item.image_pc}
-                          onClick={() => window.open(item.link, '_href')}
+                          onClick={() => item.link === '' ? '' : window.open(item.link, '_href')}
                         />
                       </BannerImageContainer>
                     ))
@@ -698,7 +720,7 @@ const IndexPage = ({
                         <RecommendWebCover src={item.cover} />
                         <WebsiteButton onClick={() => window.open(item.link, '_href')}>
                           <div>{item.name}</div>
-                          {/* <ArrowRightOutlined  /> */}
+                          <ArrowRightOutlined  />
                         </WebsiteButton>
                       </RecommendWeb>
                   ))

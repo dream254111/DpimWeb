@@ -49,7 +49,7 @@ const PostExamSummaryComponent = ({
   score,
   maxScore,
   onClickNextChapter,
-  percent,
+  percent = 0,
   isShowEvaluationButton = true,
   isPass,
   ...rest
@@ -68,7 +68,7 @@ const PostExamSummaryComponent = ({
           <PreExamSummaryTitle>สรุปผลคะแนนแบบทดสอบหลังเรียน</PreExamSummaryTitle>
           <PreExamSummaryDescription>
             <CheckCircleOutlined style={{ color: '#43BF9A' }} />
-            <PreExamSummaryScore>{textRender()} คุณตอบถูก {score} ข้อ จาก {maxScore} ข้อ = {percent.toFixed(2)}%</PreExamSummaryScore>
+            <PreExamSummaryScore>{textRender()} คุณตอบถูก {score} ข้อ จาก {maxScore} ข้อ = {percent && percent.toFixed(2)}%</PreExamSummaryScore>
           </PreExamSummaryDescription>
         </div>
         {

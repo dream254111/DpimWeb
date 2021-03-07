@@ -73,7 +73,9 @@ const VideoLesson = ({
   isInteractive,
   interactive,
   fetchCourseDetail,
-  attachmentFile
+  attachmentFile,
+  order,
+  onFinishedVideo = () => {}
 }) => {
   const videoRef = useRef(null)
   const [isInteractiveModalOpen, setIsInteractiveModalOpen] = useState(false)
@@ -147,6 +149,7 @@ const VideoLesson = ({
     if (percent === 100) {
       await handleStampVideoLesson(currentTime.toFixed(2), 100)
       await fetchCourseDetail()
+      onFinishedVideo()
     }
     if (isInteractive) {
       const currentTimeWithFormat = moment(currentTime * 1000).format('mm:ss')
@@ -171,7 +174,7 @@ const VideoLesson = ({
           setPlaying(true)
         }}
       />
-      <MenuHeader>{title}</MenuHeader>
+      <MenuHeader>บทที่ {order} {title}</MenuHeader>
       <PlayerWrapper>
         <ReactPlayer
           config={{ file: { attributes: { controlsList: 'nodownload' } } }}
@@ -183,6 +186,7 @@ const VideoLesson = ({
           width='100%'
           height='600px'
           controls={true}
+          loop={false}
           onProgress={(e) => videoOnProgressHandle(e)}
           onSeek={e => {
             const currentTime = videoRef.current.getCurrentTime()

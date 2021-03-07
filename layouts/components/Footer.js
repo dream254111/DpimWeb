@@ -5,17 +5,17 @@ import Router from 'next/router'
 
 const FooterContainer = styled('div')`
   box-sizing: border-box;
-  width: 100%;
-  padding: 24px 0;
+  max-width: 1376px;
+  width: 94%;
   display: flex;
   white-space: no-wrap;
   flex-direction: column;
-  padding: 8px 0;
+  margin: 0 auto;
 
 `
 const FooterLogo = styled('div')`
-  margin-top: 24px;
 `
+
 const Logo = styled('img')`
   background-image: url(${props => props.src});
   background-repeat: no-repeat;
@@ -28,6 +28,8 @@ const ContactContainer = styled('div')`
 
 const ContactTitle = styled('div')`
   margin-top: 16px;
+  color: #FFFFFF;
+  font-size: 12px;
 `
 
 const Contact = styled('div')`
@@ -41,6 +43,8 @@ const ContactItem = styled('div')`
   margin-top: 8px;
   div {
     margin-left: 14px;
+    color: #FFFFFF;
+    font-size: 12px;
   }
 `
 
@@ -57,40 +61,52 @@ const Report = styled('div')`
   margin-top: 8px;
   margin-bottom: 24px;
   div {
-    color: #41A0FC;
-    text-decoration-line: underline;
-    margin-left: 10px;
+    color: #FFFFFF;
+    font-size: 12px;
+    margin-left: 14px;
     cursor: pointer;
   }
+`
+
+const FooterBackground = styled('div')`
+  width: 100%;
+  background-color: #222639;
+  padding: 32px 0;
+`
+
+const CopyRight = styled('div')`
+font-size: 12px;
+color: #FFFFFF; 
 `
 
 const Footer = () => {
   return (
     <>
-      <Container>
-        <FooterContainer>
-          <FooterLogo>
-            <Logo src='/static/images/logo.png' />
-          </FooterLogo>
-          <ContactContainer>
-            <ContactTitle>ติดต่อเรา</ContactTitle>
-            <Contact>
-              <ContactItem>
-                <Icon src='/static/images/Facebook.png' />
-                <div>DPIM Academy</div>
-              </ContactItem>
-              <ContactItem>
-                <Icon src='/static/images/Mail.png' />
-                <div>dpimacademy@gmail.com</div>
-              </ContactItem>
-            </Contact>
-            <Report onClick={() => Router.push('/feedback')}>
-              <Icon src='/static/images/Exclamation.svg' />
-              <div>แจ้งปัญหาการใช้งาน</div>
-            </Report>
-          </ContactContainer>
-        </FooterContainer>
-      </Container>
+      <FooterBackground>
+          <FooterContainer>
+            <FooterLogo>
+              <Logo src='/static/images/newDPIMLogo.svg' />
+            </FooterLogo>
+            <ContactContainer>
+              <ContactTitle>ติดต่อเรา</ContactTitle>
+              <Contact>
+                <ContactItem>
+                  <Icon src='/static/images/newFacebook.svg' />
+                  <div>DPIM Academy</div>
+                </ContactItem>
+                <ContactItem>
+                  <Icon src='/static/images/newMail.svg' />
+                  <div>dpimacademy@gmail.com</div>
+                </ContactItem>
+              </Contact>
+              <Report onClick={() => Router.push('/feedback')}>
+                <Icon src='/static/images/newReport.svg' />
+                <div>แจ้งปัญหาการใช้งาน</div>
+              </Report>
+              <CopyRight>Copyright © 2021 DPIMACADEMY. Created by Department of Primary Industries and Mines (DPIM)</CopyRight>
+            </ContactContainer>
+          </FooterContainer>
+      </FooterBackground>
     </>
   )
 }

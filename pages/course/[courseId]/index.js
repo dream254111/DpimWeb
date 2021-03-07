@@ -12,7 +12,7 @@ import { useRef, useEffect, useState, useReducer } from 'react'
 import { Progress, message, Row, Col, Avatar } from 'antd'
 import API from '../../../helpers/api'
 import axios from 'axios'
-import { timeConvert } from '../../../helpers/util' 
+import { timeConvert, timeConvert2, timeConvert3 } from '../../../helpers/util' 
 const commaNumber = require('comma-number')
 import Router from 'next/router'
 import moment from 'moment'
@@ -1021,7 +1021,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                           {/* <LessonIcon src='/static/images/playbutton.svg' /> */}
                           <LessonNameText>{item.name}</LessonNameText>
                           </LessonName>
-                          <VideoTime>{timeConvert(item.time)}</VideoTime>
+                          <VideoTime>{timeConvert3(item.progress)}/{timeConvert3(item.time)}</VideoTime>
                           </LessonTopic>
                           <Progress
                             percent={item.is_done_lesson === 1 ? 100 : item.progress || 0}
