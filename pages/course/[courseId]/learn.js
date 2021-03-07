@@ -153,8 +153,32 @@ const LearnPage = ({
   const isPostTestPass = courseDetail.post_test_pass
   const isTrialClass = courseDetail.trial_class
   let lessonSelected = courseLessons.find(item => (item.id + '00') == menu)
+  useEffect(() => {
+    countView()
+  }, [lessonSelected])
 
+  const countView = async () => {
+    console.log('lessonSelected', lessonSelected)
+    if (lessonSelected) {
+      try {
+        const response = await axios({
+          method: 'POST',
+          url: `${API.url}/Student/count_view_lesson`,
+          data: {
+            lesson_id: lessonSelected.id
+          }
+        })
+        const responseWithData = response.data
+        if (responseWithData.success) {
+        } else {
+          throw new Error(responseWithData.error)
+        }
+      } catch (error) {
+        message.error(error.message)
+      }
 
+    }
+  }
   const fetchCourseDetail = async (isFirst = false) => {
     try {
       const request = {
@@ -473,6 +497,7 @@ const LearnPage = ({
                 />
               </>
             }
+            
             {
               menu === '2' && courseDetail.can_use_pre_test &&
                 <>
@@ -486,7 +511,6 @@ const LearnPage = ({
                     onSubmit={() => {
                       fetchCourseDetail()
                       const id = JSON.stringify(courseLessons[0].id) + '00'
-                      console.log('setmenu', id)
                       setMenu(id)
                     }}
                   />
