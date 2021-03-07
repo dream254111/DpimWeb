@@ -286,6 +286,7 @@ const RecommentWebsiteRow = styled(Row)`
 const BannerSlideWrapper = styled('div')`
   background-color: white;
   padding-top: 32px;
+  padding-bottom: 32px;
 `
 
 const BannerContainer = styled('div')`
