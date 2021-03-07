@@ -66,6 +66,7 @@ const BasicInformation = ({
   const [subDistrictId, setSubDistrictId] = useState(null)
   const [knowChannels, setKnowChannels] = useState([])
   const [isForgetPasswordLoading, setIsForgetPasswordLoading] = useState(false)
+  const [career, setCareer] = useState(null)
   const dateFormat = 'YYYY/MM/DD'
 
   useEffect(() => {
@@ -86,6 +87,7 @@ const BasicInformation = ({
         url: `${API.url}/Student/StudentProfile`
       })
       const responseWithData = response.data
+      console.log('responseWithData', responseWithData)
       if (responseWithData.success) {
         const { student } = responseWithData.data
         if (student.know_channel) {
@@ -517,13 +519,26 @@ const BasicInformation = ({
               name='career_id'
               labelCol={{ span: 24 }}
             >
-              <Select>
+              <Select
+                onChange={(value) => setCareer(value)}
+              >
                 {
                   master.career.map((item, index) => (
                     <Option key={index} value={item.id}>{item.name}</Option>
                   ))
                 }
               </Select>
+            </Form.Item>
+          </Col>
+          <Col xs={24}>
+            <Form.Item
+              name='career_other'
+              labelCol={{ span: 24 }}
+            >
+              <Input
+                placeholder='โปรดระบุ'
+                disabled={career !== 8}
+              />
             </Form.Item>
           </Col>
           <Col lg={24}>
@@ -638,12 +653,14 @@ const BasicInformation = ({
                     <Button
                       disabled={frontIdCard}
                       onClick={() => handleClickUpload('อัพโหลดบัตรประชาชนด้านหน้า', 'front_id_card')}
+                      disabled={!profileSetting.is_edit_upload_front_id_document}
                     >อัพโหลดบัตรประชาชนด้านหน้า</Button>
                   </Col>
                   <Col lg={13}>
                     <Button
                       disabled={backIdCard}
                       onClick={() => handleClickUpload('อัพโหลดบัตรประชาชนด้านหลัง', 'back_id_card')}
+                      disabled={!profileSetting.is_edit_upload_front_back_document}
                     >อัพโหลดบัตรประชาชนด้านหลัง</Button>
                   </Col>
                 </Row>
@@ -657,7 +674,7 @@ const BasicInformation = ({
                  <Row gutter={[16, 16]}>
                    <Col lg={24}>
                     <Button
-                      disabled={straightFaceImage}
+                      disabled={straightFaceImage || !profileSetting.is_edit_upload_selfie_document}
                       onClick={() => handleClickUpload('อัพโหลดภาพถ่ายหน้าตรง', 'straight_face_image')}
                     >อัพโหลดภาพถ่ายหน้าตรง</Button>
                    </Col>
@@ -674,6 +691,7 @@ const BasicInformation = ({
                       <Button
                         disabled={businessAttachment}
                         onClick={() => handleClickUpload('อัพโหลดเอกสารประกอบกิจการ', 'business_attachment')}
+                        disabled={!profileSetting.is_edit_upload_business_document }
                       >อัพโหลดเอกสารประกอบกิจการ</Button>
                    </Col>
                  </Row>

@@ -45,6 +45,25 @@ const RegisterPage = ({ master }) => {
     setRegisterStep(2)
   }
 
+  const checkDuplicateEmail = async () => {
+    try {
+      const email = formStep1.getFieldValue('email')
+      if (!email) throw new Error('กรุณากรอกอีเมล')
+      const response = await axios({
+        method: 'POST',
+        url: `${API.url}/Student/check_email`,
+        data: {
+          email: email
+        }
+      })
+      const responseWithData = response.data
+      if (responseWithData.data === false) throw new Error('อีเมลซ้ำกับในระบบ')
+      formStep1.submit()
+    } catch (error) {
+      message.error(error)
+    }
+  }
+
   const handleSubmitFormStep2 = async (values) => {
     const knowChannelKey = _.groupBy(master.know_channel, 'name')
     const knowChannelIds = values.know_channel.map(item => knowChannelKey[item][0].id)
@@ -171,7 +190,7 @@ const RegisterPage = ({ master }) => {
               <Button
                 style={{ float: 'right' }}
                 type='primary'
-                htmlType='submit'
+                onClick={() => checkDuplicateEmail()}
               >ขั้นตอนถัดไป
               </Button>
             </Form>
