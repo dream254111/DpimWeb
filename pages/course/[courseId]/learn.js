@@ -158,7 +158,6 @@ const LearnPage = ({
   }, [lessonSelected])
 
   const countView = async () => {
-    console.log('lessonSelected', lessonSelected)
     if (lessonSelected) {
       try {
         const response = await axios({
@@ -261,7 +260,7 @@ const LearnPage = ({
             message.error('คุณยังไม่ผ่านเงื่อนไขการทำแบบทดสอบท้ายบท')
           }
         } else {
-          setMenu(courseLessons[courselessonIndex + 1].id)
+          setMenu(courseLessons[courselessonIndex + 1].id + '00')
         }
       } else {
         throw new Error(responseWithData.error)
