@@ -107,6 +107,7 @@ const BannerImage = styled('div')`
   background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
+  cursor: pointer;
 ${maxWidth.md`
   width: 100%;
   height: 160px;
@@ -373,6 +374,7 @@ const IndexPage = ({
   const [isOpenSpecialDayModal, setIsOpenSpecialDayModal] = useState(false)
   const [isMouseEnter, setIsMouseEnter] = useState(false)
   const [isMouseEnter2, setIsMouseEnter2] = useState(false)
+  const [isClickBannerImage, setIsClickBannerImage] = useState(false)
   useEffect(() => {
     Promise.all([
       fetchBannerList(),
@@ -599,7 +601,7 @@ const IndexPage = ({
                       >
                         <BannerImage
                           src={isMobile ? item.image_mobile : item.image_pc}
-                          onClick={() => window.open(item.link, '_href')}
+                          onClick={() => item.link === '' ? '' : window.open(item.link, '_href')}
                         />
                       </BannerImageContainer>
                     ))
