@@ -38,7 +38,6 @@ const RegisterPage = ({ master }) => {
   const [subDistrictId, setSubDistrictId] = useState(null)
   const [step1Details, setStep1Details] = useState({})
   const [knowChannels, setKnowChannels] = useState([])
-  const [career, setCareer] = useState(null)
 
   const handleSubmitFormStep1 = (values) => {
     delete values.confirm_password
@@ -388,7 +387,7 @@ const RegisterPage = ({ master }) => {
                   }
                 </Radio.Group>
               </Form.Item>
-              <Row gutter={16} align='bottom'>
+              <Row gutter={16}>
                 <Col xs={12}>
                   <Form.Item 
                     label="อาชีพ"
@@ -396,7 +395,7 @@ const RegisterPage = ({ master }) => {
                     labelCol={{ span: 24 }}
                     rules={[{ required: true, message: 'กรุณาเลือกอาชีพ' } ]}
                   >
-                    <Select placeholder='เลือกอาชีพ' onChange={(value) => setCareer(value)}>
+                    <Select placeholder='เลือกอาชีพ'>
                       {
                         master.career.map((item, index) => (
                           <Option
@@ -408,17 +407,6 @@ const RegisterPage = ({ master }) => {
                         ))
                       }
                     </Select>
-                  </Form.Item>
-                </Col>
-                <Col xs={6}>
-                  <Form.Item
-                    name='career_other'
-                    labelCol={{ span: 24 }}
-                  >
-                    <Input
-                      placeholder='โปรดระบุ'
-                      disabled={career !== 8}
-                    />
                   </Form.Item>
                 </Col>
                 <Col xs={12}>
