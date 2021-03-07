@@ -95,10 +95,7 @@ const HowtoPage = () => {
     <MainLayout>
       <Banner IconImage='/static/images/fagicon.svg'>วิธีการใช้งาน</Banner>
       <Container paddingTop='32px' paddingBottom='142px'>
-        <Title>วิธีการใช้งาน</Title>
         <Card>
-          <Title>ปรึกษาผ่าน LINE Official Account</Title>
-          <SubTitle>ผู้เรียนสามารถแอด LINE ID จาก @dpimedlearning <br /> เพื่อสอบถามปัญหาด้านการเรียนต่าง ๆ</SubTitle>
           {
             tutorials.map((item, index) => (
               <HowtoItem key={index}>

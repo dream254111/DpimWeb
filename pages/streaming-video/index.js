@@ -17,6 +17,7 @@ import { maxWidth } from '../../helpers/breakpoint'
 const CheckboxGroup = Checkbox.Group
 
 const Wrapper = styled('div')`
+  padding: 64px 0 0 0;
   .ant-checkbox-wrapper {
     display: block;
   }
@@ -52,6 +53,7 @@ const CourseImage = styled('div')`
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  border-radius: 16px;
   flex: 1;
   ${maxWidth.sm`
     width: 100%;
