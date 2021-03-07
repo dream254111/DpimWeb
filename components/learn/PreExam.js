@@ -149,6 +149,7 @@ const PreExamComponent = ({
   }
 
   const checkAnswer = async (values) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
     const answer = values.map(item => {
       return {
         course_exam_id: item.course_exam_id,
