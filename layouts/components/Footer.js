@@ -63,7 +63,7 @@ const Report = styled('div')`
   div {
     color: #FFFFFF;
     font-size: 12px;
-    margin-left: 10px;
+    margin-left: 14px;
     cursor: pointer;
   }
 `

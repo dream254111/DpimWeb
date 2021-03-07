@@ -219,8 +219,8 @@ const RecommentWebsiteTitle = styled('div')`
 `
 
 const WebsiteButton = styled('div')`
-  padding: 16px 12px;
-  font-size: 24px;
+  padding: 2px;
+  font-size: 18px;
   color: #41A0FC;
   border-radius: 4px;
   display: flex;
@@ -234,7 +234,7 @@ const WebsiteButton = styled('div')`
     text-decoration: underline;
   }
   div {
-    
+    margin-right: 18px;
   }
 `
 
@@ -711,7 +711,7 @@ const IndexPage = ({
                         <RecommendWebCover src={item.cover} />
                         <WebsiteButton onClick={() => window.open(item.link, '_href')}>
                           <div>{item.name}</div>
-                          {/* <ArrowRightOutlined  /> */}
+                          <ArrowRightOutlined  />
                         </WebsiteButton>
                       </RecommendWeb>
                   ))
