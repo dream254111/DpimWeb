@@ -455,6 +455,7 @@ const LearnPage = ({
                 </DescriptionValue>
               </>
             }
+            {/* id {courseLessons && JSON.stringify(courseLessons[0].id)}00 */}
             {
               menu === '2' &&
               isPreTestPass &&
@@ -482,7 +483,12 @@ const LearnPage = ({
                     onSelectChoice={(value) => console.log('onSelectChoice', value)}
                     nextChapterName={courseLessonOne}
                     isFinished={courseDetail.can_use_pre_test}
-                    onSubmit={() => fetchCourseDetail()}
+                    onSubmit={() => {
+                      fetchCourseDetail()
+                      const id = JSON.stringify(courseLessons[0].id) + '00'
+                      console.log('setmenu', id)
+                      setMenu(id)
+                    }}
                   />
                 </>
             }
