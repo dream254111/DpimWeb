@@ -74,7 +74,8 @@ const VideoLesson = ({
   interactive,
   fetchCourseDetail,
   attachmentFile,
-  order
+  order,
+  onFinishedVideo = () => {}
 }) => {
   const videoRef = useRef(null)
   const [isInteractiveModalOpen, setIsInteractiveModalOpen] = useState(false)
@@ -148,6 +149,7 @@ const VideoLesson = ({
     if (percent === 100) {
       await handleStampVideoLesson(currentTime.toFixed(2), 100)
       await fetchCourseDetail()
+      onFinishedVideo()
     }
     if (isInteractive) {
       const currentTimeWithFormat = moment(currentTime * 1000).format('mm:ss')

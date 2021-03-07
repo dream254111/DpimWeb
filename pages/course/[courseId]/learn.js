@@ -21,6 +21,7 @@ import ReactPlayer from 'react-player'
 import { timeConvert } from '../../../helpers/util'
 import dynamic from 'next/dynamic'
 import { VIDEO_QUALITY } from '../../../constants'
+import FinishedVideoModal from '../../../components/modals/FinishedVideoModal'
 import {
   isMobile
 } from 'react-device-detect'
@@ -142,6 +143,7 @@ const LearnPage = ({
   const [collapsed, setCollapsed] = useState(false)
   const [courseDetail, setCourseDetail] = useState({})
   const [menu, setMenu] = useState('1')
+  const [isModalFinishedVideoOpen, setIsModalFinishedVideoOpen] = useState(false)
   const videoRef = useRef(null)
   const courseName = courseDetail.course && courseDetail.course.name
   const courseObjective = courseDetail.course && courseDetail.course.objective_course
@@ -153,6 +155,7 @@ const LearnPage = ({
   const isPostTestPass = courseDetail.post_test_pass
   const isTrialClass = courseDetail.trial_class
   let lessonSelected = courseLessons.find(item => (item.id + '00') == menu)
+  let lessonSelectedIndex = courseLessons.findIndex(item => (item.id + '00') == menu)
   useEffect(() => {
     countView()
   }, [lessonSelected])
@@ -160,13 +163,20 @@ const LearnPage = ({
   const countView = async () => {
     if (lessonSelected) {
       try {
-        const response = await axios({
+        const request = {
           method: 'POST',
           url: `${API.url}/Course/count_view_lesson`,
           data: {
             lesson_id: lessonSelected.id
           }
-        })
+        }
+
+        if (memberToken) {
+          request.headers = {
+            'Authorization': memberToken
+          }
+        }
+        const response = await axios(request)
         const responseWithData = response.data
         if (responseWithData.success) {
         } else {
@@ -295,7 +305,6 @@ const LearnPage = ({
       message.error(error.message)
     }
   }
-
   const renderLesson = () => {
     if (lessonSelected) {
       return (
@@ -313,6 +322,11 @@ const LearnPage = ({
           attachmentFile={lessonSelected.attachment}
           interactive={lessonSelected.interactive}
           fetchCourseDetail={() => fetchCourseDetail()}
+          onFinishedVideo={() => {
+            if (courseLessons.length - 1 !== lessonSelectedIndex) {
+              setIsModalFinishedVideoOpen(true)
+            }
+          }}
         />
       )
     } else {
@@ -369,8 +383,24 @@ const LearnPage = ({
       </VideoTitleWrapper>
     )
   }
+  const onSubmitFinishedVideo = () => {
+    const index = lessonSelectedIndex + 1
+    if (lessonSelected.exercise.length > 0) {
+      setMenu(courseLessons[index].id + '0')
+    } else {
+      setMenu(courseLessons[index].id + '00')
+    }
+    setIsModalFinishedVideoOpen(false)
+  }
   return (
     <MainLayout>
+      <FinishedVideoModal
+        isOpen={isModalFinishedVideoOpen}
+        onSubmit={() => {
+          onSubmitFinishedVideo()
+        }}
+      />
+      
       <Wrapper>
         <Row>
           <Col xs={24} lg={6} style={{ backgroundColor: 'white' }}>
