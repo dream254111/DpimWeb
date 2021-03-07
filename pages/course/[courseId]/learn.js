@@ -162,7 +162,7 @@ const LearnPage = ({
       try {
         const response = await axios({
           method: 'POST',
-          url: `${API.url}/Student/count_view_lesson`,
+          url: `${API.url}/Course/count_view_lesson`,
           data: {
             lesson_id: lessonSelected.id
           }
