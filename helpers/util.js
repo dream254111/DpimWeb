@@ -14,9 +14,17 @@ export const timeConvert2 = (n) => {
   const num = n
   const hours = (num / 60)
   const rhours = Math.floor(hours)
+  let rrhours = rhours
+  if (rhours < 10) {
+    rrhours = `0${rhours}`
+  }
   const minutes = (hours - rhours) * 60
   const rminutes = Math.round(minutes)
-  return `0${rhours}:${rminutes}`
+  let rrminutes = rminutes
+  if (rminutes < 10) {
+    rrminutes = `0${rminutes}`
+  }
+  return `${rrhours}:${rrminutes}`
 }
 
 export const stripHtml = (val = '') => {
