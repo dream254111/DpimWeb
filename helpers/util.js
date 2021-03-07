@@ -27,6 +27,10 @@ export const timeConvert2 = (n) => {
   return `${rrhours}:${rrminutes}`
 }
 
+export const timeConvert3 = (time) => {
+  return moment.utc(time * 1000).format('HH:mm:ss')
+}
+
 export const stripHtml = (val = '') => {
   return val.replace(/<[^>]*>?/gm, '')
 }
