@@ -183,6 +183,7 @@ const VideoLesson = ({
           width='100%'
           height='600px'
           controls={true}
+          loop={false}
           onProgress={(e) => videoOnProgressHandle(e)}
           onSeek={e => {
             const currentTime = videoRef.current.getCurrentTime()
