@@ -396,6 +396,7 @@ const LearnPage = ({
     <MainLayout>
       <FinishedVideoModal
         isOpen={isModalFinishedVideoOpen}
+        onClose={() => setIsModalFinishedVideoOpen(false)}
         onSubmit={() => {
           onSubmitFinishedVideo()
         }}

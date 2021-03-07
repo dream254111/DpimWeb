@@ -15,7 +15,7 @@ const FinishedVideoModal = ({
     <Modal
       visible={isOpen}
       footer={null}
-      bodyStyle={{ padding: '50px 24px 16px 24px',  }}
+      bodyStyle={{ padding: '50px 24px 16px 24px',}}
       onCancel={() => closeModal()}
     >
       <Button style={{width: '100%'}} onClick={() => onSubmit()}>ถัดไป</Button>
