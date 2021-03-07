@@ -32,6 +32,12 @@ const Banner = styled('div')`
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  ${maxWidth.md`
+    background-position: 8% 50%;
+  `}
+  ${maxWidth.xs`
+    background-position: 25% 50%;
+  `}
 `
 
 const BannerContent = styled('div')`
