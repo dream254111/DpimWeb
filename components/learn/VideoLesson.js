@@ -73,7 +73,8 @@ const VideoLesson = ({
   isInteractive,
   interactive,
   fetchCourseDetail,
-  attachmentFile
+  attachmentFile,
+  order
 }) => {
   const videoRef = useRef(null)
   const [isInteractiveModalOpen, setIsInteractiveModalOpen] = useState(false)
@@ -171,7 +172,7 @@ const VideoLesson = ({
           setPlaying(true)
         }}
       />
-      <MenuHeader>{title}</MenuHeader>
+      <MenuHeader>บทที่ {order} {title}</MenuHeader>
       <PlayerWrapper>
         <ReactPlayer
           config={{ file: { attributes: { controlsList: 'nodownload' } } }}

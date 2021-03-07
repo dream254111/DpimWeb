@@ -301,6 +301,7 @@ const LearnPage = ({
       return (
         <VideoLesson
           title={lessonSelected.name}
+          order={lessonSelected.order}
           description={lessonSelected.description}
           mainVideo={lessonSelected.main_video}
           handleStampVideoLesson={(videoPosition, videoProgress) => handleStampVideoLesson(lessonSelected.id, videoPosition, videoProgress)}
