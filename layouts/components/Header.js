@@ -331,7 +331,7 @@ const Header = ({
           <NavLogo>
             <Link href='/'>
               <a>
-                <NavIcon src='/static/images/Logo_V2.svg' />
+                <NavIcon src='/static/images/newDPIMLogo.svg' />
               </a>
             </Link>
           </NavLogo>

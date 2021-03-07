@@ -40,23 +40,27 @@ const BannerContent = styled('div')`
   align-items: center;
   justify-content: space-between;
   color: white;
-  flex-wrap: wrap-reverse;
   padding: 26px 0;
+  ${maxWidth.xs`
+  flex-wrap: wrap-reverse;
+  `}
 `
 
 const BannerContentLeft = styled('div')`
-  width: 50%;
   font-size: 24px;
+  width: 50%;
   ${maxWidth.xs`
     width: 100%;
   `};
 `
 
-const BannerContentRight = styled(BannerContentLeft)`
+const BannerContentRight = styled('div')`
   line-height: 1;
-  text-align: right;
+  text-align: left;
+  font-size: 24px;
   ${maxWidth.xs`
     text-align: left;
+    width: 100%;
   `};
 `
 
@@ -80,6 +84,15 @@ const BannerSubtitle = styled('div')`
 const BannerHeadline = styled('div')`
   font-size: 60px;
   font-family: ${font.bold};
+  ${maxWidth.xs`
+  `}
+`
+
+const Arcademy = styled('span')`
+  display: block;
+  ${maxWidth.xs`
+    display: inline-block;
+  `}
 `
 
 const BannerImage = styled('div')`
@@ -551,7 +564,7 @@ const IndexPage = ({
         imageUrl={specialDay.cover}
       />
       <Wrapper>
-        <Banner src='/static/images/banner.png' style={{paddingTop: '64px'}}>
+        <Banner src='/static/images/newBanner.svg' style={{paddingTop: '64px'}}>
           <Container style={{height: '100%'}}>
             <BannerContent>
               <BannerContentLeft>
@@ -561,8 +574,8 @@ const IndexPage = ({
                 <BannerSubtitle>คอร์สเรียนออนไลน์ พร้อมใบประกาศนียบัตร สำหรับผู้ประกอบการและบุคคลทั่วไป</BannerSubtitle>
               </BannerContentLeft>
               <BannerContentRight>
-                <BannerHeadline>DPIM</BannerHeadline>
-                <BannerHeadline>Academy</BannerHeadline>
+                <BannerHeadline>DPIM <Arcademy>Arcademy</Arcademy></BannerHeadline>
+                {/* <BannerHeadline>Academy</BannerHeadline> */}
               </BannerContentRight>
             </BannerContent>
           </Container>
