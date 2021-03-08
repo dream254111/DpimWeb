@@ -50,6 +50,7 @@ const FeedbackPage = ({
   const [form] = Form.useForm()
   useEffect(() => {
     form.resetFields()
+    window.scrollTo(0, 0);
   }, [])
 
   const handleSubmit = async (values) => {

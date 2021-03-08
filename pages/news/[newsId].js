@@ -42,6 +42,7 @@ const Image = styled('div')`
 const Description = styled('div')`
   font-size: 18px;
   margin-top: 32px;
+  word-wrap: break-word;
 `
 
 const NewsDetailPage = ({ newsId }) =>{

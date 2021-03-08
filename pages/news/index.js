@@ -2,7 +2,7 @@ import MainLayout from '../../layouts/main'
 import styled from 'styled-components'
 import font from '../../helpers/font'
 import { Container } from '../../components'
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { message, Row, Col } from 'antd'
 import axios from 'axios'
 import API from '../../helpers/api'
@@ -18,14 +18,17 @@ const Title = styled('div')`
 
 const TopCard = styled('div')`
   width: 100%;
+  position: relative;
   display: flex;
   align-items: flex-start;
   background: #FFFFFF;
   margin-top: 24px;
   cursor: pointer;
   margin-bottom: 24px;
+  padding: 16px;
   ${maxWidth.md`
     flex-direction: column;
+    padding-bottom: 30px;
   `}
 
 `
@@ -42,6 +45,7 @@ const TopCardContent = styled('div')`
   width: 50%;
   padding: 16px 24px;
   height: 100%;
+  position: relative;
   ${maxWidth.md`
     padding: 0;
     width: 100%;
@@ -58,6 +62,13 @@ const TopCardName = styled('div')`
 const TopCardDescription = styled('div')`
   font-size: 18px;
   margin-top: 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-height: 8.9em;
+  word-wrap: break-word;
+  ${maxWidth.md`
+    max-height: 6.2em;
+  `}
 `
 
 const NewGrid = styled('div')`
@@ -66,14 +77,38 @@ const NewGrid = styled('div')`
   gap: 16px;
 `
 
+const Readmore = styled('div')`
+  position: absolute;
+  top: 250px;
+  font-size: 18px;
+  text-decoration: underline;
+  z-index: 2;
+  ${maxWidth.md`
+    top: 147px;
+    right: 4px;
+  `}
+`
+
 
 const NewGridItem = styled('div')``
 
 const NewsPage = () =>{
+  const rm = useRef(null)
   const [news, setNews] = useState([])
   useEffect(() => {
     fetchNews()
   }, [])
+  useEffect(() => {
+    checkHeightofText()
+  })
+  const [readmore, setReadmore] = useState(false)
+  const checkHeightofText = () => {
+    const getHeight = rm.current.clientHeight
+    console.log(getHeight)
+    if (getHeight >= 160) {
+      setReadmore(true)
+    }
+  }
 
   const fetchNews = async () => {
     try {
@@ -96,7 +131,11 @@ const NewsPage = () =>{
            <TopCardImage src={topNewsDetail.image} />
            <TopCardContent>
              <TopCardName>{topNewsDetail.name}</TopCardName>
-             <TopCardDescription>{stripHtml(topNewsDetail.description)}</TopCardDescription>
+             <TopCardDescription ref={rm}>{stripHtml(topNewsDetail.description)}</TopCardDescription>
+             {
+               readmore &&
+                 <Readmore>Readmore...</Readmore>
+             }
            </TopCardContent>
          </TopCard>
          <Row gutter={16}>
