@@ -65,6 +65,7 @@ const Report = styled('div')`
     font-size: 12px;
     margin-left: 14px;
     cursor: pointer;
+    text-decoration: underline;
   }
 `
 

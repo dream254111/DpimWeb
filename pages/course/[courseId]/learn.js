@@ -323,9 +323,7 @@ const LearnPage = ({
           interactive={lessonSelected.interactive}
           fetchCourseDetail={() => fetchCourseDetail()}
           onFinishedVideo={() => {
-            if (courseLessons.length - 1 !== lessonSelectedIndex) {
-              setIsModalFinishedVideoOpen(true)
-            }
+            setIsModalFinishedVideoOpen(true)
           }}
         />
       )
@@ -383,24 +381,33 @@ const LearnPage = ({
       </VideoTitleWrapper>
     )
   }
-  // const onSubmitFinishedVideo = () => {
-  //   const index = lessonSelectedIndex + 1
-  //   if (lessonSelected.exercise.length > 0) {
-  //     setMenu(courseLessons[index].id + '0')
-  //   } else {
-  //     setMenu(courseLessons[index].id + '00')
-  //   }
-  //   setIsModalFinishedVideoOpen(false)
-  // }
+  const onSubmitFinishedVideo = () => {
+    const index = lessonSelectedIndex + 1
+    const isLastCourse = courseLessons.length - 1 === lessonSelectedIndex
+    if (isLastCourse) {
+      if (lessonSelected.exercise.length === 0) {
+        setMenu(999)
+      } else {
+        setMenu(courseLessons[lessonSelectedIndex].id + '0')
+      }
+    } else {
+      if (lessonSelected.exercise.length === 0) {
+        setMenu(courseLessons[index].id + '00')
+      } else {
+        setMenu(courseLessons[lessonSelectedIndex].id + '0')
+      }
+    }
+    setIsModalFinishedVideoOpen(false)
+  }
   return (
     <MainLayout>
-      {/* <FinishedVideoModal
+      <FinishedVideoModal
         isOpen={isModalFinishedVideoOpen}
         onClose={() => setIsModalFinishedVideoOpen(false)}
         onSubmit={() => {
           onSubmitFinishedVideo()
         }}
-      /> */}
+      />
       
       <Wrapper>
         <Row>
@@ -523,7 +530,9 @@ const LearnPage = ({
                   maxScore={courseDetail.total_exam}
                   percent={courseDetail.percent_post_test}
                   nextChapterName={courseLessonOne}
-                  onClickNextChapter={() => setMenu('3')}
+                  onClickNextChapter={() => {
+                    setMenu(courseLessons[0].id + '0')
+                  }}
                   isShowNextChapterButton={false}
                 />
               </>

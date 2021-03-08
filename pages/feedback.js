@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 
 const Wrapper = styled('div')`
   width: 100%;
+  padding: 64px 0 0 0;
 `
 
 const Container = styled('div')`
@@ -49,6 +50,7 @@ const FeedbackPage = ({
   const [form] = Form.useForm()
   useEffect(() => {
     form.resetFields()
+    window.scrollTo(0, 0);
   }, [])
 
   const handleSubmit = async (values) => {

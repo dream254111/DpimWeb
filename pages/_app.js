@@ -53,6 +53,7 @@ App.getInitialProps = async ({ Component, ctx }) => {
       url: `${API.url}/Student/master_data`,
     })
     master = masterData.data.data
+    master.course_category.unshift({ id: '0', name: 'ทั้งหมด' })
     console.log('master', master)
     const isLogin = await ctx.store.dispatch(checkMemberAlreadyLogin(ctx.req, ctx.res))
     const isServer = !!ctx.req

@@ -226,22 +226,20 @@ const RecommentWebsiteTitle = styled('div')`
 `
 
 const WebsiteButton = styled('div')`
-  padding: 2px;
-  font-size: 18px;
+  margin-top: 16px;
+  font-size: 12px;
   color: #41A0FC;
   border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin: 8px;
   width: 100%;
   transition: .5s ease;
   :hover {
     text-decoration: underline;
   }
   div {
-    margin-right: 18px;
   }
 `
 
@@ -345,8 +343,6 @@ const RecGrid = styled('div')`
     row-gap: 16px;
 `};
 ${maxWidth.xs`
-    margin-top: 16px;
-    grid-template-columns: repeat(1,1fr);
 `};
   
 `
@@ -583,7 +579,7 @@ const IndexPage = ({
                 <BannerSubtitle>คอร์สเรียนออนไลน์ พร้อมใบประกาศนียบัตร สำหรับผู้ประกอบการและบุคคลทั่วไป</BannerSubtitle>
               </BannerContentLeft>
               <BannerContentRight>
-                <BannerHeadline>DPIM <Arcademy>Arcademy</Arcademy></BannerHeadline>
+                <BannerHeadline>DPIM <Arcademy>Academy</Arcademy></BannerHeadline>
                 {/* <BannerHeadline>Academy</BannerHeadline> */}
               </BannerContentRight>
             </BannerContent>
@@ -720,7 +716,7 @@ const IndexPage = ({
                         <RecommendWebCover src={item.cover} />
                         <WebsiteButton onClick={() => window.open(item.link, '_href')}>
                           <div>{item.name}</div>
-                          <ArrowRightOutlined  />
+                          {/* <ArrowRightOutlined  /> */}
                         </WebsiteButton>
                       </RecommendWeb>
                   ))
@@ -782,11 +778,19 @@ const RecommendWeb = styled('div')`
   border: 1px solid #F2F2F2;
   border-radius: 16px;
   padding: 20px;
+  ${maxWidth.xs`
+    padding: 16px;
+  `}
 `
 
 const RecommendWebCover = styled('img')`
-  width: 100%;
+  max-width: 128px;
+  height: 128px;
   border-radius: 8px;
+  ${maxWidth.xs`
+    max-width: 72px;
+    height: 72px;
+  `}
 `
 
 const Panal = styled('div')`

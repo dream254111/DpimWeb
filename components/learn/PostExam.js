@@ -145,6 +145,7 @@ const PreExamComponent = ({
   }
 
   const checkAnswer = async (values) => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
     setIsLoading(true)
     let answer = values.map(item => {
       return {
