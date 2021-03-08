@@ -323,9 +323,7 @@ const LearnPage = ({
           interactive={lessonSelected.interactive}
           fetchCourseDetail={() => fetchCourseDetail()}
           onFinishedVideo={() => {
-            if (courseLessons.length - 1 !== lessonSelectedIndex) {
-              setIsModalFinishedVideoOpen(true)
-            }
+            setIsModalFinishedVideoOpen(true)
           }}
         />
       )
@@ -385,10 +383,19 @@ const LearnPage = ({
   }
   const onSubmitFinishedVideo = () => {
     const index = lessonSelectedIndex + 1
-    if (lessonSelected.exercise.length > 0) {
-      setMenu(courseLessons[index].id + '0')
+    const isLastCourse = courseLessons.length - 1 === lessonSelectedIndex
+    if (isLastCourse) {
+      if (lessonSelected.exercise.length === 0) {
+        setMenu(999)
+      } else {
+        setMenu(courseLessons[lessonSelectedIndex].id + '0')
+      }
     } else {
-      setMenu(courseLessons[index].id + '00')
+      if (lessonSelected.exercise.length === 0) {
+        setMenu(courseLessons[index].id + '00')
+      } else {
+        setMenu(courseLessons[lessonSelectedIndex].id + '0')
+      }
     }
     setIsModalFinishedVideoOpen(false)
   }
