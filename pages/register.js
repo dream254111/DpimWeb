@@ -57,8 +57,12 @@ const RegisterPage = ({ master }) => {
         }
       })
       const responseWithData = response.data
-      if (responseWithData.data === false) throw new Error('อีเมลซ้ำกับในระบบ')
-      formStep1.submit()
+      console.log('responseWithData', responseWithData)
+      if (responseWithData.data === false) {
+        message.error('อีเมลซ้ำกันในะระบบ')
+      } else {
+        formStep1.submit()
+      }
     } catch (error) {
       message.error(error)
     }
