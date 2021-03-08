@@ -13,6 +13,7 @@ import { useRouter } from 'next/router'
 
 const Wrapper = styled('div')`
   width: 100%;
+  padding: 64px 0 0 0;
 `
 
 const Container = styled('div')`
