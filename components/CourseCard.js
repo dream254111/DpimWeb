@@ -185,7 +185,7 @@ const CourseCardComponent = ({
               <Tag color={categoryColor}>{categoryName}</Tag>
               {
                 hasCertificate &&
-                <Tag outline>รับรองใบประกาศฯ</Tag>
+                <Tag outline>มีใบประกาศฯ</Tag>
               }
             </CourseTypeContent>
             <CourseTimeContent>
