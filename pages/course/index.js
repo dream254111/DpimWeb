@@ -364,12 +364,14 @@ const CoursePage = ({
       <Wrapper>
         <FilterModal
           isOpen={isFilterModalOpen}
+          master={master}
           onClose={() => setIsFilterModalOpen(false)}
           learningOnline={filter?.learning_online}
-          onSubmit={(value) => {
+          categoryId={filter?.category_id}
+          onSubmit={(filterFromFilterModal) => {
             setFilter({
               ...filter,
-              learning_online: value.toString()
+              ...filterFromFilterModal
             })
           }}
         />

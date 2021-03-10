@@ -2,6 +2,8 @@ import { Modal, Checkbox, message, Radio, Space } from 'antd'
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
 import { Button } from '../index'
+const CheckboxGroup = Checkbox.Group
+import _ from 'lodash'
 
 const FilterTitle = styled('div')``
 const FilterItem = styled('div')``
@@ -27,7 +29,9 @@ const CloseText = styled('div')`
 const FilterModal = ({
   isOpen = false,
   onClose = () => { },
+  master,
   learningOnline,
+  categoryId,
   onSubmit = () => { }
 }) => {
   const closeModal = () => {
@@ -39,10 +43,14 @@ const FilterModal = ({
     lineHeight: '30px',
   }
 
-  const [learningOnlineState, setLearningOnlineState] = useState(learningOnline)
+  const [filter, setFilter] = useState({
+    learningOnline,
+    categoryId
+  })
+  const courseCategoryKey = _.groupBy(master.course_category, 'name')
 
   const submit = () => {
-    onSubmit(learningOnlineState)
+    onSubmit(filter)
     closeModal()
   }
 
@@ -55,12 +63,31 @@ const FilterModal = ({
       onCancel={() => closeModal()}
     >
       <FilterItem>
+        <FilterTitle>หมวดหมู่</FilterTitle>
+        <Space direction='vertical' style={{ marginTop: '10px' }}>
+          <CheckboxGroup
+            options={master.course_category.map(item => item.name)}
+            onChange={(categoryDetails) => {
+              const categoryIds = categoryDetails.map(item => courseCategoryKey[item][0].id)
+              setFilter({
+                ...filter,
+                category_id: categoryIds.length === 0 ? 0 : categoryIds
+              })
+            }}
+          />
+        </Space>
+      </FilterItem>
+      <HorizontalLine />
+      <FilterItem>
         <FilterTitle>รูปแบบการเรียน</FilterTitle>
         <Radio.Group
           style={{ marginTop: '8px' }}
-          value={learningOnlineState}
+          value={filter.learning_online}
           onChange={(event) => {
-            setLearningOnlineState(event.target.value)
+            setFilter({
+              ...filter,
+              learning_online: event.target.value
+            })
           }}
         >
           <Radio style={radioStyle} value={1}>
