@@ -134,7 +134,7 @@ const NewsPage = () =>{
              <TopCardDescription ref={rm}>{stripHtml(topNewsDetail.description)}</TopCardDescription>
              {
                readmore &&
-                 <Readmore>Readmore...</Readmore>
+                 <Readmore>Read more</Readmore>
              }
            </TopCardContent>
          </TopCard>
@@ -164,8 +164,9 @@ const CardContent = styled('div')`
 
 const CardImage = styled('img')`
   max-width: 331px;
-  height:auto;
+  max-height: 200px;
   ${maxWidth.md`
+    max-height: initial;
     max-width: 100%;
     height: auto;
   `}

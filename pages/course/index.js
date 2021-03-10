@@ -528,7 +528,7 @@ const CoursePage = ({
                         </div>
                         {
                           item.hasCertificate &&
-                            <RightTag outline>รับรองใบประกาศฯ</RightTag>
+                            <RightTag outline>มีใบประกาศฯ</RightTag>
                         }
                       </CourseTitle>
                       <CourseDescription>

@@ -85,7 +85,7 @@ const LoginModal = ({
         onClose={() => setIsForgotPasswordModalOpen(false)}
       />
       <Card>
-        <Title>เข้าสู่ระบบ DPIM</Title>
+        <Title>เข้าสู่ระบบ DPIM ACADEMY</Title>
         <Form
           onFinish={handleSubmit}
           form={form}
