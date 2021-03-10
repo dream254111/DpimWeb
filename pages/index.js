@@ -102,8 +102,8 @@ const Arcademy = styled('span')`
 `
 
 const BannerImage = styled('div')`
-  width: 1024px;
-  height: 390px;
+  width: 430px;
+  height: 200px;
   background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
@@ -503,21 +503,22 @@ const IndexPage = ({
   const bannerSliderSettings = {
     dots: true,
     infinite: true,
-    autoplay: true,
-    autoplaySpeed: 15000,
+    // autoplay: true,
+    // autoplaySpeed: 15000,
     speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
+    slidesToShow: 3,
+    slidesToScroll: 3,
     arrows: true,
-    initialSlide: 1,
+    initialSlide: 3,
+    lazyLoad: false,
     responsive: [
       {
         breakpoint: 1124,
         settings: {
           infinite: true,
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          initialSlide: 1
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2
         }
       },
       {
@@ -588,7 +589,7 @@ const IndexPage = ({
         <BannerSlideWrapper>
           {
             banners.length > 0 &&
-              <Container>
+              <Container maxWidth='1440px'>
                 <Slider {...bannerSliderSettings}>
                   {
                     banners.map((item, index) => (
