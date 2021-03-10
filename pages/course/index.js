@@ -402,10 +402,10 @@ const CoursePage = ({
                   })
                 }}
               >
-                <Option value='cheapest'>ราคาต่ำสุด</Option>
-                <Option value='expensive'>ราคาแพงสุด</Option>
                 <Option value='newest'>หลักสูตรใหม่</Option>
                 <Option value='letters'>ลำดับตัวอักษร</Option>
+                <Option value='cheapest'>ราคาต่ำสุด</Option>
+                <Option value='expensive'>ราคาแพงสุด</Option>
               </Select>
               <BoldTitle>คัดกรอง</BoldTitle>
               <FilterTitle style={{marginTOp: '8px'}}>ช่วงเวลาเปิดคอร์ส</FilterTitle>
