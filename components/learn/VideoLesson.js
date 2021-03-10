@@ -147,6 +147,7 @@ const VideoLesson = ({
       }
     }
     if (percent === 100) {
+      setPlaying(false)
       await handleStampVideoLesson(currentTime.toFixed(2), 100)
       await fetchCourseDetail()
       onFinishedVideo()
