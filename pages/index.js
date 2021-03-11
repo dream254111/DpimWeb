@@ -102,8 +102,8 @@ const Arcademy = styled('span')`
 `
 
 const BannerImage = styled('div')`
-  width: 1024px;
-  height: 390px;
+  width: 410px;
+  height: 200px;
   background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
@@ -371,6 +371,8 @@ const IndexPage = ({
   const [isMouseEnter, setIsMouseEnter] = useState(false)
   const [isMouseEnter2, setIsMouseEnter2] = useState(false)
   const [isClickBannerImage, setIsClickBannerImage] = useState(false)
+  const [bannerSliderSettings, setBannerSliderSettings] = useState({})
+
   useEffect(() => {
     Promise.all([
       fetchBannerList(),
@@ -424,6 +426,39 @@ const IndexPage = ({
         url: `${API.url}/Student/GetAllBanner`
       })
       const data = response.data.data
+      const bannerLength = data.length
+      setBannerSliderSettings({
+        dots: true,
+        infinite: true,
+        autoplay: true,
+        autoplaySpeed: 15000,
+        speed: 500,
+        slidesToShow: bannerLength < 3 ? bannerLength : 3,
+        slidesToScroll: 1,
+        arrows: true,
+        initialSlide: bannerLength < 3 ? bannerLength : 3,
+        lazyLoad: false,
+        responsive: [
+          {
+            breakpoint: 1124,
+            settings: {
+              infinite: true,
+              slidesToShow: 2,
+              slidesToScroll: 2,
+              initialSlide: 2
+            }
+          },
+          {
+            breakpoint: 730,
+            settings: {
+              infinite: true,
+              slidesToShow: 1,
+              slidesToScroll: 1,
+              initialSlide: 1
+            }
+          },
+        ]
+      })
       setBanners(data)
     } catch (error) {
       message.error(error.message)
@@ -500,38 +535,6 @@ const IndexPage = ({
     }
   }
 
-  const bannerSliderSettings = {
-    dots: true,
-    infinite: true,
-    autoplay: true,
-    autoplaySpeed: 15000,
-    speed: 500,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-    arrows: true,
-    initialSlide: 1,
-    responsive: [
-      {
-        breakpoint: 1124,
-        settings: {
-          infinite: true,
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          initialSlide: 1
-        }
-      },
-      {
-        breakpoint: 730,
-        settings: {
-          infinite: true,
-          slidesToShow: 1,
-          slidesToScroll: 1,
-          initialSlide: 1
-        }
-      },
-    ]
-  }
-
   const courseSliderSettings = {
     dots: true,
     infinite: false,
@@ -588,7 +591,7 @@ const IndexPage = ({
         <BannerSlideWrapper>
           {
             banners.length > 0 &&
-              <Container>
+              <Container maxWidth='1440px'>
                 <Slider {...bannerSliderSettings}>
                   {
                     banners.map((item, index) => (

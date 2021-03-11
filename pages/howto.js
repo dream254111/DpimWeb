@@ -53,6 +53,9 @@ const ItemNumber = styled('div')`
 const ItemTitle = styled('div')`
   font-size: 32px;
   margin-left: 16px;
+  span {
+    word-break: break-word;
+  }
 `
 
 const Image = styled('img')`

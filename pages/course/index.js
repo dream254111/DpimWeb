@@ -364,12 +364,14 @@ const CoursePage = ({
       <Wrapper>
         <FilterModal
           isOpen={isFilterModalOpen}
+          master={master}
           onClose={() => setIsFilterModalOpen(false)}
           learningOnline={filter?.learning_online}
-          onSubmit={(value) => {
+          categoryId={filter?.category_id}
+          onSubmit={(filterFromFilterModal) => {
             setFilter({
               ...filter,
-              learning_online: value.toString()
+              ...filterFromFilterModal
             })
           }}
         />
@@ -400,10 +402,10 @@ const CoursePage = ({
                   })
                 }}
               >
-                <Option value='cheapest'>ราคาต่ำสุด</Option>
-                <Option value='expensive'>ราคาแพงสุด</Option>
                 <Option value='newest'>หลักสูตรใหม่</Option>
                 <Option value='letters'>ลำดับตัวอักษร</Option>
+                <Option value='cheapest'>ราคาต่ำสุด</Option>
+                <Option value='expensive'>ราคาแพงสุด</Option>
               </Select>
               <BoldTitle>คัดกรอง</BoldTitle>
               <FilterTitle style={{marginTOp: '8px'}}>ช่วงเวลาเปิดคอร์ส</FilterTitle>
