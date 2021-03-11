@@ -507,7 +507,7 @@ const IndexPage = ({
     // autoplaySpeed: 15000,
     speed: 500,
     slidesToShow: 3,
-    slidesToScroll: 3,
+    slidesToScroll: 1,
     arrows: true,
     initialSlide: 3,
     lazyLoad: false,

@@ -67,22 +67,8 @@ const ArrangeModal = ({
       onCancel={() => closeModal()}
     >
       <ArrangeContainer>
-        <ArrangeItem onClick={() => setSortState('cheapest')}>
-          <ArrangeText>ถูกสุด</ArrangeText>
-          {
-            sortState === 'cheapest' &&
-              <Icon src='/static/images/checkmark.svg' />
-          }
-        </ArrangeItem>
-        <ArrangeItem onClick={() => setSortState('expensive')}>
-          <ArrangeText>แพงสุด</ArrangeText>
-          {
-            sortState === 'expensive' &&
-              <Icon src='/static/images/checkmark.svg' />
-          }
-        </ArrangeItem>
         <ArrangeItem onClick={() => setSortState('newest')}>
-          <ArrangeText>ใหม่สุด</ArrangeText>
+          <ArrangeText>หลักสูตรใหม่</ArrangeText>
           {
             sortState === 'newest' &&
               <Icon src='/static/images/checkmark.svg' />
@@ -92,6 +78,20 @@ const ArrangeModal = ({
           <ArrangeText>ลำดับตัวอักษร</ArrangeText>
           {
             sortState === 'letters' &&
+              <Icon src='/static/images/checkmark.svg' />
+          }
+        </ArrangeItem>
+        <ArrangeItem onClick={() => setSortState('cheapest')}>
+          <ArrangeText>ราคาต่ำสุด</ArrangeText>
+          {
+            sortState === 'cheapest' &&
+              <Icon src='/static/images/checkmark.svg' />
+          }
+        </ArrangeItem>
+        <ArrangeItem onClick={() => setSortState('expensive')}>
+          <ArrangeText>ราคาแพงสุด</ArrangeText>
+          {
+            sortState === 'expensive' &&
               <Icon src='/static/images/checkmark.svg' />
           }
         </ArrangeItem>
