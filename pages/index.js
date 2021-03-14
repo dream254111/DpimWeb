@@ -11,7 +11,7 @@ import axios from 'axios'
 import { useState, useEffect } from 'react'
 import API, { url } from '../helpers/api'
 import { connect } from 'react-redux'
-import { ArrowRightOutlined } from '@ant-design/icons'
+import { ArrowRightOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import {
   isMobile
 } from 'react-device-detect'
@@ -24,6 +24,15 @@ const { Option } = Select
 
 const Wrapper = styled('div')`
   padding-bottom: 72px;
+  .slick-arrow {
+    display: block !important;
+    background: #FFFFFF !important;
+    box-shadow: 0px 0px 2px rgb(40 41 61 / 4%), 0px 4px 8px rgb(96 97 112 / 16%) !important;
+    border-radius: 50% !important;
+    width: 48px !important;
+    height: 48px !important;
+    z-index: 1 !important;
+  }
 `
 
 const Banner = styled('div')`
@@ -347,8 +356,20 @@ ${maxWidth.xs`
   
 `
 
-const RecGridItem = styled('div')`
+const RightOutlinedWrap = styled(RightOutlined)`
+  svg {
+    font-size: 16px;
+    color: #00937B;
+    margin-top: 15px;
+  }
+`
 
+const LeftOutlinedWrap = styled(LeftOutlined)`
+  svg {
+    font-size: 16px;
+    color: #00937B;
+    margin-top: 15px;
+  }
 `
 
 const connector = connect(({ memberReducer }) => ({
@@ -438,6 +459,8 @@ const IndexPage = ({
         arrows: true,
         initialSlide: bannerLength < 3 ? bannerLength : 3,
         lazyLoad: false,
+        nextArrow: <RightOutlinedWrap />,
+        prevArrow: <LeftOutlinedWrap />,
         responsive: [
           {
             breakpoint: 1124,

@@ -74,7 +74,7 @@ const LoginModal = ({
   return (
     <Modal
       width={360}
-      bodyStyle={{padding: '4px 0 1px 0px'}}
+      bodyStyle={{ padding: '4px 0 1px 0px' }}
       title={null}
       visible={isOpen}
       onCancel={() => closeModal()}
