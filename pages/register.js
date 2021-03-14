@@ -14,6 +14,7 @@ import axios from 'axios'
 import moment from 'moment'
 import _ from 'lodash'
 import Router from 'next/router'
+import TermAndConditionModal from '../components/modals/TermAndConditionModal'
 
 const PageTitle = styled('div')`
   font-family: ${font.bold};
@@ -38,11 +39,16 @@ const RegisterPage = ({ master }) => {
   const [subDistrictId, setSubDistrictId] = useState(null)
   const [step1Details, setStep1Details] = useState({})
   const [knowChannels, setKnowChannels] = useState([])
+  const [isTermAndConditionModal, setTermAndConditionModalModal] = useState(false)
+  const [formValues, setFormValues] = useState({})
+  const [isAcceptTermAndCondition, setIsAcceptTermAndCondition] = useState(false)
 
-  const handleSubmitFormStep1 = (values) => {
-    delete values.confirm_password
-    setStep1Details(values)
+  const handleSubmitFormStep1 = () => {
+    const _formValues = JSON.parse(JSON.stringify(formValues))
+    delete _formValues.confirm_password
+    setStep1Details(_formValues)
     setRegisterStep(2)
+    setTermAndConditionModalModal(false)
   }
 
   const checkDuplicateEmail = async () => {
@@ -76,7 +82,8 @@ const RegisterPage = ({ master }) => {
       ...values,
       birthday: moment(values.birthday).format('YYYY-MM-DD'),
       know_channel: knowChannelIds,
-      know_channel_name: knowChannels.find(item => item === 'อื่นๆ') ? values.know_channel_name : undefined
+      know_channel_name: knowChannels.find(item => item === 'อื่นๆ') ? values.know_channel_name : undefined,
+      pdpa_accept: isAcceptTermAndCondition
     }
     try {
       const response = await axios({
@@ -121,6 +128,17 @@ const RegisterPage = ({ master }) => {
   }
   return (
     <MainLayout>
+      <TermAndConditionModal
+        isOpen={isTermAndConditionModal}
+        onClose={() => {
+          setTermAndConditionModalModal(false)
+          setIsAcceptTermAndCondition(false)
+        }}
+        onSubmit={() => {
+          handleSubmitFormStep1()
+          setIsAcceptTermAndCondition(true)
+        }}
+      />
       <Container maxWidth='780px' paddingTop='96px' paddingBottom='150px'>
         <PageTitle>สมัครสมาชิก</PageTitle>
         {
@@ -128,7 +146,10 @@ const RegisterPage = ({ master }) => {
           <>
             <Title>ข้อมูลการเข้าสู่ระบบ</Title>
             <Form
-              onFinish={handleSubmitFormStep1}
+              onFinish={(values) => {
+                setFormValues(values)
+                setTermAndConditionModalModal(true)
+              }}
               form={formStep1}
               style={{marginTop: '16px'}}
             >
