@@ -698,6 +698,7 @@ const IndexPage = ({
                   open={isMouseEnter2} 
                   onMouseOver={() => setIsMouseEnter2(true)}
                   onMouseLeave={() => setIsMouseEnter2(false)}
+                  onClick={() => setIsMouseEnter2(false)}
                 >
                   {
                     master.course_category.map((item, index) => (
