@@ -413,6 +413,7 @@ const IndexPage = ({
     fetchVideoOnDemandList()
   }, [selectedVDOCategory])
 
+
   const fetchSpecialDay = async () => {
     try {
       const response = await axios({
@@ -587,7 +588,7 @@ const IndexPage = ({
       },
     ]
   }
-	return (
+  return (
     <MainLayout>
       <SpecialDayModal
         isOpen={isOpenSpecialDayModal}
@@ -643,6 +644,7 @@ const IndexPage = ({
                 open={isMouseEnter}
                 onMouseOver={() => setIsMouseEnter(true)}
                 onMouseLeave={() => setIsMouseEnter(false)}
+                onClick={() => setIsMouseEnter(false)}
               >
                 {
                   master.course_category.map((item, index) => (
