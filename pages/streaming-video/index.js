@@ -189,7 +189,7 @@ const VideoOnDemandPage = ({
               <Title>Streaming Video</Title>
               <BoldTitle>การจัดเรียง</BoldTitle>
               <Select
-                style={{marginTop: '8px', width: '100%'}}
+                style={{ marginTop: '8px', width: '100%' }}
                 placeholder='เลือกการจัดเรียง'
                 onChange={(value) => {
                   setFilter({

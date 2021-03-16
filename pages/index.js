@@ -33,6 +33,9 @@ const Wrapper = styled('div')`
     height: 48px !important;
     z-index: 1 !important;
   }
+  .slick-list {
+    margin-right: -40px;
+  }
 `
 
 const Banner = styled('div')`
@@ -111,8 +114,8 @@ const Arcademy = styled('span')`
 `
 
 const BannerImage = styled('div')`
-  width: 410px;
-  height: 200px;
+  width: 448px;
+  height: 252px;
   background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
@@ -413,6 +416,7 @@ const IndexPage = ({
     fetchVideoOnDemandList()
   }, [selectedVDOCategory])
 
+
   const fetchSpecialDay = async () => {
     try {
       const response = await axios({
@@ -587,7 +591,7 @@ const IndexPage = ({
       },
     ]
   }
-	return (
+  return (
     <MainLayout>
       <SpecialDayModal
         isOpen={isOpenSpecialDayModal}
@@ -638,8 +642,11 @@ const IndexPage = ({
             <CategoryWrapper>
               <StyledSelect
                 placeholder='แสดงหมวดหมู่'
-                style={{ width: '208px'}}
-                onChange={(e) => setSelectedCourseCategory(e)}
+                style={{ width: '208px' }}
+                onChange={(e) => {
+                  setSelectedCourseCategory(e)
+                  setIsMouseEnter(false)
+                }}
                 open={isMouseEnter}
                 onMouseOver={() => setIsMouseEnter(true)}
                 onMouseLeave={() => setIsMouseEnter(false)}
@@ -692,8 +699,11 @@ const IndexPage = ({
                 <StyledSelect 
                   placeholder='แสดงหมวดหมู่' 
                   style={{ width: '208px' }} 
-                  onChange={(e) => setSelectedVDOCategory(e)} 
-                  open={isMouseEnter2} 
+                  onChange={(e) => {
+                    setSelectedVDOCategory(e)
+                    setIsMouseEnter2(false)
+                  }} 
+                  open={isMouseEnter2}
                   onMouseOver={() => setIsMouseEnter2(true)}
                   onMouseLeave={() => setIsMouseEnter2(false)}
                 >
