@@ -50,7 +50,7 @@ const ItemNumber = styled('div')`
   color: #00937B;
   font-family: ${font.bold};
   ${maxWidth.xs`
-    font-size: 22px;
+    font-size: 18px;
   `}
 `
 
@@ -58,7 +58,7 @@ const ItemTitle = styled('div')`
   font-size: 32px;
   margin-left: 16px;
   ${maxWidth.xs`
-    font-size: 22px;
+    font-size: 18px;
   `}
   span {
     word-break: break-word;
