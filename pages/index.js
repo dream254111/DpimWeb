@@ -145,7 +145,6 @@ const CategoryWrapper = styled('div')`
 
 const CourseListContent = styled('div')`
   margin-top: 21px;
-
 `
 
 const CourseCardX = styled('div')`
@@ -305,6 +304,9 @@ const BannerContainer = styled('div')`
 `
 
 const BannerImageContainer = styled('div')`
+  padding-right:2%;
+  padding-left:2%;
+
 `
 
 const Div = styled('div')` 
@@ -606,7 +608,7 @@ const IndexPage = ({
                 <BannerTitle>
                   ระบบการเรียนออนไลน์ภายใต้การพัฒนาของ<Span>กรมอุตสาหกรรม</Span>พื้นฐานและการเหมืองแร่
                 </BannerTitle>
-                <BannerSubtitle>คอร์สเรียนออนไลน์ พร้อมใบประกาศนียบัตร สำหรับผู้ประกอบการและบุคคลทั่วไป</BannerSubtitle>
+                <BannerSubtitle>คอร์สเรียนออนไลน์ พร้อมใบประกาศนียบัตร<br/> สำหรับผู้ประกอบการและบุคคลทั่วไป</BannerSubtitle>
               </BannerContentLeft>
               <BannerContentRight>
                 <BannerHeadline>DPIM <Arcademy>Academy</Arcademy></BannerHeadline>
@@ -864,7 +866,7 @@ const PanalTitle = styled('div')`
 
 const PanalDesc = styled('div')`
   margin-top: 24px;
-  font-size: 18px;;
+  font-size: 16px;
 `
 
 IndexPage.getInitialProps = () => {
