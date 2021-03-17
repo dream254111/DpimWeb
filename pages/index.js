@@ -33,6 +33,19 @@ const Wrapper = styled('div')`
     height: 48px !important;
     z-index: 1 !important;
   }
+  .slick-next {
+    margin-right: 8px;
+  }
+  ${maxWidth.md`
+    .slick-next {
+      margin: 0
+    }
+  `}
+  ${maxWidth.xs`
+    .slick-next {
+      margin: 0
+    }
+  `}
 `
 
 const Banner = styled('div')`
