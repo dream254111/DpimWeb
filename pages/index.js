@@ -34,8 +34,13 @@ const Wrapper = styled('div')`
     z-index: 1 !important;
   }
   .slick-list {
-    margin-right: -40px;
+    margin-right: -12px;
   }
+  ${maxWidth.xs`
+  .slick-list {
+    margin: 0
+  }
+  `}
 `
 
 const Banner = styled('div')`
