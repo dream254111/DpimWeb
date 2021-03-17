@@ -604,7 +604,7 @@ const IndexPage = ({
         imageUrl={specialDay.cover}
       />
       <Wrapper>
-        <Banner src='/static/images/newBanner.svg' style={{paddingTop: '64px'}}>
+        <Banner src='/static/images/Desktop-header.png' style={{paddingTop: '64px'}}>
           <Container style={{height: '100%'}}>
             <BannerContent>
               <BannerContentLeft>
