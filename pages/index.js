@@ -33,9 +33,19 @@ const Wrapper = styled('div')`
     height: 48px !important;
     z-index: 1 !important;
   }
-  .slick-list {
-    margin-right: -40px;
+  .slick-next {
+    margin-right: 8px;
   }
+  ${maxWidth.md`
+    .slick-next {
+      margin: 0
+    }
+  `}
+  ${maxWidth.xs`
+    .slick-next {
+      margin: 0
+    }
+  `}
 `
 
 const Banner = styled('div')`
@@ -601,7 +611,7 @@ const IndexPage = ({
         imageUrl={specialDay.cover}
       />
       <Wrapper>
-        <Banner src='/static/images/newBanner.svg' style={{paddingTop: '64px'}}>
+        <Banner src='/static/images/Desktop-header.png' style={{paddingTop: '64px'}}>
           <Container style={{height: '100%'}}>
             <BannerContent>
               <BannerContentLeft>

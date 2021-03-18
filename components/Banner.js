@@ -92,7 +92,7 @@ const BannerStyleComponent = ({
 }) => {
   return (
     <Wrapper>
-      <Banner src='/static/images/newBanner.svg'>
+      <Banner src='/static/images/Desktop-header.png'>
         <Container style={{ height: '100%' }}>
           <BannerContent>
             <BannerContentLeft>
