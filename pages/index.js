@@ -398,7 +398,7 @@ ${maxWidth.xs`
 
 const RightOutlinedWrap = styled(RightOutlined)`
   svg {
-    font-size: 25px ;
+    font-size: 16px ;
     color: #00937B;
     margin-top: 15px;
   }
@@ -406,12 +406,26 @@ const RightOutlinedWrap = styled(RightOutlined)`
 
 const LeftOutlinedWrap = styled(LeftOutlined)`
   svg {
+    font-size: 16px ;
+    color: #00937B;
+    margin-top: 15px;
+  }
+`
+const RightlinedWrap = styled(RightOutlined)`
+  svg {
     font-size: 25px ;
     color: #00937B;
     margin-top: 15px;
   }
 `
 
+const LeftlinedWrap = styled(LeftOutlined)`
+  svg {
+    font-size: 25px ;
+    color: #00937B;
+    margin-top: 15px;
+  }
+`
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token
 }))
@@ -605,8 +619,8 @@ const IndexPage = ({
     speed: 1000,
     slidesToShow: 3,
       slidesToScroll: 3,
-      nextArrow: <RightOutlinedWrap />,
-      prevArrow: <LeftOutlinedWrap />,
+      nextArrow: <RightlinedWrap />,
+      prevArrow: <LeftlinedWrap />,
     initialSlide: 3,
     lazyLoad: false,
     arrows: true,
