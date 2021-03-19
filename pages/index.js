@@ -34,7 +34,7 @@ const Wrapper = styled('div')`
     z-index: 1 !important;
   }
   .slick-next {
-    margin-right: 8px;
+    margin-right: 14px;
   }
   ${maxWidth.md`
     .slick-next {
