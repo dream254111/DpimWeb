@@ -24,28 +24,7 @@ const { Option } = Select
 
 const Wrapper = styled('div')`
   padding-bottom: 72px;
-  .slick-arrow {
-    display: block !important;
-    background: #FFFFFF !important;
-    box-shadow: 0px 0px 2px rgb(40 41 61 / 4%), 0px 4px 8px rgb(96 97 112 / 16%) !important;
-    border-radius: 50% !important;
-    width: 48px !important;
-    height: 48px !important;
-    z-index: 1 !important;
-  }
-  .slick-next {
-    margin-right: 14px;
-  }
-  ${maxWidth.md`
-    .slick-next {
-      margin: 0
-    }
-  `}
-  ${maxWidth.xs`
-    .slick-next {
-      margin: 0
-    }
-  `}
+ 
 `
 
 const Banner = styled('div')`
@@ -155,6 +134,30 @@ const CategoryWrapper = styled('div')`
 
 const CourseListContent = styled('div')`
   margin-top: 21px;
+ .slick-arrow {
+    display: block !important;
+    width: 48px !important;
+    height: 48px !important;
+    z-index: 1 !important;
+  }
+ 
+  .slick-next {
+    margin-right: 20px;
+
+
+  }  
+  ${maxWidth.md`
+    .slick-next {
+      margin: 0
+    }
+  `}
+  ${maxWidth.xs`
+    .slick-next {
+      margin: 0
+    }
+  
+`}
+
 `
 
 const CourseCardX = styled('div')`
@@ -307,6 +310,28 @@ const BannerSlideWrapper = styled('div')`
   background-color: white;
   padding-top: 32px;
   padding-bottom: 32px;
+ .slick-arrow {
+    display: block !important;
+    background: #FFFFFF !important;
+    box-shadow: 0px 0px 2px rgb(40 41 61 / 4%), 0px 4px 8px rgb(96 97 112 / 16%) !important;
+    border-radius: 50% !important;
+    width: 48px !important;
+    height: 48px !important;
+    z-index: 1 !important;
+  }
+  .slick-next {
+    margin-right: 14px;
+  }
+  ${maxWidth.md`
+    .slick-next {
+      margin: 0
+    }
+  `}
+  ${maxWidth.xs`
+    .slick-next {
+      margin: 0
+    }
+  `}
 `
 
 const BannerContainer = styled('div')`
@@ -373,7 +398,7 @@ ${maxWidth.xs`
 
 const RightOutlinedWrap = styled(RightOutlined)`
   svg {
-    font-size: 16px;
+    font-size: 25px ;
     color: #00937B;
     margin-top: 15px;
   }
@@ -381,7 +406,7 @@ const RightOutlinedWrap = styled(RightOutlined)`
 
 const LeftOutlinedWrap = styled(LeftOutlined)`
   svg {
-    font-size: 16px;
+    font-size: 25px ;
     color: #00937B;
     margin-top: 15px;
   }
@@ -579,7 +604,9 @@ const IndexPage = ({
     infinite: false,
     speed: 1000,
     slidesToShow: 3,
-    slidesToScroll: 3,
+      slidesToScroll: 3,
+      nextArrow: <RightOutlinedWrap />,
+      prevArrow: <LeftOutlinedWrap />,
     initialSlide: 3,
     lazyLoad: false,
     arrows: true,
