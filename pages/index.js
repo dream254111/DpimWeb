@@ -410,7 +410,7 @@ const LeftOutlinedWrap = styled(LeftOutlined)`
     color: #00937B;
     margin-top: 15px;
   }
-`
+`   
 const RightlinedWrap = styled(RightOutlined)`
   svg {
     font-size: 25px ;
