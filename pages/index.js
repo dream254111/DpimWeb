@@ -111,37 +111,45 @@ const BannerImage = styled('div')`
   cursor: pointer;
 ${maxWidth.md`
   width: 100%;
-  height: 160px;
+  height: 190px;
 `};
 ${maxWidth.sm`
   width: 100%;
+  height: 150px;
 
 `};${maxWidth.xs`
   width: 100%;
+  height: 130px;
+
 
 `};
 ${maxWidth.lg`
   width: 100%;
+  height: 252px;
+
 margin:20px 0 20px;
 
 `};${maxWidth.custom`
   width: 100%;
+  height: 252px;
+
 margin:20px 0 50px;
 
 `};${maxWidth.custom1`
   width: 100%;
-margin:20px 0 50px;
+  height: 252px;
 
-`};${maxWidth.custom2`
-  width: 100%;
 margin:20px 0 50px;
 
 `};
-${maxWidth.lg`
+${maxWidth.custom2`
   width: 100%;
-  height: 160px;
-padding:0 0 10px 10px;
+  height: 200px;
+
+margin:20px 0 50px;
+
 `};
+
 `
 
 const CourseOnlineContent = styled('div')`
