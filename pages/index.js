@@ -113,6 +113,11 @@ ${maxWidth.md`
   width: 100%;
   height: 160px;
 `};
+${maxWidth.lg`
+  width: 100%;
+  height: 160px;
+padding:0 0 10px 10px;
+`};
 `
 
 const CourseOnlineContent = styled('div')`
@@ -134,6 +139,7 @@ const CategoryWrapper = styled('div')`
 
 const CourseListContent = styled('div')`
   margin-top: 21px;
+
  .slick-arrow {
     display: block !important;
     width: 48px !important;
@@ -331,6 +337,10 @@ const BannerSlideWrapper = styled('div')`
     .slick-next {
       margin: 0
     }
+  `}  ${maxWidth.lg`
+    .slick-next {
+      margin: 0
+    }
   `}
 `
 
@@ -347,6 +357,15 @@ const BannerImageContainer = styled('div')`
 const Div = styled('div')` 
   padding: 22px 0px;
   padding-left: 14px;
+  ${maxWidth.sm`
+  padding-left:45px;
+
+
+  `}
+  ${maxWidth.xs`
+  margin-left:45px;
+padding:0;
+  `}
 `
 
 const CourseCardY = styled(CourseCard)`
