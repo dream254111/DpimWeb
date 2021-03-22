@@ -112,7 +112,6 @@ const BannerImage = styled('div')`
 ${maxWidth.md`
   width: 100%;
   height: 160px;
-<<<<<<< HEAD
 `};
 ${maxWidth.sm`
   width: 100%;
@@ -137,11 +136,9 @@ margin:20px 0 50px;
   width: 100%;
 margin:20px 0 50px;
 
-=======
 `};
 ${maxWidth.lg`
   width: 100%;
->>>>>>> parent of ce41fd2 (Change Resolution Responsive size)
   height: 160px;
 padding:0 0 10px 10px;
 `};
