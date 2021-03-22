@@ -109,15 +109,35 @@ const BannerImage = styled('div')`
   background-size: cover;
   background-position: center;
   cursor: pointer;
+
 ${maxWidth.md`
   width: 100%;
   height: 160px;
+margin:0 0 20px;
+
 `};
 ${maxWidth.lg`
   width: 100%;
   height: 160px;
-padding:0 0 10px 10px;
+padding:0 0 20px;
+
+`};${maxWidth.custom`
+  width: 100%;
+  height: 190px;
+padding:0 0 50px;
+
+`};${maxWidth.custom1`
+  width: 100%;
+  height: 160px;
+padding:0 0 50px;
+
+`};${maxWidth.custom2`
+  width: 100%;
+  height: 160px;
+padding:0 0 50px;
+
 `};
+
 `
 
 const CourseOnlineContent = styled('div')`
