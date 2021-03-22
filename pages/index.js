@@ -109,12 +109,9 @@ const BannerImage = styled('div')`
   background-size: cover;
   background-position: center;
   cursor: pointer;
-
 ${maxWidth.md`
   width: 100%;
   height: 160px;
-margin:0 0 20px;
-
 `};
 ${maxWidth.sm`
   width: 100%;
@@ -139,8 +136,9 @@ margin:20px 0 50px;
   width: 100%;
 margin:20px 0 50px;
 
+  height: 160px;
+padding:0 0 10px 10px;
 `};
-
 `
 
 const CourseOnlineContent = styled('div')`
