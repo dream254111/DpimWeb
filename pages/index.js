@@ -125,7 +125,6 @@ ${maxWidth.sm`
 `};
 ${maxWidth.lg`
   width: 100%;
-  height: 160px;
 margin:20px 0 20px;
 
 `};${maxWidth.custom`
