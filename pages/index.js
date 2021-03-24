@@ -130,13 +130,15 @@ ${maxWidth.lg`
 
 margin:20px 0 20px;
 
-`};${maxWidth.custom`
+`};
+${maxWidth.custom`
   width: 100%;
   height: 252px;
 
 margin:20px 0 50px;
 
-`};${maxWidth.custom1`
+`};
+${maxWidth.custom1`
   width: 100%;
   height: 252px;
 
