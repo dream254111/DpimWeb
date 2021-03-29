@@ -124,16 +124,14 @@ const Arcademy = styled('span')`
 `
 
 const BannerImage = styled('div')`
-  width: 448px;
-  height: 252px;
+position:relative;
+padding-top:56.25%;
+width:100%;
   background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
   cursor: pointer;
-${maxWidth.md`
-  width: 100%;
-  height: 160px;
-`};
+
 `
 
 const CourseOnlineContent = styled('div')`
@@ -315,6 +313,9 @@ const BannerContainer = styled('div')`
 `
 
 const BannerImageContainer = styled('div')`
+width:448px;
+padding-right:2%;
+padding-left:2%;
 `
 
 const Div = styled('div')` 
