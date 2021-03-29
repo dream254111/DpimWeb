@@ -104,55 +104,13 @@ const Arcademy = styled('span')`
 `
 
 const BannerImage = styled('div')`
-  width: 448px;
-  height: 252px;
+position:relative;
+padding-top:56.25%;
+width:100%;
   background-image: url(${props => props.src});
   background-size: cover;
   background-position: center;
   cursor: pointer;
-${maxWidth.md`
-  width: 100%;
-  height: 100px;
-`};
-${maxWidth.lg`
-  width: 100%;
-  height: 252px;
-
-margin:0 0 20px;
-
-`};
-${maxWidth.custom`
-  width: 100%;
-  height: 252px;
-
-margin:0 0 50px;
-
-`};
-${maxWidth.custom1`
-  width: 100%;
-  height: 252px;
-
-margin:0 0 50px;
-
-`};
-${maxWidth.custom2`
-  width: 100%;
-  height: 200px;
-
-margin:0 0 50px;
-
-`};
-${maxWidth.sm`
-  width: 100%;
-  height: 190;
-
-`};${maxWidth.xs`
-  width: 100%;
-  height: 200px;
-
-margin:0 0 50px;
-
-`};
 
 `
 
@@ -387,7 +345,8 @@ const BannerContainer = styled('div')`
 const BannerImageContainer = styled('div')`
   padding-right:2%;
   padding-left:2%;
-max-height:252px;
+  width: 448px;
+
 `
 
 const Div = styled('div')` 
