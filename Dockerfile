@@ -1,4 +1,4 @@
-FROM node:14.4.0
+FROM node:12.15.0
 
 RUN mkdir -p /dpim-web
 COPY . /dpim-web
