@@ -24,29 +24,9 @@ const { Option } = Select
 
 const Wrapper = styled('div')`
   padding-bottom: 72px;
-  .slick-arrow {
-    display: block !important;
-    background: #FFFFFF !important;
-    box-shadow: 0px 0px 2px rgb(40 41 61 / 4%), 0px 4px 8px rgb(96 97 112 / 16%) !important;
-    border-radius: 50% !important;
-    width: 48px !important;
-    height: 48px !important;
-    z-index: 1 !important;
-  }
-  .slick-next {
-    margin-right: 8px;
-  }
-  ${maxWidth.md`
-    .slick-next {
-      margin: 0
-    }
-  `}
-  ${maxWidth.xs`
-    .slick-next {
-      margin: 0
-    }
-  `}
+ 
 `
+
 
 const Banner = styled('div')`
   width: 100%;
@@ -153,6 +133,30 @@ const CategoryWrapper = styled('div')`
 
 const CourseListContent = styled('div')`
   margin-top: 21px;
+
+ .slick-arrow {
+    display: block !important;
+    width: 48px !important;
+    height: 48px !important;
+    z-index: 1 !important;
+  }
+ 
+  .slick-next {
+    margin-right: 20px;
+
+
+  }  
+  ${maxWidth.md`
+    .slick-next {
+      margin: 0
+    }
+  `}
+  ${maxWidth.xs`
+    .slick-next {
+      margin: 0
+    }
+  
+`}
 
 `
 
@@ -306,6 +310,32 @@ const BannerSlideWrapper = styled('div')`
   background-color: white;
   padding-top: 32px;
   padding-bottom: 32px;
+ .slick-arrow {
+    display: block !important;
+    background: #FFFFFF !important;
+    box-shadow: 0px 0px 2px rgb(40 41 61 / 4%), 0px 4px 8px rgb(96 97 112 / 16%) !important;
+    border-radius: 50% !important;
+    width: 48px !important;
+    height: 48px !important;
+    z-index: 1 !important;
+  }
+  .slick-next {
+    margin-right: 14px;
+  }
+  ${maxWidth.md`
+    .slick-next {
+      margin: 0
+    }
+  `}
+  ${maxWidth.xs`
+    .slick-next {
+      margin: 0
+    }
+  `}  ${maxWidth.lg`
+    .slick-next {
+      margin: 0
+    }
+  `}
 `
 
 const BannerContainer = styled('div')`
@@ -313,14 +343,24 @@ const BannerContainer = styled('div')`
 `
 
 const BannerImageContainer = styled('div')`
-width:448px;
-padding-right:2%;
-padding-left:2%;
+  padding-right:2%;
+  padding-left:2%;
+  width: 448px;
+
 `
 
 const Div = styled('div')` 
   padding: 22px 0px;
   padding-left: 14px;
+  ${maxWidth.sm`
+  padding-left:45px;
+
+
+  `}
+  ${maxWidth.xs`
+  margin-left:45px;
+padding:0;
+  `}
 `
 
 const CourseCardY = styled(CourseCard)`
@@ -372,7 +412,7 @@ ${maxWidth.xs`
 
 const RightOutlinedWrap = styled(RightOutlined)`
   svg {
-    font-size: 16px;
+    font-size: 16px ;
     color: #00937B;
     margin-top: 15px;
   }
@@ -380,12 +420,26 @@ const RightOutlinedWrap = styled(RightOutlined)`
 
 const LeftOutlinedWrap = styled(LeftOutlined)`
   svg {
-    font-size: 16px;
+    font-size: 16px ;
+    color: #00937B;
+    margin-top: 15px;
+  }
+`   
+const RightlinedWrap = styled(RightOutlined)`
+  svg {
+    font-size: 25px ;
     color: #00937B;
     margin-top: 15px;
   }
 `
 
+const LeftlinedWrap = styled(LeftOutlined)`
+  svg {
+    font-size: 25px ;
+    color: #00937B;
+    margin-top: 15px;
+  }
+`
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token
 }))
@@ -578,7 +632,9 @@ const IndexPage = ({
     infinite: false,
     speed: 1000,
     slidesToShow: 3,
-    slidesToScroll: 3,
+      slidesToScroll: 3,
+      nextArrow: <RightlinedWrap />,
+      prevArrow: <LeftlinedWrap />,
     initialSlide: 3,
     lazyLoad: false,
     arrows: true,
@@ -617,7 +673,7 @@ const IndexPage = ({
                 <BannerTitle>
                   ระบบการเรียนออนไลน์ภายใต้การพัฒนาของ<Span>กรมอุตสาหกรรม</Span>พื้นฐานและการเหมืองแร่
                 </BannerTitle>
-                <BannerSubtitle>คอร์สเรียนออนไลน์ พร้อมใบประกาศนียบัตร สำหรับผู้ประกอบการและบุคคลทั่วไป</BannerSubtitle>
+                <BannerSubtitle>คอร์สเรียนออนไลน์ พร้อมใบประกาศนียบัตร<br/> สำหรับผู้ประกอบการและบุคคลทั่วไป</BannerSubtitle>
               </BannerContentLeft>
               <BannerContentRight>
                 <BannerHeadline>DPIM <Arcademy>Academy</Arcademy></BannerHeadline>
@@ -875,7 +931,7 @@ const PanalTitle = styled('div')`
 
 const PanalDesc = styled('div')`
   margin-top: 24px;
-  font-size: 18px;;
+  font-size: 16px;
 `
 
 IndexPage.getInitialProps = () => {

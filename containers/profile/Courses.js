@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import font from '../../helpers/font'
-import { Tabs, Row, Col, message } from 'antd'
+import { Tabs, message } from 'antd'
 import { useEffect, useState } from 'react'
 import { connect } from 'react-redux'
 import API from '../../helpers/api'
@@ -38,7 +38,6 @@ const CourseCardX = styled(CourseCard)`
   ${maxWidth.sm`
     width: 315px !important;
   `}
-  
 `
 
 const connector = connect(({ memberReducer }) => ({
@@ -59,14 +58,14 @@ const CoursesContainer = ({
     try {
       const response = await axios({
         headers: {
-          'Authorization': memberToken
+          Authorization: memberToken
         },
         method: 'GET',
         url: `${API.url}/Course/my_course`
       })
       const responseWithData = response.data
       if (responseWithData.success) {
-        setCourses(responseWithData.data)
+        setCourses((responseWithData && responseWithData.data) || [])
       } else {
         throw new Error(responseWithData.error)
       }
@@ -78,70 +77,29 @@ const CoursesContainer = ({
   return (
     <Wrapper>
       <PageTitle>คอร์สของฉัน</PageTitle>
-      <Tabs defaultActiveKey="1">
-        <TabPane tab={`กำลังเรียนอยู่(${courses.filter(item => item.progress !== 100).length})`} key="1">
-          {/* <Row gutter={16}>
+      <Tabs defaultActiveKey='1'>
+        <TabPane tab={`กำลังเรียนอยู่(${courses.filter(item => item.progress !== 100).length})`} key='1'>
+          <CourseGrid>
             {
               courses.filter(item => item.progress !== 100).map((item, index) => (
-                <Col xs={24} lg={12} style={{margin: '6px 0'}}>
-                  <CourseCard
+                <CourseGridItem key={index}>
+                  <CourseCardX
                     type='progress'
                     batch={item.batch}
                     id={item.id}
-                    key={index}
                     name={item.name}
                     cover={item.cover}
                     totalLesson={item.count_lesson}
                     lessonTime={item.course_time}
                     progress={item.progress}
                     endDate={item.learning_end_date}
-                    />
-                </Col>
-              ))
-            }
-          </Row> */
-            <CourseGrid>
-              {
-                courses.filter(item => item.progress !== 100).map((item, index) => (
-                  <CourseGridItem key={index}>
-                    <CourseCardX
-                      type='progress'
-                      batch={item.batch}
-                      id={item.id}
-                      name={item.name}
-                      cover={item.cover}
-                      totalLesson={item.count_lesson}
-                      lessonTime={item.course_time}
-                      progress={item.progress}
-                      endDate={item.learning_end_date}
-                    />
-                  </CourseGridItem>
-                ))
-              }
-            </CourseGrid>
-          }
-        </TabPane>
-        <TabPane tab={`จบหลักสูตร(${courses.filter(item => item.progress === 100).length})`} key="2">
-          {/* <Row gutter={16}>
-            {
-              courses.filter(item => item.progress === 100).map((item, index) => (
-                <Col xs={24} lg={12} style={{margin: '6px 0'}}>
-                  <CourseCard
-                    id={item.id}
-                    type='progress'
-                    key={index}
-                    name={item.name}
-                    cover={item.cover}
-                    totalLesson={item.count_lesson}
-                    lessonTime={item.course_time}
-                    progress={item.progress}
-                    endDate={item.learning_end_date}
-                    style={{ width: '100%' }}
                   />
-                </Col>
+                </CourseGridItem>
               ))
             }
-          </Row> */
+          </CourseGrid>
+        </TabPane>
+        <TabPane tab={`จบหลักสูตร(${courses.filter(item => item.progress === 100).length})`} key='2'>
           <CourseGrid>
             {
               courses.filter(item => item.progress === 100).map((item, index) => (
@@ -161,8 +119,7 @@ const CoursesContainer = ({
                 </CourseGridItem>
               ))
             }
-        </CourseGrid>
-          }
+          </CourseGrid>
         </TabPane>
       </Tabs>
     </Wrapper>

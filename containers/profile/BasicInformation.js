@@ -52,7 +52,6 @@ const BasicInformation = ({
   memberDetail
 }) => {
   const [form] = Form.useForm()
-  // const [memberState, setMemberState] = useState({})
   const [profileSetting, setProfileSetting] = useState({})
   const [avatar, setAvatar] = useState(null)
   const [frontIdCard, setFrontIdCard] = useState(null)

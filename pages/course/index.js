@@ -549,8 +549,8 @@ const CoursePage = ({
                       <HorizontalLine />
                       <CourseFooter>
                         <AuthorContent>
-                          <Avatar size={32} icon={<UserOutlined />} src={item.list_instructor[0].profile} />
-                          <AuthorName>{item.list_instructor[0].firstname} {item.list_instructor[0].lastname}</AuthorName>
+                          <Avatar size={32} icon={<UserOutlined />} src={item.list_instructor[0] && item.list_instructor[0].profile} />
+                          <AuthorName>{item.list_instructor[0] && item.list_instructor[0].firstname} {item.list_instructor[0] && item.list_instructor[0].lastname}</AuthorName>
                         </AuthorContent>
                         <FooterRight>
                           <CoursePrice>
