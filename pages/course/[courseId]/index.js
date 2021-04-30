@@ -985,7 +985,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                 }
                 {
                   courseDetail &&
-                  <img src={courseDetail.course.info_cover} />
+                  <img src={courseDetail.course.info_cover} width='100%' />
                 }
               </CourseOverviewDetail>
             </CourseOverview>
