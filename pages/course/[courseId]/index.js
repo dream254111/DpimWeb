@@ -983,6 +983,10 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                   courseDetail &&
                   <p dangerouslySetInnerHTML={{ __html: courseDetail.course.overview }} />
                 }
+                {
+                  courseDetail &&
+                  <img src={courseDetail.course.info_cover} />
+                }
               </CourseOverviewDetail>
             </CourseOverview>
 
