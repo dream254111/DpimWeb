@@ -481,7 +481,6 @@ const IndexPage = ({
     fetchVideoOnDemandList()
   }, [selectedVDOCategory])
 
-
   const fetchSpecialDay = async () => {
     try {
       const response = await axios({

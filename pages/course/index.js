@@ -19,6 +19,7 @@ import _ from 'lodash'
 const commaNumber = require('comma-number')
 import { FilterModal, ArrangeModal } from '../../components/modals/index'
 import { Banner } from '../../components/index'
+import { connect } from 'react-redux'
 
 const Wrapper = styled('div')`
   .ant-checkbox-wrapper {
@@ -309,10 +310,15 @@ const CourseContainer = styled(Container)`
     width: 93%;
   }
 `
+const connector = connect(({ memberReducer }) => ({
+  memberToken: memberReducer.member.token,
+  memberDetail: memberReducer.member
+}))
 
 const CoursePage = ({
   master,
-  search
+  search,
+  memberToken
 }) => {
   const [courses, setCourses] = useState([])
   const [filter, setFilter] = useState(null)
@@ -341,10 +347,17 @@ const CoursePage = ({
       let params = (Object.keys(_filter).filter(key => _filter[key]).map((key, index) => {
         return `${key}=${_filter[key]}`
       })).join('&')
-      const response = await axios({
+      const request = {
         method: 'GET',
         url: `${API.url}/Course/list_course?${params}`
-      })
+      }
+      if (memberToken) {
+        request.headers = {
+          Authorization: memberToken
+        }
+      }
+      const response = await axios(request)
+
       const data = response.data.data
       setCourses(data)
     } catch (error) {
@@ -580,4 +593,4 @@ CoursePage.getInitialProps = (ctx) => {
   return { search }
 }
 
-export default CoursePage
+export default connector(CoursePage)
