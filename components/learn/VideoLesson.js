@@ -131,6 +131,10 @@ const VideoLesson = ({
     }
   }, [mainVideo])
 
+  useEffect(() => {
+    console.log('playing', playing)
+  }, [playing])
+
   const videoOnProgressHandle = async (e) => {
     const playedSeconds = Math.floor(e.playedSeconds)
     setTimeout(() => {
@@ -146,10 +150,10 @@ const VideoLesson = ({
         handleStampVideoLesson(currentTime.toFixed(2), percent.toFixed(2))
       }
     }
-    if (percent > 98) {
+    // console.log('percent', percent)
+    if (percent > 99) {
       setPlaying(false)
       await handleStampVideoLesson(currentTime.toFixed(2), 100)
-      await fetchCourseDetail()
       onFinishedVideo()
     }
     if (isInteractive) {
@@ -182,6 +186,7 @@ const VideoLesson = ({
           ref={videoRef}
           onContextMenu={e => e.preventDefault()}
           playsinline
+          autoPlay
           playing={playing}
           url={mainVideo[currentVideoQuality]}
           width='100%'

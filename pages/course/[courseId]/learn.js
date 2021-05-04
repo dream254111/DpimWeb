@@ -158,7 +158,7 @@ const LearnPage = ({
   let lessonSelectedIndex = courseLessons.findIndex(item => (item.id + '00') == menu)
   useEffect(() => {
     countView()
-    console.log('lessonSelected', lessonSelected)
+    // console.log('lessonSelected', lessonSelected)
   }, [lessonSelected])
 
   const countView = async () => {
@@ -542,6 +542,7 @@ const LearnPage = ({
                   percent={courseDetail.percent_post_test}
                   nextChapterName={courseLessonOne}
                   onClickNextChapter={() => {
+                    fetchCourseDetail()
                     setMenu(courseLessons[0].id + '0')
                   }}
                   isShowNextChapterButton={false}
