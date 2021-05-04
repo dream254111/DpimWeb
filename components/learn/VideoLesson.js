@@ -86,6 +86,11 @@ const VideoLesson = ({
   const [currentVideoQuality, setCurrentVideoQuality] = useState(VIDEO_QUALITY['Original'])
   const [ct, setCt] = useState(0)
 
+  useEffect(() => {
+    if (isInteractiveModalOpen === true) {
+      setPlaying(false)
+    }
+  }, [isInteractiveModalOpen])
   const qualityMenu = (
     <Menu>
       {
