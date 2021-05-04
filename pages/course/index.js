@@ -571,7 +571,7 @@ const CoursePage = ({
                           </CoursePrice>
                           <CourseTime>
                             {
-                              item.is_always_learning === false ? `เริ่มเรียน ${moment(item.start_learning).format('DD MMM YYYY')}` : ''
+                              item.is_always_learning === false ? `เริ่มเรียน ${moment(item.start_learning).add(543, 'year').format('DD MMM YYYY')}` : ''
                             }
                           </CourseTime>
                         </FooterRight>
