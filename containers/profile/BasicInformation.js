@@ -650,16 +650,14 @@ const BasicInformation = ({
                 <Row gutter={[16, 16]}>
                   <Col lg={11}>
                     <Button
-                      disabled={frontIdCard}
                       onClick={() => handleClickUpload('อัพโหลดบัตรประชาชนด้านหน้า', 'front_id_card')}
-                      disabled={!profileSetting.is_edit_upload_front_id_document}
+                      disabled={frontIdCard || !profileSetting.is_edit_upload_front_id_document}
                     >อัพโหลดบัตรประชาชนด้านหน้า</Button>
                   </Col>
                   <Col lg={13}>
                     <Button
-                      disabled={backIdCard}
                       onClick={() => handleClickUpload('อัพโหลดบัตรประชาชนด้านหลัง', 'back_id_card')}
-                      disabled={!profileSetting.is_edit_upload_front_back_document}
+                      disabled={backIdCard || !profileSetting.is_edit_upload_front_back_document}
                     >อัพโหลดบัตรประชาชนด้านหลัง</Button>
                   </Col>
                 </Row>
@@ -690,7 +688,7 @@ const BasicInformation = ({
                       <Button
                         disabled={businessAttachment}
                         onClick={() => handleClickUpload('อัพโหลดเอกสารประกอบกิจการ', 'business_attachment')}
-                        disabled={!profileSetting.is_edit_upload_business_document }
+                        disabled={businessAttachment || !profileSetting.is_edit_upload_business_document }
                       >อัพโหลดเอกสารประกอบกิจการ</Button>
                    </Col>
                  </Row>

@@ -40,9 +40,9 @@ const UploadDocumentModal = ({
   const [file, setFile] = useState(null)
   const [isUploading, setIsUploading] = useState(false)
   const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png'
+    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png' || file.type === 'application/pdf'
     if (isJpgOrPng === false) {
-      message.error('ท่านสามารถอัพโหลดนามสกุลไฟล์ได้แค่ PNG/JPG เท่านั้น')
+      message.error('ท่านสามารถอัพโหลดนามสกุลไฟล์ได้แค่ PNG/JPG/PDF เท่านั้น')
     }
     setIsUpload(true)
     setFile(file)
