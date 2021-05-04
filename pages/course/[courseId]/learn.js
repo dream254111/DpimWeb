@@ -323,7 +323,9 @@ const LearnPage = ({
           interactive={lessonSelected.interactive}
           fetchCourseDetail={() => fetchCourseDetail()}
           onFinishedVideo={() => {
-            setIsModalFinishedVideoOpen(true)
+            if (lessonSelected.done_lesson === false) {
+              setIsModalFinishedVideoOpen(true)
+            }
           }}
         />
       )

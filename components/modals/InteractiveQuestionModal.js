@@ -20,16 +20,8 @@ const PreExamItem = styled('div')`
 `
 
 const PreExamWQuestion = styled('div')`
-  font-size: 24px;
-  position: relative;
-  :after {
-    content: '${props => props.no}';
-    position: absolute;
-    color: #C4C4C4;
-    font-size: 18px;
-    left: -6%;
-    top: 7%;
-  }
+  display: flex;
+  align-items: center;
 `
 
 const PreExamChoices = styled('div')`
@@ -129,7 +121,11 @@ const InteractiveQuestionModal = ({
       <PreExamTitle>คำถามระหว่างเรียน</PreExamTitle>
       <PreExamItems>
         <PreExamItem>
-          <PreExamWQuestion no={1} dangerouslySetInnerHTML={{ __html: interactive.name }} />
+          {/* <PreExamWQuestion no={1} dangerouslySetInnerHTML={{ __html: interactive.name }} /> */}
+          <PreExamWQuestion>
+            <div>1.</div>
+            <div style={{ marginLeft: '16px' }} dangerouslySetInnerHTML={{ __html: interactive.name }} />
+          </PreExamWQuestion>
           <PreExamChoices>
             {
               interactive && interactive.answer && interactive.answer.map((choice, index) => (
