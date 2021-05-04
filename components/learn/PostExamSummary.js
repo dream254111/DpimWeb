@@ -72,7 +72,7 @@ const PostExamSummaryComponent = ({
           </PreExamSummaryDescription>
         </div>
         {
-          (isPass && isShowEvaluationButton) &&
+          (isShowEvaluationButton) &&
             <Button
               type='primary'
               onClick={() => Router.push(`/evaluation/${courseId}`)}
