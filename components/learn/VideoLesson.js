@@ -156,12 +156,12 @@ const VideoLesson = ({
       const currentTimeWithFormat = moment(currentTime * 1000).format('mm:ss')
       const interactiveDetail = interactive.find(item => moment(item.interactive_time, 'HH:mm:ss').format('mm:ss') === currentTimeWithFormat)
       if (interactiveDetail && !opendedInteractive.includes(interactiveDetail.id)) {
-        setPlaying(false)
         setInteractiveDetail(interactiveDetail)
         setIsInteractiveModalOpen(true)
         const _opendedInteractive = JSON.parse(JSON.stringify(opendedInteractive))
         _opendedInteractive.push(interactiveDetail.id)
         setOpendedIntereactive(_opendedInteractive)
+        setPlaying(false)
       }
     }
   }
