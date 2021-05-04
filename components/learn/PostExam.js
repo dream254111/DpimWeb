@@ -218,8 +218,8 @@ const PreExamComponent = ({
                 {
                   isMobile ?
                     <PreExamWQuestionMobile>
-                      <div>{index + 1}</div>
-                      <div style={{ marginLeft: '4px' }} dangerouslySetInnerHTML={{ __html: item.question }} />
+                      <div>{index + 1}.</div>
+                      <div style={{ marginLeft: '16px' }} dangerouslySetInnerHTML={{ __html: item.question }} />
                     </PreExamWQuestionMobile>
                     :
                     <PreExamWQuestion no={index + 1} dangerouslySetInnerHTML={{ __html: item.question }} />
