@@ -26,7 +26,7 @@ const InstructureName = styled('div')`
 
 const InstructurePosition = styled('div')`
   margin-top: 8px;
-  font-size: 18px;
+  font-size: 14px;
 `
 
 const InstructureWork = styled('div')`
@@ -36,12 +36,12 @@ const InstructureWork = styled('div')`
 
 const InstructureEmail = styled('div')`
   margin-top: 16px;
-  font-size: 18px;
+  font-size: 14px;
 `
 
 const InstructurePhone = styled('div')`
   margin-top: 8px;
-  font-size: 18px;
+  font-size: 14px;
 `
 
 const  InstructureSocial = styled('div')`
@@ -67,6 +67,7 @@ const CourseTitle = styled('div')`
   font-size: 32px;
   font-family: ${font.bold};
 `
+
 
 const UserPage = ({ userId }) => {
   const [instructureDetail, setInstructureDetail] = useState({})

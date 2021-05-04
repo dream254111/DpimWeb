@@ -107,7 +107,7 @@ const CourseTimeContent = styled('div')`
 `
 
 const CourseTimeText = styled('div')`
-  font-size: 18px;
+  font-size: 14px;
 `
 
 const CoursePrice = styled('div')`
@@ -189,7 +189,14 @@ const CourseCardComponent = ({
               }
             </CourseTypeContent>
             <CourseTimeContent>
-              <CourseTimeText>เริ่มเรียน {startLearning && moment(startLearning).format('DD MMMM YYYY')}</CourseTimeText>
+              {
+                 !startLearning &&
+                   <CourseTimeText> </CourseTimeText>
+              }
+              {
+                startLearning &&
+                  <CourseTimeText>เริ่มเรียน {startLearning && moment(startLearning).add(543, 'year').format('DD MMMM YYYY')}</CourseTimeText>
+              }
               <CoursePrice>{isHasCost ? `${commaNumber(cost)} บาท` : 'ฟรี'}</CoursePrice>
             </CourseTimeContent>
           </>

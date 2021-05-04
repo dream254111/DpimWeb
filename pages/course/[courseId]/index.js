@@ -728,20 +728,48 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
   const [isExtendTimeLoading, setIsExtendTimeLoading] = useState(false)
   const [isVoucherModalOpen, setIsVoucherModalOpen] = useState(false)
 
-  const executeScroll1 = () => {
-    scrollRef1.current.scrollIntoView({behavior: "smooth"})
-  }
-  const executeScroll2 = () => {
-    scrollRef2.current.scrollIntoView({behavior: "smooth"})
-  }
-  const executeScroll3 = () => {
-    scrollRef3.current.scrollIntoView({behavior: "smooth"})
-  }
-  const executeScroll4 = () => {
-    scrollRef4.current.scrollIntoView({behavior: "smooth"})
-  }
-  const executeScroll5 = () => {
-    scrollRef5.current.scrollIntoView({behavior: "smooth"})
+
+  const scrollToTarget = (scrollRef) => {
+    const headerOffset = 70
+    //getBoundingClientRect() will get value of window(only visible page) not document(whole page)
+    switch (scrollRef) {
+      case scrollRef1:
+        const offsetPosition1 = scrollRef1.current.getBoundingClientRect().top - headerOffset + window.scrollY
+        window.scrollTo({
+          top: offsetPosition1,
+          behavior: 'smooth'
+        })
+        break
+      case scrollRef2:
+        const offsetPosition2 = scrollRef2.current.getBoundingClientRect().top - headerOffset + window.scrollY
+        window.scrollTo({
+          top: offsetPosition2,
+          behavior: 'smooth'
+        })
+        break
+      case scrollRef3:
+        const offsetPosition3 = scrollRef3.current.getBoundingClientRect().top - headerOffset + window.scrollY
+        window.scrollTo({
+          top: offsetPosition3,
+          behavior: 'smooth'
+        })
+        break
+      case scrollRef4:
+        const offsetPosition4 = scrollRef4.current.getBoundingClientRect().top - headerOffset + window.scrollY
+        window.scrollTo({
+          top: offsetPosition4,
+          behavior: 'smooth'
+        })
+        break
+      case scrollRef5:
+        const offsetPosition5 = scrollRef5.current.getBoundingClientRect().top - headerOffset + window.scrollY
+        window.scrollTo({
+          top: offsetPosition5,
+          behavior: 'smooth'
+        })
+        break
+      default: null
+    }
   }
 
   useEffect(() => {
@@ -935,15 +963,15 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
         <TabBar>
           <Container>
           <TabMenu>
-            <TabItem onClick={executeScroll1}>ภาพรวมคอร์ส</TabItem>
+            <TabItem onClick={() => scrollToTarget(scrollRef1)}>ภาพรวมคอร์ส</TabItem>
             <Line />
-            <TabItem onClick={executeScroll2}>วัตถุประสงค์</TabItem>
+            <TabItem onClick={() => scrollToTarget(scrollRef2)}>วัตถุประสงค์</TabItem>
             <Line />
-            <TabItem onClick={executeScroll3}>เนื้อหาในคอร์ส</TabItem>
+            <TabItem onClick={() => scrollToTarget(scrollRef3)}>เนื้อหาในคอร์ส</TabItem>
             <Line />
-            <TabItem onClick={executeScroll4}>ประโยชน์ที่ผู้เรียนจะได้รับ</TabItem>
+            <TabItem onClick={() => scrollToTarget(scrollRef4)}>ประโยชน์ที่ผู้เรียนจะได้รับ</TabItem>
             <Line />
-            <TabItem onClick={executeScroll5}>สอบถามเกี่ยวกับหลักสูตร</TabItem>
+            <TabItem onClick={() => scrollToTarget(scrollRef5)}>สอบถามเกี่ยวกับหลักสูตร</TabItem>
           </TabMenu>
           </Container>
         </TabBar>
@@ -1201,7 +1229,17 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                         <h2>ผู้สอน</h2>
                       }
                       <InstructorProfile>
-                        <Avatar src={item.profile} size={72} icon={<UserOutlined />} />
+                        <Avatar src={item.profile}
+                          size={{
+                            xs: 50,
+                            sm: 55,
+                            md: 70,
+                            lg: 60,
+                            xl: 70
+                        }}
+                          style={{ marginRight: '8px' }}
+                          icon={<UserOutlined />} 
+                        />
                         <p>{item.firstname} {item.lastname}</p>
                       </InstructorProfile>
                     </InstructorDetail>

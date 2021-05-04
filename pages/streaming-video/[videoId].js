@@ -131,12 +131,13 @@ const VideoIdPage = ({ videoId }) => {
             </ControllsWrapper>
           </PlayerWrapper>
         }
-        <DescriptionTitle>รายละเอียด</DescriptionTitle>
+        <DescriptionTitle>คำอธิบาย</DescriptionTitle>
         <DescriptionContent>
-          <SubTitle>- คำอธิบาย</SubTitle>
           <p dangerouslySetInnerHTML={{ __html: videoDetail.description }} />
-          <SubTitle>- ผู้จัดทำ</SubTitle>
+          <SubTitle>ผู้จัดทำ</SubTitle>
           <div>{videoDetail.producer_name}</div>
+          <div>02 202 3904</div>
+          <div>dpimacademy@gmail.com</div>
           {
             videoDetail.attachment && <div>
               <SubTitle>- ไฟล์แนบ</SubTitle>
