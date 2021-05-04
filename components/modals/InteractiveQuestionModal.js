@@ -1,7 +1,7 @@
 import { Modal, Button, message } from 'antd'
 import styled from 'styled-components'
 import font from '../../helpers/font'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import _ from 'lodash'
 
 const PreExamItems = styled('div')`
@@ -84,12 +84,18 @@ const InteractiveQuestionModal = ({
   isOpen = false,
   onClose = () => {},
   interactive = {},
-  onSubmit
+  onSubmit,
+  pauseVideo = {}
 }) => {
   const [answer, setAnswer] = useState({})
   const [isCheckAnswer, setIsCheckAnswer] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
 
+  useEffect(() => {
+    if (isOpen === true) {
+      pauseVideo()
+    }
+  }, [isOpen])
   const checkAnswer = () => {
     setIsCheckAnswer(true)
     setIsLoading(true)

@@ -174,6 +174,7 @@ const VideoLesson = ({
       <InteractiveQuestionModal
         isOpen={isInteractiveModalOpen}
         interactive={interactiveDetail}
+        pauseVideo={() => setPlaying(false)}
         onSubmit={() => {
           setIsInteractiveModalOpen(false)
           setPlaying(true)
