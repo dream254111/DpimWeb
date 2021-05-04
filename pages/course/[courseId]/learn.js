@@ -158,6 +158,7 @@ const LearnPage = ({
   let lessonSelectedIndex = courseLessons.findIndex(item => (item.id + '00') == menu)
   useEffect(() => {
     countView()
+    console.log('lessonSelected', lessonSelected)
   }, [lessonSelected])
 
   const countView = async () => {
@@ -475,6 +476,14 @@ const LearnPage = ({
               >
                 แบบทดสอบหลังเรียน
               </Menu.Item>
+              <Menu.Item
+                key={899}
+                onClick={() => Router.push(`/evaluation/${courseDetail.course.id}`)}
+                icon={<FileTextOutlined />}
+                disabled={!courseDetail.can_use_evaluation}
+              >
+                แบบประเมิน
+              </Menu.Item>
             </Menu>
           </Col>
           <Col xs={24} lg={18}>
@@ -574,6 +583,7 @@ const LearnPage = ({
                   maxScore={courseDetail.total_exam || 0}
                   percent={courseDetail.percent_post_test || 0}
                   isShowEvaluationButton={courseDetail.can_use_evaluation}
+                  isPass={courseDetail.post_test_pass}
                 />
               </>
             }

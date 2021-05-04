@@ -12,6 +12,7 @@ const PreExam = styled('div')`
 const PreExamSummary = styled('div')`
   padding: 16px 32px;
   margin-top: 32px;
+  margin-bottom: 100px;
   width: 100%;
   display: flex;
   justify-content: space-between;
@@ -25,7 +26,6 @@ const PreExamSummary = styled('div')`
     border: 1px solid #EB5757;
   `}
 `
-
 
 const PreExamSummaryTitle = styled('div')`
   font-size: 32px;
