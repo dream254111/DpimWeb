@@ -146,7 +146,7 @@ const VideoLesson = ({
         handleStampVideoLesson(currentTime.toFixed(2), percent.toFixed(2))
       }
     }
-    if (percent === 100) {
+    if (percent === 99) {
       setPlaying(false)
       await handleStampVideoLesson(currentTime.toFixed(2), 100)
       await fetchCourseDetail()
