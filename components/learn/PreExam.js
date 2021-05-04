@@ -11,6 +11,9 @@ import PreExamSummary from './PreExamSummary'
 import { maxWidth } from '../../helpers/breakpoint'
 import { stripHtml } from '../../helpers/util'
 import { CheckOutlined, CloseOutlined } from '@ant-design/icons'
+import {
+  isMobile
+} from 'react-device-detect'
 
 const PreExam = styled('div')`
   margin-top: 32px;
@@ -107,6 +110,11 @@ const Flex = styled('div')`
   align-items: center;
 `
 
+const PreExamWQuestionMobile = styled('div')`
+  display: flex;
+  align-item: center;
+`
+
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token,
   memberDetail: memberReducer.member
@@ -201,8 +209,15 @@ const PreExamComponent = ({
           {
             exams.map((item, index) => (
               <PreExamItem key={index}>
-                <PreExamWQuestion no={index + 1} dangerouslySetInnerHTML={{ __html: item.question }} />
-                {/* <PreExamWQuestion>{stripHtml(item.question)}</PreExamWQuestion> */}
+                {
+                  isMobile ?
+                    <PreExamWQuestionMobile>
+                      <div>{index + 1}</div>
+                      <div style={{ marginLeft: '4px' }} dangerouslySetInnerHTML={{ __html: item.question }} />
+                    </PreExamWQuestionMobile>
+                    :
+                    <PreExamWQuestion no={index + 1} dangerouslySetInnerHTML={{ __html: item.question }} />
+                }
                 <PreExamChoices>
                   {
                     item.list_answer.map((choice, index) => (
