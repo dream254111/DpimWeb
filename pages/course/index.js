@@ -567,11 +567,11 @@ const CoursePage = ({
                         </AuthorContent>
                         <FooterRight>
                           <CoursePrice>
-                            {item.is_has_cost ? commaNumber(item.cost) : 'ฟรี'}
+                            {item.is_has_cost ? `${commaNumber(item.cost)} บาท` : 'ฟรี'}
                           </CoursePrice>
                           <CourseTime>
                             {
-                              item.is_always_learning === false ? `เริ่ม ${moment(item.start_learning).format('DD MMM YYYY')}` : ''
+                              item.is_always_learning === false ? `เริ่มเรียน ${moment(item.start_learning).format('DD MMM YYYY')}` : ''
                             }
                           </CourseTime>
                         </FooterRight>

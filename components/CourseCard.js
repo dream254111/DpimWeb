@@ -189,7 +189,14 @@ const CourseCardComponent = ({
               }
             </CourseTypeContent>
             <CourseTimeContent>
-              <CourseTimeText>เริ่มเรียน {startLearning && moment(startLearning).format('DD MMMM YYYY')}</CourseTimeText>
+              {
+                 !startLearning &&
+                   <CourseTimeText> </CourseTimeText>
+              }
+              {
+                startLearning &&
+                  <CourseTimeText>เริ่มเรียน {startLearning && moment(startLearning).format('DD MMMM YYYY')}</CourseTimeText>
+              }
               <CoursePrice>{isHasCost ? `${commaNumber(cost)} บาท` : 'ฟรี'}</CoursePrice>
             </CourseTimeContent>
           </>
