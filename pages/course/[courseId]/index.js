@@ -1229,7 +1229,17 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                         <h2>ผู้สอน</h2>
                       }
                       <InstructorProfile>
-                        <Avatar src={item.profile} size={72} icon={<UserOutlined />} />
+                        <Avatar src={item.profile}
+                          size={{
+                            xs: 50,
+                            sm: 55,
+                            md: 70,
+                            lg: 60,
+                            xl: 70
+                        }}
+                          style={{ marginRight: '8px' }}
+                          icon={<UserOutlined />} 
+                        />
                         <p>{item.firstname} {item.lastname}</p>
                       </InstructorProfile>
                     </InstructorDetail>

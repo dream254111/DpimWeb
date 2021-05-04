@@ -107,7 +107,7 @@ const CourseTimeContent = styled('div')`
 `
 
 const CourseTimeText = styled('div')`
-  font-size: 18px;
+  font-size: 14px;
 `
 
 const CoursePrice = styled('div')`
