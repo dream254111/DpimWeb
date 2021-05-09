@@ -18,6 +18,6 @@ node {
   }
 
   stage('Start Container') {
-    sh "docker run -d --expose 5000 -e NODE_ENV=production -e BUILD_NUMBER=${env.BUILD_NUMBER} -e VIRTUAL_HOST=dpimacademy.dpim.go.th,www.dpimacademy.dpim.go.th -e VIRTUAL_PORT=5000 --name dpim-web-${env.BUILD_NUMBER} dpim-web-image:${env.BUILD_NUMBER}"
+    sh "docker run -d --expose 5000 -e NODE_ENV=production -e BUILD_NUMBER=${env.BUILD_NUMBER} -e VIRTUAL_HOST=dpimacademy.dpim.go.th,www.dpimacademy.dpim.go.th -e VIRTUAL_PORT=5000 --name dpim-web-${env.BUILD_NUMBER}  --restart=always dpim-web-image:${env.BUILD_NUMBER}"
   }
 }
