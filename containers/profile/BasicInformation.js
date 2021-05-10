@@ -151,8 +151,11 @@ const BasicInformation = ({
         method: 'GET',
         url: `${API.url}/Authentication/ForgetPassword?email=${memberDetail.email}`,
       })
-      if (response.status === 200) {
+      const responseWithData = response.data
+      if (responseWithData.success === true) {
         message.success('ระบบได้ส่งไปยังอีเมลเรียบร้อยแล้ว')
+      } else {
+        throw new Error(responseWithData.error)
       }
     } catch (error) {
       message.error(error.message)
