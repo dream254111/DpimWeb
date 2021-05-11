@@ -198,8 +198,8 @@ const PicProfile = styled(Avatar)`
 `
 
 const Chevron = styled(DownOutlined)`
-  margin-right: 12px;
-  margin-left: 12px;
+ padding-left:12px;
+ padding-right:12px;
   font-size: 12px;
   ${maxWidth.md`
     display: none;
@@ -248,8 +248,8 @@ const DropdownItem = styled('div')`
 
 const HamburgerContainer = styled('div')`
   box-sizing: border-box;
-  min-width: ${({ isLogin }) => !isLogin ? '40px' : '40px'};
-  min-height: ${({ isLogin }) => !isLogin ? '40px' : '44px'};
+width:100%;
+padding:2px 10px;
   border-radius: ${({ isLogin }) => !isLogin ? '50%' : '24px'};
   background-color: #F2F2F2;
   border-radius: ${({ isLogin }) => !isLogin ? '50%' : '24px'};
