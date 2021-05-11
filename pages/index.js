@@ -415,6 +415,7 @@ const RightOutlinedWrap = styled(RightOutlined)`
     font-size: 16px ;
     color: #00937B;
     margin-top: 15px;
+position:static;
   }
 `
 
@@ -423,6 +424,8 @@ const LeftOutlinedWrap = styled(LeftOutlined)`
     font-size: 16px ;
     color: #00937B;
     margin-top: 15px;
+position:static;
+
   }
 `   
 const RightlinedWrap = styled(RightOutlined)`
@@ -430,6 +433,8 @@ const RightlinedWrap = styled(RightOutlined)`
     font-size: 25px ;
     color: #00937B;
     margin-top: 15px;
+position:static;
+
   }
 `
 
@@ -438,6 +443,8 @@ const LeftlinedWrap = styled(LeftOutlined)`
     font-size: 25px ;
     color: #00937B;
     margin-top: 15px;
+position:static;
+
   }
 `
 const connector = connect(({ memberReducer }) => ({
