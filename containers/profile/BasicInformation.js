@@ -67,6 +67,7 @@ const BasicInformation = ({
   const [isForgetPasswordLoading, setIsForgetPasswordLoading] = useState(false)
   const [career, setCareer] = useState(null)
   const [titleName, setTitleName] = useState(null)
+  const [titleNameEn, setTitleNameEn] = useState(null)
   const dateFormat = 'YYYY/MM/DD'
 
   useEffect(() => {
@@ -106,12 +107,14 @@ const BasicInformation = ({
         setBusinessAttachment(student.business_attachment)
         setStraightFaceImage(student.straight_face_image)
         setTitleName(student.title_name)
+        setTitleNameEn(student.title_name_en)
         delete student.profile_image
         delete student.front_id_card
         delete student.back_id_card
         delete student.straight_face_image
         delete student.business_attachment
         delete student.title_name
+        delete student.title_name_en
         form.setFieldsValue(student)
         setProfileSetting(responseWithData.data.profile_setting)
       } else {
@@ -176,7 +179,8 @@ const BasicInformation = ({
         back_id_card: backIdCard,
         straight_face_image: straightFaceImage,
         business_attachment: businessAttachment,
-        title_name: titleName
+        title_name: titleName,
+        title_name_en: titleNameEn
       }).filter(([_, v]) => v != null && v !== ''))
 
       const knowChannelKey = _.groupBy(master.know_channel, 'name')
@@ -310,9 +314,9 @@ const BasicInformation = ({
                     value={titleName}
                     onChange={(value) => setTitleName(value)}
                   >
-                    <Option value='Mr.'>Mr.</Option>
-                    <Option value='Mrs.'>Mrs.</Option>
-                    <Option value='Miss'>Miss</Option>
+                    <Option value='นาย'>นาย</Option>
+                    <Option value='นาง'>นาง</Option>
+                    <Option value='นางสาว'>นางสาว</Option>
                   </Select>
                 )}
               />
@@ -339,6 +343,19 @@ const BasicInformation = ({
               <Input
                 placeholder='กรอกชื่อจริงภาษาอังกฤษ'
                 disabled={!profileSetting.is_edit_personal_info}
+                addonBefore={(
+                  <Select
+                    style={{ minWidth: '40px' }}
+                    placeholder='คำนำหน้า'
+                    disabled={!profileSetting.is_edit_personal_info}
+                    value={titleNameEn}
+                    onChange={(value) => setTitleNameEn(value)}
+                  >
+                    <Option value='Mr.'>Mr.</Option>
+                    <Option value='Mrs.'>Mrs.</Option>
+                    <Option value='Miss'>Miss</Option>
+                  </Select>
+                )}
               />
             </Form.Item>
           </Col>
