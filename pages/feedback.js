@@ -134,9 +134,9 @@ const FeedbackPage = ({
                 label="ที่อยู่อีเมล"
                 name='email'
                 labelCol={{ span: 24 }}
-                rules={[{ required: true, message: 'กรุณากรอกที่อยู่อีเมล์' }, { type: 'email', message: 'อีเมลไม่ถูกต้อง' } ]}
+                rules={[{ required: true, message: 'กรุณากรอกที่อยู่อีเมล' }, { type: 'email', message: 'อีเมลไม่ถูกต้อง' } ]}
               >
-                <Input placeholder='กรุณากรอกที่อยู่อีเมล์' />
+                <Input placeholder='กรุณากรอกที่อยู่อีเมล' />
               </Form.Item>
               <ButtonWrapper>
                 <Button

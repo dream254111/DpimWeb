@@ -94,11 +94,11 @@ const LoginModal = ({
             label="อีเมล"
             name='username'
             labelCol={{ span: 24 }}
-            rules={[{ required: true, message: 'กรุณากรอกอีเมล์' }, { type: 'email', message: 'อีเมลไม่ถูกต้อง' } ]}
+            rules={[{ required: true, message: 'กรุณากรอกอีเมล' }, { type: 'email', message: 'อีเมลไม่ถูกต้อง' } ]}
             style={{width: '90%', marginLeft: 'auto', marginRight: 'auto', marginTop: '24px'}}
             >
             <Input
-              placeholder='กรอกอีเมล์'
+              placeholder='กรอกอีเมล'
             />
           </Form.Item>
           <Form.Item 

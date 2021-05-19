@@ -210,7 +210,7 @@ const CertificateIdPage = ({
             course_id :courseDetail.course.id
           }
       })
-      message.success('ใบประกาศได้ส่งไปที่อีเมล์ของท่านเรียบร้อยแล้ว')
+      message.success('ใบประกาศได้ส่งไปที่อีเมลของท่านเรียบร้อยแล้ว')
     } catch (error) {
       message.error(error.message)
     }

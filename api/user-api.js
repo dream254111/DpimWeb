@@ -21,7 +21,7 @@ const fetchFunction = async () => {
     }
 }
 
-// เอาไว้ ขอลืมรหัสผ่านส่งไปที่อีเมล์
+// เอาไว้ ขอลืมรหัสผ่านส่งไปที่อีเมล
 const fetchFunction = async () => {
     try {
         const response = await axios({
@@ -184,7 +184,7 @@ const fetchFunction = async () => {
     }
 }
 
-// เอาไว้ กดส่ง certificate ไปยังอีเมล์ user
+// เอาไว้ กดส่ง certificate ไปยังอีเมล user
 
 const fetchFunction = async () => {
     try {

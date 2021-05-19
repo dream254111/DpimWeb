@@ -475,7 +475,7 @@ const BasicInformation = ({
           </Col>
           <Col lg={12}>
             <Form.Item 
-              label="อีเมล์"
+              label="อีเมล"
               name='email'
               labelCol={{ span: 24 }}
             >

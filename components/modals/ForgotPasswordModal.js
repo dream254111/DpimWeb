@@ -78,7 +78,7 @@ const ForgotPasswordModal = ({
     >
       <Card>
         <Title>ลืมรหัสผ่าน</Title>
-        <Description>กรอกอีเมล์ที่ใช้สมัครสมาชิกระบบ เพื่อส่งอีเมล์แจ้งเปลี่ยนรหัสผ่าน</Description>
+        <Description>กรอกอีเมลที่ใช้สมัครสมาชิกระบบ เพื่อส่งอีเมลแจ้งเปลี่ยนรหัสผ่าน</Description>
         <Form
           onFinish={handleSubmit}
           form={form}
