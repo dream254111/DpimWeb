@@ -66,6 +66,7 @@ const BasicInformation = ({
   const [knowChannels, setKnowChannels] = useState([])
   const [isForgetPasswordLoading, setIsForgetPasswordLoading] = useState(false)
   const [career, setCareer] = useState(null)
+  const [titleName, setTitleName] = useState(null)
   const dateFormat = 'YYYY/MM/DD'
 
   useEffect(() => {
@@ -104,11 +105,13 @@ const BasicInformation = ({
         setBackIdCard(student.back_id_card)
         setBusinessAttachment(student.business_attachment)
         setStraightFaceImage(student.straight_face_image)
+        setTitleName(student.title_name)
         delete student.profile_image
         delete student.front_id_card
         delete student.back_id_card
         delete student.straight_face_image
         delete student.business_attachment
+        delete student.title_name
         form.setFieldsValue(student)
         setProfileSetting(responseWithData.data.profile_setting)
       } else {
@@ -172,7 +175,8 @@ const BasicInformation = ({
         front_id_card: frontIdCard,
         back_id_card: backIdCard,
         straight_face_image: straightFaceImage,
-        business_attachment: businessAttachment
+        business_attachment: businessAttachment,
+        title_name: titleName
       }).filter(([_, v]) => v != null && v !== ''))
 
       const knowChannelKey = _.groupBy(master.know_channel, 'name')
@@ -298,6 +302,19 @@ const BasicInformation = ({
               <Input
                 placeholder='กรุณากรอกชื่อ-สกุล ของคุณ'
                 disabled={!profileSetting.is_edit_personal_info}
+                addonBefore={(
+                  <Select
+                    style={{ minWidth: '40px' }}
+                    placeholder='คำนำหน้า'
+                    disabled={!profileSetting.is_edit_personal_info}
+                    value={titleName}
+                    onChange={(value) => setTitleName(value)}
+                  >
+                    <Option value='Mr.'>Mr.</Option>
+                    <Option value='Mrs.'>Mrs.</Option>
+                    <Option value='Miss'>Miss</Option>
+                  </Select>
+                )}
               />
             </Form.Item>
           </Col>
