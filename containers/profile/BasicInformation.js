@@ -301,7 +301,7 @@ const BasicInformation = ({
               label="ชื่อจริงภาษาไทย"
               name='firstname'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
+              rules={[{ required: true, message: 'กรุณากรอกชื่อจริงของคุณ' }]}
             >
               <Input
                 placeholder='กรุณากรอกชื่อ-สกุล ของคุณ'
@@ -389,7 +389,7 @@ const BasicInformation = ({
               label="เพศ"
               name='gender'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
+              rules={[{ required: true, message: 'กรุณากรอกเพศของคุณ' }]}
             >
               <Radio.Group
                 disabled={!profileSetting.is_edit_personal_info}
@@ -537,7 +537,7 @@ const BasicInformation = ({
               label="วุฒิการศึกษาสูงสุด"
               name='educational_id'
               labelCol={{ span: 24 }}
-              rules={[{ required: true, message: 'กรุณากรอกชื่อ-สกุล ของคุณ' }]}
+              rules={[{ required: true, message: 'กรุณากรอกวุฒิการศึกษา' }]}
             >
               <Radio.Group
                 disabled={!profileSetting.is_edit_educational}
