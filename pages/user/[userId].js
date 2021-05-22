@@ -26,22 +26,18 @@ const InstructureName = styled('div')`
 
 const InstructurePosition = styled('div')`
   margin-top: 8px;
-  font-size: 14px;
 `
 
 const InstructureWork = styled('div')`
   margin-top: 8px;
-  font-size: 14px;
 `
 
 const InstructureEmail = styled('div')`
   margin-top: 16px;
-  font-size: 14px;
 `
 
 const InstructurePhone = styled('div')`
   margin-top: 8px;
-  font-size: 14px;
 `
 
 const  InstructureSocial = styled('div')`
@@ -59,7 +55,8 @@ const InstructureDescription = styled('div')`
   background: #FFFFFF;
   border-radius: 4px;
   padding: 16px 24px;
-  min-height: 300px;
+  min-height: 253px;
+  box-shadow: 0px 0px 2px rgb(40 41 61 / 4%), 0px 4px 8px rgb(96 97 112 / 16%);
 `
 
 const CourseTitle = styled('div')`
@@ -94,7 +91,7 @@ const UserPage = ({ userId }) => {
     <MainLayout>
       <Container paddingTop='96px' paddingBottom='302px'>
         <Row gutter={{ lg: 16, xs: 0 }}>
-          <Col xs={24} lg={7}>
+          <Col xs={24} lg={9}>
             <InstructureCard>
               <Avatar size={72} src={instructureDetail.profile_image} />
               <InstructureContent>
@@ -121,7 +118,7 @@ const UserPage = ({ userId }) => {
               </InstructureContent>
             </InstructureCard>
           </Col>
-          <Col xs={24} lg={17}>
+          <Col xs={24} lg={14}>
             <InstructureDescription>
                 <p dangerouslySetInnerHTML={{ __html: (instructureDetail.description) }} />
             </InstructureDescription>
