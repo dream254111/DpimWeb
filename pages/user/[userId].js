@@ -93,7 +93,12 @@ const UserPage = ({ userId }) => {
         <Row gutter={{ lg: 16, xs: 0 }}>
           <Col xs={24} lg={9}>
             <InstructureCard>
-              <Avatar size={72} src={instructureDetail.profile_image} />
+              {/* <Row>
+                <Col>
+                </Col>
+                <Col></Col>
+              </Row> */}
+              <Avatar size={72} src={instructureDetail.profile_image} style={{ minWidth: '72px' }} />
               <InstructureContent>
                 <InstructureName>{instructureDetail.firstname} {instructureDetail.lastname}</InstructureName>
                 <InstructurePosition>{instructureDetail.position || '-'}</InstructurePosition>
