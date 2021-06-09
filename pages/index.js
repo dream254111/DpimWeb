@@ -769,7 +769,11 @@ const IndexPage = ({
                                 <Progress percent={item.progress_lesson.toFixed(2)} strokeColor='#00937B' />
                               </MyCourseProcessCardProgressBar>
                               <MyCourseProcessCardAction>
-                                <Button type='primary'>เรียนต่อ</Button>
+                                <Button
+                                  type='primary'
+                                  onClick={() => Router.push(`/course/${item.id}/learn`)}
+                                >เรียนต่อ
+                                </Button>
                                 {
                                   item.learning_end &&
                                     <MyCourseProcessCardLearningEnd>ปิดระบบใน {item.learning_end} วัน</MyCourseProcessCardLearningEnd>
@@ -777,7 +781,6 @@ const IndexPage = ({
                               </MyCourseProcessCardAction>
                             </Col>
                           </Row>
-
                         </MyCourseProcessCard>
                       </Col>
                     ))
