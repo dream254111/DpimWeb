@@ -17,6 +17,9 @@ const GlobalStyle = createGlobalStyle`
   button {
     outline: none;
   }
+  .ant-progress-text {
+    font-size: 12px;
+  }
 `
 
 const theme = {

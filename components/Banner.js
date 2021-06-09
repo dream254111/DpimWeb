@@ -15,7 +15,7 @@ const Banner = styled('div')`
   background-size: cover;
   background-repeat: no-repeat;
   ${maxWidth.xs`
-  background-position: 15% 50%;
+    background-position: 15% 50%;
   `}
 `
 

@@ -6,7 +6,7 @@ import { maxWidth } from '../helpers/breakpoint'
 import Slider from 'react-slick'
 import { Tag, CourseCard } from '../components'
 import Router from 'next/router'
-import { Select, Row, Col, message, Button } from 'antd'
+import { Select, Row, Col, message, Button, Progress } from 'antd'
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 import API, { url } from '../helpers/api'
@@ -18,6 +18,7 @@ import {
 import { SpecialDayModal } from '../components/modals'
 import Moment from 'moment'
 import { extendMoment } from 'moment-range'
+import Link from 'next/link'
 const moment = extendMoment(Moment)
 const commaNumber = require('comma-number')
 const { Option } = Select
@@ -26,7 +27,6 @@ const Wrapper = styled('div')`
   padding-bottom: 72px;
  
 `
-
 
 const Banner = styled('div')`
   width: 100%;
@@ -202,31 +202,6 @@ const CourseCardTitle = styled('div')`
   font-family: ${font.bold};
 `
 
-
-const CourseCardDetail = styled('div')`
-  margin-top: 12px;
-  display: flex;
-  align-items: center;
-`
-
-const CourseCardIcon = styled('span')`
-
-`
-
-const CourseCardDetailText = styled('div')`
-  margin-left: 7.33px;
-  font-size: 14px;
-`
-
-const CourseCardItem = styled('div')`
-  display: flex;
-  align-items: center;
-  :not(:first-child){
-    margin-left: 14px;
-  }
-`
-
-
 const CourseTypeContent = styled('div')`
   display: flex;
   align-items: center;
@@ -297,13 +272,6 @@ const StatsTitle = styled('div')`
   font-family: ${font.bold};
   white-space: nowrap;
   font-size: 18px;
-`
-
-const RecommentWebsiteRow = styled(Row)`
-  margin-top: 63px;
-  ${maxWidth.md`
-    margin-top: 16px;
-  `};
 `
 
 const BannerSlideWrapper = styled('div')`
@@ -443,10 +411,72 @@ const LeftlinedWrap = styled(LeftOutlined)`
     font-size: 25px ;
     color: #00937B;
     margin-top: 15px;
-position:static;
-
+    position:static;
   }
 `
+
+const MyCourseProcessContent = styled('div')`
+  margin: 47px 0;
+`
+
+const MyCourseProcessCard = styled('div')`
+  background-color: white;
+  border: 1px solid #BDBDBD;
+  border-radius: 8px;
+  margin-right: 16px;
+  padding: 12px;
+  cursor: pointer;
+  transition: .5s ease;
+  z-index: 99;
+  :hover {
+    z-index: 999;
+    transform: scale(1.1);
+  }
+`
+
+const MyCourseProcessCardImage = styled('div')`
+  height: 170px;
+  width: 100%;
+  background-image: url(${props => props.src});
+  background-size: cover;
+  background-position: center;
+  border-radius: 4px;
+`
+
+const MyCourseProcessCardTitle = styled('div')`
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 24px;
+  font-size: 18px;
+  white-space: nowrap;
+  font-family: ${font.bold};
+`
+
+const MyCourseProcessCardSubTitle = styled('div')`
+  word-break: break-all;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 24px;
+  font-size: 16px;
+  white-space: nowrap;
+  color: #4F4F4F;
+`
+
+const MyCourseProcessCardProgressBar = styled('div')`
+  margin-top: 17px;
+`
+
+const MyCourseProcessCardAction = styled('div')`
+  margin-top: 17px;
+  display: flex;
+  align-items: center;
+`
+
+const MyCourseProcessCardLearningEnd = styled('div')`
+  margin-left: 17px;
+`
+
 const connector = connect(({ memberReducer }) => ({
   memberToken: memberReducer.member.token
 }))
@@ -468,11 +498,13 @@ const IndexPage = ({
   const [isMouseEnter2, setIsMouseEnter2] = useState(false)
   const [isClickBannerImage, setIsClickBannerImage] = useState(false)
   const [bannerSliderSettings, setBannerSliderSettings] = useState({})
+  const [myCourseProgress, setMyCourseProgress] = useState([])
 
   useEffect(() => {
     Promise.all([
       fetchBannerList(),
       fetchCourseList(),
+      fetchMyCourseProgress(),
       fetchWebRecommendList(),
       fetchWebOverviewStat(),
       fetchVideoOnDemandList(),
@@ -585,6 +617,25 @@ const IndexPage = ({
     }
   }
 
+  const fetchMyCourseProgress = async () => {
+    try {
+      const request = {
+        method: 'GET',
+        url: `${API.url}/Course/my_course_progress`,
+      }
+      if (memberToken) {
+        request.headers = {
+          Authorization: memberToken
+        }
+      }
+      const response = await axios(request)
+      const data = response.data.data
+      setMyCourseProgress(data.filter(Boolean))
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
+
   const fetchVideoOnDemandList = async () => {
     try {
       const request = {
@@ -688,6 +739,54 @@ const IndexPage = ({
             </BannerContent>
           </Container>
         </Banner>
+        {
+          myCourseProgress.length > 0 &&
+            <MyCourseProcessContent>
+              <Container>
+                <Row justify='space-between' align='middle'>
+                  <Col>
+                    <Title>เรียนต่อที่ค้างไว้</Title>
+                  </Col>
+                  <Col>
+                    <Link href='/profile/courses'>
+                      <a>ดูคอร์สของฉัน&nbsp;&gt;&gt;</a>
+                    </Link>
+                  </Col>
+                </Row>
+                <Row gutter={[16, 16]} style={{ marginTop: '16px' }}>
+                  {
+                    myCourseProgress.map((item, index) => (
+                      <Col sm={12} key={index}>
+                        <MyCourseProcessCard>
+                          <Row gutter={16}>
+                            <Col span={12}>
+                              <MyCourseProcessCardImage src={item.cover} />
+                            </Col>
+                            <Col span={12}>
+                              <MyCourseProcessCardTitle>{item.name}</MyCourseProcessCardTitle>
+                              <MyCourseProcessCardSubTitle>เรียนต่อ บทที่ {item.order_lesson} : {item.lesson_name}</MyCourseProcessCardSubTitle>
+                              <MyCourseProcessCardProgressBar>
+                                <Progress percent={item.progress_lesson.toFixed(2)} strokeColor='#00937B' />
+                              </MyCourseProcessCardProgressBar>
+                              <MyCourseProcessCardAction>
+                                <Button type='primary'>เรียนต่อ</Button>
+                                {
+                                  item.learning_end &&
+                                    <MyCourseProcessCardLearningEnd>ปิดระบบใน {item.learning_end} วัน</MyCourseProcessCardLearningEnd>
+                                }
+                              </MyCourseProcessCardAction>
+                            </Col>
+                          </Row>
+
+                        </MyCourseProcessCard>
+                      </Col>
+                    ))
+                  }
+                </Row>
+              </Container>
+            </MyCourseProcessContent>
+
+        }
         <BannerSlideWrapper>
           {
             banners.length > 0 &&

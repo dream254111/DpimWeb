@@ -1247,7 +1247,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                     <InstructorInformation>
                       <p>{item.description}</p>
                       <MoreInfo
-                        onClick={() => Router.push(`/user/${item.id}`)}
+                        onClick={() => Router.push(`/user/${item.id}`).then(() => window.scrollTo(0, 0))}
                       >ดูประวัติเพิ่ม</MoreInfo>
                     </InstructorInformation>
                   </Instructor>
