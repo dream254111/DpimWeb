@@ -164,6 +164,7 @@ const VideoLesson = ({
     if (isInteractive) {
       const currentTimeWithFormat = moment(currentTime * 1000).format('mm:ss')
       const interactiveDetail = interactive.find(item => moment(item.interactive_time, 'HH:mm:ss').format('mm:ss') === currentTimeWithFormat)
+      console.log('interactiveDetail', interactiveDetail)
       if (interactiveDetail && !opendedInteractive.includes(interactiveDetail.id)) {
         setInteractiveDetail(interactiveDetail)
         setIsInteractiveModalOpen(true)
@@ -171,6 +172,7 @@ const VideoLesson = ({
         _opendedInteractive.push(interactiveDetail.id)
         setOpendedIntereactive(_opendedInteractive)
         setPlaying(false)
+        document.querySelectorAll('video').forEach(vid => vid.pause())
       }
     }
   }

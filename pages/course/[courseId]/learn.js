@@ -158,7 +158,7 @@ const LearnPage = ({
   let lessonSelectedIndex = courseLessons.findIndex(item => (item.id + '00') == menu)
   useEffect(() => {
     countView()
-    // console.log('lessonSelected', lessonSelected)
+    console.log('lessonSelected', lessonSelected)
   }, [lessonSelected])
 
   const countView = async () => {
