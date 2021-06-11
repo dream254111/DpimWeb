@@ -155,7 +155,6 @@ const VideoLesson = ({
         handleStampVideoLesson(currentTime.toFixed(2), percent.toFixed(2))
       }
     }
-    // console.log('percent', percent)
     if (percent > 99) {
       setPlaying(false)
       await handleStampVideoLesson(currentTime.toFixed(2), 100)
