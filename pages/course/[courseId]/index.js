@@ -985,7 +985,7 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
                       <ContinueLearningLeft>
                         <ContinueLearningTitle>เข้าสู่บทเรียน : {courseDetail.continue_learning.name}</ContinueLearningTitle>
                         <Progress
-                          percent={courseDetail.continue_learning.progress.toFixed(2) || 0}
+                          percent={courseDetail.continue_learning.progress.toFixed(0) || 0}
                           showInfo={true}
                           strokeWidth={6}
                           strokeColor={{

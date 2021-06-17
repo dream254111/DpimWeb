@@ -689,10 +689,10 @@ const IndexPage = ({
     infinite: false,
     speed: 1000,
     slidesToShow: 3,
-      slidesToScroll: 3,
-      nextArrow: <RightlinedWrap />,
-      prevArrow: <LeftlinedWrap />,
-    initialSlide: 3,
+    slidesToScroll: 3,
+    nextArrow: <RightlinedWrap />,
+    prevArrow: <LeftlinedWrap />,
+    initialSlide: 0,
     lazyLoad: false,
     arrows: true,
     responsive: [
@@ -766,7 +766,7 @@ const IndexPage = ({
                               <MyCourseProcessCardTitle>{item.name}</MyCourseProcessCardTitle>
                               <MyCourseProcessCardSubTitle>เรียนต่อ บทที่ {item.order_lesson} : {item.lesson_name}</MyCourseProcessCardSubTitle>
                               <MyCourseProcessCardProgressBar>
-                                <Progress percent={item.progress_lesson.toFixed(2)} strokeColor='#00937B' />
+                                <Progress percent={item.progress_lesson.toFixed(0)} strokeColor='#00937B' />
                               </MyCourseProcessCardProgressBar>
                               <MyCourseProcessCardAction>
                                 <Button
@@ -871,13 +871,13 @@ const IndexPage = ({
             <VideoOnDemandContent>
               <Title>Streaming Video</Title>
               <CategoryWrapper>
-                <StyledSelect 
-                  placeholder='แสดงหมวดหมู่' 
-                  style={{ width: '208px' }} 
+                <StyledSelect
+                  placeholder='แสดงหมวดหมู่'
+                  style={{ width: '208px' }}
                   onChange={(e) => {
                     setSelectedVDOCategory(e)
                     setIsMouseEnter2(false)
-                  }} 
+                  }}
                   open={isMouseEnter2}
                   onMouseOver={() => setIsMouseEnter2(true)}
                   onMouseLeave={() => setIsMouseEnter2(false)}

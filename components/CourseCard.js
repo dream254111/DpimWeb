@@ -205,7 +205,7 @@ const CourseCardComponent = ({
           type === 'progress' &&
           <>
           <ProgressBar>
-            <Progress percent={progress.toFixed(2)} strokeColor='#00937B' />
+            <Progress percent={progress.toFixed(0)} strokeColor='#00937B' />
           </ProgressBar>
           {
             progress !== 100 &&
