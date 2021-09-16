@@ -20,6 +20,7 @@ import { UserOutlined, ArrowRightOutlined } from '@ant-design/icons'
 import { connect } from 'react-redux'
 import { PaymentModal, LoginModal, VoucherModal } from '../../../components/modals/index'
 import constants from '../../../constants'
+import ReactPlayer from 'react-player'
 
 const Wrapper = styled('div')`
 `
@@ -662,7 +663,6 @@ const CourseInfoText = styled('div')`
 
 const CourseExampleVideo = styled('video')`
   height: 154px;
-  width: 100%;
 `
 
 const ContinueLearning = styled('div')`
@@ -1117,9 +1117,13 @@ const CourseDetailPage = ({ courseId, memberToken, memberDetail }) => {
               <ExampleFont>ตัวอย่างการเรียน</ExampleFont>
               {
                 courseDetail &&
-                <CourseExampleVideo id="video" controls muted >
-                  <source src={courseDetail.course.video.original} type="video/mp4" />
-                </CourseExampleVideo>
+                <ReactPlayer
+                  width='100%'
+                  height='154px'
+                  controls
+                  muted
+                  url={courseDetail?.course?.video?.original}
+                />
               }
               <CourseInfo>
                 <CourseInfoTitle>ช่วงเวลาลงทะเบียน</CourseInfoTitle>
