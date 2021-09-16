@@ -23,7 +23,6 @@ const TopCard = styled('div')`
   align-items: flex-start;
   background: #FFFFFF;
   margin-top: 24px;
-  cursor: pointer;
   margin-bottom: 24px;
   padding: 16px;
   ${maxWidth.md`
@@ -77,15 +76,11 @@ const NewGrid = styled('div')`
   gap: 16px;
 `
 
-const Readmore = styled('div')`
-  position: absolute;
+const Readmore = styled('p')`
   font-size: 18px;
   text-decoration: underline;
   z-index: 2;
-  ${maxWidth.md`
-    top: 147px;
-    right: 4px;
-  `}
+  cursor: pointer;
 `
 
 
@@ -126,14 +121,14 @@ const NewsPage = () =>{
     <MainLayout>
       <Banner IconImage='/static/images/newsicon.svg'>ข่าวประชาสัมพันธ์</Banner>
       <Container paddingTop='32px' paddingBottom='292px'>
-         <TopCard onClick={() => Router.push(`/news/${topNewsDetail.id}`)}>
+         <TopCard>
            <TopCardImage src={topNewsDetail.image} />
            <TopCardContent>
              <TopCardName>{topNewsDetail.name}</TopCardName>
              <TopCardDescription ref={rm}>{stripHtml(topNewsDetail.description)}</TopCardDescription>
              {
                readmore &&
-                 <Readmore>Read more</Readmore>
+                 <Readmore onClick={() => Router.push(`/news/${topNewsDetail.id}`)}>Read more</Readmore>
              }
            </TopCardContent>
          </TopCard>
