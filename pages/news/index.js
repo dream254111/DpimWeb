@@ -79,7 +79,6 @@ const NewGrid = styled('div')`
 
 const Readmore = styled('div')`
   position: absolute;
-  top: 250px;
   font-size: 18px;
   text-decoration: underline;
   z-index: 2;

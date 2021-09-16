@@ -30,12 +30,8 @@ const CreatedTime = styled('div')`
   margin-left: 30px;
 `
 
-const Image = styled('div')`
-  width: 50%;
-  height: 275px;
-  background-image: url(${props => props.src});
-  background-size: cover;
-  background-position: center;
+const Image = styled('img')`
+  width: 100%;
   margin: 49px auto 0 auto;
 `
 
