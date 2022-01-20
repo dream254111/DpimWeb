@@ -239,6 +239,30 @@ const CertificateIdPage = ({
     }
   }
 
+
+  const requestNewCert = async () => {
+    try {
+
+      await axios({
+        headers: {
+          'Authorization': memberToken
+        },
+        method: 'GET',
+        url: `${API.url}/Student/ResetGenereteCertificate`,
+        params : {
+            course_id: courseDetail.course.id,
+            certificate_id: certId
+        }
+    })
+
+    const a = document.createElement('a'); // Create <a>
+    a.href = certDetail.cert_path; // Image Base64 Goes here
+    a.download = 'Image'; // File name Here
+    a.click(); // Downloaded file
+    } catch (error) {
+      message.error(error.message)
+    }
+  }
   return (
     <MainLayout>
       <Wrapper>
@@ -309,6 +333,11 @@ const CertificateIdPage = ({
                       type='primary' 
                       onClick={handleDownloadCert}>
                         ดาวน์โหลดใบประกาศ
+                    </StyledButton>
+                    <StyledButton 
+                      type='primary' 
+                      onClick={requestNewCert}>
+                        ขอใบเซอร์ใหม่
                     </StyledButton>
                   </CertButtonWrapper>
                   <PrintCount>จำนวนครั้งที่พิมพ์ {certDetail.print_count}</PrintCount>
