@@ -336,12 +336,13 @@ const CourseCardY = styled(CourseCard)`
 `
 
 const StyledSlider = styled(Slider)`
-.slick-slide {
-  height: auto
+.slider-wrapper {
+  width: calc(100% + 30px); 
+  padding: 0 15px;
+  margin-left: -15px; 
+  overflow: hidden; 
 }
-
-.slick-slide img {
-  height: auto;
+.slick-list {
 }
 `
 
@@ -827,7 +828,7 @@ const IndexPage = ({
                 onMouseLeave={() => setIsMouseEnter(false)}
               >
                 {
-                  master.course_category.map((item, index) => (
+                  master?.course_category?.map((item, index) => (
                     <Option value={item.id} key={index}><CircleIcon backgroundColor={item.color} />{item.name}</Option>
                   ))
                 }
@@ -845,7 +846,7 @@ const IndexPage = ({
                     {...courseSliderSettings}
                   >
                     {
-                      courses.length > 0 && courses.map((item, index) => (
+                      courses.map((item, index) => (
                         <Div key={index}>
                           <CourseCardY
                             id={item.id}
@@ -900,7 +901,7 @@ const IndexPage = ({
                     <Slider {...courseSliderSettings}>
                       {
                         vdo.map((item, index) => (
-                          <Div key={index}>
+                          <Div key={index} style={{ cursor: 'pointer' }}>
                             <CourseCardX onClick={() => Router.push(`/streaming-video/${item.id}`)}>
                               <CourseCardHeader>
                                 <CourseCardImage src={item.cover_thumbnail} />
