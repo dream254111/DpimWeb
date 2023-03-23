@@ -4,7 +4,8 @@ import { wrapper } from '../stores'
 import { checkMemberAlreadyLogin } from '../stores/memberReducer'
 import axios from 'axios'
 import API from '../helpers/api'
-import { useEffect } from 'react'
+
+import CookieBanner from '../components/CookieBanner'
 
 const GlobalStyle = createGlobalStyle`
   body {
@@ -12,6 +13,9 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     box-sizing: border-box;
     font-family: ${font.regular};
+    ::-webkit-scrollbar {
+      width: 0px;
+    }
   }
   
   button {
@@ -29,19 +33,14 @@ const theme = {
 }
 
 const App = ({ Component, pageProps, master }) => {
-  useEffect(() => {
-    axios({
-      method: 'PUT',
-      url: `${API.url}/Management/VisitUpdate`,
-    })
-  }, [])
-
+ 
   return (
     <>
       <GlobalStyle />
       <ThemeProvider theme={theme}>
         <Component {...pageProps} master={master} />
       </ThemeProvider>
+      <CookieBanner></CookieBanner>
     </>
   )
 }
