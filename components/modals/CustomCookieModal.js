@@ -81,7 +81,6 @@ const CookieCustomModal = ({show, children, onHandleOk, onHandleCancel, memberTo
     
     const Ok = () => {
         onHandleOk(cookie);
-        
     }
 
     const Cancel = () => {
@@ -89,19 +88,16 @@ const CookieCustomModal = ({show, children, onHandleOk, onHandleCancel, memberTo
     }
 
     const handleCookie1 = (checked) => {
-        cookie.cookieOne = checked ? true : false;
-        console.log(cookie)
+        cookie.nec_cookie = checked ? true : false;
     };
     const handleCookie2 = (checked) => {
-        cookie.cookieTwo = checked ? true : false;
-        console.log(cookie)
-
+        cookie.perf_cookie = checked ? true : false;
     };
     const handleCookie3 = (checked) => {
-        cookie.cookieThree = checked ? true : false;
+        cookie.stat_cookie = checked ? true : false;
     };
     const handleCookie4 = (checked) => {
-        cookie.cookieFour = checked ? true : false;
+        cookie.ads_cookie = checked ? true : false;
     };
 
 
@@ -115,7 +111,7 @@ const CookieCustomModal = ({show, children, onHandleOk, onHandleCancel, memberTo
                     <CustomSwitch onChange={handleCookie1} value={cookie} />
                 </Box>
                 <Box>
-                    <Text>pref cookie</Text>
+                    <Text>performance cookie</Text>
                     <CustomSwitch onChange={handleCookie2} value={cookie} />
                 </Box>
                 <Box>

@@ -86,7 +86,7 @@ const CookieBanner = ({memberToken}) => {
     cookie.stat_cookie = true;
     cookie.ads_cookie = true;
     
-    handlePostCookie();
+    handlePostCookie(cookie);
     setShow(false);
     setVisible(false);
     console.log(cookie);
@@ -97,7 +97,7 @@ const CookieBanner = ({memberToken}) => {
   };
 
   const handleOk = (value) => {
-    handlePostCookie();
+    handlePostCookie(value);
     setShow(false);
     setVisible(false);
   };
@@ -119,7 +119,7 @@ const CookieBanner = ({memberToken}) => {
       })
   }
 
-  const handlePostCookie = () => {
+  const handlePostCookie = (cookie) => {
     axios.post(`https://dpimacademy-apis.dpim.go.th/dpimapinet6/api/pdpa/add`, cookie)
       .then(res => {
         console.log(res);
